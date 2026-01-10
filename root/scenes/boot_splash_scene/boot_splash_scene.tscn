@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=3 uid="uid://cxkcp8gfxyi3q"]
+
+[ext_resource type="Texture2D" uid="uid://bcqymc3ub0fk4" path="res://root/assets/image/boot_splash/Logo_FanMakaer777.png" id="1_mtxsk"]
+[ext_resource type="Script" uid="uid://3phwq3dbiv3s" path="res://root/scenes/boot_splash_scene/boot_splash_scene.gd" id="1_t86bp"]
+
+[node name="BootSplashScene" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_t86bp")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer"]
+layout_mode = 2
+color = Color(0, 0, 0, 1)
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer"]
+layout_mode = 2
+texture = ExtResource("1_mtxsk")
+expand_mode = 2
+stretch_mode = 5

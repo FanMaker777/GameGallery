@@ -11,8 +11,15 @@ config_version=5
 [application]
 
 config/name="CreateTest"
+config/version="0.01"
+run/main_scene="uid://cxkcp8gfxyi3q"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
+
+[display]
+
+window/size/viewport_width=1280
+window/size/viewport_height=720
 
 [editor_plugins]
 

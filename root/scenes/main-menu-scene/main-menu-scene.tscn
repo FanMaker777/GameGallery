@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://byjaiv21t5df7"]
+
+[node name="MainMenuScene" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
+offset_right = 696.0
+offset_bottom = 489.0
