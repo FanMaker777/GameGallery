@@ -5,62 +5,80 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 0.0
-offset_bottom = 0.0
-
-[node name="MarginContainer" type="MarginContainer" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 32.0
-offset_top = 32.0
-offset_right = -32.0
-offset_bottom = -32.0
-
-[node name="MainMenuVBox" type="VBoxContainer" parent="MarginContainer"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_right = 0.0
-offset_bottom = 0.0
-alignment = 1
-
-[node name="TitleLabel" type="Label" parent="MarginContainer/MainMenuVBox"]
-layout_mode = 2
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 3
-text = "FanMaker777 Game Gallery"
+
+[node name="RootMarginContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TitleMarginContainer" type="MarginContainer" parent="RootMarginContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/margin_top = 64
+
+[node name="TitleLabel" type="Label" parent="RootMarginContainer/TitleMarginContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "FanMaker777
+GameGallery"
 horizontal_alignment = 1
 
-[node name="TopSpacer" type="Control" parent="MarginContainer/MainMenuVBox"]
+[node name="MenuMarginContainer" type="MarginContainer" parent="RootMarginContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-size_flags_stretch_ratio = 1.0
+theme_override_constants/margin_top = 16
 
-[node name="MenuVBox" type="VBoxContainer" parent="MarginContainer/MainMenuVBox"]
+[node name="VBoxContainer" type="VBoxContainer" parent="RootMarginContainer/MenuMarginContainer"]
 layout_mode = 2
-size_flags_horizontal = 3
-alignment = 1
-theme_override_constants/separation = 16
+size_flags_vertical = 4
+theme_override_constants/separation = 8
 
-[node name="PlayButton" type="Button" parent="MarginContainer/MainMenuVBox/MenuVBox"]
+[node name="MenuButton" type="MenuButton" parent="RootMarginContainer/MenuMarginContainer/VBoxContainer"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 48
 text = "Play"
 
-[node name="OptionsButton" type="Button" parent="MarginContainer/MainMenuVBox/MenuVBox"]
+[node name="MenuButton2" type="MenuButton" parent="RootMarginContainer/MenuMarginContainer/VBoxContainer"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 48
 text = "Options"
 
-[node name="CreditsButton" type="Button" parent="MarginContainer/MainMenuVBox/MenuVBox"]
+[node name="MenuButton3" type="MenuButton" parent="RootMarginContainer/MenuMarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "Credits"
-
-[node name="QuitButton" type="Button" parent="MarginContainer/MainMenuVBox/MenuVBox"]
-layout_mode = 2
+theme_override_font_sizes/font_size = 48
 text = "Quit"
 
-[node name="BottomSpacer" type="Control" parent="MarginContainer/MainMenuVBox"]
+[node name="FooterMarginContainer" type="MarginContainer" parent="RootMarginContainer"]
 layout_mode = 2
-size_flags_vertical = 3
-size_flags_stretch_ratio = 2.0
+size_flags_vertical = 8
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="HBoxContainer" type="HBoxContainer" parent="RootMarginContainer/FooterMarginContainer"]
+layout_mode = 2
+
+[node name="AuthorLabel" type="Label" parent="RootMarginContainer/FooterMarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 16
+text = "Made By FanMaker777"
+
+[node name="MarginContainer" type="MarginContainer" parent="RootMarginContainer/FooterMarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VersionLabel" type="Label" parent="RootMarginContainer/FooterMarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 1
+text = "ver1.0"
+horizontal_alignment = 2
