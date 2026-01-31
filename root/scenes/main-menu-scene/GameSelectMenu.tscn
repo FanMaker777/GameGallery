@@ -1,0 +1,384 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://root/scenes/main-menu-scene/GameSelectMenu.gd" id=1]
+[ext_resource type="Texture2D" path="res://root/assets/image/thumbnail/thumbnail.png" id=2]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color(0.23, 0.45, 0.86, 1)
+border_color = Color(0.16, 0.32, 0.66, 1)
+border_width_bottom = 2
+border_width_left = 2
+border_width_right = 2
+border_width_top = 2
+corner_radius_bottom_left = 10
+corner_radius_bottom_right = 10
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+content_margin_left = 8.0
+content_margin_right = 8.0
+content_margin_top = 4.0
+content_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color(0.98, 0.47, 0.14, 1)
+border_color = Color(0.85, 0.36, 0.07, 1)
+border_width_bottom = 3
+border_width_left = 3
+border_width_right = 3
+border_width_top = 3
+corner_radius_bottom_left = 16
+corner_radius_bottom_right = 16
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+shadow_color = Color(0, 0, 0, 0.2)
+shadow_size = 6
+shadow_offset = Vector2(0, 4)
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color(1, 0.58, 0.22, 1)
+border_color = Color(0.85, 0.36, 0.07, 1)
+border_width_bottom = 3
+border_width_left = 3
+border_width_right = 3
+border_width_top = 3
+corner_radius_bottom_left = 16
+corner_radius_bottom_right = 16
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+shadow_color = Color(0, 0, 0, 0.2)
+shadow_size = 6
+shadow_offset = Vector2(0, 4)
+
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color(0.19, 0.74, 0.24, 1)
+border_color = Color(0.13, 0.6, 0.18, 1)
+border_width_bottom = 3
+border_width_left = 3
+border_width_right = 3
+border_width_top = 3
+corner_radius_bottom_left = 16
+corner_radius_bottom_right = 16
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+shadow_color = Color(0, 0, 0, 0.2)
+shadow_size = 6
+shadow_offset = Vector2(0, 4)
+
+[sub_resource type="StyleBoxFlat" id=5]
+bg_color = Color(0.28, 0.82, 0.3, 1)
+border_color = Color(0.13, 0.6, 0.18, 1)
+border_width_bottom = 3
+border_width_left = 3
+border_width_right = 3
+border_width_top = 3
+corner_radius_bottom_left = 16
+corner_radius_bottom_right = 16
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+shadow_color = Color(0, 0, 0, 0.2)
+shadow_size = 6
+shadow_offset = Vector2(0, 4)
+
+[node name="GameSelectMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+size = Vector2(1920, 1080)
+script = ExtResource(1)
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.71, 0.86, 1, 1)
+
+[node name="MainVBox" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 80.0
+offset_top = 40.0
+offset_right = -80.0
+offset_bottom = -40.0
+alignment = 1
+theme_override_constants/separation = 28
+
+[node name="Title" type="Label" parent="MainVBox"]
+layout_mode = 2
+text = "ゲームセレクト"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_colors/font_color = Color(0.2, 0.28, 0.53, 1)
+label_settings = null
+
+[node name="CardsRow" type="HBoxContainer" parent="MainVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+theme_override_constants/separation = 24
+
+[node name="Card1" type="PanelContainer" parent="MainVBox/CardsRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(360, 520)
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="CardMargin" type="MarginContainer" parent="MainVBox/CardsRow/Card1"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 18
+
+[node name="CardContent" type="VBoxContainer" parent="MainVBox/CardsRow/Card1/CardMargin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="CardTitle" type="Label" parent="MainVBox/CardsRow/Card1/CardMargin/CardContent"]
+layout_mode = 2
+text = "モンスタークエスト"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Thumbnail" type="TextureRect" parent="MainVBox/CardsRow/Card1/CardMargin/CardContent"]
+layout_mode = 2
+texture = ExtResource(2)
+expand_mode = 1
+stretch_mode = 5
+custom_minimum_size = Vector2(320, 180)
+
+[node name="GenreBadge" type="PanelContainer" parent="MainVBox/CardsRow/Card1/CardMargin/CardContent"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 34)
+theme_override_styles/panel = SubResource(1)
+
+[node name="GenreLabel" type="Label" parent="MainVBox/CardsRow/Card1/CardMargin/CardContent/GenreBadge"]
+layout_mode = 2
+text = "RPG"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+
+[node name="Description" type="Label" parent="MainVBox/CardsRow/Card1/CardMargin/CardContent"]
+layout_mode = 2
+text = "冒険の旅に出てモンスターとバトル！"
+autowrap_mode = 3
+
+[node name="CardButtons" type="HBoxContainer" parent="MainVBox/CardsRow/Card1/CardMargin/CardContent"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 12
+
+[node name="PlayButton" type="Button" parent="MainVBox/CardsRow/Card1/CardMargin/CardContent/CardButtons"]
+layout_mode = 2
+text = "プレイ"
+
+[node name="DetailButton" type="Button" parent="MainVBox/CardsRow/Card1/CardMargin/CardContent/CardButtons"]
+layout_mode = 2
+text = "詳細"
+
+[node name="Card2" type="PanelContainer" parent="MainVBox/CardsRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(360, 520)
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="CardMargin" type="MarginContainer" parent="MainVBox/CardsRow/Card2"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 18
+
+[node name="CardContent" type="VBoxContainer" parent="MainVBox/CardsRow/Card2/CardMargin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="CardTitle" type="Label" parent="MainVBox/CardsRow/Card2/CardMargin/CardContent"]
+layout_mode = 2
+text = "ギャラクシーシューター"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Thumbnail" type="TextureRect" parent="MainVBox/CardsRow/Card2/CardMargin/CardContent"]
+layout_mode = 2
+texture = ExtResource(2)
+expand_mode = 1
+stretch_mode = 5
+custom_minimum_size = Vector2(320, 180)
+
+[node name="GenreBadge" type="PanelContainer" parent="MainVBox/CardsRow/Card2/CardMargin/CardContent"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 34)
+theme_override_styles/panel = SubResource(1)
+
+[node name="GenreLabel" type="Label" parent="MainVBox/CardsRow/Card2/CardMargin/CardContent/GenreBadge"]
+layout_mode = 2
+text = "シューティング"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+
+[node name="Description" type="Label" parent="MainVBox/CardsRow/Card2/CardMargin/CardContent"]
+layout_mode = 2
+text = "宇宙で敵を撃破せよ！"
+autowrap_mode = 3
+
+[node name="CardButtons" type="HBoxContainer" parent="MainVBox/CardsRow/Card2/CardMargin/CardContent"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 12
+
+[node name="PlayButton" type="Button" parent="MainVBox/CardsRow/Card2/CardMargin/CardContent/CardButtons"]
+layout_mode = 2
+text = "プレイ"
+
+[node name="DetailButton" type="Button" parent="MainVBox/CardsRow/Card2/CardMargin/CardContent/CardButtons"]
+layout_mode = 2
+text = "詳細"
+
+[node name="Card3" type="PanelContainer" parent="MainVBox/CardsRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(360, 520)
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="CardMargin" type="MarginContainer" parent="MainVBox/CardsRow/Card3"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 18
+
+[node name="CardContent" type="VBoxContainer" parent="MainVBox/CardsRow/Card3/CardMargin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="CardTitle" type="Label" parent="MainVBox/CardsRow/Card3/CardMargin/CardContent"]
+layout_mode = 2
+text = "パズルパラダイス"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Thumbnail" type="TextureRect" parent="MainVBox/CardsRow/Card3/CardMargin/CardContent"]
+layout_mode = 2
+texture = ExtResource(2)
+expand_mode = 1
+stretch_mode = 5
+custom_minimum_size = Vector2(320, 180)
+
+[node name="GenreBadge" type="PanelContainer" parent="MainVBox/CardsRow/Card3/CardMargin/CardContent"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 34)
+theme_override_styles/panel = SubResource(1)
+
+[node name="GenreLabel" type="Label" parent="MainVBox/CardsRow/Card3/CardMargin/CardContent/GenreBadge"]
+layout_mode = 2
+text = "パズル"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+
+[node name="Description" type="Label" parent="MainVBox/CardsRow/Card3/CardMargin/CardContent"]
+layout_mode = 2
+text = "パズルを解いて高得点を目指そう！"
+autowrap_mode = 3
+
+[node name="CardButtons" type="HBoxContainer" parent="MainVBox/CardsRow/Card3/CardMargin/CardContent"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 12
+
+[node name="PlayButton" type="Button" parent="MainVBox/CardsRow/Card3/CardMargin/CardContent/CardButtons"]
+layout_mode = 2
+text = "プレイ"
+
+[node name="DetailButton" type="Button" parent="MainVBox/CardsRow/Card3/CardMargin/CardContent/CardButtons"]
+layout_mode = 2
+text = "詳細"
+
+[node name="Card4" type="PanelContainer" parent="MainVBox/CardsRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(360, 520)
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="CardMargin" type="MarginContainer" parent="MainVBox/CardsRow/Card4"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 18
+
+[node name="CardContent" type="VBoxContainer" parent="MainVBox/CardsRow/Card4/CardMargin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="CardTitle" type="Label" parent="MainVBox/CardsRow/Card4/CardMargin/CardContent"]
+layout_mode = 2
+text = "カートレーサー"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Thumbnail" type="TextureRect" parent="MainVBox/CardsRow/Card4/CardMargin/CardContent"]
+layout_mode = 2
+texture = ExtResource(2)
+expand_mode = 1
+stretch_mode = 5
+custom_minimum_size = Vector2(320, 180)
+
+[node name="GenreBadge" type="PanelContainer" parent="MainVBox/CardsRow/Card4/CardMargin/CardContent"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 34)
+theme_override_styles/panel = SubResource(1)
+
+[node name="GenreLabel" type="Label" parent="MainVBox/CardsRow/Card4/CardMargin/CardContent/GenreBadge"]
+layout_mode = 2
+text = "レース"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+
+[node name="Description" type="Label" parent="MainVBox/CardsRow/Card4/CardMargin/CardContent"]
+layout_mode = 2
+text = "スピード勝負のカートレース！"
+autowrap_mode = 3
+
+[node name="CardButtons" type="HBoxContainer" parent="MainVBox/CardsRow/Card4/CardMargin/CardContent"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 12
+
+[node name="PlayButton" type="Button" parent="MainVBox/CardsRow/Card4/CardMargin/CardContent/CardButtons"]
+layout_mode = 2
+text = "プレイ"
+
+[node name="DetailButton" type="Button" parent="MainVBox/CardsRow/Card4/CardMargin/CardContent/CardButtons"]
+layout_mode = 2
+text = "詳細"
+
+[node name="BottomButtons" type="HBoxContainer" parent="MainVBox"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 48
+
+[node name="BackButton" type="Button" parent="MainVBox/BottomButtons"]
+layout_mode = 2
+custom_minimum_size = Vector2(360, 80)
+text = "もどる"
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_styles/normal = SubResource(2)
+theme_override_styles/hover = SubResource(3)
+
+[node name="StartButton" type="Button" parent="MainVBox/BottomButtons"]
+layout_mode = 2
+custom_minimum_size = Vector2(420, 80)
+text = "ゲームスタート！"
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_styles/normal = SubResource(4)
+theme_override_styles/hover = SubResource(5)
