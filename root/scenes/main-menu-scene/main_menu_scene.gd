@@ -12,10 +12,6 @@ func _ready() -> void:
 	# web実行時、終了ボタンを非表示に変更
 	if  OS.has_feature("web"):
 		quit_button.visible = false
-	
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
 
 # シグナルを接続
 func _conect_signal() -> void:

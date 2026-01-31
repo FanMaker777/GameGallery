@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://c6tc4au5q014i"]
+
+[ext_resource type="Script" uid="uid://dkwe62q0bvdnc" path="res://root/autoload/transition_effect/transition_effect.gd" id="1_tqr7g"]
+[ext_resource type="PackedScene" uid="uid://dfhtofm6r1jpm" path="res://root/assets/TransitionKit/transitions/t_diamond.tscn" id="2_k4ngq"]
+
+[node name="TransitionLayer" type="CanvasLayer" node_paths=PackedStringArray("t_effect")]
+layer = 100
+visible = false
+script = ExtResource("1_tqr7g")
+t_effect = NodePath("TDiamond")
+
+[node name="TDiamond" parent="." instance=ExtResource("2_k4ngq")]
+factor = 0.0

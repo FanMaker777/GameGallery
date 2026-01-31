@@ -16,6 +16,11 @@ run/main_scene="uid://cxkcp8gfxyi3q"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+GameManager="*res://root/autoload/game_manager.gd"
+TransitionEffect="*res://root/autoload/transition_effect/transition_effect.tscn"
+
 [display]
 
 window/size/viewport_width=1280

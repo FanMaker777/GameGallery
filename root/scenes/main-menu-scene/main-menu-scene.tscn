@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://byjaiv21t5df7"]
+[gd_scene load_steps=4 format=3 uid="uid://byjaiv21t5df7"]
 
 [ext_resource type="Script" uid="uid://d1hdf253snk32" path="res://root/scenes/main-menu-scene/main_menu_scene.gd" id="1_r20lq"]
+[ext_resource type="Texture2D" uid="uid://bclic8u2i45qq" path="res://root/assets/image/gallery/frame.png" id="2_qasj0"]
 [ext_resource type="Texture2D" uid="uid://bdr5qrqlnxt3x" path="res://root/assets/image/thumbnail/thumbnail.png" id="2_y5dmv"]
 
 [node name="MainMenuScene" type="Control"]
@@ -92,6 +93,7 @@ text = "ver1.0"
 horizontal_alignment = 2
 
 [node name="SelectGameMenu" type="Control" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -99,28 +101,58 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="SelectGameMenu"]
+[node name="TextureRect" type="TextureRect" parent="SelectGameMenu"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+texture = ExtResource("2_qasj0")
+expand_mode = 1
 
-[node name="GameThumbnail" type="TextureRect" parent="SelectGameMenu/VBoxContainer"]
-layout_mode = 2
+[node name="GameThumbnail" type="TextureRect" parent="SelectGameMenu/TextureRect"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.25100002
+anchor_top = 0.21400002
+anchor_right = 0.75100005
+anchor_bottom = 0.693
+offset_left = -0.2800293
+offset_top = -0.08001709
+offset_right = -0.2800293
+offset_bottom = 0.039978027
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_vertical = 3
 texture = ExtResource("2_y5dmv")
 expand_mode = 1
 
-[node name="Label" type="Label" parent="SelectGameMenu/VBoxContainer"]
-layout_mode = 2
-text = "ジャンル"
+[node name="VBoxContainer" type="VBoxContainer" parent="SelectGameMenu"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="Label2" type="Label" parent="SelectGameMenu/VBoxContainer"]
+[node name="BoxContainer" type="BoxContainer" parent="SelectGameMenu/VBoxContainer"]
 layout_mode = 2
-text = "名前"
+size_flags_vertical = 0
 
-[node name="Label3" type="Label" parent="SelectGameMenu/VBoxContainer"]
+[node name="GenreLabel" type="Label" parent="SelectGameMenu/VBoxContainer"]
+layout_mode = 2
+text = "ジャンル：ビジュアルノベル"
+horizontal_alignment = 1
+
+[node name="TitleLabel" type="Label" parent="SelectGameMenu/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.10747976, 0.10747973, 0.10747973, 1)
+text = "名前：Godotの紹介"
+horizontal_alignment = 1
+
+[node name="ExplanationLabel" type="Label" parent="SelectGameMenu/VBoxContainer"]
 layout_mode = 2
 text = "説明"
+horizontal_alignment = 1
