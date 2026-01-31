@@ -13,7 +13,7 @@ func _ready() -> void:
 	visible = false
 	
 func fade_in() -> void:
-	print("func fade_in")
+	Log.debug("func fade_in")
 	# 遷移画面の表示を有効化
 	visible = true
 	# 遷移エフェクトを全て表示
@@ -27,7 +27,7 @@ func fade_in() -> void:
 	)
 
 func fade_out() -> void:
-	print("func fade_out")
+	Log.debug("func fade_out")
 	# 遷移画面の表示を有効化
 	visible = true
 	# 遷移エフェクトを非表示に設定

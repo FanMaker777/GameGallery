@@ -4,9 +4,12 @@ extends Node
 # メインメニューとレベルシーンをプリロード
 const MAIN_MENU_SCENE: PackedScene = preload("uid://byjaiv21t5df7")
 
+func _ready() -> void:
+	Log.current_log_level = Log.LogLevel.DEBUG
+
 # メインメニューシーンをロードする関数
 func load_main_scene() -> void:
-	print("func load_main_scene")
+	Log.debug("func load_main_scene")
 	# 画面をフェードアウト
 	TransitionEffect.fade_out()
 	# フェードアウト終了後

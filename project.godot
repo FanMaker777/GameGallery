@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 
 GameManager="*res://root/autoload/game_manager.gd"
 TransitionEffect="*res://root/autoload/transition_effect/transition_effect.tscn"
+Log="*res://addons/logger/logger.gd"
 
 [display]
 
@@ -28,4 +29,4 @@ window/size/viewport_height=720
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/gut/plugin.cfg")
+enabled=PackedStringArray("res://addons/gut/plugin.cfg", "res://addons/logger/plugin.cfg")
