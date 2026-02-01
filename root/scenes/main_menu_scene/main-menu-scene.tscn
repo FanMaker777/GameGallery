@@ -26,6 +26,7 @@ texture = ExtResource("2_f6cpm")
 expand_mode = 1
 
 [node name="MainMenu" type="Control" parent="."]
+unique_name_in_owner = true
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -113,6 +114,7 @@ text = "ver1.0"
 horizontal_alignment = 2
 
 [node name="SelectGameMenu" type="Control" parent="."]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -146,21 +148,33 @@ size_flags_vertical = 3
 theme_override_constants/margin_left = 32
 theme_override_constants/margin_right = 32
 
-[node name="HBoxContainer" type="HBoxContainer" parent="SelectGameMenu/VBoxContainer/CardMarginContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="SelectGameMenu/VBoxContainer/CardMarginContainer"]
 layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="SelectGameMenu/VBoxContainer/CardMarginContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 theme_override_constants/separation = 32
 
-[node name="GameCard" parent="SelectGameMenu/VBoxContainer/CardMarginContainer/HBoxContainer" instance=ExtResource("3_xwt4j")]
+[node name="GameCard" parent="SelectGameMenu/VBoxContainer/CardMarginContainer/ScrollContainer/HBoxContainer" instance=ExtResource("3_xwt4j")]
+custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
-size_flags_horizontal = 3
+title = "Introduce Godot"
+genre = "ビジュアルノベル"
+description = "Sohiaと会話しながら、Godotについて学ぼう！"
 
-[node name="GameCard2" parent="SelectGameMenu/VBoxContainer/CardMarginContainer/HBoxContainer" instance=ExtResource("3_xwt4j")]
+[node name="GameCard2" parent="SelectGameMenu/VBoxContainer/CardMarginContainer/ScrollContainer/HBoxContainer" instance=ExtResource("3_xwt4j")]
+custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
-size_flags_horizontal = 3
 
-[node name="GameCard3" parent="SelectGameMenu/VBoxContainer/CardMarginContainer/HBoxContainer" instance=ExtResource("3_xwt4j")]
+[node name="GameCard3" parent="SelectGameMenu/VBoxContainer/CardMarginContainer/ScrollContainer/HBoxContainer" instance=ExtResource("3_xwt4j")]
+custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
-size_flags_horizontal = 3
+
+[node name="GameCard4" parent="SelectGameMenu/VBoxContainer/CardMarginContainer/ScrollContainer/HBoxContainer" instance=ExtResource("3_xwt4j")]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
 
 [node name="FooterMarginContainer" type="MarginContainer" parent="SelectGameMenu/VBoxContainer"]
 layout_mode = 2
@@ -173,14 +187,8 @@ theme_override_constants/margin_bottom = 16
 [node name="HBoxContainer" type="HBoxContainer" parent="SelectGameMenu/VBoxContainer/FooterMarginContainer"]
 layout_mode = 2
 
-[node name="Button" type="Button" parent="SelectGameMenu/VBoxContainer/FooterMarginContainer/HBoxContainer"]
+[node name="MainMenuButton" type="Button" parent="SelectGameMenu/VBoxContainer/FooterMarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 35)
 layout_mode = 2
-text = "Previous"
-
-[node name="MarginContainer" type="MarginContainer" parent="SelectGameMenu/VBoxContainer/FooterMarginContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Button2" type="Button" parent="SelectGameMenu/VBoxContainer/FooterMarginContainer/HBoxContainer"]
-layout_mode = 2
-text = "Next"
+text = "メインメニュー"

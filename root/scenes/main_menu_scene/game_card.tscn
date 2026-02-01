@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://dtjf71ka68anv"]
+[gd_scene load_steps=4 format=3 uid="uid://dtjf71ka68anv"]
 
 [ext_resource type="Texture2D" uid="uid://bdr5qrqlnxt3x" path="res://root/assets/image/thumbnail/thumbnail.png" id="1_c1ipj"]
+[ext_resource type="Script" uid="uid://c8rq40l4y7gs6" path="res://root/scenes/main_menu_scene/game_card.gd" id="1_w4vuy"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c1ipj"]
 content_margin_left = 8.0
@@ -19,6 +20,7 @@ offset_right = 0.3999939
 offset_bottom = -0.32003784
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_w4vuy")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1
@@ -50,6 +52,7 @@ layout_mode = 2
 color = Color(1, 0.4509804, 0.26666668, 1)
 
 [node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer/TitleColorRect"]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -66,13 +69,14 @@ text = "ゲームタイトル"
 vertical_alignment = 1
 
 [node name="ThumbnailTextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 texture = ExtResource("1_c1ipj")
 expand_mode = 1
-stretch_mode = 4
 
 [node name="GenreLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_font_sizes/font_size = 16
@@ -82,12 +86,14 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="DescriptionLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 16
-text = "ゲームの説明"
+text = "説明"
 
 [node name="PlayButton" type="Button" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Play"
