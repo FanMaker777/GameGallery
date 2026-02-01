@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=4 uid="uid://clwgxlpmnx5sn"]
 
 [ext_resource type="Texture2D" uid="uid://d3xcyh4i5ua50" path="res://sandbox/level/image/Tilemap_color1.png" id="1_um3lq"]
-[ext_resource type="PackedScene" uid="uid://dtite3wgwyq0r" path="res://root/character/Warrior/warrior.tscn" id="2_kbp8j"]
+[ext_resource type="PackedScene" uid="uid://dtite3wgwyq0r" path="res://root/scenes/game/tower_defence/character/Warrior/warrior.tscn" id="2_kbp8j"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_u34cm"]
 texture = ExtResource("1_um3lq")
