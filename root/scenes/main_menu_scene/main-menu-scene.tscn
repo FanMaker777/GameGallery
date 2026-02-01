@@ -1,0 +1,194 @@
+[gd_scene load_steps=4 format=3 uid="uid://byjaiv21t5df7"]
+
+[ext_resource type="Script" uid="uid://d1hdf253snk32" path="res://root/scenes/main_menu_scene/main_menu_scene.gd" id="1_r20lq"]
+[ext_resource type="Texture2D" uid="uid://chhsdka383g8w" path="res://root/scenes/main_menu_scene/image/SelectGameMenuBackground.png" id="2_f6cpm"]
+[ext_resource type="PackedScene" uid="uid://dtjf71ka68anv" path="res://root/scenes/main_menu_scene/game_card.tscn" id="3_xwt4j"]
+
+[node name="MainMenuScene" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+script = ExtResource("1_r20lq")
+
+[node name="BackGroundTexture" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+texture = ExtResource("2_f6cpm")
+expand_mode = 1
+
+[node name="MainMenu" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TitleMarginContainer" type="MarginContainer" parent="MainMenu/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/margin_top = 64
+
+[node name="TitleLabel" type="Label" parent="MainMenu/VBoxContainer/TitleMarginContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "FanMaker777
+GameGallery"
+horizontal_alignment = 1
+
+[node name="MenuMarginContainer" type="MarginContainer" parent="MainMenu/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_top = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu/VBoxContainer/MenuMarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 8
+
+[node name="PlayButton" type="Button" parent="MainMenu/VBoxContainer/MenuMarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "Play"
+
+[node name="OptionButton" type="Button" parent="MainMenu/VBoxContainer/MenuMarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "Options"
+
+[node name="QuitButton" type="Button" parent="MainMenu/VBoxContainer/MenuMarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "Quit"
+
+[node name="FooterMarginContainer" type="MarginContainer" parent="MainMenu/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MainMenu/VBoxContainer/FooterMarginContainer"]
+layout_mode = 2
+
+[node name="AuthorLabel" type="Label" parent="MainMenu/VBoxContainer/FooterMarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 16
+text = "Made By FanMaker777"
+
+[node name="MarginContainer" type="MarginContainer" parent="MainMenu/VBoxContainer/FooterMarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VersionLabel" type="Label" parent="MainMenu/VBoxContainer/FooterMarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 1
+text = "ver1.0"
+horizontal_alignment = 2
+
+[node name="SelectGameMenu" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SelectGameMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TitleMarginContainer" type="MarginContainer" parent="SelectGameMenu/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="TitleLabel" type="Label" parent="SelectGameMenu/VBoxContainer/TitleMarginContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "ゲームセレクト"
+horizontal_alignment = 1
+
+[node name="CardMarginContainer" type="MarginContainer" parent="SelectGameMenu/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_right = 32
+
+[node name="ScrollContainer" type="ScrollContainer" parent="SelectGameMenu/VBoxContainer/CardMarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="SelectGameMenu/VBoxContainer/CardMarginContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 32
+
+[node name="GameCard" parent="SelectGameMenu/VBoxContainer/CardMarginContainer/ScrollContainer/HBoxContainer" instance=ExtResource("3_xwt4j")]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+title = "Introduce Godot"
+genre = "ビジュアルノベル"
+description = "Sohiaと会話しながら、Godotについて学ぼう！"
+
+[node name="GameCard2" parent="SelectGameMenu/VBoxContainer/CardMarginContainer/ScrollContainer/HBoxContainer" instance=ExtResource("3_xwt4j")]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+
+[node name="GameCard3" parent="SelectGameMenu/VBoxContainer/CardMarginContainer/ScrollContainer/HBoxContainer" instance=ExtResource("3_xwt4j")]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+
+[node name="GameCard4" parent="SelectGameMenu/VBoxContainer/CardMarginContainer/ScrollContainer/HBoxContainer" instance=ExtResource("3_xwt4j")]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+
+[node name="FooterMarginContainer" type="MarginContainer" parent="SelectGameMenu/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="HBoxContainer" type="HBoxContainer" parent="SelectGameMenu/VBoxContainer/FooterMarginContainer"]
+layout_mode = 2
+
+[node name="MainMenuButton" type="Button" parent="SelectGameMenu/VBoxContainer/FooterMarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 35)
+layout_mode = 2
+text = "メインメニュー"
