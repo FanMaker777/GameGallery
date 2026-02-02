@@ -1,0 +1,150 @@
+[gd_scene load_steps=19 format=3 uid="uid://chprvwfixox2y"]
+
+[ext_resource type="Theme" uid="uid://cshg3sgf0xxq" path="res://root/scenes/game/introduce_godot/assets/resource/main_theme.tres" id="1_08vhn"]
+[ext_resource type="Script" uid="uid://c673ndsi3esbr" path="res://root/scenes/game/introduce_godot/game/introduce_godot.gd" id="2_5xoke"]
+[ext_resource type="Script" uid="uid://dei5f1ruqnct7" path="res://root/scenes/game/introduce_godot/assets/resource/dialogue_item.gd" id="3_thdtq"]
+[ext_resource type="Texture2D" uid="uid://lvdxjuogsivg" path="res://root/scenes/game/introduce_godot/assets/resource/sophia.png" id="4_r0kyu"]
+[ext_resource type="Script" uid="uid://bpy3o8wl5o11f" path="res://root/scenes/game/introduce_godot/assets/resource/dialogue_choice.gd" id="5_aexc2"]
+[ext_resource type="Texture2D" uid="uid://bghgtvtpjneuw" path="res://root/scenes/game/introduce_godot/assets/image/emotion_regular.png" id="6_6qp8h"]
+[ext_resource type="Shader" uid="uid://dm7717xxg836f" path="res://root/scenes/game/introduce_godot/assets/resource/sliding_background.gdshader" id="7_2qbk6"]
+[ext_resource type="Texture2D" uid="uid://bjugs04tjn2hk" path="res://root/scenes/game/introduce_godot/assets/image/bubble_pattern.png" id="8_04jl8"]
+[ext_resource type="AudioStream" uid="uid://baqa018p2og8r" path="res://root/scenes/game/introduce_godot/assets/sounds/talking_synth.ogg" id="9_lc2ba"]
+
+[sub_resource type="Resource" id="Resource_xlxck"]
+script = ExtResource("5_aexc2")
+text = "Yes, for stronger guarantees! "
+target_line_idx = 2
+metadata/_custom_type_script = "uid://bpy3o8wl5o11f"
+
+[sub_resource type="Resource" id="Resource_1m3r0"]
+script = ExtResource("5_aexc2")
+text = "It seems so complicated"
+target_line_idx = 1
+metadata/_custom_type_script = "uid://bpy3o8wl5o11f"
+
+[sub_resource type="Resource" id="Resource_ujubm"]
+script = ExtResource("3_thdtq")
+choices = Array[ExtResource("5_aexc2")]([SubResource("Resource_xlxck"), SubResource("Resource_1m3r0")])
+text = "Oh, you're going to use resources!"
+metadata/_custom_type_script = "uid://dei5f1ruqnct7"
+
+[sub_resource type="Resource" id="Resource_1f3kq"]
+script = ExtResource("5_aexc2")
+text = "I know! I'm hanging on "
+target_line_idx = 2
+metadata/_custom_type_script = "uid://bpy3o8wl5o11f"
+
+[sub_resource type="Resource" id="Resource_m4u2h"]
+script = ExtResource("5_aexc2")
+text = "But what should I do?"
+metadata/_custom_type_script = "uid://bpy3o8wl5o11f"
+
+[sub_resource type="Resource" id="Resource_rjbgl"]
+script = ExtResource("3_thdtq")
+choices = Array[ExtResource("5_aexc2")]([SubResource("Resource_1f3kq"), SubResource("Resource_m4u2h")])
+text = "I know... But by practicing over and over, it will become simpler!"
+metadata/_custom_type_script = "uid://dei5f1ruqnct7"
+
+[sub_resource type="Resource" id="Resource_5rpy8"]
+script = ExtResource("5_aexc2")
+text = "Thanks! I like it too"
+is_quit = true
+metadata/_custom_type_script = "uid://bpy3o8wl5o11f"
+
+[sub_resource type="Resource" id="Resource_gkm7m"]
+script = ExtResource("3_thdtq")
+choices = Array[ExtResource("5_aexc2")]([SubResource("Resource_5rpy8")])
+text = "And now your properties are all well-typed! Well done!"
+metadata/_custom_type_script = "uid://dei5f1ruqnct7"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_efgpg"]
+shader = ExtResource("7_2qbk6")
+shader_parameter/pattern_sampler = ExtResource("8_04jl8")
+shader_parameter/bg_color = Color(0.980392, 0.94902, 0.72549, 1)
+shader_parameter/pattern_color = Color(0.996078, 0.878431, 0.564706, 1)
+shader_parameter/pattern_size = 256.0
+
+[node name="IntroduceGodot" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_08vhn")
+script = ExtResource("2_5xoke")
+dialogue_items = Array[ExtResource("3_thdtq")]([SubResource("Resource_ujubm"), SubResource("Resource_rjbgl"), SubResource("Resource_gkm7m")])
+
+[node name="Background" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_efgpg")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Body" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_top = 174.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_r0kyu")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Expression" type="TextureRect" parent="Body"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_6qp8h")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+clip_contents = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.75
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -360.32007
+offset_top = 144.0
+offset_right = -176.0
+offset_bottom = -271.0
+focus_mode = 3
+mouse_filter = 0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 2
+bbcode_enabled = true
+text = "Hello World
+"
+fit_content = true
+
+[node name="ActionButtonsVBoxContainer" type="VBoxContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Button" type="Button" parent="VBoxContainer/ActionButtonsVBoxContainer"]
+layout_mode = 2
+text = "test"
+
+[node name="Button2" type="Button" parent="VBoxContainer/ActionButtonsVBoxContainer"]
+layout_mode = 2
+text = "test"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("9_lc2ba")
