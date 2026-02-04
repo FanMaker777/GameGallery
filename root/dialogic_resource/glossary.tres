@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="DialogicGlossary" load_steps=2 format=3 uid="uid://wruyd02fqclo"]
+
+[ext_resource type="Script" uid="uid://80elcodyqohb" path="res://addons/dialogic/Modules/Glossary/glossary_resource.gd" id="1_wp30m"]
+
+[resource]
+script = ExtResource("1_wp30m")
+entries = {
+"MITライセンス": {
+"name": "MITライセンス",
+"text": "MITライセンスは、米マサチューセッツ工科大学（MIT）が考案した、利用・改変・商用利用が自由で、非常に制限の少ない代表的なオープンソースライセンスです。唯一の必須条件は、再頒布時に著作権表示とライセンス全文を保持することであり、作者は無責任を保証します。ソースコードを非公開のまま商用利用できるため、現代のOSSで最も採用されているライセンス。",
+"title": "MITライセンス"
+},
+"オープンソース": {
+"case_sensitive": true,
+"name": "オープンソース",
+"text": "ソフトウェアの設計図であるソースコードを無償で一般公開し、誰でも自由に利用、改変、再配布できるようにしたソフトウェア開発モデル。",
+"title": "オープンソース"
+},
+"ゲームエンジン": {
+"name": "ゲームエンジン",
+"text": "ゲーム開発に必要なグラフィックス、物理演算、サウンド、スクリプト機能などを統合したソフトウェア開発環境。",
+"title": "ゲームエンジン"
+},
+"ポップアップ": {
+"name": "ポップアップ",
+"text": "ウェブページやアプリの閲覧中に、画面最前面に突然表示される別ウィンドウや小窓。",
+"title": "ポップアップ"
+}
+}

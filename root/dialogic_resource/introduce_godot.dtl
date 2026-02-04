@@ -1,0 +1,53 @@
+join sophia center [animation="Bounce In" length="1.0" wait="true" extra_data="set Emotion/Happy"]
+sophia: こんにちは！\
+FanMaker777のGameGalleryをプレイしてくれてありがとう！
+update sophia center [extra_data="set Emotion/Regular"]
+sophia: ここではビジュアルノベル形式で、\
+このゲームの作成に使われたエンジン「Godot」について紹介するね！
+sophia: まず、この画面のチュートリアルは必要かな？
+- はい、説明してください。
+	update sophia center [length="1.0" wait="true" extra_data="set Emotion/Happy"]
+	sophia: OK!\
+	この画面で出来る操作を紹介するね。
+	update sophia [extra_data="set Emotion/Regular"]
+	sophia: マウスクリックか好きなキーを押すことで、\
+	次のテキストに進むよ。
+	sophia: ハイライトされたテキストにマウスを合わせると、\
+	その単語を説明するポップアップが表示されるよ。
+	update sophia center [length="1.0" wait="true" extra_data="set Emotion/Happy"]
+	sophia: そのゲーム独自の言葉や専門用語について、\
+	いつでも解説を見られると便利だよね！
+	update sophia [extra_data="set Emotion/Regular"]
+	sophia: 画面右上の「history」ボタンをマウスクリックすると、\
+	今までの会話ログが表示されるよ。
+- いいえ、大丈夫です。
+	sophia: OK!\
+	それじゃあ、Godotの紹介に入るね。
+sophia: 「Godot」はオープンソースで開発されているゲームエンジンだよ。
+sophia: いくつか特徴や長所があるから、興味があるものから紹介するね。
+- オープンソースで完全無料
+	sophia: Godotは企業ではなく、コミュニティによって、\
+	MITライセンス(=オープンソース)で開発されているんだ。
+	update sophia [extra_data="set Emotion/Happy"]
+	sophia: だから完全無料!\
+	個人でも企業でも、Godotで作ったゲームが数億円の売上を出しても、\
+	1円も払う必要はないんだ。
+	update sophia [extra_data="set Emotion/Regular"]
+	sophia: 大手のゲームエンジンは、年間利用料が必要だったり、\
+	作成したゲームの売上の数%を払う必要があったりするんだ。
+	sophia: だから、豊富な機能を持ちながら完全無料なことは、\
+	Godotの大きな長所の一つだね。
+- ノードとスクリプトを組み合わせて開発
+	sophia: Godotは、様々な機能を持つ「ノード」と、ノードを操作するコードが書かれた「スクリプト」を組み合わせてゲームを作るんだ。
+	update sophia [extra_data="set Emotion/Happy"]
+	sophia: 本当にそれだけ！\
+	あなたが見ているゲーム画面は、たくさんのノードで構成されていて、\
+	ノードに紐づけられたスクリプトがゲームを進行させているんだ。
+	update sophia [extra_data="set Emotion/Regular"]
+	sophia: たとえば、私は画像を表示する「Sprite2Dノード」で構成されているよ。\
+	テキストは「Labelノード」によって表示されているし、\
+	BGMは「AudioStreamPlayerノード」で再生しているんだ。
+	sophia: そしてスクリプトには、Godot専用のプログラミング言語「GDscript」で、\
+	ゲームを動かすコードが書いてあるんだ。
+	sophia: 例えば、マウスクリックやキー入力で、次のテキストを表示するのも、スクリプトにそう動くようコードが書かれているからなんだよ。
+-
