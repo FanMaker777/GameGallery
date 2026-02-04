@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://chprvwfixox2y"]
+[gd_scene load_steps=19 format=3 uid="uid://chprvwfixox2y"]
 
 [ext_resource type="Theme" uid="uid://cshg3sgf0xxq" path="res://root/scenes/game/introduce_godot/assets/resource/main_theme.tres" id="1_08vhn"]
 [ext_resource type="Script" uid="uid://c673ndsi3esbr" path="res://root/scenes/game/introduce_godot/game/introduce_godot.gd" id="2_5xoke"]
@@ -9,25 +9,13 @@
 [ext_resource type="Shader" uid="uid://dm7717xxg836f" path="res://root/scenes/game/introduce_godot/assets/resource/sliding_background.gdshader" id="7_2qbk6"]
 [ext_resource type="Texture2D" uid="uid://bjugs04tjn2hk" path="res://root/scenes/game/introduce_godot/assets/image/bubble_pattern.png" id="8_04jl8"]
 [ext_resource type="AudioStream" uid="uid://baqa018p2og8r" path="res://root/scenes/game/introduce_godot/assets/sounds/talking_synth.ogg" id="9_lc2ba"]
-[ext_resource type="Theme" uid="uid://6l7iy2diqvb" path="res://root/scenes/game/introduce_godot/assets/resource/visual_novel_system.tres" id="10_50sdc"]
+[ext_resource type="Theme" uid="uid://bvabw0typxcjo" path="res://root/scenes/game/introduce_godot/assets/resource/dialog_theme.tres" id="10_50sdc"]
 [ext_resource type="PackedScene" uid="uid://dj6ye05dbiqpi" path="res://root/autoload/pause_screen/pause_screen.tscn" id="10_wo46p"]
-
-[sub_resource type="Resource" id="Resource_xlxck"]
-script = ExtResource("5_aexc2")
-text = "Yes, for stronger guarantees! "
-target_line_idx = 2
-metadata/_custom_type_script = "uid://bpy3o8wl5o11f"
-
-[sub_resource type="Resource" id="Resource_1m3r0"]
-script = ExtResource("5_aexc2")
-text = "It seems so complicated"
-target_line_idx = 1
-metadata/_custom_type_script = "uid://bpy3o8wl5o11f"
 
 [sub_resource type="Resource" id="Resource_ujubm"]
 script = ExtResource("3_thdtq")
-choices = Array[ExtResource("5_aexc2")]([SubResource("Resource_xlxck"), SubResource("Resource_1m3r0")])
-text = "Oh, you're going to use resources!"
+text = "こんにちは！
+FanMaker777のGameGalleryをプレイしてくれてありがとう！"
 metadata/_custom_type_script = "uid://dei5f1ruqnct7"
 
 [sub_resource type="Resource" id="Resource_1f3kq"]
@@ -136,6 +124,7 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
+size_flags_stretch_ratio = 6.0
 
 [node name="Button" type="Button" parent="MarginContainer/VBoxContainer/ActionButtonsVBoxContainer"]
 layout_mode = 2
@@ -145,40 +134,68 @@ text = "test"
 layout_mode = 2
 text = "test"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+[node name="Dialog" type="Control" parent="MarginContainer/VBoxContainer"]
+clip_contents = true
 layout_mode = 2
-size_flags_vertical = 10
+size_flags_vertical = 3
+size_flags_stretch_ratio = 4.0
 theme = ExtResource("10_50sdc")
 
-[node name="NameLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Dialog"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/Dialog/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_constants/margin_left = 32
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/Dialog/VBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 10
+
+[node name="NameLabel" type="Label" parent="MarginContainer/VBoxContainer/Dialog/VBoxContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
+size_flags_vertical = 8
 text = "Sophia"
 
-[node name="Space" type="Control" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Space" type="Control" parent="MarginContainer/VBoxContainer/Dialog/VBoxContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="SkipButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer/Dialog/VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_constants/h_separation = 0
+columns = 3
+
+[node name="LogBitton" type="Button" parent="MarginContainer/VBoxContainer/Dialog/VBoxContainer/MarginContainer/HBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 8
+text = "Log"
+
+[node name="SkipButton" type="Button" parent="MarginContainer/VBoxContainer/Dialog/VBoxContainer/MarginContainer/HBoxContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 10
 text = "Skip"
 
-[node name="LogBitton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="PauseButton" type="Button" parent="MarginContainer/VBoxContainer/Dialog/VBoxContainer/MarginContainer/HBoxContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 10
-text = "Log"
+text = "Pause"
 
-[node name="MenuButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 10
-text = "Menu"
-
-[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer/VBoxContainer"]
+[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer/VBoxContainer/Dialog/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 10
+size_flags_vertical = 3
 bbcode_enabled = true
 text = "Hello World
 "
