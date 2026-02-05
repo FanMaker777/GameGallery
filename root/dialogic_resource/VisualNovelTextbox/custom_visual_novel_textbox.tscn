@@ -340,6 +340,18 @@ layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = SubResource("FontVariation_v8y64")
 theme_override_font_sizes/font_size = 15
-text = "S"
+text = "Sophia"
 script = ExtResource("7_bi7sh")
 name_label_root = NodePath("..")
+
+[node name="Button" type="Button" parent="Anchor/AnimationParent/Sizer/DialogTextPanel/NameLabelHolder"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.915
+anchor_right = 0.915
+offset_left = -42.050003
+offset_top = -44.0
+offset_right = -0.05000305
+offset_bottom = -19.0
+theme_override_font_sizes/font_size = 12
+text = "Menu"

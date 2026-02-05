@@ -20,6 +20,8 @@ sophia: まず、この画面のチュートリアルは必要かな？
 	update sophia [extra_data="set Emotion/Regular"]
 	sophia: 画面右上の「history」ボタンをマウスクリックすると、\
 	今までの会話ログが表示されるよ。
+	sophia: チュートリアルは以上だよ！\
+	それじゃあ、Godotの紹介に入るね。
 - いいえ、大丈夫です。
 	sophia: OK!\
 	それじゃあ、Godotの紹介に入るね。
@@ -50,4 +52,11 @@ sophia: いくつか特徴や長所があるから、興味があるものから
 	sophia: そしてスクリプトには、Godot専用のプログラミング言語「GDscript」で、\
 	ゲームを動かすコードが書いてあるんだ。
 	sophia: 例えば、マウスクリックやキー入力で、次のテキストを表示するのも、スクリプトにそう動くようコードが書かれているからなんだよ。
--
+	sophia: 他のゲームエンジンは、多くのオブジェクトや概念を組み合わせてゲームを開発することが多いからね。
+	update sophia [extra_data="set Emotion/Happy"]
+	sophia: Godotはノードとスクリプトだけでゲームを作れる分、学習しやすく、\
+	シンプルに開発できるんだ。
+	update sophia [extra_data="set Emotion/Regular"]
+- 
+	sophia: 。
+	sophia: <Empty Text Event>
