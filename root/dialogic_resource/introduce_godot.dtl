@@ -27,7 +27,7 @@ sophia: まず、この画面のチュートリアルは必要かな？
 	それじゃあ、Godotの紹介に入るね。
 sophia: 「Godot」はオープンソースで開発されているゲームエンジンだよ。
 label choice_explanation
-sophia: いくつか特徴や長所があるから、興味があるものから紹介するね。
+sophia: いくつか特徴や長所があるから、興味があるものから聞いてね。
 - オープンソースで完全無料
 	sophia: Godotは企業ではなく、コミュニティによって、\
 	MITライセンス(=オープンソース)で開発されているんだ。
@@ -47,10 +47,20 @@ sophia: いくつか特徴や長所があるから、興味があるものから
 	sophia: 本当にそれだけ！\
 	あなたが見ているゲーム画面は、たくさんのノードで構成されていて、\
 	ノードに紐づけられたスクリプトがゲームを進行させているんだ。
-	update sophia [extra_data="set Emotion/Regular"]
+	update sophia left [extra_data="set Emotion/Regular"]
+	[signal arg="show_explanation"]
 	sophia: たとえば、私は画像を表示する「Sprite2Dノード」で構成されているよ。\
-	テキストは「Labelノード」によって表示されているし、\
-	BGMは「AudioStreamPlayerノード」で再生しているんだ。
+	正確には、体を表示する「Sprite2Dノード」と、表情を表示する「Sprite2Dノード」を組み合わせているんだ。
+	[signal arg="hide_explanation"]
+	[signal arg="show_explanation2"]
+	sophia: もっと複雑な例を挙げると、この戦士さんだね。
+	sophia: この戦士は、\
+	移動やジャンプなどのキャラクターの基本的な機能を持った「CharacterBody2Dノード」
+	sophia: 複数の画像を組み合わせてアニメーションさせる「AnimatedSprite2Dノード」
+	sophia: 地面や壁、敵と接触しているか判定する物理形状「CollisionShape2Dノード」
+	sophia: この3つのノードで構成されているんだ。
+	[signal arg="hide_explanation2"]
+	update sophia center [extra_data="set Emotion/Regular"]
 	sophia: そしてスクリプトには、Godot専用のプログラミング言語「GDscript」で、\
 	ゲームを動かすコードが書いてあるんだ。
 	sophia: 例えば、マウスクリックやキー入力で、次のテキストを表示するのも、スクリプトにそう動くようコードが書かれているからなんだよ。
@@ -74,7 +84,7 @@ sophia: でも、究極のゲームエンジンではないからね。\
 update sophia [extra_data="set Emotion/Regular"]
 sophia: 例えば、3Dゲームの開発だね。
 update sophia [extra_data="set Emotion/Sad"]
-sophia: Godotはバージョンアップで3Dゲームの開発機能をどんどん強化しているけど、やっぱり「Unity」や「Unreal Engine」といったメジャーなエンジンには劣っちゃうね。
+sophia: Godotはバージョンアップで3Dゲームの開発機能をどんどん強化しているけど、やっぱり「Unity」や「Unreal Engine」といったメジャーなエンジンには劣る部分もあるね。
 update sophia [extra_data="set Emotion/Regular"]
 sophia: さて、これでGodotの紹介を終わるね。
 update sophia [extra_data="set Emotion/Happy"]
