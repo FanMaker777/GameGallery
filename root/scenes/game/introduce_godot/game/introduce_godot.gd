@@ -44,5 +44,6 @@ func _on_dialogic_signal(argument:String) -> void:
 			Log.debug("end_timeline")
 			 # 3秒待つ（この関数だけが一時停止する。ゲーム全体は止まらない）
 			await get_tree().create_timer(3.0).timeout
-			GameManager.load_scene_with_transition(GameManager.MAIN_MENU_SCENE)
+			# GameManager経由で戻ることで、シーン参照の循環を避ける。
+			GameManager.load_main_menu_scene()
 	
