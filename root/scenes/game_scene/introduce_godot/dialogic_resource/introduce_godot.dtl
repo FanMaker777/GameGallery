@@ -1,0 +1,93 @@
+join sophia center [animation="Bounce In" length="1.0" wait="true" extra_data="set Emotion/Happy"]
+sophia: こんにちは！\
+FanMaker777のGameGalleryをプレイしてくれてありがとう！
+update sophia center [extra_data="set Emotion/Regular"]
+sophia: ここではビジュアルノベル形式で、\
+このゲームの作成に使われたエンジン「Godot」について紹介するね！
+sophia: まず、この画面のチュートリアルは必要かな？
+- はい、説明してください。
+	update sophia center [length="1.0" wait="true" extra_data="set Emotion/Happy"]
+	sophia: OK!\
+	この画面で出来る操作を紹介するね。
+	update sophia [extra_data="set Emotion/Regular"]
+	sophia: マウスクリックか好きなキーを押すことで、\
+	次のテキストに進むよ。
+	sophia: ハイライトされたテキストにマウスを合わせると、\
+	その単語を説明するポップアップが表示されるよ。
+	update sophia center [length="1.0" wait="true" extra_data="set Emotion/Happy"]
+	sophia: そのゲーム独自の言葉や専門用語について、\
+	いつでも解説を見られると便利だよね！
+	update sophia [extra_data="set Emotion/Regular"]
+	sophia: 画面右上の「history」ボタンをマウスクリックすると、\
+	今までの会話ログが表示されるよ。
+	sophia: チュートリアルは以上だよ！\
+	それじゃあ、Godotの紹介に入るね。
+- いいえ、大丈夫です。
+	sophia: OK!\
+	それじゃあ、Godotの紹介に入るね。
+sophia: 「Godot」はオープンソースで開発されているゲームエンジンだよ。
+label choice_explanation
+sophia: いくつか特徴や長所があるから、興味があるものから聞いてね。
+- オープンソースで完全無料
+	sophia: Godotは企業ではなく、コミュニティによって、\
+	MITライセンス(=オープンソース)で開発されているんだ。
+	update sophia [extra_data="set Emotion/Happy"]
+	sophia: だから完全無料!\
+	個人でも企業でも、Godotで作ったゲームが数億円の売上を出しても、\
+	1円も払う必要はないんだ。
+	update sophia [extra_data="set Emotion/Regular"]
+	sophia: 大手のゲームエンジンは、年間利用料が必要だったり、\
+	作成したゲームの売上の数%を払う必要があったりするんだ。
+	sophia: だから、豊富な機能を持ちながら完全無料なことは、\
+	Godotの大きな長所の一つだね。
+	jump choice_explanation
+- ノードとスクリプトを組み合わせて開発
+	sophia: Godotは、様々な機能を持つ「ノード」と、ノードを操作するコードが書かれた「スクリプト」を組み合わせてゲームを作るんだ。
+	update sophia [extra_data="set Emotion/Happy"]
+	sophia: 本当にそれだけ！\
+	あなたが見ているゲーム画面は、たくさんのノードで構成されていて、\
+	ノードに紐づけられたスクリプトがゲームを進行させているんだ。
+	update sophia left [extra_data="set Emotion/Regular"]
+	[signal arg="show_explanation"]
+	sophia: たとえば、私は画像を表示する「Sprite2Dノード」で構成されているよ。\
+	正確には、体を表示する「Sprite2Dノード」と、表情を表示する「Sprite2Dノード」を組み合わせているんだ。
+	[signal arg="hide_explanation"]
+	[signal arg="show_explanation2"]
+	sophia: もっと複雑な例を挙げると、この戦士さんだね。
+	sophia: この戦士は、\
+	移動やジャンプなどのキャラクターの基本的な機能を持った「CharacterBody2Dノード」
+	sophia: 複数の画像を組み合わせてアニメーションさせる「AnimatedSprite2Dノード」
+	sophia: 地面や壁、敵と接触しているか判定する物理形状「CollisionShape2Dノード」
+	sophia: この3つのノードで構成されているんだ。
+	[signal arg="hide_explanation2"]
+	update sophia center [extra_data="set Emotion/Regular"]
+	sophia: そしてスクリプトには、Godot専用のプログラミング言語「GDscript」で、\
+	ゲームを動かすコードが書いてあるんだ。
+	sophia: 例えば、マウスクリックやキー入力で、次のテキストを表示するのも、スクリプトにそう動くようコードが書かれているからなんだよ。
+	sophia: 他のゲームエンジンは、多くのオブジェクトや概念を組み合わせてゲームを開発することが多いからね。
+	update sophia [extra_data="set Emotion/Happy"]
+	sophia: Godotはノードとスクリプトだけでゲームを作れる分、学習しやすく、\
+	シンプルに開発できるんだ。
+	update sophia [extra_data="set Emotion/Regular"]
+	jump choice_explanation
+- 2Dゲームの開発が得意
+	sophia: Godotは、専用の2Dレンダラーと2D物理処理機能が備わっているんだ。
+	sophia: ピクセル画像を拡大しても崩れにくいように設定できたり
+	sophia: タイルマップと呼ばれる、タイル上の2D画像を並べて背景やステージを効率的に作成できる機能も付いているんだ。
+	jump choice_explanation
+- 次に進む
+update sophia [extra_data="set Emotion/Happy"]
+sophia: Godotの凄いところ、分かってくれたかな？
+update sophia [extra_data="set Emotion/Sad"]
+sophia: でも、究極のゲームエンジンではないからね。\
+もちろん、他のゲームエンジンに負けている所もあるんだ。
+update sophia [extra_data="set Emotion/Regular"]
+sophia: 例えば、3Dゲームの開発だね。
+update sophia [extra_data="set Emotion/Sad"]
+sophia: Godotはバージョンアップで3Dゲームの開発機能をどんどん強化しているけど、やっぱり「Unity」や「Unreal Engine」といったメジャーなエンジンには劣る部分もあるね。
+update sophia [extra_data="set Emotion/Regular"]
+sophia: さて、これでGodotの紹介を終わるね。
+update sophia [extra_data="set Emotion/Happy"]
+sophia: 他のゲームもプレイしてくれると嬉しいな。
+sophia: それじゃあ、バイバイ～
+[signal arg="end_timeline"]

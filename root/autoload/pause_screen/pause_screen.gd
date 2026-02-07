@@ -56,6 +56,7 @@ func _input(event: InputEvent) -> void:
 
 ## ポーズスクリーンの表示を切り替えるメソッド
 func toggle() -> void:
+	Log.info("toggle PauseScreen")
 	# Switch the flag to the opposite value
 	_is_currently_opening = not _is_currently_opening
 
