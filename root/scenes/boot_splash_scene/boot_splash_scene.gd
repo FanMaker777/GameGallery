@@ -6,5 +6,5 @@ extends Control
 func _ready() -> void:
 	_timer.timeout.connect(func() -> void:
 		Log.debug("call GameManager.load_main_scene")
-		GameManager.load_scene_with_transition(GameManager.MAIN_MENU_SCENE)
+		GameManager.load_main_menu_scene()
 	)
