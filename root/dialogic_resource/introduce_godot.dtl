@@ -90,3 +90,4 @@ sophia: さて、これでGodotの紹介を終わるね。
 update sophia [extra_data="set Emotion/Happy"]
 sophia: 他のゲームもプレイしてくれると嬉しいな。
 sophia: それじゃあ、バイバイ～
+[signal arg="end_timeline"]

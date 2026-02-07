@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_wp30m")
 entries = {
+"2Dレンダラー": "レンダラー",
 "MITライセンス": {
 "case_sensitive": true,
 "name": "MITライセンス",
@@ -43,6 +44,7 @@ entries = {
 "title": "ポップアップ"
 },
 "レンダラー": {
+"alternatives": ["2Dレンダラー"],
 "name": "レンダラー",
 "text": "コンピューターグラフィックスにおける、各種データをプログラムを用いて計算し、画像として表示するプログラム。",
 "title": "レンダラー"

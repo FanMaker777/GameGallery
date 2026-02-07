@@ -142,6 +142,8 @@ theme_override_constants/separation = 0
 position = Vector2(247, 301)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+process_mode = 3
+layer = 10
 
 [node name="PauseScreen" parent="CanvasLayer" instance=ExtResource("10_wo46p")]
 unique_name_in_owner = true

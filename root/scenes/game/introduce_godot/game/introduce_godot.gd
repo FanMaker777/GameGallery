@@ -1,4 +1,3 @@
-@tool
 @icon("uid://c1y5nxj2xu33x")
 extends Control
 
@@ -9,8 +8,8 @@ extends Control
 @onready var _explanation_panel_container_2: PanelContainer = %ExplanationPanelContainer2
 
 func _ready() -> void:
-	if Engine.is_editor_hint():
-		return
+	Log.info("_ready introduce_godot")
+	
 	# 説明用の画像を非表示に設定
 	_explanation_panel_container.visible = false
 	_explanation_panel_container_2.visible = false
@@ -41,4 +40,9 @@ func _on_dialogic_signal(argument:String) -> void:
 		"hide_explanation2":
 			Log.debug("hide_explanation2")
 			_explanation_panel_container_2.visible = false
+		"end_timeline":
+			Log.debug("end_timeline")
+			 # 3秒待つ（この関数だけが一時停止する。ゲーム全体は止まらない）
+			await get_tree().create_timer(3.0).timeout
+			GameManager.load_scene_with_transition(GameManager.MAIN_MENU_SCENE)
 	
