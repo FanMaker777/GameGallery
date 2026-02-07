@@ -26,18 +26,19 @@ Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
 [dialogic]
 
 directories/dch_directory={
-"sophia": "res://root/dialogic_resource/sophia.dch"
+"dialogic_resource/sophia": "res://root/scenes/game_scene/introduce_godot/dialogic_resource/sophia.dch",
+"sophia": "res://root/scenes/game_scene/introduce_godot/dialogic_resource/sophia.dch"
 }
 directories/dtl_directory={
-"introduce_godot": "res://root/dialogic_resource/introduce_godot.dtl"
+"introduce_godot": "res://root/scenes/game_scene/introduce_godot/dialogic_resource/introduce_godot.dtl"
 }
 layout/style_directory={
-"": "res://root/dialogic_resource/visual_novel_style.tres",
-"visual_novel_style": "res://root/dialogic_resource/visual_novel_style.tres"
+"": "res://root/scenes/game_scene/introduce_godot/dialogic_resource/visual_novel_style.tres",
+"visual_novel_style": "res://root/scenes/game_scene/introduce_godot/dialogic_resource/visual_novel_style.tres"
 }
 glossary/default_case_sensitive=true
-layout/style_list=["res://root/dialogic_resource/visual_novel_style.tres"]
-layout/default_style="res://root/dialogic_resource/visual_novel_style.tres"
+layout/style_list=["res://root/scenes/game_scene/introduce_godot/dialogic_resource/visual_novel_style.tres"]
+layout/default_style="res://root/scenes/game_scene/introduce_godot/dialogic_resource/visual_novel_style.tres"
 variables={}
 extensions_folder="res://addons/dialogic_additions"
 text/letter_speed=0.01

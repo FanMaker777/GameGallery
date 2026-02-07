@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://d1hdf253snk32" path="res://root/scenes/main_menu_scene/main_menu_scene.gd" id="1_r20lq"]
 [ext_resource type="Texture2D" uid="uid://chhsdka383g8w" path="res://root/scenes/main_menu_scene/image/SelectGameMenuBackground.png" id="2_f6cpm"]
 [ext_resource type="PackedScene" uid="uid://dtjf71ka68anv" path="res://root/scenes/main_menu_scene/game_card.tscn" id="3_xwt4j"]
-[ext_resource type="PackedScene" uid="uid://chprvwfixox2y" path="res://root/scenes/game/introduce_godot/game/introduce_godot.tscn" id="4_oi7dx"]
+[ext_resource type="PackedScene" uid="uid://chprvwfixox2y" path="res://root/scenes/game_scene/introduce_godot/game/introduce_godot.tscn" id="4_oi7dx"]
 
 [node name="MainMenuScene" type="Control"]
 layout_mode = 3

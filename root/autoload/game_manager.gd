@@ -14,9 +14,9 @@ func load_scene_with_transition(load_to_scene:PackedScene) -> void:
 	TransitionEffect.fade_out()
 	# フェードアウト終了後
 	TransitionEffect.finished_fade_out.connect(func() -> void:
-		# メインメニューに遷移
+		# 引数のシーンに遷移
 		get_tree().change_scene_to_packed(load_to_scene)
-		# メインメニューのシーン展開完了まで待機
+		# シーン展開完了まで待機
 		await get_tree().scene_changed
 		# 画面をフェードイン
 		TransitionEffect.fade_in()
