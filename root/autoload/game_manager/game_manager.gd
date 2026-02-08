@@ -13,7 +13,7 @@ const PAUSE_SCREEN_ENABLE_SCENE_PATHS: PackedStringArray = [
 
 func _ready() -> void:
 	Log.info("_ready GameManager")
-	Log.current_log_level = Log.LogLevel.DEBUG
+	#Log.current_log_level = Log.LogLevel.DEBUG
 
 ## 引数のシーンを、遷移エフェクト付きでロードする関数
 func load_scene_with_transition(load_to_scene:PackedScene) -> void:
@@ -28,7 +28,8 @@ func load_scene_with_transition(load_to_scene:PackedScene) -> void:
 		await get_tree().scene_changed
 		# 画面をフェードイン
 		transition_effect_layer.fade_in()
-	)
+		# コネクトしたラムダ関数が複数回実行されないよう、引数で1回限りに設定
+	, Object.CONNECT_ONE_SHOT)
 
 ## メインメニューへ遷移するメソッド
 ## 導線をGameManagerに集約し、呼び出し側の依存を減らす。
