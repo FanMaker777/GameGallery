@@ -3,6 +3,10 @@ extends Node
 
 # 文字列定数のまま保持し、必要時にロードすることで循環参照時の初期化不全を避ける。
 const MAIN_MENU_SCENE_PATH: String = "uid://byjaiv21t5df7"
+const PAUSE_SCREEN_DISABLED_SCENE_PATHS: PackedStringArray = [
+	"res://root/scenes/boot_splash_scene/boot_splash_scene.tscn",
+	"res://root/scenes/main_menu_scene/main-menu-scene.tscn",
+]
 
 @onready var pause_screen: Control = %PauseScreen
 @onready var transition_effect_layer: CanvasLayer = %TransitionEffectLayer
@@ -34,6 +38,15 @@ func load_main_menu_scene() -> void:
 
 func _input(event: InputEvent) -> void:
 	# ESCボタン押下時
-	if event.is_action_pressed("ESC"):
+	if event.is_action_pressed("ESC") and _can_toggle_pause_screen():
 		# ポーズスクリーンの表示を切り替え
 		pause_screen.toggle()
+
+## シーン単位でポーズ可否を制御し、導線追加時の条件分岐を1か所に集約する。
+func _can_toggle_pause_screen() -> bool:
+	var current_scene: Node = get_tree().current_scene
+	if current_scene == null:
+		return false
+
+	var current_scene_path: String = current_scene.scene_file_path
+	return not PAUSE_SCREEN_DISABLED_SCENE_PATHS.has(current_scene_path)
