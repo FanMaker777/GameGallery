@@ -4,6 +4,8 @@ extends Control
 @onready var _blur_color_rect: ColorRect = %BlurColorRect
 @onready var _ui_panel_container: PanelContainer = %UIPanelContainer
 @onready var _resume_button: Button = %ResumeButton
+@onready var _main_menu_button: Button = %MainMenuButton
+@onready var _option_button: Button = %OptionButton
 @onready var _quit_button: Button = %QuitButton
 
 ## ポーズスクリーンの表示量(0=非表示：1=完全に表示)
@@ -26,6 +28,8 @@ func _ready() -> void:
 	menu_opened_amount = 0.0
 	# 再開ボタン押下時、ポーズスクリーンの表示を切り替え
 	_resume_button.pressed.connect(toggle)
+	# メインメニューボタン押下時、メインメニューに遷移
+	_main_menu_button.pressed.connect(_pressed_main_menu_button)
 	# 終了ボタン押下時、ゲーム終了
 	_quit_button.pressed.connect(get_tree().quit)
 
@@ -75,4 +79,23 @@ func toggle() -> void:
 	# ポーズスクリーンの表示切り替えが終了するまで待機
 	await tween.finished
 	# ポーズスクリーンの表示切り替え状態を無効に設定
+	_is_in_toggle = false
+
+## メインメニューボタン押下時のメソッド
+func _pressed_main_menu_button() -> void:
+	# ポーズスクリーンの表示切り替え中の場合
+	if _is_in_toggle:
+		return
+	# アドオン「Dailogic」のダイアログを終了
+	Dialogic.end_timeline()
+	# ポーズスクリーンを非表示にリセット
+	_reset()
+	# メインメニューに遷移
+	GameManager.load_main_menu_scene()
+
+## ポーズスクリーンを非表示にリセットするメソッド
+func _reset() -> void:
+	# ポーズメニューを非表示に設定
+	menu_opened_amount = 0.0
+	_is_currently_opening = false
 	_is_in_toggle = false
