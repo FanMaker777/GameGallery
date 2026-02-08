@@ -1,11 +1,11 @@
 ## 【Autoload】メニューやレベルのシーン切り替えを担当する
 extends Node
 
-# 文字列定数のまま保持し、必要時にロードすることで循環参照時の初期化不全を避ける。
+## シーンパス(文字列定数のまま保持し、必要時にロードすることで循環参照時の初期化不全を避ける。)
 const MAIN_MENU_SCENE_PATH: String = "uid://byjaiv21t5df7"
-const PAUSE_SCREEN_DISABLED_SCENE_PATHS: PackedStringArray = [
-	"res://root/scenes/boot_splash_scene/boot_splash_scene.tscn",
-	"res://root/scenes/main_menu_scene/main-menu-scene.tscn",
+## ポーズスクリーンの表示が可能なシーンのパスリスト
+const PAUSE_SCREEN_ENABLE_SCENE_PATHS: PackedStringArray = [
+	"res://root/scenes/game_scene/introduce_godot/game/introduce_godot.tscn"
 ]
 
 @onready var pause_screen: Control = %PauseScreen
@@ -42,11 +42,11 @@ func _input(event: InputEvent) -> void:
 		# ポーズスクリーンの表示を切り替え
 		pause_screen.toggle()
 
-## シーン単位でポーズ可否を制御し、導線追加時の条件分岐を1か所に集約する。
+## ポーズスクリーンが表示可能か、現在シーンから判定するメソッド
 func _can_toggle_pause_screen() -> bool:
 	var current_scene: Node = get_tree().current_scene
 	if current_scene == null:
 		return false
 
 	var current_scene_path: String = current_scene.scene_file_path
-	return not PAUSE_SCREEN_DISABLED_SCENE_PATHS.has(current_scene_path)
+	return PAUSE_SCREEN_ENABLE_SCENE_PATHS.has(current_scene_path)
