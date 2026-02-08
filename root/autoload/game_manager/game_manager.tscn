@@ -13,6 +13,7 @@ layer = 10
 
 [node name="PauseScreen" parent="PauseScreenLayer" instance=ExtResource("3_s2o5t")]
 unique_name_in_owner = true
+animation_duration = 1.0
 
 [node name="TransitionEffectLayer" parent="." instance=ExtResource("2_joreg")]
 unique_name_in_owner = true

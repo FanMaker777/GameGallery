@@ -11,7 +11,7 @@ extends Control
 ## ポーズスクリーンの表示量(0=非表示：1=完全に表示)
 @export_range(0, 1.0) var menu_opened_amount := 0.0: set = set_menu_opened_amount
 ## ポーズスクリーンの表示切り替えアニメーションにかかる時間
-@export_range(0.1, 10.0, 0.01, "or_greater") var animation_duration := 2.3
+@export_range(0.1, 10.0, 0.01, "or_greater") var animation_duration := 1.0
 
 ## ポーズスクリーンの表示状態
 var _is_currently_opening:bool = false
