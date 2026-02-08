@@ -1,4 +1,4 @@
-## 【Autoload】画面遷移時の演出を担当する
+## 画面遷移時の演出を担当する
 extends CanvasLayer
 
 ## 画面遷移時のエフェクト
@@ -9,6 +9,7 @@ extends CanvasLayer
 signal finished_fade_out
 
 func _ready() -> void:
+	Log.info("_ready TransitionEffect")
 	# 初期状態では非表示に設定
 	visible = false
 	

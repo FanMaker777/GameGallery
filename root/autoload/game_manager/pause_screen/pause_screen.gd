@@ -15,6 +15,7 @@ var _tween: Tween
 var _is_currently_opening := false
 
 func _ready() -> void:
+	Log.info("_ready PauseScreen")
 	# エディター上の場合
 	if Engine.is_editor_hint():
 		return
@@ -47,12 +48,6 @@ func set_menu_opened_amount(amount: float) -> void:
 	# ゲームを一時停止
 	if not Engine.is_editor_hint():
 		get_tree().paused = amount > 0.3
-
-func _input(event: InputEvent) -> void:
-	# ESCボタン押下時
-	if event.is_action_pressed("ESC"):
-		# ポーズスクリーンの表示を切り替え
-		toggle()
 
 ## ポーズスクリーンの表示を切り替えるメソッド
 func toggle() -> void:
