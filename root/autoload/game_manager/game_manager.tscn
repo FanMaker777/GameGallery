@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://di1k22pifegnv"]
+
+[ext_resource type="Script" uid="uid://dpmlpsvomr4tx" path="res://root/autoload/game_manager/game_manager.gd" id="1_n43p0"]
+[ext_resource type="PackedScene" uid="uid://c6tc4au5q014i" path="res://root/autoload/game_manager/transition_effect/transition_effect.tscn" id="2_joreg"]
+[ext_resource type="PackedScene" uid="uid://dj6ye05dbiqpi" path="res://root/autoload/game_manager/pause_screen/pause_screen.tscn" id="3_s2o5t"]
+
+[node name="GameManager" type="Node2D"]
+process_mode = 3
+script = ExtResource("1_n43p0")
+
+[node name="PauseScreenLayer" type="CanvasLayer" parent="."]
+layer = 10
+
+[node name="PauseScreen" parent="PauseScreenLayer" instance=ExtResource("3_s2o5t")]
+unique_name_in_owner = true
+
+[node name="TransitionEffectLayer" parent="." instance=ExtResource("2_joreg")]
+unique_name_in_owner = true
+layer = 9
+visible = false
