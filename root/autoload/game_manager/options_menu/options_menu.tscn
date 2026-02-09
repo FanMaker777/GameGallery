@@ -1,0 +1,487 @@
+[gd_scene load_steps=2 format=3 uid="uid://cfp0kg23h7cf3"]
+
+[sub_resource type="Theme" id="Theme_jq8ek"]
+default_font_size = 24
+
+[node name="OptionsMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = SubResource("Theme_jq8ek")
+
+[node name="RootMarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 128
+theme_override_constants/margin_top = 64
+theme_override_constants/margin_right = 128
+theme_override_constants/margin_bottom = 64
+
+[node name="TabContainer" type="TabContainer" parent="RootMarginContainer"]
+layout_mode = 2
+current_tab = 0
+
+[node name="Audio" type="VBoxContainer" parent="RootMarginContainer/TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="OptionsMarginContainer" type="MarginContainer" parent="RootMarginContainer/TabContainer/Audio"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 7.0
+theme_override_constants/margin_left = 160
+theme_override_constants/margin_top = 64
+theme_override_constants/margin_right = 160
+
+[node name="Panel" type="Panel" parent="RootMarginContainer/TabContainer/Audio/OptionsMarginContainer"]
+visible = false
+layout_mode = 2
+
+[node name="OptionsVBoxContainer" type="VBoxContainer" parent="RootMarginContainer/TabContainer/Audio/OptionsMarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="AudioHBoxContainer" type="HBoxContainer" parent="RootMarginContainer/TabContainer/Audio/OptionsMarginContainer/OptionsVBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="BoxContainer" type="BoxContainer" parent="RootMarginContainer/TabContainer/Audio/OptionsMarginContainer/OptionsVBoxContainer/AudioHBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="NameLabel" type="Label" parent="RootMarginContainer/TabContainer/Audio/OptionsMarginContainer/OptionsVBoxContainer/AudioHBoxContainer/BoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "オーディオ"
+
+[node name="CheckButton" type="CheckButton" parent="RootMarginContainer/TabContainer/Audio/OptionsMarginContainer/OptionsVBoxContainer/AudioHBoxContainer"]
+layout_mode = 2
+button_pressed = true
+text = "オン"
+
+[node name="Control2" type="Control" parent="RootMarginContainer/TabContainer/Audio/OptionsMarginContainer/OptionsVBoxContainer/AudioHBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.75
+
+[node name="MasterVolumeHBoxContainer" type="HBoxContainer" parent="RootMarginContainer/TabContainer/Audio/OptionsMarginContainer/OptionsVBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="BoxContainer" type="BoxContainer" parent="RootMarginContainer/TabContainer/Audio/OptionsMarginContainer/OptionsVBoxContainer/MasterVolumeHBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="NameLabel" type="Label" parent="RootMarginContainer/TabContainer/Audio/OptionsMarginContainer/OptionsVBoxContainer/MasterVolumeHBoxContainer/BoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "マスターボリューム"
+
+[node name="DecrementSliderButton" type="Button" parent="RootMarginContainer/TabContainer/Audio/OptionsMarginContainer/OptionsVBoxContainer/MasterVolumeHBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "<<"
+
+[node name="DecrementStepSliderButton" type="Button" parent="RootMarginContainer/TabContainer/Audio/OptionsMarginContainer/OptionsVBoxContainer/MasterVolumeHBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "<"
+
+[node name="ProgressBar" type="ProgressBar" parent="RootMarginContainer/TabContainer/Audio/OptionsMarginContainer/OptionsVBoxContainer/MasterVolumeHBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+size_flags_stretch_ratio = 2.0
+value = 100.0
+
+[node name="IncrementStepSliderButton" type="Button" parent="RootMarginContainer/TabContainer/Audio/OptionsMarginContainer/OptionsVBoxContainer/MasterVolumeHBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = ">"
+
+[node name="IncrementSliderButton" type="Button" parent="RootMarginContainer/TabContainer/Audio/OptionsMarginContainer/OptionsVBoxContainer/MasterVolumeHBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = ">>"
+
+[node name="BgmVolumeHBoxContainer" type="HBoxContainer" parent="RootMarginContainer/TabContainer/Audio/OptionsMarginContainer/OptionsVBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="BoxContainer" type="BoxContainer" parent="RootMarginContainer/TabContainer/Audio/OptionsMarginContainer/OptionsVBoxContainer/BgmVolumeHBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="NameLabel" type="Label" parent="RootMarginContainer/TabContainer/Audio/OptionsMarginContainer/OptionsVBoxContainer/BgmVolumeHBoxContainer/BoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "BGMボリューム"
+
+[node name="DecrementSliderButton" type="Button" parent="RootMarginContainer/TabContainer/Audio/OptionsMarginContainer/OptionsVBoxContainer/BgmVolumeHBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "<<"
+
+[node name="DecrementStepSliderButton" type="Button" parent="RootMarginContainer/TabContainer/Audio/OptionsMarginContainer/OptionsVBoxContainer/BgmVolumeHBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "<"
+
+[node name="ProgressBar" type="ProgressBar" parent="RootMarginContainer/TabContainer/Audio/OptionsMarginContainer/OptionsVBoxContainer/BgmVolumeHBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+size_flags_stretch_ratio = 2.0
+value = 100.0
+
+[node name="IncrementStepSliderButton" type="Button" parent="RootMarginContainer/TabContainer/Audio/OptionsMarginContainer/OptionsVBoxContainer/BgmVolumeHBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = ">"
+
+[node name="IncrementSliderButton" type="Button" parent="RootMarginContainer/TabContainer/Audio/OptionsMarginContainer/OptionsVBoxContainer/BgmVolumeHBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = ">>"
+
+[node name="EffectVolumeHBoxContainer" type="HBoxContainer" parent="RootMarginContainer/TabContainer/Audio/OptionsMarginContainer/OptionsVBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="BoxContainer" type="BoxContainer" parent="RootMarginContainer/TabContainer/Audio/OptionsMarginContainer/OptionsVBoxContainer/EffectVolumeHBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="NameLabel" type="Label" parent="RootMarginContainer/TabContainer/Audio/OptionsMarginContainer/OptionsVBoxContainer/EffectVolumeHBoxContainer/BoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "エフェクトボリューム"
+
+[node name="DecrementSliderButton" type="Button" parent="RootMarginContainer/TabContainer/Audio/OptionsMarginContainer/OptionsVBoxContainer/EffectVolumeHBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "<<"
+
+[node name="DecrementStepSliderButton" type="Button" parent="RootMarginContainer/TabContainer/Audio/OptionsMarginContainer/OptionsVBoxContainer/EffectVolumeHBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "<"
+
+[node name="ProgressBar" type="ProgressBar" parent="RootMarginContainer/TabContainer/Audio/OptionsMarginContainer/OptionsVBoxContainer/EffectVolumeHBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+size_flags_stretch_ratio = 2.0
+value = 100.0
+
+[node name="IncrementStepSliderButton" type="Button" parent="RootMarginContainer/TabContainer/Audio/OptionsMarginContainer/OptionsVBoxContainer/EffectVolumeHBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = ">"
+
+[node name="IncrementSliderButton" type="Button" parent="RootMarginContainer/TabContainer/Audio/OptionsMarginContainer/OptionsVBoxContainer/EffectVolumeHBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = ">>"
+
+[node name="ButtonMarginContainer" type="MarginContainer" parent="RootMarginContainer/TabContainer/Audio"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 3.0
+theme_override_constants/margin_left = 160
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 160
+theme_override_constants/margin_bottom = 80
+
+[node name="HBoxContainer" type="HBoxContainer" parent="RootMarginContainer/TabContainer/Audio/ButtonMarginContainer"]
+layout_mode = 2
+
+[node name="BackButton" type="Button" parent="RootMarginContainer/TabContainer/Audio/ButtonMarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Back"
+
+[node name="Control" type="Control" parent="RootMarginContainer/TabContainer/Audio/ButtonMarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 3.0
+
+[node name="ResetButton" type="Button" parent="RootMarginContainer/TabContainer/Audio/ButtonMarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Reset"
+
+[node name="Video" type="VBoxContainer" parent="RootMarginContainer/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="OptionsMarginContainer" type="MarginContainer" parent="RootMarginContainer/TabContainer/Video"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 7.0
+theme_override_constants/margin_left = 160
+theme_override_constants/margin_top = 64
+theme_override_constants/margin_right = 160
+
+[node name="Panel" type="Panel" parent="RootMarginContainer/TabContainer/Video/OptionsMarginContainer"]
+visible = false
+layout_mode = 2
+
+[node name="OptionsVBoxContainer" type="VBoxContainer" parent="RootMarginContainer/TabContainer/Video/OptionsMarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="DisplayModeBoxContainer" type="HBoxContainer" parent="RootMarginContainer/TabContainer/Video/OptionsMarginContainer/OptionsVBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="BoxContainer" type="BoxContainer" parent="RootMarginContainer/TabContainer/Video/OptionsMarginContainer/OptionsVBoxContainer/DisplayModeBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="NameLabel" type="Label" parent="RootMarginContainer/TabContainer/Video/OptionsMarginContainer/OptionsVBoxContainer/DisplayModeBoxContainer/BoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "表示モード"
+
+[node name="OptionButton" type="OptionButton" parent="RootMarginContainer/TabContainer/Video/OptionsMarginContainer/OptionsVBoxContainer/DisplayModeBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+selected = 1
+item_count = 2
+popup/item_0/text = "ウインドウ"
+popup/item_0/id = 0
+popup/item_1/text = "フルスクリーン"
+popup/item_1/id = 1
+
+[node name="ResolutionModeBoxContainer" type="HBoxContainer" parent="RootMarginContainer/TabContainer/Video/OptionsMarginContainer/OptionsVBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="BoxContainer" type="BoxContainer" parent="RootMarginContainer/TabContainer/Video/OptionsMarginContainer/OptionsVBoxContainer/ResolutionModeBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="NameLabel" type="Label" parent="RootMarginContainer/TabContainer/Video/OptionsMarginContainer/OptionsVBoxContainer/ResolutionModeBoxContainer/BoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "ウインドウ解像度"
+
+[node name="OptionButton" type="OptionButton" parent="RootMarginContainer/TabContainer/Video/OptionsMarginContainer/OptionsVBoxContainer/ResolutionModeBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+selected = 1
+item_count = 3
+popup/item_0/text = "854 × 480"
+popup/item_0/id = 0
+popup/item_1/text = "1280 × 720"
+popup/item_1/id = 1
+popup/item_2/text = "1920 × 1080"
+popup/item_2/id = 2
+
+[node name="VSyncBoxContainer" type="HBoxContainer" parent="RootMarginContainer/TabContainer/Video/OptionsMarginContainer/OptionsVBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="BoxContainer" type="BoxContainer" parent="RootMarginContainer/TabContainer/Video/OptionsMarginContainer/OptionsVBoxContainer/VSyncBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="NameLabel" type="Label" parent="RootMarginContainer/TabContainer/Video/OptionsMarginContainer/OptionsVBoxContainer/VSyncBoxContainer/BoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "垂直同期"
+
+[node name="CheckButton" type="CheckButton" parent="RootMarginContainer/TabContainer/Video/OptionsMarginContainer/OptionsVBoxContainer/VSyncBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "無効"
+
+[node name="FpsBoxContainer" type="HBoxContainer" parent="RootMarginContainer/TabContainer/Video/OptionsMarginContainer/OptionsVBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="BoxContainer" type="BoxContainer" parent="RootMarginContainer/TabContainer/Video/OptionsMarginContainer/OptionsVBoxContainer/FpsBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="NameLabel" type="Label" parent="RootMarginContainer/TabContainer/Video/OptionsMarginContainer/OptionsVBoxContainer/FpsBoxContainer/BoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "FPS"
+
+[node name="OptionButton" type="OptionButton" parent="RootMarginContainer/TabContainer/Video/OptionsMarginContainer/OptionsVBoxContainer/FpsBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+selected = 1
+item_count = 5
+popup/item_0/text = "30"
+popup/item_0/id = 0
+popup/item_1/text = "60"
+popup/item_1/id = 1
+popup/item_2/text = "100"
+popup/item_2/id = 2
+popup/item_3/text = "120"
+popup/item_3/id = 3
+popup/item_4/text = "144"
+popup/item_4/id = 4
+
+[node name="FpsDisplayBoxContainer" type="HBoxContainer" parent="RootMarginContainer/TabContainer/Video/OptionsMarginContainer/OptionsVBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="BoxContainer" type="BoxContainer" parent="RootMarginContainer/TabContainer/Video/OptionsMarginContainer/OptionsVBoxContainer/FpsDisplayBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="NameLabel" type="Label" parent="RootMarginContainer/TabContainer/Video/OptionsMarginContainer/OptionsVBoxContainer/FpsDisplayBoxContainer/BoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "FPS表示"
+
+[node name="CheckButton" type="CheckButton" parent="RootMarginContainer/TabContainer/Video/OptionsMarginContainer/OptionsVBoxContainer/FpsDisplayBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "無効"
+
+[node name="ButtonMarginContainer" type="MarginContainer" parent="RootMarginContainer/TabContainer/Video"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 3.0
+theme_override_constants/margin_left = 160
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 160
+theme_override_constants/margin_bottom = 80
+
+[node name="HBoxContainer" type="HBoxContainer" parent="RootMarginContainer/TabContainer/Video/ButtonMarginContainer"]
+layout_mode = 2
+
+[node name="BackButton" type="Button" parent="RootMarginContainer/TabContainer/Video/ButtonMarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Back"
+
+[node name="Control" type="Control" parent="RootMarginContainer/TabContainer/Video/ButtonMarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 3.0
+
+[node name="ResetButton" type="Button" parent="RootMarginContainer/TabContainer/Video/ButtonMarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Reset"
+
+[node name="Control" type="VBoxContainer" parent="RootMarginContainer/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2
+
+[node name="OptionsMarginContainer" type="MarginContainer" parent="RootMarginContainer/TabContainer/Control"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 7.0
+theme_override_constants/margin_left = 160
+theme_override_constants/margin_top = 64
+theme_override_constants/margin_right = 160
+
+[node name="Panel" type="Panel" parent="RootMarginContainer/TabContainer/Control/OptionsMarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="RootMarginContainer/TabContainer/Control/OptionsMarginContainer"]
+layout_mode = 2
+text = "開発中"
+horizontal_alignment = 1
+
+[node name="ButtonMarginContainer" type="MarginContainer" parent="RootMarginContainer/TabContainer/Control"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 3.0
+theme_override_constants/margin_left = 160
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 160
+theme_override_constants/margin_bottom = 80
+
+[node name="HBoxContainer" type="HBoxContainer" parent="RootMarginContainer/TabContainer/Control/ButtonMarginContainer"]
+layout_mode = 2
+
+[node name="BackButton" type="Button" parent="RootMarginContainer/TabContainer/Control/ButtonMarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Back"
+
+[node name="Control" type="Control" parent="RootMarginContainer/TabContainer/Control/ButtonMarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 3.0
+
+[node name="ResetButton" type="Button" parent="RootMarginContainer/TabContainer/Control/ButtonMarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Reset"
+
+[node name="General" type="VBoxContainer" parent="RootMarginContainer/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 3
+
+[node name="OptionsMarginContainer" type="MarginContainer" parent="RootMarginContainer/TabContainer/General"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 7.0
+theme_override_constants/margin_left = 160
+theme_override_constants/margin_top = 64
+theme_override_constants/margin_right = 160
+
+[node name="Panel" type="Panel" parent="RootMarginContainer/TabContainer/General/OptionsMarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="RootMarginContainer/TabContainer/General/OptionsMarginContainer"]
+layout_mode = 2
+text = "開発中"
+horizontal_alignment = 1
+
+[node name="ButtonMarginContainer" type="MarginContainer" parent="RootMarginContainer/TabContainer/General"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 3.0
+theme_override_constants/margin_left = 160
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 160
+theme_override_constants/margin_bottom = 80
+
+[node name="HBoxContainer" type="HBoxContainer" parent="RootMarginContainer/TabContainer/General/ButtonMarginContainer"]
+layout_mode = 2
+
+[node name="BackButton" type="Button" parent="RootMarginContainer/TabContainer/General/ButtonMarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Back"
+
+[node name="Control" type="Control" parent="RootMarginContainer/TabContainer/General/ButtonMarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 3.0
+
+[node name="ResetButton" type="Button" parent="RootMarginContainer/TabContainer/General/ButtonMarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Reset"
