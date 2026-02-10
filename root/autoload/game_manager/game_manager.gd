@@ -10,6 +10,7 @@ const PAUSE_SCREEN_ENABLE_SCENE_PATHS: PackedStringArray = [
 
 @onready var pause_screen: Control = %PauseScreen
 @onready var transition_effect_layer: CanvasLayer = %TransitionEffectLayer
+@onready var options_menu: Control = %OptionsMenu
 
 func _ready() -> void:
 	Log.info("_ready GameManager")

@@ -1,4 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://cfp0kg23h7cf3"]
+[gd_scene load_steps=3 format=3 uid="uid://cfp0kg23h7cf3"]
+
+[ext_resource type="Script" uid="uid://83nnn6b1hcrl" path="res://root/autoload/game_manager/options_menu/options_menu.gd" id="1_8ccs3"]
 
 [sub_resource type="Theme" id="Theme_jq8ek"]
 default_font_size = 24
@@ -13,6 +15,7 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = SubResource("Theme_jq8ek")
+script = ExtResource("1_8ccs3")
 
 [node name="RootMarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -406,6 +409,7 @@ theme_override_constants/margin_bottom = 80
 layout_mode = 2
 
 [node name="BackButton" type="Button" parent="RootMarginContainer/VBoxContainer/ButtonPanelContainer/ButtonMarginContainer/ButtonHBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Back"
