@@ -8,29 +8,32 @@ const PAUSE_SCREEN_ENABLE_SCENE_PATHS: PackedStringArray = [
 	"res://root/scenes/game_scene/introduce_godot/game/introduce_godot.tscn"
 ]
 
+const SceneNavigatorScript: GDScript = preload("res://root/autoload/game_manager/scene_navigator.gd")
+const OverlayControllerScript: GDScript = preload("res://root/autoload/game_manager/overlay_controller.gd")
+
 @onready var pause_screen: Control = %PauseScreen
 @onready var transition_effect_layer: CanvasLayer = %TransitionEffectLayer
 @onready var options_menu: Control = %OptionsMenu
 
+var _scene_navigator: RefCounted
+var _overlay_controller: RefCounted
+
 func _ready() -> void:
 	Log.info("_ready GameManager")
 	#Log.current_log_level = Log.LogLevel.DEBUG
+	_scene_navigator = SceneNavigatorScript.new(get_tree(), transition_effect_layer)
+	_overlay_controller = OverlayControllerScript.new(
+		get_tree(),
+		pause_screen,
+		options_menu,
+		PAUSE_SCREEN_ENABLE_SCENE_PATHS
+	)
 
 ## 引数のシーンを、遷移エフェクト付きでロードする関数
 func load_scene_with_transition(load_to_scene:PackedScene) -> void:
 	Log.info("func load_scene_with_transition", load_to_scene)
-	# 画面をフェードアウト
-	transition_effect_layer.fade_out()
-	# フェードアウト終了後
-	transition_effect_layer.finished_fade_out.connect(func() -> void:
-		# 引数のシーンに遷移
-		get_tree().change_scene_to_packed(load_to_scene)
-		# シーン展開完了まで待機
-		await get_tree().scene_changed
-		# 画面をフェードイン
-		transition_effect_layer.fade_in()
-		# コネクトしたラムダ関数が複数回実行されないよう、引数で1回限りに設定
-	, Object.CONNECT_ONE_SHOT)
+	_overlay_controller.reset_overlays()
+	_scene_navigator.load_scene_with_transition(load_to_scene)
 
 ## メインメニューへ遷移するメソッド
 ## 導線をGameManagerに集約し、呼び出し側の依存を減らす。
@@ -39,16 +42,4 @@ func load_main_menu_scene() -> void:
 	load_scene_with_transition(main_menu_scene)
 
 func _input(event: InputEvent) -> void:
-	# ESCボタン押下時
-	if event.is_action_pressed("ESC") and _can_toggle_pause_screen():
-		# ポーズスクリーンの表示を切り替え
-		pause_screen.toggle()
-
-## ポーズスクリーンが表示可能か、現在シーンから判定するメソッド
-func _can_toggle_pause_screen() -> bool:
-	var current_scene: Node = get_tree().current_scene
-	if current_scene == null:
-		return false
-
-	var current_scene_path: String = current_scene.scene_file_path
-	return PAUSE_SCREEN_ENABLE_SCENE_PATHS.has(current_scene_path)
+	_overlay_controller.handle_input(event)

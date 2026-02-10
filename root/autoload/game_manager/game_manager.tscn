@@ -16,7 +16,6 @@ visible = false
 
 [node name="PauseScreenLayer" type="CanvasLayer" parent="."]
 layer = 9
-visible = false
 
 [node name="PauseScreen" parent="PauseScreenLayer" instance=ExtResource("3_s2o5t")]
 unique_name_in_owner = true
