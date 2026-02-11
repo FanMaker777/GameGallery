@@ -11,7 +11,7 @@ extends Control
 @export var thumbnail:= preload("uid://bdr5qrqlnxt3x"):set = set_thumbnail
 @export var genre:String = "ジャンル":set = set_genre
 @export var description:String = "説明":set = set_description
-@export var game_scene:PackedScene = null
+@export var game_scene_path:String = ""
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -24,11 +24,11 @@ func _ready() -> void:
 		Log.debug("Play Game：", title)
 		
 		# プレイ先のゲームのPackedSceneが存在する場合
-		if game_scene != null:
+		if game_scene_path != null:
 			# ゲームシーンに遷移
-			GameManager.load_scene_with_transition(game_scene)
+			GameManager.load_scene_with_transition(game_scene_path)
 		else:
-			Log.warn("game_scene = null")
+			Log.warn("game_scene_path = null")
 	)
 
 func set_title(new_title:String):

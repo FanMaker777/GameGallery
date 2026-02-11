@@ -8,7 +8,11 @@ class_name SceneNavigator extends Node2D
 var _is_transitioning: bool = false
 
 ## 遷移エフェクト付きで引数のシーンに遷移するメソッド
-func load_scene_with_transition(load_to_scene: PackedScene) -> void:
+func load_scene_with_transition(load_to_scene_path: String) -> void:
+	# 遷移先のシーンをパスから生成
+	var load_to_scene: PackedScene = load(load_to_scene_path)
+	Log.info("func load_scene_with_transition", load_to_scene)
+	
 	if load_to_scene == null:
 		Log.warn("遷移先シーンが null のため遷移を中止")
 		return

@@ -95,7 +95,7 @@ func _pressed_main_menu_button() -> void:
 	# ポーズスクリーンを非表示にリセット
 	reset_state()
 	# メインメニューに遷移
-	GameManager.load_main_menu_scene()
+	GameManager.load_scene_with_transition(PathConsts.PATH_MAIN_MENU_SCENE)
 
 func _pressed_option_button() -> void:
 	emit_signal("option_requested")
