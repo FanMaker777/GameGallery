@@ -7,5 +7,5 @@ func _ready() -> void:
 	_timer.timeout.connect(func() -> void:
 		Log.debug("call GameManager.load_scene_with_transition")
 		#　メインメニューに遷移
-		GameManager.load_scene_with_transition(PathConsts.PATH_MAIN_MENU_SCENE)
+		GameManager.load_scene_with_transition(PathConsts.MAIN_MENU_SCENE)
 	)
