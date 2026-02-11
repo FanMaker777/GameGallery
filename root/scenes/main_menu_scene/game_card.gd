@@ -24,7 +24,7 @@ func _ready() -> void:
 		Log.debug("Play Game：", title)
 		
 		# プレイ先のゲームのPackedSceneが存在する場合
-		if game_scene_path != null:
+		if game_scene_path != "":
 			# ゲームシーンに遷移
 			GameManager.load_scene_with_transition(game_scene_path)
 		else:
