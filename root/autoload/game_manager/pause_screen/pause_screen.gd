@@ -1,6 +1,8 @@
 @tool
 extends Control
 
+signal option_requested
+
 @onready var _blur_color_rect: ColorRect = %BlurColorRect
 @onready var _ui_panel_container: PanelContainer = %UIPanelContainer
 @onready var _resume_button: Button = %ResumeButton
@@ -30,6 +32,8 @@ func _ready() -> void:
 	_resume_button.pressed.connect(toggle)
 	# メインメニューボタン押下時、メインメニューに遷移
 	_main_menu_button.pressed.connect(_pressed_main_menu_button)
+	# Optionボタン押下時、メニュー表示要求を外部へ通知
+	_option_button.pressed.connect(_pressed_option_button)
 	# 終了ボタン押下時、ゲーム終了
 	_quit_button.pressed.connect(get_tree().quit)
 
@@ -89,12 +93,15 @@ func _pressed_main_menu_button() -> void:
 	# アドオン「Dailogic」のダイアログを終了
 	Dialogic.end_timeline()
 	# ポーズスクリーンを非表示にリセット
-	_reset()
+	reset_state()
 	# メインメニューに遷移
-	GameManager.load_main_menu_scene()
+	GameManager.load_scene_with_transition(PathConsts.MAIN_MENU_SCENE)
+
+func _pressed_option_button() -> void:
+	emit_signal("option_requested")
 
 ## ポーズスクリーンを非表示にリセットするメソッド
-func _reset() -> void:
+func reset_state() -> void:
 	# ポーズメニューを非表示に設定
 	menu_opened_amount = 0.0
 	_is_currently_opening = false
