@@ -1,23 +1,16 @@
-## ポーズ/オプションの重なり制御を集約し、入力導線の分散を防ぐ。
-extends RefCounted
-class_name OverlayController
+## オーバーレイUIの操作を担当するクラス
+class_name OverlayController extends Node2D
 
-var _tree: SceneTree
-var _pause_screen: Control
-var _options_menu: Control
-var _pause_screen_enable_scene_paths: PackedStringArray
+@onready var _tree: SceneTree = get_tree()
+@onready var _pause_screen: Control = %PauseScreen
+@onready var _options_menu: Control = %OptionsMenu
 
-func _init(
-	tree: SceneTree,
-	pause_screen: Control,
-	options_menu: Control,
-	pause_screen_enable_scene_paths: PackedStringArray
-) -> void:
-	_tree = tree
-	_pause_screen = pause_screen
-	_options_menu = options_menu
-	_pause_screen_enable_scene_paths = pause_screen_enable_scene_paths
+## ポーズスクリーンの表示が可能なシーンのパスリスト
+const PAUSE_SCREEN_ENABLE_SCENE_PATHS: PackedStringArray = [
+	"res://root/scenes/game_scene/introduce_godot/game/introduce_godot.tscn"
+]
 
+func _ready() -> void:
 	if _pause_screen.has_signal("option_requested"):
 		_pause_screen.option_requested.connect(_open_options_menu)
 
@@ -49,4 +42,4 @@ func _can_toggle_pause_screen() -> bool:
 		return false
 
 	var current_scene_path: String = current_scene.scene_file_path
-	return _pause_screen_enable_scene_paths.has(current_scene_path)
+	return PAUSE_SCREEN_ENABLE_SCENE_PATHS.has(current_scene_path)

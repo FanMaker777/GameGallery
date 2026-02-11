@@ -1,7 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://di1k22pifegnv"]
+[gd_scene load_steps=7 format=3 uid="uid://di1k22pifegnv"]
 
 [ext_resource type="Script" uid="uid://dpmlpsvomr4tx" path="res://root/autoload/game_manager/game_manager.gd" id="1_n43p0"]
 [ext_resource type="PackedScene" uid="uid://c6tc4au5q014i" path="res://root/autoload/game_manager/transition_effect/transition_effect.tscn" id="2_joreg"]
+[ext_resource type="Script" uid="uid://dcfpqm2en5ux8" path="res://root/autoload/game_manager/overlay_controller.gd" id="2_p0lr6"]
+[ext_resource type="Script" uid="uid://b3adufv5ar8bb" path="res://root/autoload/game_manager/scene_navigator.gd" id="3_pkq6t"]
 [ext_resource type="PackedScene" uid="uid://dj6ye05dbiqpi" path="res://root/autoload/game_manager/pause_screen/pause_screen.tscn" id="3_s2o5t"]
 [ext_resource type="PackedScene" uid="uid://cfp0kg23h7cf3" path="res://root/autoload/game_manager/options_menu/options_menu.tscn" id="4_y1nya"]
 
@@ -9,19 +11,29 @@
 process_mode = 3
 script = ExtResource("1_n43p0")
 
+[node name="SceneNavigator" type="Node2D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("3_pkq6t")
+
+[node name="OverlayContoroller" type="Node2D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("2_p0lr6")
+
 [node name="TransitionEffectLayer" parent="." instance=ExtResource("2_joreg")]
 unique_name_in_owner = true
 layer = 10
 visible = false
 
-[node name="PauseScreenLayer" type="CanvasLayer" parent="."]
-layer = 9
-
-[node name="PauseScreen" parent="PauseScreenLayer" instance=ExtResource("3_s2o5t")]
-unique_name_in_owner = true
-
 [node name="OptionsMenuLayer" type="CanvasLayer" parent="."]
-layer = 8
+layer = 9
 
 [node name="OptionsMenu" parent="OptionsMenuLayer" instance=ExtResource("4_y1nya")]
 unique_name_in_owner = true
+visible = false
+
+[node name="PauseScreenLayer" type="CanvasLayer" parent="."]
+layer = 8
+
+[node name="PauseScreen" parent="PauseScreenLayer" instance=ExtResource("3_s2o5t")]
+unique_name_in_owner = true
+visible = false
