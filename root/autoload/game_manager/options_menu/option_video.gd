@@ -24,10 +24,10 @@ func _selected_display_mode_button(selected_index:int) -> void:
 	match selected_text:
 		"ウインドウ":
 			# (codex)ゲームの表示モードをウインドウに変更
-			pass
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 		"フルスクリーン":
 			# (codex)ゲームの表示モードをフルスクリーンに変更
-			pass
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 
 ## 解像度選択時の処理メソッド
 func _selected_resolution_option_button(selected_index:int) -> void:
@@ -38,13 +38,13 @@ func _selected_resolution_option_button(selected_index:int) -> void:
 	match selected_text:
 		"854 × 480":
 			# (codex)ゲームの解像度を854 × 480に変更
-			pass
+			DisplayServer.window_set_size(Vector2i(854, 480))
 		"1280 × 720":
 			# (codex)ゲームの解像度を1280 × 720に変更
-			pass
+			DisplayServer.window_set_size(Vector2i(1280, 720))
 		"1920 × 1080":
 			# (codex)ゲームの解像度を1920 × 1080に変更
-			pass
+			DisplayServer.window_set_size(Vector2i(1920, 1080))
 
 ## Vsync(垂直同期)選択時の処理メソッド
 func _selected_v_sync_option_button(selected_index:int) -> void:
@@ -55,10 +55,10 @@ func _selected_v_sync_option_button(selected_index:int) -> void:
 	match selected_text:
 		"無効":
 			# (codex)ゲームのVsync(垂直同期)を無効に設定
-			pass
+			DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
 		"有効":
 			# (codex)ゲームのVsync(垂直同期)を有効に設定
-			pass
+			DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED)
 
 ## FPS選択時の処理メソッド
 func _selected_fps_option_button(selected_index:int) -> void:
@@ -69,19 +69,19 @@ func _selected_fps_option_button(selected_index:int) -> void:
 	match selected_text:
 		"30":
 			# (codex)ゲームのFPSを30に設定
-			pass
+			Engine.max_fps = 30
 		"60":
 			# (codex)ゲームのFPSを60に設定
-			pass
+			Engine.max_fps = 60
 		"100":
 			# (codex)ゲームのFPSを100に設定
-			pass
+			Engine.max_fps = 100
 		"120":
 			# (codex)ゲームのFPSを120に設定
-			pass
+			Engine.max_fps = 120
 		"144":
 			# (codex)ゲームのFPSを144に設定
-			pass
+			Engine.max_fps = 144
 
 ## FPS表示選択時の処理メソッド
 func _selected_fps_display_option_button(selected_index:int) -> void:
