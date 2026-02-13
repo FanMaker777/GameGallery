@@ -6,7 +6,7 @@ extends Node
 
 func _ready() -> void:
 	Log.info("_ready GameManager")
-	#Log.current_log_level = Log.LogLevel.DEBUG
+	Log.current_log_level = Log.LogLevel.DEBUG
 
 ## 引数のシーンを、遷移エフェクト付きでロードする関数
 func load_scene_with_transition(load_to_scene_path:String) -> void:
