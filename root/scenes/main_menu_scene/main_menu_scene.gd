@@ -21,7 +21,7 @@ func _ready() -> void:
 	if  OS.has_feature("web"):
 		quit_button.visible = false
 
-# シグナルを接続
+## シグナルを接続
 func _conect_signal() -> void:
 	# プレイボタン押下時
 	play_button.pressed.connect(_pressed_play_button)
@@ -35,7 +35,7 @@ func _conect_signal() -> void:
 		_select_game_menu.visible = false
 		)
 
-# プレイボタン押下時のメソッド
+## プレイボタン押下時のメソッド
 func _pressed_play_button() -> void:
 	Log.debug("_pressed_play_button")
 	# メインメニューの表示を無効化
@@ -43,7 +43,7 @@ func _pressed_play_button() -> void:
 	# ゲーム選択画面の表示を有効化
 	_select_game_menu.visible = true
 
-# 終了ボタン押下時のメソッド
+## 終了ボタン押下時のメソッド
 func _pressed_quit_button() -> void:
 	# ゲームを終了
 	get_tree().quit()

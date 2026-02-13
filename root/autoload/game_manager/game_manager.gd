@@ -14,4 +14,5 @@ func load_scene_with_transition(load_to_scene_path:String) -> void:
 	_scene_navigator.load_scene_with_transition(load_to_scene_path)
 
 func _input(event: InputEvent) -> void:
-	_overlay_contoroller.handle_input(event)
+	if event.is_action_pressed("ESC"):
+		_overlay_contoroller.handle_input_esc(event)

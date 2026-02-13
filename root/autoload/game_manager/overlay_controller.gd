@@ -3,23 +3,28 @@ class_name OverlayController extends Node2D
 
 @onready var _tree: SceneTree = get_tree()
 @onready var _pause_screen: Control = %PauseScreen
-@onready var _options_menu: Control = %OptionsMenu
+@onready var _options_menu: OptionsMenu = %OptionsMenu
 
 func _ready() -> void:
+	# ポーズスクリーンのオプションボタン押下時のシグナルを接続
 	if _pause_screen.has_signal("option_requested"):
 		_pause_screen.option_requested.connect(_open_options_menu)
 
-func handle_input(event: InputEvent) -> void:
+## ESCボタン押下イベントを処理するメソッド
+func handle_input_esc(event: InputEvent) -> void:
 	if not event.is_action_pressed("ESC"):
 		return
-
+	
+	# オプションメニューの表示が有効な場合
 	if _options_menu.visible:
 		_options_menu.close()
 		return
-
+	
+	# ポーズスクリーンが表示可能なシーンの場合
 	if _can_toggle_pause_screen():
 		_pause_screen.toggle()
 
+## オーバーレイUIを非表示状態にリセットするメソッド
 func reset_overlays() -> void:
 	if _options_menu.visible:
 		_options_menu.close()

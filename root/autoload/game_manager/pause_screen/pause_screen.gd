@@ -1,5 +1,5 @@
 @tool
-extends Control
+class_name PauseScreen extends Control
 
 signal option_requested
 
@@ -12,6 +12,28 @@ signal option_requested
 
 ## ポーズスクリーンの表示量(0=非表示：1=完全に表示)
 @export_range(0, 1.0) var menu_opened_amount := 0.0: set = set_menu_opened_amount
+func set_menu_opened_amount(amount: float) -> void:
+	menu_opened_amount = amount
+	# visibleプロパティを変更することで、ポーズ画面が見えないだけでなく、クリックもできないことを保証します。
+	# UIノードのvisibleプロパティがfalseの場合、入力イベントを受け取りません。
+	visible = amount > 0
+	# 描画に必要なノードが存在しない場合
+	if _ui_panel_container == null or _blur_color_rect == null:
+		return
+	
+	# ブラー量を設定(amoutが大きいほどブラーがかかる)
+	_blur_color_rect.material.set_shader_parameter("blur_amount", lerp(0.0, 1.5, amount))
+	# ブラーの彩度を設定(amoutが大きいほど灰色になる)
+	_blur_color_rect.material.set_shader_parameter("saturation", lerp(1.0, 0.3, amount))
+	# ブラーの色合いを設定
+	_blur_color_rect.material.set_shader_parameter("tint_strength", lerp(0.0, 0.2, amount))
+	# UIパネルの透明度を設定
+	_ui_panel_container.modulate.a = amount
+	
+	# エディター上ではない場合
+	if not Engine.is_editor_hint():
+		# ポーズスクリーンが一定以上表示時、ゲームを一時停止
+		get_tree().paused = amount > 0.3
 ## ポーズスクリーンの表示切り替えアニメーションにかかる時間
 @export_range(0.1, 10.0, 0.01, "or_greater") var animation_duration := 1.0
 
@@ -37,28 +59,12 @@ func _ready() -> void:
 	# 終了ボタン押下時、ゲーム終了
 	_quit_button.pressed.connect(get_tree().quit)
 
-func set_menu_opened_amount(amount: float) -> void:
-	menu_opened_amount = amount
-	# visibleプロパティを変更することで、ポーズ画面が見えないだけでなく、クリックもできないことを保証します。
-	# UIノードのvisibleプロパティがfalseの場合、入力イベントを受け取りません。
-	visible = amount > 0
-	# 描画に必要なノードが存在しない場合
-	if _ui_panel_container == null or _blur_color_rect == null:
-		return
-	
-	# ブラー量を設定(amoutが大きいほどブラーがかかる)
-	_blur_color_rect.material.set_shader_parameter("blur_amount", lerp(0.0, 1.5, amount))
-	# ブラーの彩度を設定(amoutが大きいほど灰色になる)
-	_blur_color_rect.material.set_shader_parameter("saturation", lerp(1.0, 0.3, amount))
-	# ブラーの色合いを設定
-	_blur_color_rect.material.set_shader_parameter("tint_strength", lerp(0.0, 0.2, amount))
-	# UIパネルの透明度を設定
-	_ui_panel_container.modulate.a = amount
-	
-	# エディター上ではない場合
-	if not Engine.is_editor_hint():
-		# ポーズスクリーンが一定以上表示時、ゲームを一時停止
-		get_tree().paused = amount > 0.3
+## ポーズスクリーンを非表示にリセットするメソッド
+func reset_state() -> void:
+	# ポーズメニューを非表示に設定
+	menu_opened_amount = 0.0
+	_is_currently_opening = false
+	_is_in_toggle = false
 
 ## ポーズスクリーンの表示を切り替えるメソッド
 func toggle() -> void:
@@ -97,12 +103,6 @@ func _pressed_main_menu_button() -> void:
 	# メインメニューに遷移
 	GameManager.load_scene_with_transition(PathConsts.MAIN_MENU_SCENE)
 
+## オプションボタン押下時のメソッド
 func _pressed_option_button() -> void:
 	emit_signal("option_requested")
-
-## ポーズスクリーンを非表示にリセットするメソッド
-func reset_state() -> void:
-	# ポーズメニューを非表示に設定
-	menu_opened_amount = 0.0
-	_is_currently_opening = false
-	_is_in_toggle = false
