@@ -15,6 +15,10 @@ func reset_overlays() -> void:
 func open_options_menu() -> void:
 	_options_menu.open()
 
+## Autoloadに含まれるポーズスクリーンの表示切替するメソッド
+func toggle_pause_screen() -> void:
+	_pause_screen.toggle()
+
 ## ESCボタン押下イベントを処理するメソッド
 func handle_input_esc(event: InputEvent) -> void:
 	if not event.is_action_pressed("ESC"):
