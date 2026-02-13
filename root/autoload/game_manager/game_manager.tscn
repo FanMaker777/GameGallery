@@ -15,25 +15,24 @@ script = ExtResource("1_n43p0")
 unique_name_in_owner = true
 script = ExtResource("3_pkq6t")
 
+[node name="TransitionEffectLayer" parent="SceneNavigator" instance=ExtResource("2_joreg")]
+unique_name_in_owner = true
+layer = 10
+
 [node name="OverlayContoroller" type="Node2D" parent="."]
 unique_name_in_owner = true
 script = ExtResource("2_p0lr6")
 
-[node name="TransitionEffectLayer" parent="." instance=ExtResource("2_joreg")]
-unique_name_in_owner = true
-layer = 10
-visible = false
-
-[node name="OptionsMenuLayer" type="CanvasLayer" parent="."]
+[node name="OptionsMenuLayer" type="CanvasLayer" parent="OverlayContoroller"]
 layer = 9
 
-[node name="OptionsMenu" parent="OptionsMenuLayer" instance=ExtResource("4_y1nya")]
+[node name="OptionsMenu" parent="OverlayContoroller/OptionsMenuLayer" instance=ExtResource("4_y1nya")]
 unique_name_in_owner = true
 visible = false
 
-[node name="PauseScreenLayer" type="CanvasLayer" parent="."]
+[node name="PauseScreenLayer" type="CanvasLayer" parent="OverlayContoroller"]
 layer = 8
 
-[node name="PauseScreen" parent="PauseScreenLayer" instance=ExtResource("3_s2o5t")]
+[node name="PauseScreen" parent="OverlayContoroller/PauseScreenLayer" instance=ExtResource("3_s2o5t")]
 unique_name_in_owner = true
 visible = false
