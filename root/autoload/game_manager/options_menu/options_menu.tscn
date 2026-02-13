@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://cfp0kg23h7cf3"]
+[gd_scene load_steps=7 format=3 uid="uid://cfp0kg23h7cf3"]
 
 [ext_resource type="Script" uid="uid://83nnn6b1hcrl" path="res://root/autoload/game_manager/options_menu/options_menu.gd" id="1_8ccs3"]
 [ext_resource type="Script" uid="uid://dyk6qexavghu3" path="res://root/autoload/game_manager/options_menu/option_video.gd" id="2_6hlc3"]
+[ext_resource type="Script" path="res://root/autoload/game_manager/options_menu/option_audio.gd" id="3_ahp2v"]
 
 [sub_resource type="Theme" id="Theme_jq8ek"]
 default_font_size = 24
@@ -54,8 +55,10 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_8ccs3")
 current_tab = 1
 
 [node name="Audio" type="VBoxContainer" parent="RootMarginContainer/VBoxContainer/BoxContainer/TabContainer"]
+unique_name_in_owner = true
 visible = false
 layout_mode = 2
+script = ExtResource("3_ahp2v")
 metadata/_tab_index = 0
 
 [node name="OptionsMarginContainer" type="MarginContainer" parent="RootMarginContainer/VBoxContainer/BoxContainer/TabContainer/Audio"]
