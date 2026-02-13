@@ -8,3 +8,4 @@ script = ExtResource("1_tqr7g")
 t_effect = NodePath("TDiamond")
 
 [node name="TDiamond" parent="." instance=ExtResource("2_k4ngq")]
+visible = false
