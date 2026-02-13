@@ -10,11 +10,19 @@ const SE_BUS_NAME: StringName = &"SE"
 var bgm_volume_linear: float = 1.0
 ## SEの線形音量(1.0 = 100%の音量)
 var se_volume_linear: float = 1.0
+## Masterの線形音量(1.0 = 100%の音量)
+var master_volume_linear: float = 1.0
 
 func _ready() -> void:
 	# 各音量を初期設定
+	_apply_bus_volume(MASTER_BUS_NAME, master_volume_linear)
 	_apply_bus_volume(BGM_BUS_NAME, bgm_volume_linear)
 	_apply_bus_volume(SE_BUS_NAME, se_volume_linear)
+
+## Master音量を設定するメソッド（0.0〜1.0は線形値、それ以外はdB値として扱う）
+func set_master_volume(linear_or_db: float) -> void:
+	master_volume_linear = _normalize_volume_to_linear(linear_or_db)
+	_apply_bus_volume(MASTER_BUS_NAME, master_volume_linear)
 
 ## BGM音量を設定するメソッド（0.0〜1.0は線形値、それ以外はdB値として扱う）
 func set_bgm_volume(linear_or_db: float) -> void:
