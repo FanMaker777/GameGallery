@@ -1,8 +1,6 @@
 @tool
 class_name PauseScreen extends Control
 
-signal option_requested
-
 @onready var _blur_color_rect: ColorRect = %BlurColorRect
 @onready var _ui_panel_container: PanelContainer = %UIPanelContainer
 @onready var _resume_button: Button = %ResumeButton
@@ -105,4 +103,5 @@ func _pressed_main_menu_button() -> void:
 
 ## オプションボタン押下時のメソッド
 func _pressed_option_button() -> void:
-	emit_signal("option_requested")
+	# Autoloadされたオプションメニュー表示メソッドを呼び出し
+	GameManager.overlay_contoroller.open_options_menu()

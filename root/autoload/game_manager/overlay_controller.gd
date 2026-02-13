@@ -5,10 +5,15 @@ class_name OverlayController extends Node2D
 @onready var _pause_screen: Control = %PauseScreen
 @onready var _options_menu: OptionsMenu = %OptionsMenu
 
-func _ready() -> void:
-	# ポーズスクリーンのオプションボタン押下時のシグナルを接続
-	if _pause_screen.has_signal("option_requested"):
-		_pause_screen.option_requested.connect(_open_options_menu)
+## オーバーレイUIを非表示状態にリセットするメソッド
+func reset_overlays() -> void:
+	_options_menu.close()
+	# シーン遷移前にポーズ状態を解除し、次シーンへ pause 状態を持ち越さない。
+	_pause_screen.reset_state()
+
+## Autoloadに含まれるオプションメニューを表示するメソッド
+func open_options_menu() -> void:
+	_options_menu.open()
 
 ## ESCボタン押下イベントを処理するメソッド
 func handle_input_esc(event: InputEvent) -> void:
@@ -24,18 +29,7 @@ func handle_input_esc(event: InputEvent) -> void:
 	if _can_toggle_pause_screen():
 		_pause_screen.toggle()
 
-## オーバーレイUIを非表示状態にリセットするメソッド
-func reset_overlays() -> void:
-	if _options_menu.visible:
-		_options_menu.close()
-
-	# シーン遷移前にポーズ状態を解除し、次シーンへ pause 状態を持ち越さない。
-	if _pause_screen.has_method("reset_state"):
-		_pause_screen.reset_state()
-
-func _open_options_menu() -> void:
-	_options_menu.open()
-
+## 現在シーンがポーズスクリーン表示可能か判定するメソッド
 func _can_toggle_pause_screen() -> bool:
 	var current_scene: Node = _tree.current_scene
 	if current_scene == null:

@@ -2,9 +2,9 @@ extends Control
 
 @onready var _main_menu: Control = %MainMenu
 @onready var _select_game_menu: Control = %SelectGameMenu
-@onready var play_button: Button = %PlayButton
-@onready var option_button: Button = %OptionButton
-@onready var quit_button: Button = %QuitButton
+@onready var _play_button: Button = %PlayButton
+@onready var _option_button: Button = %OptionButton
+@onready var _quit_button: Button = %QuitButton
 @onready var _main_menu_button: Button = %MainMenuButton
 
 # Called when the node enters the scene tree for the first time.
@@ -19,14 +19,14 @@ func _ready() -> void:
 	
 	# web実行時、終了ボタンを非表示に変更
 	if  OS.has_feature("web"):
-		quit_button.visible = false
+		_quit_button.visible = false
 
 ## シグナルを接続
 func _conect_signal() -> void:
 	# プレイボタン押下時
-	play_button.pressed.connect(_pressed_play_button)
+	_play_button.pressed.connect(_pressed_play_button)
 	# 終了ボタン押下時
-	quit_button.pressed.connect(_pressed_quit_button)
+	_quit_button.pressed.connect(_pressed_quit_button)
 	# メインメニューボタン押下時
 	_main_menu_button.pressed.connect(func() -> void:
 		# メインメニューの表示を有効化
