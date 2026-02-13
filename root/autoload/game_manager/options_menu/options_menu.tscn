@@ -1,9 +1,16 @@
-[gd_scene load_steps=3 format=3 uid="uid://cfp0kg23h7cf3"]
+[gd_scene load_steps=6 format=3 uid="uid://cfp0kg23h7cf3"]
 
 [ext_resource type="Script" uid="uid://83nnn6b1hcrl" path="res://root/autoload/game_manager/options_menu/options_menu.gd" id="1_8ccs3"]
+[ext_resource type="Script" uid="uid://dyk6qexavghu3" path="res://root/autoload/game_manager/options_menu/option_video.gd" id="2_6hlc3"]
 
 [sub_resource type="Theme" id="Theme_jq8ek"]
 default_font_size = 24
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8ccs3"]
+bg_color = Color(0, 0, 0, 0.8627451)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6hlc3"]
+bg_color = Color(0, 0, 0, 0.8627451)
 
 [node name="OptionsMenu" type="Control"]
 process_mode = 3
@@ -43,6 +50,7 @@ size_flags_stretch_ratio = 7.0
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_8ccs3")
 current_tab = 1
 
 [node name="Audio" type="VBoxContainer" parent="RootMarginContainer/VBoxContainer/BoxContainer/TabContainer"]
@@ -215,6 +223,7 @@ text = ">>"
 
 [node name="Video" type="VBoxContainer" parent="RootMarginContainer/VBoxContainer/BoxContainer/TabContainer"]
 layout_mode = 2
+script = ExtResource("2_6hlc3")
 metadata/_tab_index = 1
 
 [node name="OptionsMarginContainer" type="MarginContainer" parent="RootMarginContainer/VBoxContainer/BoxContainer/TabContainer/Video"]
@@ -247,7 +256,8 @@ layout_mode = 2
 size_flags_horizontal = 2
 text = "表示モード"
 
-[node name="OptionButton" type="OptionButton" parent="RootMarginContainer/VBoxContainer/BoxContainer/TabContainer/Video/OptionsMarginContainer/OptionsVBoxContainer/DisplayModeBoxContainer"]
+[node name="DisplayModeOptionButton" type="OptionButton" parent="RootMarginContainer/VBoxContainer/BoxContainer/TabContainer/Video/OptionsMarginContainer/OptionsVBoxContainer/DisplayModeBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
 selected = 1
@@ -257,21 +267,22 @@ popup/item_0/id = 0
 popup/item_1/text = "フルスクリーン"
 popup/item_1/id = 1
 
-[node name="ResolutionModeBoxContainer" type="HBoxContainer" parent="RootMarginContainer/VBoxContainer/BoxContainer/TabContainer/Video/OptionsMarginContainer/OptionsVBoxContainer"]
+[node name="ResolutionBoxContainer" type="HBoxContainer" parent="RootMarginContainer/VBoxContainer/BoxContainer/TabContainer/Video/OptionsMarginContainer/OptionsVBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="BoxContainer" type="BoxContainer" parent="RootMarginContainer/VBoxContainer/BoxContainer/TabContainer/Video/OptionsMarginContainer/OptionsVBoxContainer/ResolutionModeBoxContainer"]
+[node name="BoxContainer" type="BoxContainer" parent="RootMarginContainer/VBoxContainer/BoxContainer/TabContainer/Video/OptionsMarginContainer/OptionsVBoxContainer/ResolutionBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 
-[node name="NameLabel" type="Label" parent="RootMarginContainer/VBoxContainer/BoxContainer/TabContainer/Video/OptionsMarginContainer/OptionsVBoxContainer/ResolutionModeBoxContainer/BoxContainer"]
+[node name="NameLabel" type="Label" parent="RootMarginContainer/VBoxContainer/BoxContainer/TabContainer/Video/OptionsMarginContainer/OptionsVBoxContainer/ResolutionBoxContainer/BoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 2
 text = "ウインドウ解像度"
 
-[node name="OptionButton" type="OptionButton" parent="RootMarginContainer/VBoxContainer/BoxContainer/TabContainer/Video/OptionsMarginContainer/OptionsVBoxContainer/ResolutionModeBoxContainer"]
+[node name="ResolutionOptionButton" type="OptionButton" parent="RootMarginContainer/VBoxContainer/BoxContainer/TabContainer/Video/OptionsMarginContainer/OptionsVBoxContainer/ResolutionBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
 selected = 1
@@ -297,10 +308,16 @@ layout_mode = 2
 size_flags_horizontal = 2
 text = "垂直同期"
 
-[node name="CheckButton" type="CheckButton" parent="RootMarginContainer/VBoxContainer/BoxContainer/TabContainer/Video/OptionsMarginContainer/OptionsVBoxContainer/VSyncBoxContainer"]
+[node name="VSyncOptionButton" type="OptionButton" parent="RootMarginContainer/VBoxContainer/BoxContainer/TabContainer/Video/OptionsMarginContainer/OptionsVBoxContainer/VSyncBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
-text = "無効"
+selected = 0
+item_count = 2
+popup/item_0/text = "無効"
+popup/item_0/id = 0
+popup/item_1/text = "有効"
+popup/item_1/id = 1
 
 [node name="FpsBoxContainer" type="HBoxContainer" parent="RootMarginContainer/VBoxContainer/BoxContainer/TabContainer/Video/OptionsMarginContainer/OptionsVBoxContainer"]
 layout_mode = 2
@@ -316,7 +333,8 @@ layout_mode = 2
 size_flags_horizontal = 2
 text = "FPS"
 
-[node name="OptionButton" type="OptionButton" parent="RootMarginContainer/VBoxContainer/BoxContainer/TabContainer/Video/OptionsMarginContainer/OptionsVBoxContainer/FpsBoxContainer"]
+[node name="FpsOptionButton" type="OptionButton" parent="RootMarginContainer/VBoxContainer/BoxContainer/TabContainer/Video/OptionsMarginContainer/OptionsVBoxContainer/FpsBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
 selected = 1
@@ -346,10 +364,15 @@ layout_mode = 2
 size_flags_horizontal = 2
 text = "FPS表示"
 
-[node name="CheckButton" type="CheckButton" parent="RootMarginContainer/VBoxContainer/BoxContainer/TabContainer/Video/OptionsMarginContainer/OptionsVBoxContainer/FpsDisplayBoxContainer"]
+[node name="FpsDisplayOptionButton" type="OptionButton" parent="RootMarginContainer/VBoxContainer/BoxContainer/TabContainer/Video/OptionsMarginContainer/OptionsVBoxContainer/FpsDisplayBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
-text = "無効"
+selected = 0
+item_count = 2
+popup/item_0/text = "無効"
+popup/item_0/id = 0
+popup/item_1/text = "有効"
+popup/item_1/id = 1
 
 [node name="Control" type="VBoxContainer" parent="RootMarginContainer/VBoxContainer/BoxContainer/TabContainer"]
 visible = false
@@ -396,6 +419,7 @@ horizontal_alignment = 1
 [node name="ButtonPanelContainer" type="PanelContainer" parent="RootMarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_6hlc3")
 
 [node name="ButtonMarginContainer" type="MarginContainer" parent="RootMarginContainer/VBoxContainer/ButtonPanelContainer"]
 layout_mode = 2
