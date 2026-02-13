@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://83nnn6b1hcrl" path="res://root/autoload/game_manager/options_menu/options_menu.gd" id="1_8ccs3"]
 [ext_resource type="Script" uid="uid://dyk6qexavghu3" path="res://root/autoload/game_manager/options_menu/option_video.gd" id="2_6hlc3"]
-[ext_resource type="Script" path="res://root/autoload/game_manager/options_menu/option_audio.gd" id="3_ahp2v"]
+[ext_resource type="Script" uid="uid://y8hju5p7413k" path="res://root/autoload/game_manager/options_menu/option_audio.gd" id="3_ahp2v"]
 
 [sub_resource type="Theme" id="Theme_jq8ek"]
 default_font_size = 24
@@ -52,11 +52,10 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_8ccs3")
-current_tab = 1
+current_tab = 0
 
 [node name="Audio" type="VBoxContainer" parent="RootMarginContainer/VBoxContainer/BoxContainer/TabContainer"]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
 script = ExtResource("3_ahp2v")
 metadata/_tab_index = 0
@@ -91,10 +90,16 @@ layout_mode = 2
 size_flags_horizontal = 2
 text = "オーディオ"
 
-[node name="CheckButton" type="CheckButton" parent="RootMarginContainer/VBoxContainer/BoxContainer/TabContainer/Audio/OptionsMarginContainer/OptionsVBoxContainer/AudioHBoxContainer"]
+[node name="AudioOptionButton" type="OptionButton" parent="RootMarginContainer/VBoxContainer/BoxContainer/TabContainer/Audio/OptionsMarginContainer/OptionsVBoxContainer/AudioHBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 button_pressed = true
-text = "オン"
+selected = 0
+item_count = 2
+popup/item_0/text = "オン"
+popup/item_0/id = 0
+popup/item_1/text = "オフ"
+popup/item_1/id = 1
 
 [node name="Control2" type="Control" parent="RootMarginContainer/VBoxContainer/BoxContainer/TabContainer/Audio/OptionsMarginContainer/OptionsVBoxContainer/AudioHBoxContainer"]
 layout_mode = 2
@@ -225,6 +230,7 @@ size_flags_horizontal = 8
 text = ">>"
 
 [node name="Video" type="VBoxContainer" parent="RootMarginContainer/VBoxContainer/BoxContainer/TabContainer"]
+visible = false
 layout_mode = 2
 script = ExtResource("2_6hlc3")
 metadata/_tab_index = 1
