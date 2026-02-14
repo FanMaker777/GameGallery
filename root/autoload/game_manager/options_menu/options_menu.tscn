@@ -48,14 +48,16 @@ size_flags_vertical = 3
 size_flags_stretch_ratio = 7.0
 
 [node name="TabContainer" type="TabContainer" parent="RootMarginContainer/VBoxContainer/BoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_8ccs3")
-current_tab = 0
+current_tab = 1
 
 [node name="Audio" type="VBoxContainer" parent="RootMarginContainer/VBoxContainer/BoxContainer/TabContainer"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 script = ExtResource("3_ahp2v")
 metadata/_tab_index = 0
@@ -230,7 +232,7 @@ size_flags_horizontal = 8
 text = ">>"
 
 [node name="Video" type="VBoxContainer" parent="RootMarginContainer/VBoxContainer/BoxContainer/TabContainer"]
-visible = false
+unique_name_in_owner = true
 layout_mode = 2
 script = ExtResource("2_6hlc3")
 metadata/_tab_index = 1
@@ -453,7 +455,8 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 3.0
 
-[node name="ResetButton" type="Button" parent="RootMarginContainer/VBoxContainer/ButtonPanelContainer/ButtonMarginContainer/ButtonHBoxContainer"]
+[node name="OptionResetButton" type="Button" parent="RootMarginContainer/VBoxContainer/ButtonPanelContainer/ButtonMarginContainer/ButtonHBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Reset"
