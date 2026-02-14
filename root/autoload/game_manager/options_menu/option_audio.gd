@@ -35,18 +35,19 @@ func _ready() -> void:
 	_connect_bgm_buttons()
 	_connect_effect_buttons()
 
-## AudioManagerの保持値をUIへ同期するメソッド
+## 設定保存値をUIへ同期するメソッド
 func sync_from_sound_manager() -> void:
+	var audio_settings: Dictionary = SettingsRepository.get_audio_settings()
 	# Masterバスのミュート状態に応じて(true=ミュート中)
-	if AudioManager.is_master_bus_mute:
+	if bool(audio_settings.get("master_bus_mute", false)):
 		# オプションボタンをAudioオフに設定
 		_audio_option_button.selected = 1
 	else:
 		# オプションボタンをAudioオンに設定
 		_audio_option_button.selected = 0
-	_master_progress_bar.value = _to_progress_value(AudioManager.master_volume_linear)
-	_bgm_progress_bar.value = _to_progress_value(AudioManager.bgm_volume_linear)
-	_effect_progress_bar.value = _to_progress_value(AudioManager.se_volume_linear)
+	_master_progress_bar.value = _to_progress_value(float(audio_settings.get("master_volume", 1.0)))
+	_bgm_progress_bar.value = _to_progress_value(float(audio_settings.get("bgm_volume", 1.0)))
+	_effect_progress_bar.value = _to_progress_value(float(audio_settings.get("se_volume", 1.0)))
 
 ## Audioボタン選択時の処理メソッド
 func _selected_audio_option_button(selected_index:int) -> void:
