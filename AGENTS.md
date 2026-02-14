@@ -122,6 +122,10 @@
 
 &nbsp; -オーディオの操作と設定の担当。
 
+- **SettingsRepository:** オプション設定の現在値管理と永続化担当。  
+
+&nbsp; -DefaultOptionの定数からデフォルト値を生成し、読込/保存とメモリ上のstateを管理する。
+
 
 
 > Autoloadを増やす場合は「責務」を最小にし、AGENTS.mdにも追記する。
