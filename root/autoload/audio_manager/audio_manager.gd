@@ -74,4 +74,8 @@ func set_master_bus_mute(is_mute:bool) -> void:
 	is_master_bus_mute = is_mute
 	# masterバスのインデックスを取得
 	var bus_index: int = AudioServer.get_bus_index(MASTER_BUS_NAME)
+	if bus_index == -1:
+		# バス設定が未作成でもクラッシュさせず、原因を追えるようログを残す。
+		Log.warn("%s バスが見つからないため音量反映をスキップしました" % MASTER_BUS_NAME)
+		return
 	AudioServer.set_bus_mute(bus_index, is_master_bus_mute)

@@ -53,11 +53,10 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_8ccs3")
-current_tab = 1
+current_tab = 0
 
 [node name="Audio" type="VBoxContainer" parent="RootMarginContainer/VBoxContainer/BoxContainer/TabContainer"]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
 script = ExtResource("3_ahp2v")
 metadata/_tab_index = 0
@@ -233,6 +232,7 @@ text = ">>"
 
 [node name="Video" type="VBoxContainer" parent="RootMarginContainer/VBoxContainer/BoxContainer/TabContainer"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 script = ExtResource("2_6hlc3")
 metadata/_tab_index = 1
