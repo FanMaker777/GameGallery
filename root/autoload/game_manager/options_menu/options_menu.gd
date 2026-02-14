@@ -40,7 +40,7 @@ func reset_option() -> void:
 			# AudioManagerの保持値をUIへ同期
 			_audio_tab.sync_from_sound_manager()
 		
-		1:  # (codex)Videoタブの場合
+		1:  # Videoタブの場合
 			# Video設定値をデフォルト値に初期化
 			_video_tab.set_default_video_option()
 			# Video設定値をUIへ同期

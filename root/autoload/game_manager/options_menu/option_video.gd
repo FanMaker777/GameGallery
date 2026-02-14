@@ -17,7 +17,7 @@ func _ready() -> void:
 	_fps_option_button.item_selected.connect(_selected_fps_option_button)
 	_fps_display_option_button.item_selected.connect(_selected_fps_display_option_button)
 
-## (codex)Video設定値をデフォルト設定値にリセットするメソッド
+## Video設定値をデフォルト設定値にリセットするメソッド
 func set_default_video_option() -> void:
 	# 起動時とリセット時で同じ既定値を使い回し、設定の基準値を1箇所に統一する。
 	_apply_display_mode(DefaultOption.DEFAULT_VIDEO_DISPLAY_MODE)
@@ -26,14 +26,16 @@ func set_default_video_option() -> void:
 	_apply_fps(DefaultOption.DEFAULT_VIDEO_FPS)
 	_select_option_by_text(_fps_display_option_button, DefaultOption.DEFAULT_VIDEO_FPS_DISPLAY)
 
-## (codex)現在設定中のVideo設定値をUIへ同期するメソッド
+## 現在設定中のVideo設定値をUIへ同期するメソッド
 func sync_ui_from_setting_value() -> void:
+	# 現在のVideo設定値を、UI表示用のString型に変換
 	var display_mode_text: String = _to_display_mode_text(DisplayServer.window_get_mode())
 	var current_window_size: Vector2i = DisplayServer.window_get_size()
 	var resolution_text: String = _to_resolution_text(current_window_size)
 	var v_sync_text: String = _to_v_sync_text(DisplayServer.window_get_vsync_mode())
 	var fps_text: String = _to_fps_text(Engine.max_fps)
 
+	# Video設定の各オプションボタンの選択値を設定
 	_select_option_by_text(_display_mode_option_button, display_mode_text)
 	_select_option_by_text(_resolution_option_button, resolution_text)
 	_select_option_by_text(_v_sync_option_button, v_sync_text)
@@ -47,13 +49,7 @@ func _selected_display_mode_button(selected_index:int) -> void:
 	# 選択された表示モードを取得
 	var selected_text:String = _display_mode_option_button.get_item_text(selected_index)
 	# 選択された表示モードに応じてゲーム設定を変更
-	match selected_text:
-		"ウインドウ":
-			# (codex)ゲームの表示モードをウインドウに変更
-			_apply_display_mode(selected_text)
-		"フルスクリーン":
-			# (codex)ゲームの表示モードをフルスクリーンに変更
-			_apply_display_mode(selected_text)
+	_apply_display_mode(selected_text)
 
 ## 解像度選択時の処理メソッド
 func _selected_resolution_option_button(selected_index:int) -> void:
@@ -61,60 +57,30 @@ func _selected_resolution_option_button(selected_index:int) -> void:
 	# 選択された解像度を取得
 	var selected_text:String = _resolution_option_button.get_item_text(selected_index)
 	# 選択された解像度に応じてゲーム設定を変更
-	match selected_text:
-		"854 × 480":
-			# (codex)ゲームの解像度を854 × 480に変更
-			_apply_resolution(selected_text)
-		"1280 × 720":
-			# (codex)ゲームの解像度を1280 × 720に変更
-			_apply_resolution(selected_text)
-		"1920 × 1080":
-			# (codex)ゲームの解像度を1920 × 1080に変更
-			_apply_resolution(selected_text)
+	_apply_resolution(selected_text)
 
 ## Vsync(垂直同期)選択時の処理メソッド
 func _selected_v_sync_option_button(selected_index:int) -> void:
 	Log.debug("Vsync変更")
 	# 選択された値を取得
 	var selected_text:String = _v_sync_option_button.get_item_text(selected_index)
-	# 選択された値に応じてゲーム設定を変更
-	match selected_text:
-		"無効":
-			# (codex)ゲームのVsync(垂直同期)を無効に設定
-			_apply_v_sync(selected_text)
-		"有効":
-			# (codex)ゲームのVsync(垂直同期)を有効に設定
-			_apply_v_sync(selected_text)
-
+	# 選択された値に応じてVsync(垂直同期)を設定
+	_apply_v_sync(selected_text)
+	
 ## FPS選択時の処理メソッド
 func _selected_fps_option_button(selected_index:int) -> void:
 	Log.debug("FPS変更")
 	# 選択された値を取得
 	var selected_text:String = _fps_option_button.get_item_text(selected_index)
 	# 選択された値に応じてFPSを変更
-	match selected_text:
-		"30":
-			# (codex)ゲームのFPSを30に設定
-			_apply_fps(selected_text)
-		"60":
-			# (codex)ゲームのFPSを60に設定
-			_apply_fps(selected_text)
-		"100":
-			# (codex)ゲームのFPSを100に設定
-			_apply_fps(selected_text)
-		"120":
-			# (codex)ゲームのFPSを120に設定
-			_apply_fps(selected_text)
-		"144":
-			# (codex)ゲームのFPSを144に設定
-			_apply_fps(selected_text)
+	_apply_fps(selected_text)
 
 ## FPS表示選択時の処理メソッド
 func _selected_fps_display_option_button(selected_index:int) -> void:
 	Log.debug("FPS表示変更")
 	# 選択された値を取得
 	var selected_text:String = _fps_display_option_button.get_item_text(selected_index)
-	# 選択された値に応じてゲーム設定を変更
+	# 選択された値に応じてFPS表示を設定
 	match selected_text:
 		"無効":
 			# ゲームのFPS表示を無効に設定
