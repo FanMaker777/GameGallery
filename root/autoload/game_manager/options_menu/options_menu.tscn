@@ -48,6 +48,7 @@ size_flags_vertical = 3
 size_flags_stretch_ratio = 7.0
 
 [node name="TabContainer" type="TabContainer" parent="RootMarginContainer/VBoxContainer/BoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -453,7 +454,8 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 3.0
 
-[node name="ResetButton" type="Button" parent="RootMarginContainer/VBoxContainer/ButtonPanelContainer/ButtonMarginContainer/ButtonHBoxContainer"]
+[node name="OptionResetButton" type="Button" parent="RootMarginContainer/VBoxContainer/ButtonPanelContainer/ButtonMarginContainer/ButtonHBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Reset"

@@ -1,5 +1,5 @@
 ## オプションメニューのオーディオ設定タブを制御するスクリプト
-extends VBoxContainer
+class_name OptionAudio extends VBoxContainer
 
 const LARGE_STEP: float = 0.10
 const SMALL_STEP: float = 0.01
@@ -39,6 +39,13 @@ func _ready() -> void:
 
 ## AudioManagerの保持値をUIへ同期するメソッド
 func sync_from_sound_manager() -> void:
+	# Masterバスのミュート状態に応じて(true=ミュート中)
+	if AudioManager.is_master_bus_mute:
+		# オプションボタンをAudioオフに設定
+		_audio_option_button.selected = 1
+	else:
+		# オプションボタンをAudioオンに設定
+		_audio_option_button.selected = 0
 	_master_progress_bar.value = _to_progress_value(AudioManager.master_volume_linear)
 	_bgm_progress_bar.value = _to_progress_value(AudioManager.bgm_volume_linear)
 	_effect_progress_bar.value = _to_progress_value(AudioManager.se_volume_linear)
@@ -63,12 +70,6 @@ func _connect_master_buttons() -> void:
 	_master_increment_step_button.pressed.connect(func() -> void: _change_master_volume(SMALL_STEP))
 	_master_increment_button.pressed.connect(func() -> void: _change_master_volume(LARGE_STEP))
 
-## Master音量の増減とUI更新をまとめて行うメソッド
-func _change_master_volume(change_value: float) -> void:
-	var next_value: float = clampf(AudioManager.master_volume_linear + change_value, 0.0, 1.0)
-	AudioManager.set_master_volume(next_value)
-	_master_progress_bar.value = _to_progress_value(next_value)
-
 ## BGMボタン群のシグナル接続を行うメソッド
 func _connect_bgm_buttons() -> void:
 	_bgm_decrement_button.pressed.connect(func() -> void: _change_bgm_volume(-LARGE_STEP))
@@ -82,6 +83,12 @@ func _connect_effect_buttons() -> void:
 	_effect_decrement_step_button.pressed.connect(func() -> void: _change_effect_volume(-SMALL_STEP))
 	_effect_increment_step_button.pressed.connect(func() -> void: _change_effect_volume(SMALL_STEP))
 	_effect_increment_button.pressed.connect(func() -> void: _change_effect_volume(LARGE_STEP))
+
+## Master音量の増減とUI更新をまとめて行うメソッド
+func _change_master_volume(change_value: float) -> void:
+	var next_value: float = clampf(AudioManager.master_volume_linear + change_value, 0.0, 1.0)
+	AudioManager.set_master_volume(next_value)
+	_master_progress_bar.value = _to_progress_value(next_value)
 
 ## BGM音量の増減とUI更新をまとめて行うメソッド
 func _change_bgm_volume(change_value: float) -> void:
