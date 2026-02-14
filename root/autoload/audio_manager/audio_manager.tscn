@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://oo5gj31dxw8v"]
+
+[ext_resource type="Script" uid="uid://ctd0mxt11cthk" path="res://root/autoload/audio_manager/audio_manager.gd" id="1_j8uei"]
+[ext_resource type="AudioStream" uid="uid://cymepixjpujgb" path="res://root/assets/audio/ogg/menu_doodle_2_loop.ogg" id="2_rapcb"]
+
+[node name="AudioManager" type="Node"]
+script = ExtResource("1_j8uei")
+
+[node name="BackGroundMusicPlayer" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("2_rapcb")
+autoplay = true
+bus = &"BGM"
+parameters/looping = true
