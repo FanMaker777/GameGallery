@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=2 format=3 uid="uid://c6bby6fymbjcx"]
 
-[ext_resource type="Script" path="res://root/autoload/settings_repository/settings_repository.gd" id="1_4gntx"]
+[ext_resource type="Script" uid="uid://cpmo404gcmckp" path="res://root/autoload/settings_repository/settings_repository.gd" id="1_4gntx"]
 
 [node name="SettingsRepository" type="Node"]
 script = ExtResource("1_4gntx")
