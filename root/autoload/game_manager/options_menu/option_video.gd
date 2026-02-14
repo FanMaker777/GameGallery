@@ -1,5 +1,5 @@
 ## オプションメニューのビデオ設定タブのスクリプト
-extends VBoxContainer
+class_name OptionVideo extends VBoxContainer
 
 @onready var _display_mode_option_button: OptionButton = %DisplayModeOptionButton
 @onready var _resolution_option_button: OptionButton = %ResolutionOptionButton
@@ -8,12 +8,22 @@ extends VBoxContainer
 @onready var _fps_display_option_button: OptionButton = $OptionsMarginContainer/OptionsVBoxContainer/FpsDisplayBoxContainer/FpsDisplayOptionButton
 
 func _ready() -> void:
+	# Video設定値をデフォルト値に設定
+	set_default_video_option()
 	# オプションボタンの選択時シグナルを接続
 	_display_mode_option_button.item_selected.connect(_selected_display_mode_button)
 	_resolution_option_button.item_selected.connect(_selected_resolution_option_button)
 	_v_sync_option_button.item_selected.connect(_selected_v_sync_option_button)
 	_fps_option_button.item_selected.connect(_selected_fps_option_button)
 	_fps_display_option_button.item_selected.connect(_selected_fps_display_option_button)
+
+## (codex)Video設定値をデフォルト設定値にリセットするメソッド
+func set_default_video_option() -> void:
+	pass
+
+## (codex)現在設定中のVideo設定値をUIへ同期するメソッド
+func sync_ui_from_setting_value() -> void:
+	pass
 
 ## 表示モード選択時の処理メソッド
 func _selected_display_mode_button(selected_index:int) -> void:

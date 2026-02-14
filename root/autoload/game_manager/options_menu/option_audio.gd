@@ -34,8 +34,6 @@ func _ready() -> void:
 	_connect_master_buttons()
 	_connect_bgm_buttons()
 	_connect_effect_buttons()
-	# AudioManagerの保持値をUIへ同期
-	sync_from_sound_manager()
 
 ## AudioManagerの保持値をUIへ同期するメソッド
 func sync_from_sound_manager() -> void:
