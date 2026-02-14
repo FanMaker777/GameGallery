@@ -1,25 +1,29 @@
 ## オプションメニューのオーディオ設定タブを制御するスクリプト
+## 各設定値のCofigFileへの書き込みは、このクラスでは行わず、AudioManagerで処理
 class_name OptionAudio extends VBoxContainer
 
+## 各ボタン押下時の音量増減量(線形数量)
 const LARGE_STEP: float = 0.10
 const SMALL_STEP: float = 0.01
+## 音量を表すプログレスバーの最小値
 const PROGRESS_MIN: float = 0.0
+## 音量を表すプログレスバーの最大値
 const PROGRESS_MAX: float = 100.0
 
 @onready var _audio_option_button: OptionButton = %AudioOptionButton
-
+# マスターボリューム
 @onready var _master_progress_bar: ProgressBar = $OptionsMarginContainer/OptionsVBoxContainer/MasterVolumeHBoxContainer/ProgressBar
 @onready var _master_decrement_button: Button = $OptionsMarginContainer/OptionsVBoxContainer/MasterVolumeHBoxContainer/DecrementSliderButton
 @onready var _master_decrement_step_button: Button = $OptionsMarginContainer/OptionsVBoxContainer/MasterVolumeHBoxContainer/DecrementStepSliderButton
 @onready var _master_increment_step_button: Button = $OptionsMarginContainer/OptionsVBoxContainer/MasterVolumeHBoxContainer/IncrementStepSliderButton
 @onready var _master_increment_button: Button = $OptionsMarginContainer/OptionsVBoxContainer/MasterVolumeHBoxContainer/IncrementSliderButton
-
+# BGMボリューム
 @onready var _bgm_progress_bar: ProgressBar = $OptionsMarginContainer/OptionsVBoxContainer/BgmVolumeHBoxContainer/ProgressBar
 @onready var _bgm_decrement_button: Button = $OptionsMarginContainer/OptionsVBoxContainer/BgmVolumeHBoxContainer/DecrementSliderButton
 @onready var _bgm_decrement_step_button: Button = $OptionsMarginContainer/OptionsVBoxContainer/BgmVolumeHBoxContainer/DecrementStepSliderButton
 @onready var _bgm_increment_step_button: Button = $OptionsMarginContainer/OptionsVBoxContainer/BgmVolumeHBoxContainer/IncrementStepSliderButton
 @onready var _bgm_increment_button: Button = $OptionsMarginContainer/OptionsVBoxContainer/BgmVolumeHBoxContainer/IncrementSliderButton
-
+# SEボリューム
 @onready var _effect_progress_bar: ProgressBar = $OptionsMarginContainer/OptionsVBoxContainer/EffectVolumeHBoxContainer/ProgressBar
 @onready var _effect_decrement_button: Button = $OptionsMarginContainer/OptionsVBoxContainer/EffectVolumeHBoxContainer/DecrementSliderButton
 @onready var _effect_decrement_step_button: Button = $OptionsMarginContainer/OptionsVBoxContainer/EffectVolumeHBoxContainer/DecrementStepSliderButton
@@ -36,7 +40,8 @@ func _ready() -> void:
 	_connect_effect_buttons()
 
 ## 設定保存値をUIへ同期するメソッド
-func sync_from_sound_manager() -> void:
+func sync_ui_from_setting_value() -> void:
+	# SettingsRepositoryから現在のAudio設定を取得
 	var audio_settings: Dictionary = SettingsRepository.get_audio_settings()
 	# Masterバスのミュート状態に応じて(true=ミュート中)
 	if bool(audio_settings.get("master_bus_mute", false)):
@@ -45,6 +50,7 @@ func sync_from_sound_manager() -> void:
 	else:
 		# オプションボタンをAudioオンに設定
 		_audio_option_button.selected = 0
+	# 音量を表すプログレスバーを更新
 	_master_progress_bar.value = _to_progress_value(float(audio_settings.get("master_volume", 1.0)))
 	_bgm_progress_bar.value = _to_progress_value(float(audio_settings.get("bgm_volume", 1.0)))
 	_effect_progress_bar.value = _to_progress_value(float(audio_settings.get("se_volume", 1.0)))

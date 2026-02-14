@@ -17,17 +17,37 @@ func _ready() -> void:
 	_fps_option_button.item_selected.connect(_selected_fps_option_button)
 	_fps_display_option_button.item_selected.connect(_selected_fps_display_option_button)
 
+## 現在設定中のVideo設定値をUIへ同期するメソッド
+func sync_ui_from_setting_value() -> void:
+	var video_settings: Dictionary = SettingsRepository.get_video_settings()
+	_apply_video_settings(video_settings)
+
+## Video設定値を一括適用してUIへ反映するメソッド
+func _apply_video_settings(video_settings: Dictionary) -> void:
+	# SettingsRepositoryから取得した現在のVideo設定値を変数に格納
+	var display_mode_text: String = str(video_settings.get("display_mode", "ウインドウ"))
+	var resolution_text: String = str(video_settings.get("resolution", "1280 × 720"))
+	var v_sync_text: String = str(video_settings.get("v_sync", "無効"))
+	var fps_text: String = str(video_settings.get("fps", "60"))
+	var fps_display_text: String = str(video_settings.get("fps_display", "無効"))
+	# 設定値をゲームに反映
+	_apply_display_mode(display_mode_text)
+	_apply_resolution(resolution_text)
+	_apply_v_sync(v_sync_text)
+	_apply_fps(fps_text)
+	# 設定値をオプションメニューのUIに反映
+	_select_option_by_text(_display_mode_option_button, display_mode_text)
+	_select_option_by_text(_resolution_option_button, resolution_text)
+	_select_option_by_text(_v_sync_option_button, v_sync_text)
+	_select_option_by_text(_fps_option_button, fps_text)
+	_select_option_by_text(_fps_display_option_button, fps_display_text)
+
 ## Video設定値をデフォルト設定値にリセットするメソッド
 func set_default_video_option() -> void:
 	# 起動時とリセット時で同じ既定値を使い回し、設定の基準値を1箇所に統一する。
 	var default_video_settings: Dictionary = SettingsRepository.create_default_state()["video"]
 	SettingsRepository.update_video_settings(default_video_settings)
 	_apply_video_settings(default_video_settings)
-
-## 現在設定中のVideo設定値をUIへ同期するメソッド
-func sync_ui_from_setting_value() -> void:
-	var video_settings: Dictionary = SettingsRepository.get_video_settings()
-	_apply_video_settings(video_settings)
 
 ## 表示モード選択時の処理メソッド
 func _selected_display_mode_button(selected_index: int) -> void:
@@ -116,25 +136,6 @@ func _select_option_by_text(option_button: OptionButton, target_text: String) ->
 		if option_button.get_item_text(index) == target_text:
 			option_button.select(index)
 			return
-
-## Video設定値を一括適用してUIへ反映するメソッド
-func _apply_video_settings(video_settings: Dictionary) -> void:
-	var display_mode_text: String = str(video_settings.get("display_mode", "ウインドウ"))
-	var resolution_text: String = str(video_settings.get("resolution", "1280 × 720"))
-	var v_sync_text: String = str(video_settings.get("v_sync", "無効"))
-	var fps_text: String = str(video_settings.get("fps", "60"))
-	var fps_display_text: String = str(video_settings.get("fps_display", "無効"))
-
-	_apply_display_mode(display_mode_text)
-	_apply_resolution(resolution_text)
-	_apply_v_sync(v_sync_text)
-	_apply_fps(fps_text)
-
-	_select_option_by_text(_display_mode_option_button, display_mode_text)
-	_select_option_by_text(_resolution_option_button, resolution_text)
-	_select_option_by_text(_v_sync_option_button, v_sync_text)
-	_select_option_by_text(_fps_option_button, fps_text)
-	_select_option_by_text(_fps_display_option_button, fps_display_text)
 
 ## 現在のVideo設定値を更新保存するメソッド
 func _save_video_setting(setting_key: String, setting_value: String) -> void:

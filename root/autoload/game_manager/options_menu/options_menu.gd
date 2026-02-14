@@ -19,7 +19,7 @@ func _ready() -> void:
 ## オプションメニューを表示するメソッド
 func open() -> void:
 	# メニュー再表示時に現在設定値をUIに反映する
-	_audio_tab.sync_from_sound_manager()
+	_audio_tab.sync_ui_from_setting_value()
 	_video_tab.sync_ui_from_setting_value()
 	
 	visible = true
@@ -38,7 +38,7 @@ func reset_option() -> void:
 			# Audio設定値をデフォルト値に初期化
 			AudioManager.set_default_audio_option()
 			# AudioManagerの保持値をUIへ同期
-			_audio_tab.sync_from_sound_manager()
+			_audio_tab.sync_ui_from_setting_value()
 		
 		1:  # Videoタブの場合
 			# Video設定値をデフォルト値に初期化
