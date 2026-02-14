@@ -8,6 +8,12 @@ const PROGRESS_MAX: float = 100.0
 
 @onready var _audio_option_button: OptionButton = %AudioOptionButton
 
+@onready var _master_progress_bar: ProgressBar = $OptionsMarginContainer/OptionsVBoxContainer/MasterVolumeHBoxContainer/ProgressBar
+@onready var _master_decrement_button: Button = $OptionsMarginContainer/OptionsVBoxContainer/MasterVolumeHBoxContainer/DecrementSliderButton
+@onready var _master_decrement_step_button: Button = $OptionsMarginContainer/OptionsVBoxContainer/MasterVolumeHBoxContainer/DecrementStepSliderButton
+@onready var _master_increment_step_button: Button = $OptionsMarginContainer/OptionsVBoxContainer/MasterVolumeHBoxContainer/IncrementStepSliderButton
+@onready var _master_increment_button: Button = $OptionsMarginContainer/OptionsVBoxContainer/MasterVolumeHBoxContainer/IncrementSliderButton
+
 @onready var _bgm_progress_bar: ProgressBar = $OptionsMarginContainer/OptionsVBoxContainer/BgmVolumeHBoxContainer/ProgressBar
 @onready var _bgm_decrement_button: Button = $OptionsMarginContainer/OptionsVBoxContainer/BgmVolumeHBoxContainer/DecrementSliderButton
 @onready var _bgm_decrement_step_button: Button = $OptionsMarginContainer/OptionsVBoxContainer/BgmVolumeHBoxContainer/DecrementStepSliderButton
@@ -25,6 +31,7 @@ func _ready() -> void:
 	# Audio設定ボタン選択時のメソッドをコネクト
 	_audio_option_button.item_selected.connect(_selected_audio_option_button)
 	# 各増減ボタンに音量更新メソッドをコネクト
+	_connect_master_buttons()
 	_connect_bgm_buttons()
 	_connect_effect_buttons()
 	# AudioManagerの保持値をUIへ同期
@@ -32,6 +39,7 @@ func _ready() -> void:
 
 ## AudioManagerの保持値をUIへ同期するメソッド
 func sync_from_sound_manager() -> void:
+	_master_progress_bar.value = _to_progress_value(AudioManager.master_volume_linear)
 	_bgm_progress_bar.value = _to_progress_value(AudioManager.bgm_volume_linear)
 	_effect_progress_bar.value = _to_progress_value(AudioManager.se_volume_linear)
 
@@ -47,6 +55,19 @@ func _selected_audio_option_button(selected_index:int) -> void:
 		"オフ":
 			# Masterバスをミュートに設定
 			AudioManager.set_master_bus_mute(true)
+
+## Masterボタン群のシグナル接続を行うメソッド
+func _connect_master_buttons() -> void:
+	_master_decrement_button.pressed.connect(func() -> void: _change_master_volume(-LARGE_STEP))
+	_master_decrement_step_button.pressed.connect(func() -> void: _change_master_volume(-SMALL_STEP))
+	_master_increment_step_button.pressed.connect(func() -> void: _change_master_volume(SMALL_STEP))
+	_master_increment_button.pressed.connect(func() -> void: _change_master_volume(LARGE_STEP))
+
+## Master音量の増減とUI更新をまとめて行うメソッド
+func _change_master_volume(change_value: float) -> void:
+	var next_value: float = clampf(AudioManager.master_volume_linear + change_value, 0.0, 1.0)
+	AudioManager.set_master_volume(next_value)
+	_master_progress_bar.value = _to_progress_value(next_value)
 
 ## BGMボタン群のシグナル接続を行うメソッド
 func _connect_bgm_buttons() -> void:
