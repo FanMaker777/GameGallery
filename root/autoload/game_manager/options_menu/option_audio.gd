@@ -44,7 +44,7 @@ func sync_ui_from_setting_value() -> void:
 	# SettingsRepositoryから現在のAudio設定を取得
 	var audio_settings: Dictionary = SettingsRepository.get_audio_settings()
 	# Masterバスのミュート状態に応じて(true=ミュート中)
-	if bool(audio_settings.get("master_bus_mute", false)):
+	if bool(audio_settings.get("master_mute", false)):
 		# オプションボタンをAudioオフに設定
 		_audio_option_button.selected = 1
 	else:

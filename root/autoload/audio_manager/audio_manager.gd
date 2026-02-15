@@ -23,7 +23,7 @@ func _ready() -> void:
 func _sync_from_repository() -> void:
 	# SettingsRepositoryからAudio設定値を読み込み
 	var audio_settings: Dictionary = SettingsRepository.get_audio_settings()
-	is_master_bus_mute = bool(audio_settings.get("master_bus_mute", false))
+	is_master_bus_mute = bool(audio_settings.get("master_mute", false))
 	master_volume_linear = float(audio_settings.get("master_volume", 1.0))
 	bgm_volume_linear = float(audio_settings.get("bgm_volume", 1.0))
 	se_volume_linear = float(audio_settings.get("se_volume", 1.0))
@@ -96,7 +96,7 @@ func set_master_bus_mute(is_mute: bool) -> void:
 ## 現在のAudio設定値をSettingsRepositoryへ保存するメソッド
 func _save_current_audio_state() -> void:
 	SettingsRepository.update_audio_settings({
-		"master_bus_mute": is_master_bus_mute,
+		"master_mute": is_master_bus_mute,
 		"master_volume": master_volume_linear,
 		"bgm_volume": bgm_volume_linear,
 		"se_volume": se_volume_linear,
