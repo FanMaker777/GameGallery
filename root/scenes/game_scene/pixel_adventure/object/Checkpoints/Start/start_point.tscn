@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://dfpqi43it2vc0"]
+
+[ext_resource type="Texture2D" uid="uid://btgrkpgycwihi" path="res://root/scenes/game_scene/pixel_adventure/object/Checkpoints/Start/Start (Idle).png" id="1_elhru"]
+
+[node name="StartPoint" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_elhru")
