@@ -77,4 +77,3 @@ func _on_input_event(_viewport:Node, event:InputEvent, _shape_idx:int):
 	# if the left mouse button is up emit the clicked signal
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.is_pressed() == false:
 			clicked.emit(self)
-

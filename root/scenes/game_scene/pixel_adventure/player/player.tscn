@@ -1,13 +1,18 @@
-[gd_scene load_steps=52 format=3 uid="uid://w5wxtoo2t1nu"]
+[gd_scene load_steps=57 format=3 uid="uid://w5wxtoo2t1nu"]
 
 [ext_resource type="Script" uid="uid://cxgyk7v78euwi" path="res://root/scenes/game_scene/pixel_adventure/player/player.gd" id="1_6rfu5"]
 [ext_resource type="Texture2D" uid="uid://7k1bi48be5ii" path="res://root/scenes/game_scene/pixel_adventure/assets/Pixel Adventure 1/Free/Main Characters/Virtual Guy/Double Jump (32x32).png" id="1_omwh7"]
 [ext_resource type="Texture2D" uid="uid://byk6adelp8d5y" path="res://root/scenes/game_scene/pixel_adventure/assets/Pixel Adventure 1/Free/Main Characters/Virtual Guy/Fall (32x32).png" id="2_6rfu5"]
+[ext_resource type="Script" uid="uid://couw105c3bde4" path="res://addons/godot_state_charts/state_chart.gd" id="2_b44bk"]
+[ext_resource type="Script" uid="uid://jk2jm1g6q853" path="res://addons/godot_state_charts/compound_state.gd" id="3_44aik"]
 [ext_resource type="Texture2D" uid="uid://paildk7tq565" path="res://root/scenes/game_scene/pixel_adventure/assets/Pixel Adventure 1/Free/Main Characters/Virtual Guy/Hit (32x32).png" id="3_q8qv3"]
 [ext_resource type="Texture2D" uid="uid://bpk1telootqfr" path="res://root/scenes/game_scene/pixel_adventure/assets/Pixel Adventure 1/Free/Main Characters/Virtual Guy/Idle (32x32).png" id="4_gd0lb"]
+[ext_resource type="Script" uid="uid://cytafq8i1y8qm" path="res://addons/godot_state_charts/atomic_state.gd" id="4_l2ped"]
+[ext_resource type="Script" uid="uid://cf1nsco3w0mf6" path="res://addons/godot_state_charts/transition.gd" id="5_44aik"]
 [ext_resource type="Texture2D" uid="uid://bsos2u8xoc3m7" path="res://root/scenes/game_scene/pixel_adventure/assets/Pixel Adventure 1/Free/Main Characters/Virtual Guy/Jump (32x32).png" id="5_b44bk"]
 [ext_resource type="Texture2D" uid="uid://drg385gjuavxo" path="res://root/scenes/game_scene/pixel_adventure/assets/Pixel Adventure 1/Free/Main Characters/Virtual Guy/Run (32x32).png" id="6_44aik"]
 [ext_resource type="Texture2D" uid="uid://bfcfkndi8x0w5" path="res://root/scenes/game_scene/pixel_adventure/assets/Pixel Adventure 1/Free/Main Characters/Virtual Guy/Wall Jump (32x32).png" id="7_l2ped"]
+[ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="13_l2ped"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1250n"]
 atlas = ExtResource("1_omwh7")
@@ -347,9 +352,107 @@ height = 22.0
 collision_mask = 128
 script = ExtResource("1_6rfu5")
 
+[node name="StateChart" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("2_b44bk")
+metadata/_custom_type_script = "uid://couw105c3bde4"
+
+[node name="CompoundState" type="Node" parent="StateChart"]
+script = ExtResource("3_44aik")
+initial_state = NodePath("Idle")
+metadata/_custom_type_script = "uid://jk2jm1g6q853"
+
+[node name="Idle" type="Node" parent="StateChart/CompoundState"]
+script = ExtResource("4_l2ped")
+
+[node name="ToFall" type="Node" parent="StateChart/CompoundState/Idle"]
+script = ExtResource("5_44aik")
+to = NodePath("../../Fall")
+event = &"ToFall"
+delay_in_seconds = "0.0"
+
+[node name="ToJump" type="Node" parent="StateChart/CompoundState/Idle"]
+script = ExtResource("5_44aik")
+to = NodePath("../../Jump")
+event = &"ToJump"
+delay_in_seconds = "0.0"
+
+[node name="ToRun" type="Node" parent="StateChart/CompoundState/Idle"]
+script = ExtResource("5_44aik")
+to = NodePath("../../Run")
+event = &"ToRun"
+delay_in_seconds = "0.0"
+
+[node name="Run" type="Node" parent="StateChart/CompoundState"]
+script = ExtResource("4_l2ped")
+
+[node name="ToFall" type="Node" parent="StateChart/CompoundState/Run"]
+script = ExtResource("5_44aik")
+to = NodePath("../../Fall")
+event = &"ToFall"
+delay_in_seconds = "0.0"
+
+[node name="ToJump" type="Node" parent="StateChart/CompoundState/Run"]
+script = ExtResource("5_44aik")
+to = NodePath("../../Jump")
+event = &"ToJump"
+delay_in_seconds = "0.0"
+
+[node name="ToIdle" type="Node" parent="StateChart/CompoundState/Run"]
+script = ExtResource("5_44aik")
+to = NodePath("../../Idle")
+event = &"ToIdle"
+delay_in_seconds = "0.0"
+
+[node name="Jump" type="Node" parent="StateChart/CompoundState"]
+script = ExtResource("4_l2ped")
+
+[node name="ToFall" type="Node" parent="StateChart/CompoundState/Jump"]
+script = ExtResource("5_44aik")
+to = NodePath("../../Fall")
+event = &"ToFall"
+delay_in_seconds = "0.0"
+
+[node name="ToDoubleJump" type="Node" parent="StateChart/CompoundState/Jump"]
+script = ExtResource("5_44aik")
+to = NodePath("../../DoubleJump")
+event = &"ToDoubleJump"
+delay_in_seconds = "0.0"
+
+[node name="DoubleJump" type="Node" parent="StateChart/CompoundState"]
+script = ExtResource("4_l2ped")
+
+[node name="ToFall" type="Node" parent="StateChart/CompoundState/DoubleJump"]
+script = ExtResource("5_44aik")
+to = NodePath("../../Fall")
+event = &"ToFall"
+delay_in_seconds = "0.0"
+
+[node name="Fall" type="Node" parent="StateChart/CompoundState"]
+script = ExtResource("4_l2ped")
+
+[node name="ToIdle" type="Node" parent="StateChart/CompoundState/Fall"]
+script = ExtResource("5_44aik")
+to = NodePath("../../Idle")
+event = &"ToIdle"
+delay_in_seconds = "0.0"
+
+[node name="ToDoubleJump" type="Node" parent="StateChart/CompoundState/Fall"]
+script = ExtResource("5_44aik")
+to = NodePath("../../DoubleJump")
+event = &"ToDoubleJump"
+delay_in_seconds = "0.0"
+
+[node name="Hit" type="Node" parent="StateChart/CompoundState"]
+script = ExtResource("4_l2ped")
+
+[node name="WallJump" type="Node" parent="StateChart/CompoundState"]
+script = ExtResource("4_l2ped")
+
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
 sprite_frames = SubResource("SpriteFrames_yyhjw")
-animation = &"Idle"
+animation = &"DoubleJump"
 autoplay = "Idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -357,3 +460,21 @@ position = Vector2(0, 5)
 shape = SubResource("CapsuleShape2D_cg2qp")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="StateChartDebugger" parent="." instance=ExtResource("13_l2ped")]
+offset_left = -346.0
+offset_top = -194.0
+offset_right = -17.0
+offset_bottom = -25.0
+initial_node_to_watch = NodePath("../StateChart")
+
+[connection signal="state_entered" from="StateChart/CompoundState/Idle" to="." method="_on_idle_state_entered"]
+[connection signal="state_physics_processing" from="StateChart/CompoundState/Idle" to="." method="_on_idle_state_physics_processing"]
+[connection signal="state_entered" from="StateChart/CompoundState/Run" to="." method="_on_run_state_entered"]
+[connection signal="state_physics_processing" from="StateChart/CompoundState/Run" to="." method="_on_run_state_physics_processing"]
+[connection signal="state_entered" from="StateChart/CompoundState/Jump" to="." method="_on_jump_state_entered"]
+[connection signal="state_physics_processing" from="StateChart/CompoundState/Jump" to="." method="_on_jump_state_physics_processing"]
+[connection signal="state_entered" from="StateChart/CompoundState/DoubleJump" to="." method="_on_double_jump_state_entered"]
+[connection signal="state_physics_processing" from="StateChart/CompoundState/DoubleJump" to="." method="_on_double_jump_state_physics_processing"]
+[connection signal="state_entered" from="StateChart/CompoundState/Fall" to="." method="_on_fall_state_entered"]
+[connection signal="state_physics_processing" from="StateChart/CompoundState/Fall" to="." method="_on_fall_state_physics_processing"]
