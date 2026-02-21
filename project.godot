@@ -88,6 +88,18 @@ window/stretch/aspect="expand"
 
 enabled=PackedStringArray("res://addons/dialogic/plugin.cfg", "res://addons/gut/plugin.cfg", "res://addons/logger/plugin.cfg")
 
+[file_customization]
+
+folder_colors={
+"res://root/assets/": "red",
+"res://root/autoload/": "orange",
+"res://root/scenes/": "yellow",
+"res://root/scenes/boot_splash_scene/": "teal",
+"res://root/scenes/game_scene/": "blue",
+"res://root/scenes/main_menu_scene/": "purple",
+"res://root/scripts/": "green"
+}
+
 [input]
 
 ESC={

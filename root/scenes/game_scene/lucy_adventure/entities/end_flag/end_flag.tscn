@@ -1,12 +1,12 @@
 [gd_scene load_steps=13 format=3 uid="uid://dual15nkjm5g6"]
 
-[ext_resource type="Script" uid="uid://clgwrvq33cnjt" path="res://entities/end_flag/end_flag.gd" id="1_sl546"]
-[ext_resource type="Texture2D" uid="uid://dwp0ar0rfvbc3" path="res://entities/end_flag/flag/flag_off.png" id="2_0nm5n"]
-[ext_resource type="Texture2D" uid="uid://8ye3sfpc0pjj" path="res://entities/end_flag/flag/wind/004.png" id="3_x3pig"]
-[ext_resource type="Texture2D" uid="uid://dxkc1opingwc5" path="res://entities/end_flag/flag/wind/003.png" id="4_qj688"]
-[ext_resource type="Texture2D" uid="uid://c8elf5y55siwm" path="res://entities/end_flag/flag/wind/002.png" id="5_68d1n"]
-[ext_resource type="Texture2D" uid="uid://cd0f0imhgdiit" path="res://entities/end_flag/flag/wind/001.png" id="6_cgcdu"]
-[ext_resource type="Texture2D" uid="uid://2gkkig6fitlf" path="res://entities/end_flag/flag/wind/000.png" id="7_kxkv7"]
+[ext_resource type="Script" uid="uid://clgwrvq33cnjt" path="res://root/scenes/game_scene/lucy_adventure/entities/end_flag/end_flag.gd" id="1_sl546"]
+[ext_resource type="Texture2D" uid="uid://dwp0ar0rfvbc3" path="res://root/scenes/game_scene/lucy_adventure/entities/end_flag/flag/flag_off.png" id="2_0nm5n"]
+[ext_resource type="Texture2D" uid="uid://8ye3sfpc0pjj" path="res://root/scenes/game_scene/lucy_adventure/entities/end_flag/flag/wind/004.png" id="3_x3pig"]
+[ext_resource type="Texture2D" uid="uid://dxkc1opingwc5" path="res://root/scenes/game_scene/lucy_adventure/entities/end_flag/flag/wind/003.png" id="4_qj688"]
+[ext_resource type="Texture2D" uid="uid://c8elf5y55siwm" path="res://root/scenes/game_scene/lucy_adventure/entities/end_flag/flag/wind/002.png" id="5_68d1n"]
+[ext_resource type="Texture2D" uid="uid://cd0f0imhgdiit" path="res://root/scenes/game_scene/lucy_adventure/entities/end_flag/flag/wind/001.png" id="6_cgcdu"]
+[ext_resource type="Texture2D" uid="uid://2gkkig6fitlf" path="res://root/scenes/game_scene/lucy_adventure/entities/end_flag/flag/wind/000.png" id="7_kxkv7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xvic1"]
 size = Vector2(34, 20)
@@ -86,15 +86,3 @@ one_shot = true
 preprocess = 0.03
 explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_l23nn")
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
-unique_name_in_owner = true
-visible = false
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 1)

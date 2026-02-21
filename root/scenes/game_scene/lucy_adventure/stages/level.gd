@@ -42,8 +42,5 @@ func _change_to_next_level() -> void:
 	if next_level_path.is_empty():
 		get_tree().quit()
 		return
-
-	var result := get_tree().change_scene_to_file(next_level_path)
-	if result != OK:
-		push_error("Failed to load level: " + next_level_path + ". Quitting the game.")
-		get_tree().quit()
+	
+	GameManager.load_scene_with_transition(next_level_path)

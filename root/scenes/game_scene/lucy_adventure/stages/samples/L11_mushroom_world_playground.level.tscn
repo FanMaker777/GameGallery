@@ -1,6 +1,7 @@
-[gd_scene load_steps=16 format=4 uid="uid://c6ta7qrl1tjup"]
+[gd_scene load_steps=19 format=4 uid="uid://c6ta7qrl1tjup"]
 
 [ext_resource type="Texture2D" uid="uid://bdexfaijdt0d5" path="res://root/scenes/game_scene/lucy_adventure/assets/tilesets/dark_forest/moon.png" id="1_1bkiv"]
+[ext_resource type="Script" uid="uid://cybg5vyscic8l" path="res://root/scenes/game_scene/lucy_adventure/stages/samples/l_11_mushroom_world_playground.level.gd" id="1_ywwca"]
 [ext_resource type="TileSet" uid="uid://dqb80758or5dr" path="res://root/scenes/game_scene/lucy_adventure/assets/tilesets/dark_forest/mushroom_tileset.tres" id="2_omv1b"]
 [ext_resource type="Texture2D" uid="uid://bw4txfggvec2g" path="res://root/scenes/game_scene/lucy_adventure/entities/water/wave_texture.png" id="3_f2281"]
 [ext_resource type="Script" uid="uid://y4arnrl6hyti" path="res://root/scenes/game_scene/lucy_adventure/entities/water/water.gd" id="4_1q0c5"]
@@ -12,6 +13,8 @@
 [ext_resource type="PackedScene" uid="uid://bio5frexqas2h" path="res://root/scenes/game_scene/lucy_adventure/entities/platform/moving_platform/moving_platform.tscn" id="10_ie3sj"]
 [ext_resource type="PackedScene" uid="uid://wohdyxvvwc2a" path="res://root/scenes/game_scene/lucy_adventure/entities/platform/falling_platform/falling_platform.tscn" id="11_qphcl"]
 [ext_resource type="Script" uid="uid://dr6sq0gfhuwqx" path="res://root/scenes/game_scene/lucy_adventure/entities/kill_plane.gd" id="12_vw546"]
+[ext_resource type="PackedScene" uid="uid://dual15nkjm5g6" path="res://root/scenes/game_scene/lucy_adventure/entities/end_flag/end_flag.tscn" id="14_mal5c"]
+[ext_resource type="PackedScene" uid="uid://cykaoex5fovsr" path="res://root/scenes/game_scene/lucy_adventure/clear_screen/clear_screen.tscn" id="15_0owh5"]
 
 [sub_resource type="Shader" id="Shader_imenv"]
 code = "shader_type canvas_item;
@@ -63,7 +66,7 @@ void fragment() {
 }
 "
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ogk65"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mal5c"]
 resource_local_to_scene = true
 shader = SubResource("Shader_imenv")
 shader_parameter/edge_color = Color(1, 1, 1, 1)
@@ -81,6 +84,7 @@ _data = {
 point_count = 2
 
 [node name="MushroomWorld" type="Node2D"]
+script = ExtResource("1_ywwca")
 
 [node name="Background" type="CanvasLayer" parent="."]
 layer = -1
@@ -137,7 +141,7 @@ tile_map_data = PackedByteArray("AAAHAAMAAwAEAAAAAAAIAAMAAwAFAAAAAAAIAAQAAwAFAAE
 tile_set = ExtResource("2_omv1b")
 
 [node name="Water2" type="ColorRect" parent="TileMap"]
-material = SubResource("ShaderMaterial_ogk65")
+material = SubResource("ShaderMaterial_mal5c")
 offset_left = -96.0
 offset_top = 80.0
 offset_right = 1248.0
@@ -233,3 +237,14 @@ position = Vector2(145, 126)
 collision_layer = 0
 script = ExtResource("12_vw546")
 metadata/_custom_type_script = "uid://dr6sq0gfhuwqx"
+
+[node name="EndFlag" parent="." instance=ExtResource("14_mal5c")]
+unique_name_in_owner = true
+position = Vector2(1236, 41)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 100
+
+[node name="ClearScreen" parent="CanvasLayer" instance=ExtResource("15_0owh5")]
+unique_name_in_owner = true
+visible = false
