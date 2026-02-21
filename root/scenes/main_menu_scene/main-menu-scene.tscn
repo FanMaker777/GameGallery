@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://byjaiv21t5df7"]
+[gd_scene load_steps=5 format=3 uid="uid://byjaiv21t5df7"]
 
 [ext_resource type="Script" uid="uid://d1hdf253snk32" path="res://root/scenes/main_menu_scene/main_menu_scene.gd" id="1_r20lq"]
 [ext_resource type="Texture2D" uid="uid://chhsdka383g8w" path="res://root/scenes/main_menu_scene/image/SelectGameMenuBackground.png" id="2_f6cpm"]
 [ext_resource type="PackedScene" uid="uid://dtjf71ka68anv" path="res://root/scenes/main_menu_scene/game_card.tscn" id="3_xwt4j"]
+[ext_resource type="Texture2D" uid="uid://dgdsp2gbqg5jh" path="res://root/scenes/main_menu_scene/image/thumbnail/lucy_adventure.png" id="4_oi7dx"]
 
 [node name="MainMenuScene" type="Control"]
 layout_mode = 3
@@ -168,6 +169,11 @@ game_scene_path = "uid://chprvwfixox2y"
 [node name="GameCard2" parent="SelectGameMenu/VBoxContainer/CardMarginContainer/ScrollContainer/HBoxContainer" instance=ExtResource("3_xwt4j")]
 custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
+title = "Lucy's Adventure"
+thumbnail = ExtResource("4_oi7dx")
+genre = "プラットフォーマー"
+description = "ルーシーを操作して、ステージクリアを目指そう！"
+game_scene_path = "uid://b7hikg0q3dsbv"
 
 [node name="GameCard3" parent="SelectGameMenu/VBoxContainer/CardMarginContainer/ScrollContainer/HBoxContainer" instance=ExtResource("3_xwt4j")]
 custom_minimum_size = Vector2(400, 0)

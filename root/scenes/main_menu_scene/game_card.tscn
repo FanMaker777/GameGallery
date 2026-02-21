@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://dtjf71ka68anv"]
 
-[ext_resource type="Texture2D" uid="uid://bdr5qrqlnxt3x" path="res://root/assets/image/thumbnail/thumbnail.png" id="1_c1ipj"]
+[ext_resource type="Texture2D" uid="uid://bdr5qrqlnxt3x" path="res://root/scenes/main_menu_scene/image/thumbnail/introduce_godot.png" id="1_c1ipj"]
 [ext_resource type="Script" uid="uid://c8rq40l4y7gs6" path="res://root/scenes/main_menu_scene/game_card.gd" id="1_w4vuy"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c1ipj"]
