@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bdr5qrqlnxt3x"
-path="res://.godot/imported/thumbnail.png-24230717df7125019138f0f6dbf259e4.ctex"
+uid="uid://dgdsp2gbqg5jh"
+path="res://.godot/imported/lucy_adventure.png-b4578680fd5cb3bd8ccf05545e495b41.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://root/assets/image/thumbnail/thumbnail.png"
-dest_files=["res://.godot/imported/thumbnail.png-24230717df7125019138f0f6dbf259e4.ctex"]
+source_file="res://root/scenes/main_menu_scene/image/thumbnail/lucy_adventure.png"
+dest_files=["res://.godot/imported/lucy_adventure.png-b4578680fd5cb3bd8ccf05545e495b41.ctex"]
 
 [params]
 
