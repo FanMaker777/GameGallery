@@ -1,0 +1,33 @@
+[gd_scene load_steps=2 format=3 uid="uid://d0v2t11npaq2e"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_r6ah4"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"Attack",
+"speed": 10.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"Guard",
+"speed": 10.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"Idle",
+"speed": 10.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"Run",
+"speed": 10.0
+}]
+
+[node name="Enemy" type="CharacterBody2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_r6ah4")
+animation = &"Run"
+autoplay = "Idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
