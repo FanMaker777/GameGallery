@@ -1,0 +1,150 @@
+[gd_scene load_steps=19 format=3 uid="uid://clf2l483adbii"]
+
+[ext_resource type="Texture2D" uid="uid://xq6a5d7sc1b0" path="res://root/scenes/game_scene/achievement_master/character/Pawn/image/Pawn_Idle.png" id="1_nalyy"]
+[ext_resource type="Texture2D" uid="uid://cnqwyr5p1lixq" path="res://root/scenes/game_scene/achievement_master/character/Pawn/image/Pawn_Run.png" id="2_qjtua"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hqim2"]
+atlas = ExtResource("1_nalyy")
+region = Rect2(0, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d32vs"]
+atlas = ExtResource("1_nalyy")
+region = Rect2(192, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_twkj7"]
+atlas = ExtResource("1_nalyy")
+region = Rect2(384, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sen2q"]
+atlas = ExtResource("1_nalyy")
+region = Rect2(576, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1x7nt"]
+atlas = ExtResource("1_nalyy")
+region = Rect2(768, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4m5kd"]
+atlas = ExtResource("1_nalyy")
+region = Rect2(960, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w7hru"]
+atlas = ExtResource("1_nalyy")
+region = Rect2(1152, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jdafh"]
+atlas = ExtResource("1_nalyy")
+region = Rect2(1344, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2642t"]
+atlas = ExtResource("2_qjtua")
+region = Rect2(0, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4m620"]
+atlas = ExtResource("2_qjtua")
+region = Rect2(192, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wei05"]
+atlas = ExtResource("2_qjtua")
+region = Rect2(384, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q602p"]
+atlas = ExtResource("2_qjtua")
+region = Rect2(576, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q5i6c"]
+atlas = ExtResource("2_qjtua")
+region = Rect2(768, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_odest"]
+atlas = ExtResource("2_qjtua")
+region = Rect2(960, 0, 192, 192)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_aiksp"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"Attack1",
+"speed": 8.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"Attack2",
+"speed": 8.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"Guard",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hqim2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d32vs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_twkj7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sen2q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1x7nt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4m5kd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w7hru")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jdafh")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2642t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4m620")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wei05")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q602p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q5i6c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_odest")
+}],
+"loop": true,
+"name": &"Run",
+"speed": 10.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_agann"]
+radius = 33.0
+height = 82.0
+
+[node name="Pawn" type="CharacterBody2D"]
+collision_mask = 256
+motion_mode = 1
+
+[node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+sprite_frames = SubResource("SpriteFrames_aiksp")
+animation = &"Run"
+autoplay = "Idle"
+frame_progress = 0.96804816
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_agann")
+
+[node name="Camera2D" type="Camera2D" parent="."]
