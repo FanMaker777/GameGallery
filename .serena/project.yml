@@ -1,0 +1,40 @@
+# Serena project configuration for GameGallery
+project_name: "GameGallery"
+
+# GDScript は Serena の LSP に未対応のため、言語サーバーは空に設定
+languages: []
+
+# エンコーディング
+encoding: "utf-8"
+
+# .gitignore に記載されたファイルを無視
+ignore_all_files_in_gitignore: true
+
+# 解析対象外のパス
+ignored_paths:
+  - ".godot/"
+  - ".import/"
+  - "addons/beehave/"
+  - "addons/dialogic/"
+  - "addons/gut/"
+  - "addons/logger/"
+  - "addons/dialogic_additions/"
+  - "tools/"
+  - "sandbox/"
+  - "*.import"
+  - "*.uid"
+  - "*.tres"
+  - "*.tscn"
+
+# 読み取り専用モード（安全のため有効）
+read_only: true
+
+# プロジェクト説明（LLM に渡される初期コンテキスト）
+initial_prompt: |
+  GameGallery は Godot 4.5 製のミニゲームギャラリープロジェクトです。
+  GDScript で記述されており、以下の構成です：
+  - root/scenes/game_scene/ : ミニゲーム群（lucy_adventure, introduce_godot, achievement_master）
+  - root/autoload/ : シングルトン（GameManager, AudioManager, SettingsRepository）
+  - root/scripts/ : 共有スクリプト（ビヘイビアツリー、定数）
+  - test/unit/ : GUT ユニットテスト
+  コーディング規約は AGENTS.md を参照してください。
