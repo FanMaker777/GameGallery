@@ -1,25 +1,32 @@
-extends CharacterBody2D
+class_name Enemy extends CharacterBody2D
 
+@export_category("Status")
+@export var move_speed: float = 100.0
+@export var attack_range: float = 50.0
+@export var attack_cooldown: float = 1.0
 
-const SPEED = 300.0
-const JUMP_VELOCITY = -400.0
+@onready var _blackboard: Blackboard = %Blackboard
+@onready var _detect_area: Area2D = %DetectArea
 
+func _ready():
+	add_to_group("enemies")
+	# blackboardに初期地点を待機地点として登録
+	_blackboard.set_value(BlackBordValue.IDLE_POSITION, global_position)
+	# blackboardにステータスを登録
+	_blackboard.set_value(BlackBordValue.MOVE_SPEED, move_speed)
+	_blackboard.set_value(BlackBordValue.ATTACK_RANGE, attack_range)
+	_blackboard.set_value(BlackBordValue.ATTACK_COOLDOWN, attack_cooldown)
+	
+	_detect_area.body_entered.connect(func(body:Node2D) -> void:
+		Log.debug("_detect_area.body_entered")
+		_blackboard.set_value(BlackBordValue.IS_PLAYER_VISIBLE, true)
+		)
+	
+	_detect_area.body_exited.connect(func(body:Node2D) -> void:
+		_blackboard.set_value(BlackBordValue.IS_PLAYER_VISIBLE, false)
+		)
 
-func _physics_process(delta: float) -> void:
-	# Add the gravity.
-	if not is_on_floor():
-		velocity += get_gravity() * delta
-
-	# Handle jump.
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
-		velocity.y = JUMP_VELOCITY
-
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
-	var direction := Input.get_axis("ui_left", "ui_right")
-	if direction:
-		velocity.x = direction * SPEED
-	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
-
-	move_and_slide()
+func _physics_process(delta):
+	# The behavior tree handles the movement logic, but you might need
+	# additional code for animation, etc.
+	pass
