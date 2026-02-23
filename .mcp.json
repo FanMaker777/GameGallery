@@ -1,0 +1,26 @@
+{
+  "mcpServers": {
+    "godot": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["tools/mcp/godot-mcp/build/index.js"],
+      "env": {
+        "DEBUG": "true",
+        "GODOT_PATH": "C:\Program Files\Godot"
+      }
+    },
+    "gdscript": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["mcp-gdscript"]
+    },
+    "godot_docs": {
+      "type": "http",
+      "url": "https://godot-docs-mcp.j2d.workers.dev/mcp"
+    },
+    "github": {
+      "type": "http",
+      "url": "https://api.githubcopilot.com/mcp/"
+    }
+  }
+}
