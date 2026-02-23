@@ -238,8 +238,8 @@ animations = [{
 radius = 33.0
 height = 66.0
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_20sed"]
-size = Vector2(207, 127)
+[sub_resource type="CircleShape2D" id="CircleShape2D_detect"]
+radius = 150.0
 
 [node name="Enemy" type="CharacterBody2D"]
 collision_layer = 2
@@ -264,8 +264,7 @@ unique_name_in_owner = true
 collision_layer = 0
 
 [node name="DetectAreaCollision" type="CollisionShape2D" parent="DetectArea"]
-position = Vector2(139.5, -5.5)
-shape = SubResource("RectangleShape2D_20sed")
+shape = SubResource("CircleShape2D_detect")
 
 [node name="Blackboard" type="Node" parent="."]
 unique_name_in_owner = true

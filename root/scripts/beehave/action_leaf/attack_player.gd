@@ -1,25 +1,48 @@
 ## 【Beehave】プレイヤーを攻撃するアクションリーフ
+## 攻撃アニメーション完了を待ってからSUCCESSを返す。攻撃中は移動を停止する。
 class_name AttackPlayer
 extends ActionLeaf
 
-@export var attack_cooldown: float = 3.0
-var _time_since_last_attack: float = 0.0
+## 攻撃後のクールダウン時間（秒）
+@export var attack_cooldown: float = 2.0
 
-@onready var _animated_sprite: AnimatedSprite2D = %AnimatedSprite
+## 前回の攻撃からの経過時間
+var _time_since_last_attack: float = INF
+## 攻撃アニメーション再生中フラグ
+var _is_attacking: bool = false
+
+func before_run(_actor: Node, blackboard: Blackboard) -> void:
+	_is_attacking = false
+	# 攻撃アニメーション完了フラグをリセット
+	blackboard.set_value(BlackBordValue.ATTACK_ANIM_FINISHED, false)
 
 func tick(actor: Node, blackboard: Blackboard) -> int:
-	# Check if cooldown has elapsed
+	# 攻撃中は移動を停止
+	actor.velocity = Vector2.ZERO
+
+	# 攻撃アニメーション再生中 → 完了を待つ
+	if _is_attacking:
+		var anim_finished: bool = blackboard.get_value(
+			BlackBordValue.ATTACK_ANIM_FINISHED, false
+		)
+		if anim_finished:
+			# 攻撃アニメーション完了 → クールダウン開始
+			_is_attacking = false
+			_time_since_last_attack = 0.0
+			return SUCCESS
+		# アニメーション完了待ち
+		blackboard.set_value(BlackBordValue.DESIRED_ANIM_STATE, "Attack")
+		return RUNNING
+
+	# クールダウン中
 	if _time_since_last_attack < attack_cooldown:
 		_time_since_last_attack += get_physics_process_delta_time()
-		#Log.debug("攻撃クールダウン", _time_since_last_attack)
+		blackboard.set_value(BlackBordValue.DESIRED_ANIM_STATE, "Idle")
 		return RUNNING
-	
-	# Reset cooldown
-	_time_since_last_attack = 0.0
-	
-	# Perform attack
-	Log.debug("Enemy attacks player!")
-	# In a real game, you might trigger an animation or spawn a projectile here
-	_animated_sprite.play("Attack")
-	
-	return SUCCESS
+
+	# クールダウン完了 → 攻撃開始
+	_is_attacking = true
+	blackboard.set_value(BlackBordValue.ATTACK_ANIM_FINISHED, false)
+	blackboard.set_value(BlackBordValue.DESIRED_ANIM_STATE, "Attack")
+	Log.debug("攻撃開始!")
+	return RUNNING
