@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://bjugs04tjn2hk" path="res://root/scenes/game_scene/introduce_godot/assets/image/bubble_pattern.png" id="8_04jl8"]
 [ext_resource type="Texture2D" uid="uid://bghgtvtpjneuw" path="res://root/scenes/game_scene/introduce_godot/assets/image/emotion_regular.png" id="8_s1vt0"]
 [ext_resource type="AudioStream" uid="uid://baqa018p2og8r" path="res://root/scenes/game_scene/introduce_godot/assets/sounds/talking_synth.ogg" id="9_lc2ba"]
-[ext_resource type="PackedScene" uid="uid://dtite3wgwyq0r" path="res://root/scenes/game_scene/tower_defence/character/Warrior/warrior.tscn" id="9_s1vt0"]
+[ext_resource type="PackedScene" uid="uid://dtite3wgwyq0r" path="res://root/scenes/game_scene/achievement_master/character/Warrior/warrior.tscn" id="9_s1vt0"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_efgpg"]
 shader = ExtResource("7_2qbk6")
