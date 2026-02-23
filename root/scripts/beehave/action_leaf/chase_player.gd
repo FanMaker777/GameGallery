@@ -18,7 +18,6 @@ func tick(actor: Node, blackboard: Blackboard) -> int:
 	
 	# Move toward player
 	actor.global_position += direction * move_speed * get_physics_process_delta_time()
-	_animated_sprite.play("Run")
 	
 	# Check if within attack range
 	var distance = actor.global_position.distance_to(player_pos)
@@ -26,4 +25,5 @@ func tick(actor: Node, blackboard: Blackboard) -> int:
 		return SUCCESS
 	
 	# Still chasing
+	_animated_sprite.play("Run")
 	return RUNNING

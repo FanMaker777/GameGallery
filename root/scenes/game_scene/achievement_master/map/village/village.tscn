@@ -3,7 +3,7 @@
 [ext_resource type="TileSet" uid="uid://1lnru68nr2ak" path="res://root/scenes/game_scene/achievement_master/map/village/village.tres" id="1_qtgsi"]
 [ext_resource type="Texture2D" uid="uid://cufjmds17blpk" path="res://root/scenes/game_scene/achievement_master/map/assets/Buildings/Blue Buildings/Castle.png" id="2_23c21"]
 [ext_resource type="PackedScene" uid="uid://dtite3wgwyq0r" path="res://root/scenes/game_scene/achievement_master/character/Warrior/warrior.tscn" id="3_23c21"]
-[ext_resource type="PackedScene" uid="uid://ci4xros7ui8ni" path="res://root/scenes/game_scene/achievement_master/enemys/Skull/skull.tscn" id="4_01tu3"]
+[ext_resource type="PackedScene" uid="uid://ci4xros7ui8ni" path="res://root/scenes/game_scene/achievement_master/enemys/enemy.tscn" id="4_01tu3"]
 
 [node name="Village" type="Node2D"]
 
@@ -22,5 +22,5 @@ texture = ExtResource("2_23c21")
 [node name="Warrior" parent="." instance=ExtResource("3_23c21")]
 position = Vector2(-8, 8)
 
-[node name="Skull" parent="." instance=ExtResource("4_01tu3")]
-position = Vector2(352, 24)
+[node name="Enemy" parent="." instance=ExtResource("4_01tu3")]
+position = Vector2(142, 11)

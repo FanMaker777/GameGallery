@@ -5,8 +5,6 @@ extends ActionLeaf
 @export var move_speed: float = 50.0
 @export var point_reach_distance: float = 10.0
 
-var current_point_index: int = 0
-
 @onready var _animated_sprite: AnimatedSprite2D = %AnimatedSprite
 
 func tick(actor: Node, blackboard: Blackboard) -> int:
@@ -25,7 +23,6 @@ func tick(actor: Node, blackboard: Blackboard) -> int:
 	var distance = actor.global_position.distance_to(target_pos)
 	if distance <= point_reach_distance:
 		# Move to the next patrol point
-		blackboard.set_value("patrol_point_reached", true)
 		return SUCCESS
 	
 	return RUNNING
