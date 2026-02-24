@@ -250,3 +250,214 @@
 - 敵/ボスの具体挙動（最小でOK）
 - クエストの詳細（最小でOK）
 - アイテム/装備の完全設計（プロトタイプでは簡易でOK）
+
+---
+
+## 付録B：現在の実装状況（2026-02-23 更新）
+
+### 全体サマリー
+
+セクション11のタスク1〜3が **50〜60% 程度**完了。村に **Pawn プレイヤー**（移動・採取・攻撃）、Beehave駆動の敵1体（HP/死亡あり）、3種のリソースノード（木・金鉱石・羊）、簡易リソースHUDが配置され、採取・戦闘の最小ループが動作する。ゲーム固有のコアシステム（実績・AP・報酬・セーブ）は**未着手**。
+
+---
+
+### タスク別 進捗一覧
+
+| # | タスク | 状態 | 備考 |
+|---|---|---|---|
+| 1 | プロジェクト初期化（シーン/フォルダ/入力/Autoload） | **部分完了** | フォルダ構造あり。`attack`/`interact` 追加済み。AM専用Autoload未登録、`dash`/`open_menu`/`quickslot_*` 未定義 |
+| 2 | Player 移動/攻撃/回避（最小） | **部分完了** | Pawn で移動＋攻撃＋採取を実装済み。回避/ダッシュ・HP/スタミナは未実装 |
+| 3 | 村・ダンジョンの最小ループ | **部分完了** | 村シーン動作（Pawn+Enemy+リソースノード+HUD）。grasslandフォルダは空 |
+| 4 | AchievementManager（データ定義 + 解除イベント） | **未着手** | |
+| 5 | HUD（HP/スタミナ/プロンプト/トースト/ピン進捗） | **未着手** | |
+| 6 | PauseMenu（4タブ）— 実績タブ優先 | **未着手** | グローバルPauseScreenは存在するが4タブ構成ではない |
+| 7 | RewardManager（報酬解放と効果適用） | **未着手** | |
+| 8 | セーブ/ロード | **未着手** | |
+| 9 | バランス調整 | **未着手** | |
+| 10 | GUTテスト追加/整備 | **未着手** | テンプレ（test_example.gd）のみ |
+
+---
+
+### 詳細：実装済みの要素
+
+#### プロジェクト構造
+```
+root/scenes/game_scene/achievement_master/
+├── character/
+│   ├── Warrior/        warrior.tscn + warrior.gd（旧プレイヤー、村では未使用）
+│   ├── Pawn/           pawn.tscn + pawn.gd（★現プレイヤー：移動・採取・攻撃）
+│   └── assets/         Archer, Lancer, Monk（画像のみ）
+├── data/
+│   └── resource_definitions.gd（★リソース種別・採取データ定義）
+├── enemys/
+│   ├── enemy.tscn + enemy.gd（Skull敵1種、Beehave BT駆動、HP/死亡あり）
+│   └── [15+ フォルダ]  Bear, Gnoll, Minotaur 等（画像のみ、シーンなし）
+├── ui/
+│   └── resource_hud.tscn + resource_hud.gd（★リソースHUD：Wood/Gold/Meat表示）
+└── world/
+    ├── map/
+    │   ├── village/    village.tscn + village.tres（Pawn+Enemy+リソースノード+HUD配置済）
+    │   └── grassland/  ← 空フォルダ
+    ├── resource_nodes/（★採取可能オブジェクト）
+    │   ├── resource_node.gd（基底クラス：採取/枯渇/リスポーン共通ロジック）
+    │   ├── tree_node.gd + tree_node.tscn（木→スタンプ→30秒で復活）
+    │   ├── gold_stone_node.gd + gold_stone_node.tscn（金鉱石→暗転→45秒で復活）
+    │   └── sheep_node.gd + sheep_node.tscn（羊→待機→20秒で復活）
+    ├── assets/         Buildings, Terrain 画像（Resources: Wood/Gold/Meat素材あり）
+    └── object/         ← 空フォルダ
+```
+
+#### Player（pawn.gd）— ★現在のプレイヤーキャラクター
+- `class_name Pawn extends CharacterBody2D`
+- **State Machine**：`enum State { IDLE, MOVE, GATHER, ATTACK }`
+- **移動**：4方向（`move_left/right/up/down`）、SPEED=200、斜め正規化、Run/Idle アニメ
+- **採取**（E キー）：InteractArea（半径80、Layer 3 検知）でリソースノード接近検知 → `get_gather_data()` → 対応アニメ再生 → `harvest()` → インベントリ加算
+  - 木：Attack1（斧）アニメ → Wood +3
+  - 金鉱石：Guard（ハンマー）アニメ → Gold +2
+  - 羊：Attack1（斧）アニメ → Meat +1
+- **攻撃**（Space キー）：Attack2（ナイフ）アニメ再生、AttackHitbox（矩形80x60、Layer 2 検知）を0.4秒間有効化、flip_h に応じてヒットボックス左右反転
+  - ダメージ：10 / 敵HP：30 → 3回で撃破
+- **インベントリ**：Pawn 内部 Dictionary + `inventory_changed` signal（HUD連動）
+- Camera2D 直付け
+- **未実装**：回避/ダッシュ、プレイヤーHP/スタミナ、無敵フレーム、アイテム持ち替え表示
+
+#### Player 旧（warrior.gd）
+- `class_name RpgPlayer extends CharacterBody2D`
+- 移動のみ実装。村シーンでは Pawn に差し替え済み
+- **問題点**：`ui_left/ui_right` 等のデフォルトアクションを使用（カスタムアクション未使用）
+
+#### Enemy（enemy.gd）
+- `class_name Enemy extends CharacterBody2D`
+- Beehave行動ツリー：`Selector → [AttackSequence(検知→追跡→攻撃), PatrolSequence(巡回→待機)]`
+- DetectArea（半径150）でプレイヤー検知 → Blackboard経由で状態管理
+- アニメーション管理（重複防止、flip_hジッター防止）
+- **HP/ダメージ**（★実装済み）：`MAX_HP=30`、`take_damage(amount)` → HP減算 → 0以下で `_die()` → `queue_free()`
+- **未実装**：死亡アニメーション、ドロップ、ノックバック
+
+#### リソースノードシステム（★新規）
+- **基底クラス** `ResourceNode extends StaticBody2D`：`get_gather_data()` / `harvest()` インターフェース、枯渇→リスポーンタイマー
+- **データ駆動**：`ResourceDefinitions` クラスに `enum ResourceType { WOOD, GOLD, MEAT }` と `NODE_DATA` 定数で各リソースの yield_amount / gather_animation / gather_time / respawn_time を定義
+- **物理レイヤー**：Layer 3 = "ResourceNode"（collision_layer=4）
+- **3種のサブクラス**：
+  - `TreeNode`：Tree1.png → Stump 1.png（採取でスタンプ表示、30秒で復活）
+  - `GoldStoneNode`：Gold Stone 1.png（採取で暗転、45秒で復活）
+  - `SheepNode`：AnimatedSprite2D Grass/Idle（採取でIdle、20秒で復活）
+
+#### リソースHUD（★新規）
+- `ResourceHud extends CanvasLayer`：画面左上に Wood / Gold / Meat の所持数を表示
+- Pawn の `inventory_changed` signal を購読し自動更新
+
+#### Beehave BTリーフノード（`root/scripts/beehave/`）
+- `chase_player.gd` — 滑らかな速度補間、攻撃範囲到達でSUCCESS
+- `attack_player.gd` — アニメーション完了シグナル待ち、クールダウンタイマー
+- `move_to_patrol_point.gd` — 巡回移動（到着閾値あり）
+- `wait_at_patrol_point.gd` — 時限待機
+- `is_player_visible.gd` — Blackboard読み取り、プレイヤー位置キャッシュ
+
+#### InputMap（project.godot 定義済み）
+| アクション | 状態 |
+|---|---|
+| `move_up/down/left/right` | 定義済み（矢印キー + ジョイパッド） |
+| `jump` | 定義済み（C, Space, ジョイパッドA/Y）— プラットフォーマー由来 |
+| `ESC` | 定義済み |
+| `dialogic_default_action` | 定義済み |
+| `attack` | ★定義済み（Space） |
+| `interact` | ★定義済み（E） |
+| `dash` | **未定義** |
+| `open_menu` | **未定義** |
+| `quickslot_1/2/3` | **未定義** |
+
+#### 物理レイヤー（project.godot）
+| Layer | 名前 | 対象 |
+|---|---|---|
+| 1 | Player | Pawn |
+| 2 | Enemy | Enemy |
+| 3 | ResourceNode | ★TreeNode, GoldStoneNode, SheepNode |
+| 9 | Ground | TileMap |
+
+#### グローバル基盤（共有、本番品質）
+- **GameManager** → SceneNavigator（フェード遷移）+ OverlayController（ESCルーティング）
+- **AudioManager** — Master/BGM/SE バス制御、linear↔dB変換
+- **SettingsRepository** — `user://settings.cfg` 永続化
+- **PauseScreen** — ブラー＋デサチュレーション・シェーダー、Tweenアニメーション
+- **Log** — Logger アドオン経由（print()禁止ルール）
+
+#### 利用可能アドオン
+- **Beehave 2.9.2** — 行動ツリーAI
+- **Dialogic 2.0-Alpha-19** — ダイアログシステム
+- **GUT 9.5.0** — ユニットテスト
+- **Logger 2.1.1** — ログ出力
+
+---
+
+### 詳細：未実装の要素一覧
+
+| 機能 | 仕様セクション | 状態 |
+|---|---|---|
+| `GameState` Autoload | 7.2 | 未着手 |
+| `AchievementManager` Autoload | 7.2 | 未着手 |
+| `RewardManager` Autoload | 7.2 | 未着手 |
+| `SaveManager` Autoload | 7.2 | 未着手 |
+| 実績データ（achievements.json） | 4.2, 5 | 未着手 |
+| 報酬ツリーデータ | 6 | 未着手 |
+| APシステム | 4.1 | 未着手 |
+| HUDシーン（hud.tscn）— 本格版 | 3.1, 8 | 未着手（簡易リソースHUDのみ実装済み） |
+| 4タブPauseMenu（実績タブ含む） | 3.2 | 未着手 |
+| 実績トースト通知 | 3.1, 8 | 未着手 |
+| ピン留め進捗表示 | 3.1, 3.2 | 未着手 |
+| 草原/ダンジョンマップ | 7.1 | フォルダのみ（空） |
+| 中ボスシーン（mid_boss.tscn） | 7.1 | 未着手 |
+| プレイヤー回避/ダッシュ | 7.3 | 未着手 |
+| プレイヤーHP/スタミナ | 3.1 | 未着手 |
+| 敵死亡アニメーション/ドロップ | — | 未着手（queue_free のみ） |
+| NPC会話・インタラクト | 5.1 | 未着手（Dialogicアドオンは導入済み） |
+| クエストシステム | 1.2 | 未着手 |
+| 農業/クラフト — 本格版 | 6.3 | 未着手（基礎的な採取システムのみ実装済み） |
+| アイテム/装備 | 付録 | 未着手 |
+| セーブ/ロード | 9 | 未着手 |
+| GUTテスト（実質） | 10 | テンプレのみ |
+
+---
+
+### 実装履歴
+
+#### 2026-02-23 — Pawn プレイヤー実装（移動・採取・攻撃）
+
+| 変更 | 詳細 |
+|------|------|
+| InputMap 追加 | `attack`（Space）、`interact`（E）を project.godot に追加 |
+| 物理レイヤー追加 | Layer 3 = "ResourceNode" を定義 |
+| Pawn スクリプト | `pawn.gd` — State Machine（IDLE/MOVE/GATHER/ATTACK）、InteractArea + AttackHitbox |
+| リソース定義 | `resource_definitions.gd` — ResourceType enum + NODE_DATA（データ駆動） |
+| ResourceNode 基底 | `resource_node.gd` — 採取/枯渇/リスポーン共通ロジック |
+| TreeNode | 木→スタンプ→30秒復活（Attack1 アニメ、Wood +3） |
+| GoldStoneNode | 金鉱石→暗転→45秒復活（Guard アニメ、Gold +2） |
+| SheepNode | 羊→待機→20秒復活（Attack1 アニメ、Meat +1） |
+| Enemy HP | `take_damage()`/`_die()` 追加（HP30、3回攻撃で撃破） |
+| ResourceHud | 画面左上に Wood/Gold/Meat 表示（Pawn の signal 購読） |
+| 村シーン更新 | Warrior → Pawn 差し替え、木×3/金鉱石×2/羊×2/HUD 配置 |
+
+**新規ファイル（11件）:**
+- `character/Pawn/pawn.gd`
+- `data/resource_definitions.gd`
+- `world/resource_nodes/resource_node.gd`
+- `world/resource_nodes/tree_node.gd` + `tree_node.tscn`
+- `world/resource_nodes/gold_stone_node.gd` + `gold_stone_node.tscn`
+- `world/resource_nodes/sheep_node.gd` + `sheep_node.tscn`
+- `ui/resource_hud.gd` + `resource_hud.tscn`
+
+**変更ファイル（3件）:**
+- `project.godot`（InputMap + Layer名）
+- `character/Pawn/pawn.tscn`（InteractArea/AttackHitbox 追加 + スクリプトアタッチ）
+- `enemys/enemy.gd`（HP + take_damage + _die 追加）
+- `world/map/village/village.tscn`（Pawn配置 + リソースノード + HUD）
+
+---
+
+### 次に着手すべき作業（推奨）
+
+1. **プレイヤーHP/スタミナ** — 敵の攻撃が意味を持つようにする（被ダメージ + 死亡処理）
+2. **grasslandマップ** — 村→草原の遷移を作り、最小ループ完成
+3. **敵死亡アニメ/ドロップ** — 倒した敵の演出強化
+4. **AchievementManager** — コアシステム着手（データ駆動）
+5. 以降は設計書セクション11の順序に従う
