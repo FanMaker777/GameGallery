@@ -13,6 +13,13 @@
 - **必ず動作確認＋テスト:** 変更後は MCP サーバー経由で実際に Godot を実行して動作確認し、必要に応じて GUT テストを追加/更新する。
 - **MCP サーバーを積極活用:** シーン作成・ノード追加・実行テスト・デバッグ出力確認など、MCP ツールで実行可能な操作は手動ファイル編集より MCP を優先する。
 - **Skills を積極活用:** コーディング時は利用可能な Skills（`godot-expert` 等）を積極的に呼び出し、専門知識やベストプラクティスを活用すること。
+- **【絶対順守】読み取り許可ディレクトリの制限:**
+  コード調査等で読み取りするディレクトリは **以下の2つおよびその配下のみ** に限定する。
+  この2ディレクトリに限り、読み取り（Read / Glob / Grep）およびコマンド使用の承認は不要。
+  **下記以外のディレクトリを読み取る場合は、理由を説明した上でユーザーの承認を得ること。**
+  1. `D:/MyWork/ゲーム開発/Godot/GDQuest/2d/l2dfz_0.51.2_win/projects/GameGallery`
+  2. `C:/Users/myoso/.claude`
+- **各実装後、CLAUDE.md を更新する:** 新しい規約・パス・Autoload・アーキテクチャ変更など、CLAUDE.md に反映すべき情報が生じた場合は必ず更新する。
 
 ---
 
@@ -107,6 +114,8 @@ res://addons/                 # プラグイン（beehave, dialogic, gut, logger
 |-------|------|------|
 | 1 | Player | プレイヤーキャラクター |
 | 2 | Enemy | エネミー |
+| 3 | ResourceNode | 採取可能リソース |
+| 4 | NPC | 会話可能な NPC |
 | 9 | Ground | 地形・壁 |
 
 ---
@@ -177,14 +186,19 @@ res://addons/                 # プラグイン（beehave, dialogic, gut, logger
 
 ### 6.3 コメント
 
-- **全ての処理には日本語で簡潔に処理概要をコメント**
-- クラス・メソッド・変数には `##` で役割をコメントする
+**【絶対ルール】全てのコードに、そのコードがどのような処理をしているか日本語で簡潔にコメントを記述すること。例外なし。**
+
+- **全ての関数・メソッド:** 冒頭に `##` で「何をする関数か」を1行で記述する
+- **全てのクラス:** 冒頭に `##` で「このクラスの責務」を記述する
+- **全ての変数・定数:** `##` で用途・役割を記述する（自明な場合はインラインコメントでも可）
+- **全ての処理ブロック:** if 分岐・ループ・シグナル接続など、処理の意図がわかるコメントを付ける
 - 複雑な処理や意図が読みにくいコードには「なぜこの実装か」を追加する
 - 類似処理が並ぶ場合はひとまとめのコメントにする
 
 ### 6.4 ログ
 
 - `Log` オートロードを使用し、`print()` は使用しない
+- **基本的に `Log.debug()` を使用する。** `Log.info()` は特に重要な情報（初期化完了、致命的な状態変化など）にのみ用いる
 - 重要またはバグが発生しやすいメソッドには追跡用ログを出力する
 - エラーは握りつぶさず、原因が追える情報を残す
 
@@ -195,6 +209,8 @@ res://addons/                 # プラグイン（beehave, dialogic, gut, logger
 - **拡張性:** 新機能追加時に既存コードの変更範囲が最小で済む構造
 - **保守性:** 表示文言や UI 構造変更に強い実装（文字列 match 依存を避ける）
 - **可読性:** 意図がコードから読み取れる命名・関数分割・データ駆動
+- **パラメータは export 変数で定義:** HP・攻撃力・速度・クールダウン等のゲームパラメータは `@export` 変数として定義し、Inspector から調整可能にする。定数（`const`）はゲームデザインに無関係な内部値にのみ使用する
+- **フォールバック処理は絶対に使用しない:** 呼び出し先にメソッド/プロパティが存在するか明示的に確認し、存在しない場合は早期リターンまたはエラーログで処理する。デフォルト値で暗黙に処理を続行する「握りつぶし」は禁止
 
 #### 責務分離
 
@@ -264,8 +280,13 @@ Achievement Master は Top-down アクション RPG。詳細仕様は `Achieveme
 
 ### 現在の実装状況
 
-- **プレイヤー:** `res://root/scenes/game_scene/achievement_master/character/Warrior/warrior.tscn`
-  - `RpgPlayer` (CharacterBody2D)、Layer 1 "Player"、`move_and_slide()` で移動
+- **プレイヤー:** `res://root/scenes/game_scene/achievement_master/character/Pawn/pawn.tscn`
+  - `Pawn` (CharacterBody2D)、Layer 1 "Player"、移動・採取・攻撃・NPC会話
+  - InteractArea で "resource_node" / "npc" 両グループを検知し、最寄り対象に応じてプロンプト切替（「E 採取」/「E 話す」）
+- **NPC:** `res://root/scenes/game_scene/achievement_master/character/npc/npc.tscn`
+  - `Npc` (CharacterBody2D)、Layer 4 "NPC"、`@export var sprite_frames: SpriteFrames` で Inspector からアニメーション設定
+  - `interact()` でセリフ順送り表示（連打防止付き）、`@export var dialogues: Array[String]`
+  - 村に3体配置: 弓使い（Archer）/ 修道士（Monk）/ 槍兵（Lancer）
 - **エネミー:** `res://root/scenes/game_scene/achievement_master/enemys/enemy.tscn`
   - `Enemy` (CharacterBody2D)、Layer 2 "Enemy"、Beehave ビヘイビアツリーで AI 制御
   - BT 構造: Selector → AttackSequence（探知→追跡→攻撃） / PatrolSequence（帰還→待機）

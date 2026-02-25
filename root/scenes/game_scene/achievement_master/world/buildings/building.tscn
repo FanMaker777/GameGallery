@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://root/scenes/game_scene/achievement_master/world/buildings/building.gd" id="building_script"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_building"]
+size = Vector2(80, 40)
+
+[node name="Building" type="StaticBody2D"]
+collision_layer = 256
+collision_mask = 0
+script = ExtResource("building_script")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_building")

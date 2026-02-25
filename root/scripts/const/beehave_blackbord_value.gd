@@ -16,3 +16,5 @@ const ATTACK_COOLDOWN = "attack_cooldown"
 const DESIRED_ANIM_STATE = "desired_anim_state"
 ## 攻撃アニメーション完了フラグ
 const ATTACK_ANIM_FINISHED = "attack_anim_finished"
+## 攻撃ダメージ量
+const ATTACK_DAMAGE = "attack_damage"
