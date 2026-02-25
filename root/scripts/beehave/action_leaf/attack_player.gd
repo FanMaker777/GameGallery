@@ -20,6 +20,8 @@ func before_run(_actor: Node, blackboard: Blackboard) -> void:
 	_damage_dealt = false
 	# 攻撃アニメーション完了フラグをリセット
 	blackboard.set_value(BlackBordValue.ATTACK_ANIM_FINISHED, false)
+	# ヒットフレーム到達フラグをリセット
+	blackboard.set_value(BlackBordValue.ATTACK_HIT_FRAME_REACHED, false)
 
 
 ## 毎フレームの攻撃処理 — アニメーション管理とダメージ判定を行う
@@ -27,16 +29,22 @@ func tick(actor: Node, blackboard: Blackboard) -> int:
 	# 攻撃中は移動を停止
 	actor.velocity = Vector2.ZERO
 
-	# 攻撃アニメーション再生中 → 完了を待つ
+	# 攻撃アニメーション再生中 → ヒットフレームでダメージ適用、アニメ完了でSUCCESS
 	if _is_attacking:
+		# ヒットフレーム到達時にダメージを適用する（アニメ完了を待たない）
+		var hit_frame_reached: bool = blackboard.get_value(
+			BlackBordValue.ATTACK_HIT_FRAME_REACHED, false
+		)
+		if hit_frame_reached and not _damage_dealt:
+			_apply_damage_to_player(actor, blackboard)
+
+		# アニメーション完了で攻撃シーケンスを終了する
 		var anim_finished: bool = blackboard.get_value(
 			BlackBordValue.ATTACK_ANIM_FINISHED, false
 		)
 		if anim_finished:
-			# 攻撃アニメーション完了時にダメージを適用する
-			if not _damage_dealt:
-				_apply_damage_to_player(actor, blackboard)
-			# クールダウン開始
+			# ブラックボードのフラグをリセットしてクールダウン開始
+			blackboard.set_value(BlackBordValue.ATTACK_HIT_FRAME_REACHED, false)
 			_is_attacking = false
 			_damage_dealt = false
 			_time_since_last_attack = 0.0
@@ -55,6 +63,7 @@ func tick(actor: Node, blackboard: Blackboard) -> int:
 	_is_attacking = true
 	_damage_dealt = false
 	blackboard.set_value(BlackBordValue.ATTACK_ANIM_FINISHED, false)
+	blackboard.set_value(BlackBordValue.ATTACK_HIT_FRAME_REACHED, false)
 	blackboard.set_value(BlackBordValue.DESIRED_ANIM_STATE, "Attack")
 	Log.debug("攻撃開始!")
 	return RUNNING

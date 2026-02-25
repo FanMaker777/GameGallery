@@ -4,6 +4,8 @@ class_name Enemy extends CharacterBody2D
 
 ## flip_hを切り替える最小X速度閾値（ちらつき防止）
 @export var flip_threshold: float = 10.0
+## 攻撃アニメーションのダメージ適用フレーム（0始まり、Inspectorで調整可能）
+@export_range(1, 6, 1) var attack_hit_frame: int = 3
 
 ## 最大HP
 const MAX_HP: int = 30
@@ -26,6 +28,8 @@ func _ready() -> void:
 	_blackboard.set_value(BlackBordValue.ATTACK_DAMAGE, ATTACK_DAMAGE)
 	# 攻撃アニメーション完了シグナルを接続
 	_animated_sprite.animation_finished.connect(_on_animation_finished)
+	# ヒットフレーム検出用のフレーム変化シグナルを接続
+	_animated_sprite.frame_changed.connect(_on_frame_changed)
 
 func _physics_process(_delta: float) -> void:
 	# --- アニメーション管理（一元化） ---
@@ -44,6 +48,12 @@ func _update_animation(anim_name: String) -> void:
 	if _current_anim != anim_name:
 		_animated_sprite.play(anim_name)
 		_current_anim = anim_name
+
+## 攻撃アニメーションのヒットフレーム到達時にブラックボードを更新する
+func _on_frame_changed() -> void:
+	if _animated_sprite.animation == &"Attack" and _animated_sprite.frame == attack_hit_frame:
+		_blackboard.set_value(BlackBordValue.ATTACK_HIT_FRAME_REACHED, true)
+
 
 ## 攻撃アニメーション完了時のコールバック
 func _on_animation_finished() -> void:
