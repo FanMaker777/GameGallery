@@ -3,10 +3,10 @@
     "godot": {
       "type": "stdio",
       "command": "node",
-      "args": [".claude/tools/mcp/godot-mcp/build/index.js"],
+      "args": ["tools/mcp/godot-mcp/build/index.js"],
       "env": {
         "DEBUG": "true",
-        "GODOT_PATH": "C:\\Program Files\\Godot"
+        "GODOT_PATH": "D:/MyWork/GameDevelopment/Godot/Godot_v4.5.1/Godot_v4.5.1-stable_win64.exe"
       }
     },
     "gdscript": {
