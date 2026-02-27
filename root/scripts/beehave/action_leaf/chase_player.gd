@@ -35,5 +35,5 @@ func tick(actor: Node, blackboard: Blackboard) -> int:
 	return RUNNING
 
 ## 追跡終了時に速度をクリア
-func after_run(actor: Node, blackboard: Blackboard) -> void:
+func after_run(actor: Node, _blackboard: Blackboard) -> void:
 	actor.velocity = Vector2.ZERO

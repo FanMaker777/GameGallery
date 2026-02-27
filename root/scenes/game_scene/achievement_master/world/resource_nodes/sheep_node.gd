@@ -46,8 +46,6 @@ func _ready() -> void:
 
 ## 毎フレーム行動タイマーと移動を処理する
 func _process(delta: float) -> void:
-	# 基底クラスのリスポーンタイマーを処理
-	super._process(delta)
 	# 枯渇中は行動を停止
 	if is_depleted:
 		return

@@ -45,6 +45,8 @@ var _player: Node = null
 var _previous_player_pos: Vector2 = Vector2.ZERO
 ## 歩行距離の累積（DISTANCE_RECORD_INTERVAL に達したら record）
 var _distance_accumulator: float = 0.0
+## 前フレームのHP（ダメージ検出用）
+var _previous_hp: int = -1
 
 
 # ========== ライフサイクル ==========
@@ -280,7 +282,6 @@ func _on_player_attack_started() -> void:
 
 
 ## プレイヤーのHPが変化したとき（ダメージ検出用）
-var _previous_hp: int = -1
 func _on_player_health_changed(current_hp: int, _max_hp: int) -> void:
 	if _previous_hp >= 0 and current_hp < _previous_hp:
 		record_action(&"player_damaged")
