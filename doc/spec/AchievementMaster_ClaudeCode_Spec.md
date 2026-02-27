@@ -296,11 +296,11 @@
 
 ---
 
-## 付録B：現在の実装状況（2026-02-25 更新）
+## 付録B：現在の実装状況（2026-02-27 更新）
 
 ### 全体サマリー
 
-セクション11のタスク1〜3が **90〜95% 程度**完了。村に **Pawn プレイヤー**（移動・採取・攻撃・NPC会話・HP・被ダメージ・死亡）、**NPC 3体**（弓使い・修道士・槍兵 — セリフ順送り表示）、Beehave駆動の敵（HP/死亡あり）、3種のリソースノード（木・金鉱石・羊）、簡易リソースHUDが配置済み。**草原マップ**が新規追加され、GenericSpawner による敵×5体のスポーン、村⇔草原の**フェード遷移（MapGate）**が動作する。ゲーム固有のコアシステム（実績・AP・報酬・セーブ）は**未着手**。
+セクション11のタスク1〜3が **95% 程度**完了。村に **Pawn プレイヤー**（移動・採取・攻撃・NPC会話・HP・被ダメージ・死亡・★ドロップ回収）、**NPC 3体**（弓使い・修道士・槍兵 — セリフ順送り表示）、Beehave駆動の敵（HP/★死亡演出/★ゴールドドロップあり）、3種のリソースノード（木・金鉱石・羊）、簡易リソースHUDが配置済み。**草原マップ**が新規追加され、GenericSpawner による敵×5体のスポーン、村⇔草原の**フェード遷移（MapGate）**が動作する。ゲーム固有のコアシステム（実績・AP・報酬・セーブ）は**未着手**。
 
 ---
 
@@ -310,7 +310,7 @@
 |---|---|---|---|
 | 1 | プロジェクト初期化（シーン/フォルダ/入力/Autoload） | **ほぼ完了** | フォルダ構造・InputMap全アクション定義済み。AM専用Autoload未登録のみ残り |
 | 2 | Player 移動/攻撃（最小） | **ほぼ完了** | Pawn で移動＋攻撃＋採取＋HP＋被ダメージ＋死亡を実装済み |
-| 3 | 村・ダンジョンの最小ループ | **ほぼ完了** | 村＋草原マップ動作、MapGateでフェード遷移、★NPC会話実装済み。建物配置・敵死亡演出が未実装 |
+| 3 | 村・ダンジョンの最小ループ | **ほぼ完了** | 村＋草原マップ動作、MapGateでフェード遷移、★NPC会話実装済み、★敵死亡演出/ドロップ実装済み。建物配置が未実装 |
 | 4 | AchievementManager（データ定義 + 解除イベント） | **未着手** | |
 | 5 | HUD（HP/プロンプト/トースト/ピン進捗） | **未着手** | |
 | 6 | PauseMenu（4タブ）— 実績タブ優先 | **未着手** | グローバルPauseScreenは存在するが4タブ構成ではない |
@@ -350,6 +350,7 @@ root/scenes/game_scene/achievement_master/
     │   ├── gold_stone_node.gd + gold_stone_node.tscn（金鉱石→暗転→45秒で復活）
     │   ├── sheep_node.gd + sheep_node.tscn（羊→待機→20秒で復活）
     │   └── sheep_spawner.gd + sheep_spawner.tscn（旧スポナー、GenericSpawnerに置換済み）
+    ├── drop_item/      ★drop_item.gd + drop_item.tscn（敵ドロップアイテム：自動回収 + 演出）
     ├── assets/         Buildings, Terrain 画像（Resources: Wood/Gold/Meat素材あり）
     └── object/         ← 空フォルダ
 ```
@@ -371,6 +372,7 @@ root/scenes/game_scene/achievement_master/
   - 無敵フレーム：被ダメージ後1秒間、スプライト点滅（0.1秒間隔）
   - DEAD 状態：全入力無効化
 - **インベントリ**：Pawn 内部 Dictionary + `inventory_changed` signal（HUD連動）
+- **ドロップ回収**（★実装済み）：`collect_drop(type, amount)` メソッド — DropItem から呼ばれ `_add_resource()` 経由でインベントリ加算
 - Camera2D 直付け
 - **未実装**：アイテム持ち替え表示、死亡後のリスポーン
 
@@ -384,8 +386,23 @@ root/scenes/game_scene/achievement_master/
 - Beehave行動ツリー：`Selector → [AttackSequence(検知→追跡→攻撃), PatrolSequence(巡回→待機)]`
 - DetectArea（半径150）でプレイヤー検知 → Blackboard経由で状態管理
 - アニメーション管理（重複防止、flip_hジッター防止）
-- **HP/ダメージ**（★実装済み）：`MAX_HP=30`、`take_damage(amount)` → HP減算 → 0以下で `_die()` → `queue_free()`
-- **未実装**：死亡アニメーション、ドロップ、ノックバック
+- **HP/ダメージ**（★実装済み）：`MAX_HP=30`、`take_damage(amount)` → HP減算 → 0以下で `_die()`
+  - 死亡演出中は `_is_dying` フラグでダメージ・AI・移動を停止
+- **死亡演出**（★実装済み）：`_play_death_effect()` — 白フラッシュ3回（modulate明滅 × 3、計0.3秒）→ フェードアウト + 縮小（0.4秒）→ `queue_free()`
+- **ドロップ**（★実装済み）：`_spawn_drop_item()` — `@export var drop_item_scene: PackedScene`（drop_item.tscn）をワールドに生成
+  - `@export var drop_gold_amount: int = 5` — Gold ドロップ量
+  - `died` シグナル発火（AchievementManager 等の外部連携用）
+- **未実装**：ノックバック
+
+#### DropItem（drop_item.gd）（★新規）
+- `class_name DropItem extends Node2D`
+- **パス**：`world/drop_item/drop_item.gd` + `.tscn`
+- **Export変数**：`resource_type: ResourceDefinitions.ResourceType`、`amount: int = 5`
+- **スプライト**：Gold_Resource.png（scale 0.5）
+- **PickupArea**：Area2D（CircleShape2D 半径30、collision_layer=0, collision_mask=1=Player）
+- **スポーン演出**：上に40px跳ねて落下するバウンド（Tween 0.4秒）
+- **回収処理**：Pawn が PickupArea に接触 → `collect_drop()` 呼出 → 吸い込み+フェードアウト演出（0.25秒）→ `queue_free()`
+- **二重回収防止**：`_picked_up` フラグ
 
 #### リソースノードシステム（★新規）
 - **基底クラス** `ResourceNode extends StaticBody2D`：`get_gather_data()` / `harvest()` インターフェース、枯渇→リスポーンタイマー
@@ -509,7 +526,7 @@ root/scenes/game_scene/achievement_master/
 | 実績トースト通知 | 3.1, 8 | 未着手 |
 | ピン留め進捗表示 | 3.1, 3.2 | 未着手 |
 | 中ボスシーン（mid_boss.tscn） | 7.1 | 未着手 |
-| 敵死亡アニメーション/ドロップ | — | 未着手（queue_free のみ） |
+| 敵死亡アニメーション/ドロップ | — | **★実装済み** — Tween白フラッシュ+フェードアウト、Goldドロップ（自動回収+HUD連動） |
 | NPC会話・インタラクト | 5.1 | **★実装済み** — 簡易会話（Label表示、セリフ順送り）。Dialogic連携は未着手 |
 | クエストシステム | 1.2 | 未着手 |
 | 農業/クラフト — 本格版 | 6.3 | 未着手（基礎的な採取システムのみ実装済み） |
@@ -600,12 +617,36 @@ root/scenes/game_scene/achievement_master/
 
 ---
 
+#### 2026-02-27 — 敵死亡演出/ドロップアイテム実装
+
+| 変更 | 詳細 |
+|------|------|
+| DropItem シーン新規作成 | `drop_item.gd` + `drop_item.tscn` — Node2D + Sprite2D(Gold_Resource.png) + PickupArea(Area2D) |
+| DropItem スポーン演出 | 上に40px跳ねて落下するバウンド（Tween 0.4秒） |
+| DropItem 回収処理 | Pawn 接近で `collect_drop()` 呼出 → 吸い込み+フェードアウト演出（0.25秒）→ `queue_free()` |
+| Enemy 死亡演出 | `_play_death_effect()` — 白フラッシュ3回（0.3秒）→ フェードアウト+縮小（0.4秒）→ `queue_free()` |
+| Enemy ドロップ生成 | `_spawn_drop_item()` — ワールドに DropItem を生成（Gold x5） |
+| Enemy 死亡ガード | `_is_dying` フラグで死亡演出中のダメージ・AI・移動を停止 |
+| Enemy シグナル追加 | `died` シグナル（AchievementManager 連携用） |
+| Pawn ドロップ回収 | `collect_drop()` メソッド追加 — `_add_resource()` → `inventory_changed` → ResourceHud 自動更新 |
+
+**新規ファイル（2件）:**
+- `world/drop_item/drop_item.gd`
+- `world/drop_item/drop_item.tscn`
+
+**変更ファイル（3件）:**
+- `enemys/enemy.gd`（死亡演出・ドロップ生成・died シグナル・_is_dying ガード追加）
+- `enemys/enemy.tscn`（drop_item_scene / drop_gold_amount エクスポート設定）
+- `character/Pawn/pawn.gd`（`collect_drop()` メソッド追加）
+
+---
+
 ### 次に着手すべき作業（推奨）
 
 **ステップ2（フェーズ A 残り — 任意、後回し可）:**
 1. ~~**NPC会話** — 村に簡易会話キャラクター配置（実績カウント対象）~~ **★完了（2026-02-25）**
 2. **建物配置** — 村に Buildings 素材で衝突付き建物配置
-3. **敵死亡アニメ/ドロップ** — 倒した敵の演出強化
+3. ~~**敵死亡アニメ/ドロップ** — 倒した敵の演出強化~~ **★完了（2026-02-27）**
 
 **ステップ3（フェーズ B — コアシステム、推奨）:**
 4. **GameState Autoload** — 戦闘状態（NORMAL/COMBAT/DIALOG/MENU）管理

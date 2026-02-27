@@ -1,7 +1,8 @@
-[gd_scene load_steps=46 format=3 uid="uid://ci4xros7ui8ni"]
+[gd_scene load_steps=47 format=3 uid="uid://ci4xros7ui8ni"]
 
 [ext_resource type="Texture2D" uid="uid://clujuyjqnwsrq" path="res://root/scenes/game_scene/achievement_master/enemys/Skull/Skull_Attack.png" id="1_0tmuv"]
 [ext_resource type="Script" uid="uid://ddtnt5sktiv50" path="res://root/scenes/game_scene/achievement_master/enemys/enemy.gd" id="1_dr4dj"]
+[ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/world/drop_item/drop_item.tscn" id="15_drop"]
 [ext_resource type="Texture2D" uid="uid://brdfocia00rgn" path="res://root/scenes/game_scene/achievement_master/enemys/Skull/Skull_Guard.png" id="2_dr4dj"]
 [ext_resource type="Texture2D" uid="uid://d1ovuxtaqaos3" path="res://root/scenes/game_scene/achievement_master/enemys/Skull/Skull_Idle.png" id="3_ceokc"]
 [ext_resource type="Texture2D" uid="uid://br6ify6f8exge" path="res://root/scenes/game_scene/achievement_master/enemys/Skull/Skull_Run.png" id="4_d57pt"]
@@ -246,6 +247,8 @@ collision_layer = 2
 collision_mask = 257
 motion_mode = 1
 script = ExtResource("1_dr4dj")
+drop_item_scene = ExtResource("15_drop")
+drop_gold_amount = 5
 
 [node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true

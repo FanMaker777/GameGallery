@@ -338,6 +338,12 @@ func _start_talk(npc: Node2D) -> void:
 
 # ========== インベントリ ==========
 
+## ドロップアイテムを回収してインベントリに加算する（DropItem から呼ばれる）
+func collect_drop(type: ResourceDefinitions.ResourceType, amount: int) -> void:
+	_add_resource(type, amount)
+	Log.info("Pawn: ドロップ回収 %s x%d" % [ResourceDefinitions.get_type_name(type), amount])
+
+
 ## リソースをインベントリに追加する
 func _add_resource(type: ResourceDefinitions.ResourceType, amount: int) -> void:
 	_inventory[type] = _inventory.get(type, 0) + amount
