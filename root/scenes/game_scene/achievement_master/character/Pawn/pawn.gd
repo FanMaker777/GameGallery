@@ -63,6 +63,8 @@ signal attack_landed(target: Node2D, damage: int)
 signal health_changed(current_hp: int, max_hp: int)
 ## 死亡したときに発火する
 signal died
+## 攻撃を開始したときに発火する（AchievementManager 連携用）
+signal attack_started
 
 # ---- ノードキャッシュ ----
 ## アニメーションスプライト
@@ -90,6 +92,8 @@ func _ready() -> void:
 	_interact_label.visible = false
 	# HP初期値を通知（HUD初期化用）
 	health_changed.emit(hp, MAX_HP)
+	# 実績マネージャーにプレイヤーを登録する
+	AchievementManager.register_player(self)
 	Log.info("Pawn: 初期化完了 (HP=%d/%d)" % [hp, MAX_HP])
 
 
@@ -275,6 +279,7 @@ func _start_attack() -> void:
 	_attack_timer = 0.0
 	velocity = Vector2.ZERO
 	_set_state(State.ATTACK)
+	attack_started.emit()
 	_animated_sprite.play("Attack")
 	# ヒットボックスの向きを flip_h に合わせる
 	var dir_sign: float = -1.0 if _animated_sprite.flip_h else 1.0

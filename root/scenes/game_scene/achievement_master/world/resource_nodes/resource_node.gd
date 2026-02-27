@@ -2,6 +2,9 @@
 ## Pawn が InteractArea で検知し、interact キーで採取する
 class_name ResourceNode extends StaticBody2D
 
+## 採取完了時に発火する（AchievementManager 連携用）
+signal resource_harvested(resource_type: int, node_key: String)
+
 ## ResourceDefinitions.NODE_DATA のキーと一致させる
 @export var node_key: String = "tree"
 
@@ -44,6 +47,7 @@ func harvest() -> Dictionary:
 	is_depleted = true
 	_respawn_timer = 0.0
 	_update_visual()
+	resource_harvested.emit(_node_data.get("resource_type"), node_key)
 	Log.info("ResourceNode: 採取完了 [%s]" % node_key)
 	return {
 		"type": _node_data.get("resource_type"),

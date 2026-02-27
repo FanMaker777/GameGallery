@@ -4,6 +4,9 @@
 ## @tool によりエディタ上で Inspector の変更が即座にビューポートへ反映される
 class_name Npc extends CharacterBody2D
 
+## NPCとの会話が行われたときに発火する（AchievementManager 連携用）
+signal npc_interacted(npc_id: String)
+
 # ---- エクスポート変数 ----
 # npc_name と sprite_frames にはセッターを付け、
 # Inspector 変更時にエディタ上へリアルタイム反映する。
@@ -99,6 +102,7 @@ func interact() -> void:
 	if dialogues.is_empty():
 		return
 	_is_talking = true
+	npc_interacted.emit(npc_name)
 	# 現在のインデックスのセリフを表示
 	_dialogue_label.text = dialogues[_dialogue_index]
 	_dialogue_label.visible = true

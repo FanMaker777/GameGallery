@@ -25,6 +25,7 @@ Log="*res://addons/logger/logger.gd"
 Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
 BeehaveGlobalMetrics="*res://addons/beehave/metrics/beehave_global_metrics.gd"
 BeehaveGlobalDebugger="*res://addons/beehave/debug/global_debugger.gd"
+AchievementManager="*res://root/scenes/game_scene/achievement_master/autoload/achievement_manager/achievement_manager.tscn"
 
 [dialogic]
 

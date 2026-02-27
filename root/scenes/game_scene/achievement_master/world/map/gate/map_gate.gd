@@ -2,6 +2,9 @@
 ## プレイヤーが接触すると GameManager 経由でフェード遷移を実行する
 class_name MapGate extends Area2D
 
+## マップ遷移が実行されたときに発火する（AchievementManager 連携用）
+signal map_transitioned(target_path: String)
+
 
 ## 遷移先シーンのパス（res:// 形式）
 @export_file("*.tscn") var target_scene_path: String
@@ -36,6 +39,7 @@ func _on_body_entered(body: Node2D) -> void:
 	if _is_transitioning:
 		return
 	_is_transitioning = true
+	map_transitioned.emit(target_scene_path)
 	Log.info("MapGate: シーン遷移開始 → %s" % target_scene_path)
 	# GameManager 経由でフェード遷移を実行
 	GameManager.load_scene_with_transition(target_scene_path)
