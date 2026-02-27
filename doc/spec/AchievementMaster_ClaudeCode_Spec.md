@@ -20,19 +20,18 @@
 - **あらゆる行動で実績が解除**される体験が、テンポ良く気持ちいい
 - 実績解除 → **AP獲得** → 報酬ツリー解放（強化/QoL） → 次の目標が自然に決まる
 - 実績通知が「気持ちいい」が「邪魔にならない」
-  - 戦闘中は通知を抑制（Bronzeまとめ表示 / Silver・Goldのみ個別）
 
 ### 1.2 プレイ可能な最小範囲
 - **村（リソース採取・会話・クエスト受注）**
 - **草原（リソース採取・雑魚 + 中ボス）**
 - 実績：**50個**（ログ系25 / 目標系15 / チャレンジ系10）
-- 報酬ツリー：グローバル/戦闘/農業クラフト/探索交流 の4カテゴリ（合計 ~25ノード）
+- 報酬ツリー：グローバル/戦闘/採取/探索交流 の4カテゴリ（合計 ~25ノード）
 
 ---
 
 ## 2. コアコンセプトとゲームループ
 ### 2.1 コアループ
-1) 行動（戦闘/農業/探索/交流）  
+1) 行動（戦闘/採取/探索/交流）  
 2) 実績解除  
 3) AP（Achievement Point）獲得  
 4) 報酬ツリー解放（強くなる・快適になる）  
@@ -88,9 +87,9 @@
 - リスペック：プロトタイプでは **未実装でもOK**（後で追加）
 
 ### 4.2 データ駆動（強く推奨）
-- 実績定義：JSON か Resource（`.tres`）で管理（**差し替えやすさ重視**）
+- 実績定義：**Custom Resource**（`AchievementDefinition` / `AchievementDatabase`）で管理（型安全・Inspector 編集可）
 - 報酬ツリー定義：同様にデータで管理
-- セーブ：PlayerStats / UnlockedAchievements / EarnedAP / UnlockedRewards / PinnedAchievements を保存
+- セーブ：**JSON**（`user://achievement_master_progress.save`）で進捗・解除済み・AP を保存
 
 ### 4.3 進捗管理のルール（最低限）
 - 同一NPC連打はカウントしない（同一会話を短時間で繰り返しても増えない）
@@ -167,9 +166,7 @@
 - **敵**：汎用スポナーノード（→7.4参照）を使用し、複数の敵をスポーンする。スポーン間隔と最大数は `@export` で制御。
 
 ### 7.2 Autoload（シングルトン）
-- `GameState`：戦闘状態、ポーズ状態、現在シーン等
-- `SaveManager`：セーブ/ロード（JSON推奨）
-- `AchievementManager`：実績進捗、解除判定、通知イベント
+- `AchievementManager`：実績進捗、解除判定、通知イベント、セーブ/ロード（JSON）
 - `RewardManager`：報酬ツリー解放と効果適用
 - （任意）`AudioManager`
 
@@ -311,7 +308,7 @@
 | 1 | プロジェクト初期化（シーン/フォルダ/入力/Autoload） | **ほぼ完了** | フォルダ構造・InputMap全アクション定義済み。AM専用Autoload未登録のみ残り |
 | 2 | Player 移動/攻撃（最小） | **ほぼ完了** | Pawn で移動＋攻撃＋採取＋HP＋被ダメージ＋死亡を実装済み |
 | 3 | 村・ダンジョンの最小ループ | **ほぼ完了** | 村＋草原マップ動作、MapGateでフェード遷移、★NPC会話実装済み、★敵死亡演出/ドロップ実装済み。建物配置が未実装 |
-| 4 | AchievementManager（データ定義 + 解除イベント） | **未着手** | |
+| 4 | AchievementManager（データ定義 + 解除イベント） | **実装済み** | Custom Resource + JSON セーブ |
 | 5 | HUD（HP/プロンプト/トースト/ピン進捗） | **未着手** | |
 | 6 | PauseMenu（4タブ）— 実績タブ優先 | **未着手** | グローバルPauseScreenは存在するが4タブ構成ではない |
 | 7 | RewardManager（報酬解放と効果適用） | **未着手** | |
@@ -514,11 +511,9 @@ root/scenes/game_scene/achievement_master/
 
 | 機能 | 仕様セクション | 状態 |
 |---|---|---|
-| `GameState` Autoload | 7.2 | 未着手 |
-| `AchievementManager` Autoload | 7.2 | 未着手 |
+| `AchievementManager` Autoload | 7.2 | **★実装済み** — Custom Resource 定義(50実績) + 進捗管理 + JSON セーブ/ロード |
 | `RewardManager` Autoload | 7.2 | 未着手 |
-| `SaveManager` Autoload | 7.2 | 未着手 |
-| 実績データ（achievements.json） | 4.2, 5 | 未着手 |
+| 実績データ（AchievementDatabase.tres） | 4.2, 5 | **★実装済み** — 50実績定義（戦闘15/農業12/探索10/交流8/システム5） |
 | 報酬ツリーデータ | 6 | 未着手 |
 | APシステム | 4.1 | 未着手 |
 | HUDシーン（hud.tscn）— 本格版 | 3.1, 8 | 未着手（簡易リソースHUDのみ実装済み） |
@@ -649,15 +644,13 @@ root/scenes/game_scene/achievement_master/
 3. ~~**敵死亡アニメ/ドロップ** — 倒した敵の演出強化~~ **★完了（2026-02-27）**
 
 **ステップ3（フェーズ B — コアシステム、推奨）:**
-4. **GameState Autoload** — 戦闘状態（NORMAL/COMBAT/DIALOG/MENU）管理
-5. **AchievementManager** — 実績データ(JSON) + 進捗管理 + 解除判定 + シグナル
+4. **AchievementManager** — 実績データ(Resource) + 進捗管理 + 解除判定 + シグナル + セーブ/ロード(JSON)
 6. **イベントフック** — 各所に `AchievementManager.record_action()` 呼出を埋め込み
 
 **AM専用 Autoload の配置先（決定済み）:**
 ```
 res://root/scenes/game_scene/achievement_master/autoload/
-├── game_state/game_state.gd
-├── achievement_manager/achievement_manager.gd
+├── achievement_manager/achievement_manager.gd + .tscn
 ├── reward_manager/reward_manager.gd
 └── save_manager/save_manager.gd
 ```
