@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://root/scenes/game_scene/achievement_master/world/map/gate/map_gate.gd" id="1_script"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gate"]
+size = Vector2(32, 128)
+
+[node name="MapGate" type="Area2D"]
+collision_layer = 0
+collision_mask = 1
+script = ExtResource("1_script")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_gate")
+
+[node name="GateLabel" type="Label" parent="."]
+unique_name_in_owner = true
+offset_left = -60.0
+offset_top = -80.0
+offset_right = 60.0
+offset_bottom = -60.0
+horizontal_alignment = 1
+text = "→ 次のエリア"

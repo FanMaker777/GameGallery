@@ -1,0 +1,42 @@
+[gd_scene load_steps=4 format=3 uid="uid://kabmdp7ej4et"]
+
+[ext_resource type="SpriteFrames" uid="uid://sgugg58ilg07" path="res://root/scenes/game_scene/achievement_master/character/npc/animation_resorce/lancer_animation.tres" id="2_5arcm"]
+[ext_resource type="Script" uid="uid://do2gea6mbqv2o" path="res://root/scenes/game_scene/achievement_master/character/npc/npc.gd" id="npc_script"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_npc"]
+radius = 33.0
+height = 82.0
+
+[node name="Npc" type="CharacterBody2D"]
+collision_layer = 8
+collision_mask = 256
+motion_mode = 1
+script = ExtResource("npc_script")
+sprite_frames = ExtResource("2_5arcm")
+
+[node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+sprite_frames = ExtResource("2_5arcm")
+animation = &"Idle"
+autoplay = "Idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_npc")
+
+[node name="DialogueLabel" type="Label" parent="."]
+unique_name_in_owner = true
+offset_left = -100.0
+offset_top = -74.0
+offset_right = 100.0
+offset_bottom = -49.0
+theme_override_font_sizes/font_size = 14
+horizontal_alignment = 1
+
+[node name="NameLabel" type="Label" parent="."]
+unique_name_in_owner = true
+offset_left = -50.0
+offset_top = 45.0
+offset_right = 50.0
+offset_bottom = 65.0
+theme_override_font_sizes/font_size = 12
+horizontal_alignment = 1

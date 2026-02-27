@@ -1,7 +1,7 @@
 class_name IsPlayerVisible
 extends ConditionLeaf
 
-var player :RpgPlayer = null
+var player = null
 
 func tick(actor: Node, blackboard: Blackboard) -> int:
 	# プレイヤーが探知範囲内に存在するかの判定をblackboardから取得

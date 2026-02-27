@@ -1,3 +1,5 @@
 # Godot 4+ specific ignores
 .godot/
 /android/
+tools/mcp/godot-mcp
+.claude/tools/mcp/godot-mcp

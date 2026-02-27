@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://4rnts66f2wbv"]
+
+[ext_resource type="SpriteFrames" uid="uid://bu4ixh07jxgv8" path="res://root/scenes/game_scene/achievement_master/world/assets/Terrain/Resources/Meat/Sheep/sheep_animation.tres" id="2_628a1"]
+[ext_resource type="Script" uid="uid://7grmuy2qcu8a" path="res://root/scenes/game_scene/achievement_master/world/resource_nodes/sheep_node.gd" id="sheep_script"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_sheep"]
+radius = 25.0
+height = 50.0
+
+[node name="SheepNode" type="StaticBody2D"]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("sheep_script")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("2_628a1")
+animation = &"Idle"
+autoplay = "Idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_sheep")

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://fnn0xgir5pho"]
+
+[ext_resource type="Script" uid="uid://c7b6avhtp5qa3" path="res://root/scenes/game_scene/achievement_master/world/resource_nodes/sheep_spawner.gd" id="spawner_script"]
+
+[node name="SheepSpawner" type="Node2D"]
+script = ExtResource("spawner_script")

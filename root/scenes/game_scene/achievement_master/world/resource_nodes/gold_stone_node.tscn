@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://dpqde2fe7owot"]
+
+[ext_resource type="SpriteFrames" uid="uid://bhso462x02kdq" path="res://root/scenes/game_scene/achievement_master/world/assets/Terrain/Resources/Gold/Gold Stones/gold_stone_animation.tres" id="2_pn7ic"]
+[ext_resource type="Script" uid="uid://bh5it1a2uyt54" path="res://root/scenes/game_scene/achievement_master/world/resource_nodes/gold_stone_node.gd" id="gold_stone_script"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_stone"]
+radius = 26.0
+
+[node name="GoldStoneNode" type="StaticBody2D"]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("gold_stone_script")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("2_pn7ic")
+animation = &"HighLight_3"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_stone")

@@ -1,0 +1,143 @@
+[gd_resource type="SpriteFrames" load_steps=21 format=3 uid="uid://sgugg58ilg07"]
+
+[ext_resource type="Texture2D" uid="uid://cw2nnhrwipjn6" path="res://root/scenes/game_scene/achievement_master/character/assets/Lancer/Lancer_Idle.png" id="1_kbx0d"]
+[ext_resource type="Texture2D" uid="uid://l1cl4j8nxe16" path="res://root/scenes/game_scene/achievement_master/character/assets/Lancer/Lancer_Run.png" id="2_u5eu2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_atfl8"]
+atlas = ExtResource("1_kbx0d")
+region = Rect2(0, 0, 320, 320)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tb71h"]
+atlas = ExtResource("1_kbx0d")
+region = Rect2(320, 0, 320, 320)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pf7tk"]
+atlas = ExtResource("1_kbx0d")
+region = Rect2(640, 0, 320, 320)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2m1i7"]
+atlas = ExtResource("1_kbx0d")
+region = Rect2(960, 0, 320, 320)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tahj7"]
+atlas = ExtResource("1_kbx0d")
+region = Rect2(1280, 0, 320, 320)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_stisa"]
+atlas = ExtResource("1_kbx0d")
+region = Rect2(1600, 0, 320, 320)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bfng2"]
+atlas = ExtResource("1_kbx0d")
+region = Rect2(1920, 0, 320, 320)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x76ju"]
+atlas = ExtResource("1_kbx0d")
+region = Rect2(2240, 0, 320, 320)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l4xp2"]
+atlas = ExtResource("1_kbx0d")
+region = Rect2(2560, 0, 320, 320)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6uuo2"]
+atlas = ExtResource("1_kbx0d")
+region = Rect2(2880, 0, 320, 320)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qx857"]
+atlas = ExtResource("1_kbx0d")
+region = Rect2(3200, 0, 320, 320)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t38vv"]
+atlas = ExtResource("1_kbx0d")
+region = Rect2(3520, 0, 320, 320)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ma1jr"]
+atlas = ExtResource("2_u5eu2")
+region = Rect2(0, 0, 320, 320)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uxpvn"]
+atlas = ExtResource("2_u5eu2")
+region = Rect2(320, 0, 320, 320)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b5s5g"]
+atlas = ExtResource("2_u5eu2")
+region = Rect2(640, 0, 320, 320)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n87la"]
+atlas = ExtResource("2_u5eu2")
+region = Rect2(960, 0, 320, 320)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_077ej"]
+atlas = ExtResource("2_u5eu2")
+region = Rect2(1280, 0, 320, 320)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5ty1y"]
+atlas = ExtResource("2_u5eu2")
+region = Rect2(1600, 0, 320, 320)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_atfl8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tb71h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pf7tk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2m1i7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tahj7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_stisa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bfng2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x76ju")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l4xp2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6uuo2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qx857")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t38vv")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ma1jr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uxpvn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b5s5g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n87la")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_077ej")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5ty1y")
+}],
+"loop": true,
+"name": &"Run",
+"speed": 10.0
+}]

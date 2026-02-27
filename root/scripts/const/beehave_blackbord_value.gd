@@ -9,6 +9,14 @@ const PLAYER_POSITION = "player_position"
 ## 移動速度
 const MOVE_SPEED = "move_speed"
 ## 攻撃範囲
-const ATTACK_RANGE = "move_speed"
+const ATTACK_RANGE = "attack_range"
 ## 攻撃のクールタイム
 const ATTACK_COOLDOWN = "attack_cooldown"
+## リーフが希望するアニメーション名（"Idle", "Run", "Attack"）
+const DESIRED_ANIM_STATE = "desired_anim_state"
+## 攻撃アニメーション完了フラグ
+const ATTACK_ANIM_FINISHED = "attack_anim_finished"
+## 攻撃アニメーションのヒットフレームに到達したかどうか
+const ATTACK_HIT_FRAME_REACHED = "attack_hit_frame_reached"
+## 攻撃ダメージ量
+const ATTACK_DAMAGE = "attack_damage"
