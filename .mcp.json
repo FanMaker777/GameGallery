@@ -3,7 +3,7 @@
     "godot": {
       "type": "stdio",
       "command": "node",
-      "args": ["tools/mcp/godot-mcp/build/index.js"],
+      "args": [".claude/tools/mcp/godot-mcp/build/index.js"],
       "env": {
         "DEBUG": "true",
         "GODOT_PATH": "C:\\Program Files\\Godot"
@@ -21,20 +21,6 @@
     "github": {
       "type": "http",
       "url": "https://api.githubcopilot.com/mcp/"
-    },
-    "serena": {
-      "type": "stdio",
-      "command": "uvx",
-      "args": [
-        "--from",
-        "git+https://github.com/oraios/serena",
-        "serena",
-        "start-mcp-server",
-        "--context",
-        "ide-assistant",
-        "--project",
-        "D:\\MyWork\\ゲーム開発\\Godot\\GDQuest\\2d\\l2dfz_0.51.2_win\\projects\\GameGallery"
-      ]
     },
     "context7": {
       "type": "stdio",

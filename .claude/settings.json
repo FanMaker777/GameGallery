@@ -1,15 +1,1 @@
-{
-  "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": "Edit|Write",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "cat \"D:/MyWork/ゲーム開発/Godot/GDQuest/2d/l2dfz_0.51.2_win/projects/GameGallery/doc/guides/coding-style.md\""
-          }
-        ]
-      }
-    ]
-  }
-}
+{}
