@@ -1,0 +1,52 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" uid="uid://cvxpxyovu5wr2" path="res://root/scenes/game_scene/achievement_master/ui/menu/achievement_tab/achievement_list_item.gd" id="1_script"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_normal"]
+bg_color = Color(0.15, 0.15, 0.2, 0.6)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+content_margin_left = 6.0
+content_margin_top = 4.0
+content_margin_right = 6.0
+content_margin_bottom = 4.0
+
+[node name="AchievementListItem" type="PanelContainer"]
+custom_minimum_size = Vector2(0, 32)
+theme_override_styles/panel = SubResource("StyleBoxFlat_normal")
+script = ExtResource("1_script")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="RankLabel" type="Label" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(24, 0)
+theme_override_font_sizes/font_size = 12
+horizontal_alignment = 1
+
+[node name="NameLabel" type="Label" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 12
+text_overrun_behavior = 3
+
+[node name="PinIcon" type="Label" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(14, 0)
+theme_override_font_sizes/font_size = 10
+theme_override_colors/font_color = Color(1, 0.84, 0, 1)
+horizontal_alignment = 1
+
+[node name="StatusLabel" type="Label" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(40, 0)
+theme_override_font_sizes/font_size = 10
+horizontal_alignment = 2

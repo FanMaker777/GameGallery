@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://bcs6yx15qgf2b"]
+[gd_scene load_steps=5 format=3 uid="uid://bcs6yx15qgf2b"]
 
 [ext_resource type="Shader" uid="uid://dp1hn66gsihpv" path="res://root/autoload/game_manager/pause_screen/resorce/blur.gdshader" id="1_blur"]
 [ext_resource type="Script" uid="uid://b0c0jkfed2pwo" path="res://root/scenes/game_scene/achievement_master/ui/menu/am_pause_menu.gd" id="2_script"]
+[ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/ui/menu/achievement_tab/achievement_tab.tscn" id="3_achievement_tab"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_menu"]
 shader = ExtResource("1_blur")
@@ -101,14 +102,7 @@ text = "開発中"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Achievement" type="MarginContainer" parent="MenuContent/MenuPanel/MarginContainer/VBoxContainer/TabContainer"]
+[node name="Achievement" parent="MenuContent/MenuPanel/MarginContainer/VBoxContainer/TabContainer" instance=ExtResource("3_achievement_tab")]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 3
-
-[node name="Label" type="Label" parent="MenuContent/MenuPanel/MarginContainer/VBoxContainer/TabContainer/Achievement"]
-layout_mode = 2
-size_flags_horizontal = 4
-text = "開発中"
-horizontal_alignment = 1
-vertical_alignment = 1

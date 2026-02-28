@@ -7,6 +7,8 @@ extends Node
 signal achievement_unlocked(id: StringName, definition: AchievementDefinition)
 ## 実績の進捗が更新されたときに発火する
 signal achievement_progress_updated(id: StringName, current: int, target: int)
+## ピン留め状態が変更されたときに発火する
+signal pinned_changed
 
 # ---- 定数 ----
 ## セーブファイルのパス
@@ -15,6 +17,8 @@ const SAVE_PATH: String = "user://achievement_master_progress.save"
 const NPC_TALK_COOLDOWN: float = 30.0
 ## 歩行距離の記録間隔（ピクセル）
 const DISTANCE_RECORD_INTERVAL: float = 100.0
+## ピン留め可能な最大件数
+const MAX_PIN_COUNT: int = 3
 
 # ---- 実績データベース ----
 ## preload した実績定義リソース
@@ -37,6 +41,8 @@ var _challenge_streaks: Dictionary = {}
 var _npc_talk_cooldowns: Dictionary = {}
 ## 合計AP
 var _total_ap: int = 0
+## ピン留め中の実績ID配列（最大 MAX_PIN_COUNT 件）
+var _pinned_ids: Array[StringName] = []
 
 # ---- プレイヤー参照 ----
 ## 登録されたプレイヤーノード
@@ -169,6 +175,52 @@ func get_total_ap() -> int:
 	return _total_ap
 
 
+## ピン留め中の実績IDの配列を返す
+func get_pinned_ids() -> Array[StringName]:
+	return _pinned_ids.duplicate()
+
+
+## 実績をピン留めする（解除済み実績は不可、上限超過時は無視）
+func pin_achievement(id: StringName) -> void:
+	# 実績定義の存在チェック
+	if not _def_map.has(id):
+		Log.warn("AchievementManager: ピン留め失敗 — 未知のID [%s]" % id)
+		return
+	# 解除済み実績はピン留め不可
+	if _unlocked.has(id):
+		Log.debug("AchievementManager: ピン留め失敗 — 解除済み [%s]" % id)
+		return
+	# 既にピン留め済みの場合は無視
+	if id in _pinned_ids:
+		return
+	# 上限チェック
+	if _pinned_ids.size() >= MAX_PIN_COUNT:
+		Log.debug("AchievementManager: ピン留め失敗 — 上限 %d 件に到達" % MAX_PIN_COUNT)
+		return
+	# ピン留めを追加する
+	_pinned_ids.append(id)
+	pinned_changed.emit()
+	_save_progress()
+	Log.info("AchievementManager: ピン留め追加 [%s] (合計 %d 件)" % [id, _pinned_ids.size()])
+
+
+## 実績のピン留めを解除する
+func unpin_achievement(id: StringName) -> void:
+	var idx: int = _pinned_ids.find(id)
+	if idx < 0:
+		return
+	# ピン留めを解除する
+	_pinned_ids.remove_at(idx)
+	pinned_changed.emit()
+	_save_progress()
+	Log.info("AchievementManager: ピン留め解除 [%s] (合計 %d 件)" % [id, _pinned_ids.size()])
+
+
+## 指定実績がピン留めされているかを返す
+func is_pinned(id: StringName) -> bool:
+	return id in _pinned_ids
+
+
 # ========== 内部ロジック ==========
 
 ## 実績を解除する（二重解除防止付き）
@@ -181,6 +233,10 @@ func _unlock_achievement(def: AchievementDefinition) -> void:
 		def.id, def.name_ja, def.ap, _total_ap
 	])
 	achievement_unlocked.emit(def.id, def)
+	# 解除された実績がピン留めされている場合は自動的にピン解除する
+	if def.id in _pinned_ids:
+		_pinned_ids.erase(def.id)
+		pinned_changed.emit()
 	# システム実績の自動進捗
 	record_action(&"achievement_unlocked")
 	record_action(&"ap_earned", {&"amount": def.ap})
@@ -305,6 +361,7 @@ func _save_progress() -> void:
 		"unique_sets": _unique_sets,
 		"challenge_streaks": _challenge_streaks,
 		"total_ap": _total_ap,
+		"pinned_ids": _pinned_ids,
 	}
 	var json_string: String = JSON.stringify(data, "\t")
 	var file: FileAccess = FileAccess.open(SAVE_PATH, FileAccess.WRITE)
@@ -347,6 +404,12 @@ func _load_progress() -> void:
 	for key: String in data.get("challenge_streaks", {}).keys():
 		_challenge_streaks[StringName(key)] = int(data["challenge_streaks"][key])
 	_total_ap = int(data.get("total_ap", 0))
-	Log.info("AchievementManager: ロード完了 (解除済み=%d, AP=%d)" % [
-		_unlocked.size(), _total_ap
+	# ピン留めIDの復元（解除済み・未定義の実績は除外する）
+	_pinned_ids = []
+	for id_str: String in data.get("pinned_ids", []):
+		var id: StringName = StringName(id_str)
+		if not _unlocked.has(id) and _def_map.has(id):
+			_pinned_ids.append(id)
+	Log.info("AchievementManager: ロード完了 (解除済み=%d, AP=%d, ピン留め=%d)" % [
+		_unlocked.size(), _total_ap, _pinned_ids.size()
 	])
