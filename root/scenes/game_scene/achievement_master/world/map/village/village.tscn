@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://ci4xros7ui8ni" path="res://root/scenes/game_scene/achievement_master/enemies/enemy.tscn" id="4_01tu3"]
 [ext_resource type="SpriteFrames" uid="uid://dl16141l3bt14" path="res://root/scenes/game_scene/achievement_master/character/npc/animation_resource/archer_animation.tres" id="11_41te4"]
 [ext_resource type="SpriteFrames" uid="uid://crit3slt2r1xp" path="res://root/scenes/game_scene/achievement_master/character/npc/animation_resource/monk_animation.tres" id="12_23nuo"]
+[ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/ui/achievement_hud.tscn" id="achievement_hud_scene"]
 [ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/world/buildings/building.tscn" id="building_scene"]
 [ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/world/map/gate/map_gate.tscn" id="gate_scene"]
 [ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/world/spawner/generic_spawner.tscn" id="generic_spawner_scene"]
@@ -14,13 +15,12 @@
 [ext_resource type="Texture2D" uid="uid://bmqh7f2kbeqms" path="res://root/scenes/game_scene/achievement_master/world/assets/Buildings/Blue Buildings/Monastery.png" id="monastery_texture"]
 [ext_resource type="PackedScene" uid="uid://kabmdp7ej4et" path="res://root/scenes/game_scene/achievement_master/character/npc/npc.tscn" id="npc_scene"]
 [ext_resource type="PackedScene" uid="uid://clf2l483adbii" path="res://root/scenes/game_scene/achievement_master/character/Pawn/pawn.tscn" id="pawn_scene"]
-[ext_resource type="PackedScene" uid="uid://ddbxlvnl4v2kf" path="res://root/scenes/game_scene/achievement_master/ui/resource_hud.tscn" id="resource_hud_scene"]
 [ext_resource type="PackedScene" uid="uid://4rnts66f2wbv" path="res://root/scenes/game_scene/achievement_master/world/resource_nodes/sheep_node.tscn" id="sheep_node_scene"]
 [ext_resource type="PackedScene" uid="uid://cagovhn7pyb3o" path="res://root/scenes/game_scene/achievement_master/world/resource_nodes/tree_node.tscn" id="tree_scene"]
 
 [node name="Village" type="Node2D"]
 
-[node name="ResourceHud" parent="." instance=ExtResource("resource_hud_scene")]
+[node name="AchievementHud" parent="." instance=ExtResource("achievement_hud_scene")]
 
 [node name="FlatGroundLayer" type="TileMapLayer" parent="."]
 z_index = -5

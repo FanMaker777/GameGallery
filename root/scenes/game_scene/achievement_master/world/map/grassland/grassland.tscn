@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://ci4xros7ui8ni" path="res://root/scenes/game_scene/achievement_master/enemies/enemy.tscn" id="enemy_scene"]
 [ext_resource type="PackedScene" uid="uid://cagovhn7pyb3o" path="res://root/scenes/game_scene/achievement_master/world/resource_nodes/tree_node.tscn" id="tree_scene"]
 [ext_resource type="PackedScene" uid="uid://dpqde2fe7owot" path="res://root/scenes/game_scene/achievement_master/world/resource_nodes/gold_stone_node.tscn" id="gold_stone_scene"]
-[ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/ui/resource_hud.tscn" id="hud_scene"]
+[ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/ui/achievement_hud.tscn" id="achievement_hud_scene"]
 [ext_resource type="Texture2D" path="res://root/scenes/game_scene/achievement_master/world/assets/Terrain/Decorations/Rocks/Rock1.png" id="rock_tex"]
 [ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/world/map/gate/map_gate.tscn" id="gate_scene"]
 
@@ -59,4 +59,4 @@ position = Vector2(-500, 0)
 target_scene_path = "res://root/scenes/game_scene/achievement_master/world/map/village/village.tscn"
 gate_label = "← 村"
 
-[node name="ResourceHud" parent="." instance=ExtResource("hud_scene")]
+[node name="AchievementHud" parent="." instance=ExtResource("achievement_hud_scene")]
