@@ -17,6 +17,11 @@ const STATUS_OPTIONS: Array[String] = [
 	"全て", "未達成", "達成済"
 ]
 
+## ランクフィルタの選択肢
+const RANK_OPTIONS: Array[String] = [
+	"全て", "[B] ブロンズ", "[S] シルバー", "[G] ゴールド"
+]
+
 ## おすすめセクションに表示する最大件数
 const RECOMMEND_COUNT: int = 3
 
@@ -28,6 +33,8 @@ const SECTION_LABEL_COLOR: Color = Color(1.0, 0.84, 0.0, 0.8)
 @onready var _category_filter: OptionButton = %CategoryFilter
 ## ステータスフィルタ
 @onready var _status_filter: OptionButton = %StatusFilter
+## ランクフィルタ
+@onready var _rank_filter: OptionButton = %RankFilter
 ## リスト項目のコンテナ
 @onready var _list_container: VBoxContainer = %ListContainer
 ## 詳細パネルのランクラベル
@@ -63,6 +70,7 @@ func _ready() -> void:
 	# フィルタ変更シグナルを接続する
 	_category_filter.item_selected.connect(_on_filter_changed)
 	_status_filter.item_selected.connect(_on_filter_changed)
+	_rank_filter.item_selected.connect(_on_filter_changed)
 	# ピン留めボタンのシグナルを接続する
 	_pin_button.pressed.connect(_on_pin_button_pressed)
 	# タブ表示切替時にリストを更新するためシグナルを接続する
@@ -92,6 +100,10 @@ func _setup_filters() -> void:
 	_status_filter.clear()
 	for option: String in STATUS_OPTIONS:
 		_status_filter.add_item(option)
+	# ランクフィルタの選択肢を追加する
+	_rank_filter.clear()
+	for option: String in RANK_OPTIONS:
+		_rank_filter.add_item(option)
 
 
 # ========== リスト構築 ==========
@@ -107,10 +119,13 @@ func _rebuild_list() -> void:
 	# フィルタ条件を取得する
 	var cat_idx: int = _category_filter.selected
 	var status_idx: int = _status_filter.selected
+	var rank_idx: int = _rank_filter.selected
 	# フィルタを適用する
-	var filtered: Array[AchievementDefinition] = _apply_filters(all_defs, cat_idx, status_idx)
-	# おすすめセクションを構築する（フィルタが「全て/全て」の場合のみ表示）
-	if cat_idx == 0 and status_idx == 0:
+	var filtered: Array[AchievementDefinition] = _apply_filters(
+		all_defs, cat_idx, status_idx, rank_idx
+	)
+	# おすすめセクションを構築する（フィルタが全て「全て」の場合のみ表示）
+	if cat_idx == 0 and status_idx == 0 and rank_idx == 0:
 		var recommended: Array[AchievementDefinition] = _get_recommendations(all_defs)
 		if not recommended.is_empty():
 			_add_section_label("-- おすすめ --")
@@ -133,7 +148,8 @@ func _rebuild_list() -> void:
 func _apply_filters(
 	defs: Array[AchievementDefinition],
 	cat_idx: int,
-	status_idx: int
+	status_idx: int,
+	rank_idx: int
 ) -> Array[AchievementDefinition]:
 	var result: Array[AchievementDefinition] = []
 	for def: AchievementDefinition in defs:
@@ -145,6 +161,9 @@ func _apply_filters(
 		if status_idx == 1 and is_unlocked:
 			continue
 		if status_idx == 2 and not is_unlocked:
+			continue
+		# ランクフィルタ（0=全て、1=BRONZE, 2=SILVER, 3=GOLD）
+		if rank_idx > 0 and def.rank != (rank_idx - 1):
 			continue
 		result.append(def)
 	return result
