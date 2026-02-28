@@ -12,7 +12,9 @@
       "Bash(rm:*)",
       "mcp__godot__run_project",
       "mcp__godot__get_uid",
-      "Bash(git:*)"
+      "Bash(git:*)",
+      "Bash(sed:*)",
+      "mcp__godot__update_project_uids"
     ]
   },
   "enableAllProjectMcpServers": true,
