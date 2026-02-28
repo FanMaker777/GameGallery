@@ -175,6 +175,11 @@ func get_total_ap() -> int:
 	return _total_ap
 
 
+## 指定IDの実績定義を返す（未定義の場合は null）
+func get_definition(id: StringName) -> AchievementDefinition:
+	return _def_map.get(id)
+
+
 ## ピン留め中の実績IDの配列を返す
 func get_pinned_ids() -> Array[StringName]:
 	return _pinned_ids.duplicate()

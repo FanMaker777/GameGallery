@@ -1,23 +1,22 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=4 format=3 uid="uid://bhwew4l7acsww"]
 
 [ext_resource type="Script" uid="uid://bcmnlhmf1vvv7" path="res://root/scenes/game_scene/achievement_master/ui/menu/achievement_tab/achievement_tab.gd" id="1_script"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_detail"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
 bg_color = Color(0.1, 0.1, 0.14, 0.7)
 corner_radius_top_left = 6
 corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
-content_margin_left = 8.0
-content_margin_top = 8.0
-content_margin_right = 8.0
-content_margin_bottom = 8.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_progress_fill"]
 bg_color = Color(0.3, 0.7, 0.4, 1)
 
 [node name="AchievementTab" type="MarginContainer"]
-layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
@@ -68,7 +67,6 @@ theme_override_constants/separation = 2
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_stretch_ratio = 1.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_detail")
 
 [node name="DetailContent" type="VBoxContainer" parent="HBoxContainer/RightPanel"]
@@ -111,16 +109,16 @@ text = "進捗: 0/1"
 
 [node name="ProgressBar" type="ProgressBar" parent="HBoxContainer/RightPanel/DetailContent/ProgressContainer"]
 unique_name_in_owner = true
-layout_mode = 2
 custom_minimum_size = Vector2(0, 14)
+layout_mode = 2
 theme_override_styles/fill = SubResource("StyleBoxFlat_progress_fill")
 show_percentage = false
 
 [node name="ApLabel" type="Label" parent="HBoxContainer/RightPanel/DetailContent"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 12
 theme_override_colors/font_color = Color(1, 0.84, 0, 1)
+theme_override_font_sizes/font_size = 12
 
 [node name="PinButton" type="Button" parent="HBoxContainer/RightPanel/DetailContent"]
 unique_name_in_owner = true

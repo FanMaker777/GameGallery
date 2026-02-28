@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://cl2ogx0l8sjib"]
+[gd_scene load_steps=5 format=3 uid="uid://cl2ogx0l8sjib"]
 
 [ext_resource type="Script" uid="uid://b3ky34d6kb7s7" path="res://root/scenes/game_scene/achievement_master/ui/achievement_hud.gd" id="achievement_hud_script"]
 [ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/ui/toast/toast_manager.tscn" id="toast_manager_scene"]
+[ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/ui/pinned/pinned_achievement_panel.tscn" id="pinned_panel_scene"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hp_fill"]
 bg_color = Color(0.32280397, 0.6882976, 0.45200253, 1)
@@ -77,7 +78,7 @@ theme_override_colors/font_color = Color(1, 0.84, 0, 1)
 theme_override_font_sizes/font_size = 14
 text = "AP: 0"
 
-[node name="PinnedAchievementPanel" type="MarginContainer" parent="."]
+[node name="PinnedAchievementPanel" parent="." instance=ExtResource("pinned_panel_scene")]
 unique_name_in_owner = true
 anchors_preset = -1
 anchor_left = 0.75
@@ -85,12 +86,5 @@ anchor_right = 1.0
 anchor_bottom = 0.3
 offset_top = 8.0
 offset_right = -16.0
-mouse_filter = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="PinnedAchievementPanel"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-mouse_filter = 2
-theme_override_constants/separation = 4
 
 [node name="ToastManager" parent="." instance=ExtResource("toast_manager_scene")]

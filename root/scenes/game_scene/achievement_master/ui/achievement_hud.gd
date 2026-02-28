@@ -12,8 +12,8 @@ class_name AchievementHud extends CanvasLayer
 @onready var _meat_label: Label = %MeatLabel
 ## APカウンターラベル
 @onready var _ap_label: Label = %ApLabel
-## ピン留め実績パネル（Phase 5E で使用）
-@onready var _pinned_panel: MarginContainer = %PinnedAchievementPanel
+## ピン留め実績パネル
+@onready var _pinned_panel: PinnedAchievementPanel = %PinnedAchievementPanel
 
 # ---- 状態 ----
 ## Pawn への参照キャッシュ（毎回検索しない）

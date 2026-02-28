@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" uid="uid://dy0oisw0gv78s" path="res://root/scenes/game_scene/achievement_master/ui/pinned/pinned_achievement_panel.gd" id="pinned_achievement_panel_script"]
+
+[node name="PinnedAchievementPanel" type="MarginContainer"]
+mouse_filter = 2
+script = ExtResource("pinned_achievement_panel_script")
+
+[node name="ItemContainer" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 4
