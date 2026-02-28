@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__godot__get_project_info",
+      "mcp__godot_docs__search_docs",
+      "mcp__context7__resolve-library-id"
+    ]
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "godot",
+    "godot_docs",
+    "context7"
+  ]
+}
