@@ -1,6 +1,5 @@
 [gd_scene load_steps=37 format=3 uid="uid://dtite3wgwyq0r"]
 
-[ext_resource type="Script" uid="uid://dl45t0j5pwm7a" path="res://root/scenes/game_scene/achievement_master/character/Warrior/warrior.gd" id="1_v7ls3"]
 [ext_resource type="Texture2D" uid="uid://chync22hv2q1q" path="res://root/scenes/game_scene/achievement_master/character/Warrior/image/Warrior_Attack1.png" id="2_nghm3"]
 [ext_resource type="Texture2D" uid="uid://t272h6435heg" path="res://root/scenes/game_scene/achievement_master/character/Warrior/image/Warrior_Attack2.png" id="3_ahblu"]
 [ext_resource type="Texture2D" uid="uid://bm035bh6xfj4k" path="res://root/scenes/game_scene/achievement_master/character/Warrior/image/Warrior_Guard.png" id="4_vfc0w"]
@@ -238,7 +237,6 @@ height = 82.0
 [node name="Warrior" type="CharacterBody2D"]
 collision_mask = 256
 motion_mode = 1
-script = ExtResource("1_v7ls3")
 
 [node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
