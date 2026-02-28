@@ -9,23 +9,14 @@
         "GODOT_PATH": "D:/MyWork/GameDevelopment/Godot/Godot_v4.5.1/Godot_v4.5.1-stable_win64.exe"
       }
     },
-    "gdscript": {
-      "type": "stdio",
-      "command": "cmd",
-      "args": ["/c", "npx", "-y", "mcp-gdscript"]
-    },
     "godot_docs": {
       "type": "http",
       "url": "https://godot-docs-mcp.j2d.workers.dev/mcp"
     },
-    "github": {
-      "type": "http",
-      "url": "https://api.githubcopilot.com/mcp/"
-    },
     "context7": {
       "type": "stdio",
-      "command": "npx",
-      "args": ["-y", "@upstash/context7-mcp"]
+      "command": "cmd",
+      "args": ["/c", "npx", "-y", "@upstash/context7-mcp"]
     }
   }
 }
