@@ -128,8 +128,9 @@ func _spawn_drop_item() -> void:
 	# リソース種別とドロップ量を設定する
 	drop.resource_type = drop_resource_type
 	drop.amount = drop_amount
-	# ワールド（current_scene）に追加する（自身の子にすると queue_free で消えるため）
-	get_tree().current_scene.add_child(drop)
+	# 親ノードに追加する（自身の子にすると queue_free で消えるため）
+	# physics コールバック中は即時追加できないため call_deferred を使用
+	get_parent().call_deferred("add_child", drop)
 	Log.info("Enemy: ドロップアイテム生成 (%s x%d)" % [ResourceDefinitions.ResourceType.keys()[drop_resource_type], drop_amount])
 
 
