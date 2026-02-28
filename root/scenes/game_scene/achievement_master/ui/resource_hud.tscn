@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://ddbxlvnl4v2kf"]
+[gd_scene load_steps=4 format=3 uid="uid://ddbxlvnl4v2kf"]
 
 [ext_resource type="Script" uid="uid://bbroxdnv2ysay" path="res://root/scenes/game_scene/achievement_master/ui/resource_hud.gd" id="resource_hud_script"]
+[ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/ui/toast/toast_manager.tscn" id="toast_manager_scene"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q3r3f"]
 bg_color = Color(0.32280397, 0.6882976, 0.45200253, 1)
@@ -54,3 +55,5 @@ text = "Gold: 0"
 unique_name_in_owner = true
 layout_mode = 2
 text = "Meat: 0"
+
+[node name="ToastManager" parent="." instance=ExtResource("toast_manager_scene")]
