@@ -13,7 +13,10 @@ func tick(actor: Node, blackboard: Blackboard) -> int:
 	
 	# シーンツリーからプレイヤーノードの参照を取得
 	player = get_tree().get_first_node_in_group("player")
-	
-	# Player is visible, save position in blackboard
+	# プレイヤーが存在しないか無効な場合は FAILURE を返す
+	if not is_instance_valid(player):
+		return FAILURE
+
+	# プレイヤーが探知範囲内にいる場合、位置をblackboardに保存
 	blackboard.set_value(BlackBordValue.PLAYER_POSITION, player.global_position)
 	return SUCCESS
