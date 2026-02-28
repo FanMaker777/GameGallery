@@ -33,6 +33,8 @@ const RANK_COLORS: Dictionary = {
 @onready var _rank_label: Label = %RankLabel
 ## 実績名ラベル
 @onready var _title_label: Label = %TitleLabel
+## 説明ラベル
+@onready var _description_label: Label = %DescriptionLabel
 ## AP報酬ラベル
 @onready var _ap_label: Label = %ApLabel
 
@@ -46,6 +48,8 @@ func setup(definition: AchievementDefinition) -> void:
 	)
 	# 実績名の設定
 	_title_label.text = definition.name_ja
+	# 説明の設定
+	_description_label.text = definition.description_ja
 	# AP報酬の設定
 	_ap_label.text = "+%d AP" % definition.ap
 
