@@ -12,7 +12,7 @@ extends ActionLeaf
 
 func tick(actor: Node, blackboard: Blackboard) -> int:
 	# パトロール目的地を取得
-	var target_pos: Vector2 = blackboard.get_value(BlackBordValue.IDLE_POSITION)
+	var target_pos: Vector2 = blackboard.get_value(BlackBoardValue.IDLE_POSITION)
 	var direction: Vector2 = (target_pos - actor.global_position).normalized()
 
 	# 目標速度に向かって滑らかに加速
@@ -22,7 +22,7 @@ func tick(actor: Node, blackboard: Blackboard) -> int:
 	actor.move_and_slide()
 
 	# アニメーション希望を設定
-	blackboard.set_value(BlackBordValue.DESIRED_ANIM_STATE, "Run")
+	blackboard.set_value(BlackBoardValue.DESIRED_ANIM_STATE, "Run")
 
 	# 目的地到達判定
 	var distance: float = actor.global_position.distance_to(target_pos)

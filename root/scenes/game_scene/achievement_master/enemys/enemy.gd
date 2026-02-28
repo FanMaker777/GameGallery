@@ -39,9 +39,9 @@ var _current_anim: String = ""
 func _ready() -> void:
 	add_to_group("enemies")
 	# blackboardに初期地点を待機地点として登録
-	_blackboard.set_value(BlackBordValue.IDLE_POSITION, global_position)
+	_blackboard.set_value(BlackBoardValue.IDLE_POSITION, global_position)
 	# 攻撃ダメージ量をblackboardに登録（リーフから参照するため）
-	_blackboard.set_value(BlackBordValue.ATTACK_DAMAGE, ATTACK_DAMAGE)
+	_blackboard.set_value(BlackBoardValue.ATTACK_DAMAGE, ATTACK_DAMAGE)
 	# 攻撃アニメーション完了シグナルを接続
 	_animated_sprite.animation_finished.connect(_on_animation_finished)
 	# ヒットフレーム検出用のフレーム変化シグナルを接続
@@ -54,7 +54,7 @@ func _physics_process(_delta: float) -> void:
 	# --- アニメーション管理（一元化） ---
 	# リーフがBlackboardに書いた希望アニメーションを読み取り、重複再生を防止しつつ更新
 	var desired_anim: String = _blackboard.get_value(
-		BlackBordValue.DESIRED_ANIM_STATE, "Idle"
+		BlackBoardValue.DESIRED_ANIM_STATE, "Idle"
 	)
 	_update_animation(desired_anim)
 
@@ -71,13 +71,13 @@ func _update_animation(anim_name: String) -> void:
 ## 攻撃アニメーションのヒットフレーム到達時にブラックボードを更新する
 func _on_frame_changed() -> void:
 	if _animated_sprite.animation == &"Attack" and _animated_sprite.frame == attack_hit_frame:
-		_blackboard.set_value(BlackBordValue.ATTACK_HIT_FRAME_REACHED, true)
+		_blackboard.set_value(BlackBoardValue.ATTACK_HIT_FRAME_REACHED, true)
 
 
 ## 攻撃アニメーション完了時のコールバック
 func _on_animation_finished() -> void:
 	if _animated_sprite.animation == &"Attack":
-		_blackboard.set_value(BlackBordValue.ATTACK_ANIM_FINISHED, true)
+		_blackboard.set_value(BlackBoardValue.ATTACK_ANIM_FINISHED, true)
 
 ## Pawnの攻撃ヒットボックスから呼ばれる — ダメージを受ける
 func take_damage(amount: int) -> void:
@@ -157,8 +157,8 @@ func _play_death_effect() -> void:
 
 func _on_detect_area_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
-		_blackboard.set_value(BlackBordValue.IS_PLAYER_VISIBLE, true)
+		_blackboard.set_value(BlackBoardValue.IS_PLAYER_VISIBLE, true)
 
 func _on_detect_area_body_exited(body: Node2D) -> void:
 	if body.is_in_group("player"):
-		_blackboard.set_value(BlackBordValue.IS_PLAYER_VISIBLE, false)
+		_blackboard.set_value(BlackBoardValue.IS_PLAYER_VISIBLE, false)

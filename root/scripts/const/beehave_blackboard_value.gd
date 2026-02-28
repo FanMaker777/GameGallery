@@ -1,4 +1,4 @@
-class_name BlackBordValue
+class_name BlackBoardValue
 
 ## 待機地点
 const IDLE_POSITION = "idle_position"

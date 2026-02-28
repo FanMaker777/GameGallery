@@ -8,7 +8,7 @@ var player: Node2D = null
 ## 毎 tick 呼ばれる — プレイヤーが探知範囲内なら位置を blackboard に保存して SUCCESS を返す
 func tick(actor: Node, blackboard: Blackboard) -> int:
 	# プレイヤーが探知範囲内に存在するかの判定を blackboard から取得（未設定時は false 扱い）
-	var is_visible: Variant = blackboard.get_value(BlackBordValue.IS_PLAYER_VISIBLE)
+	var is_visible: Variant = blackboard.get_value(BlackBoardValue.IS_PLAYER_VISIBLE)
 	# プレイヤーが探知範囲内に存在しない場合
 	if not is_visible:
 		return FAILURE
@@ -20,5 +20,5 @@ func tick(actor: Node, blackboard: Blackboard) -> int:
 		return FAILURE
 
 	# プレイヤーが探知範囲内にいる場合、位置を blackboard に保存
-	blackboard.set_value(BlackBordValue.PLAYER_POSITION, player.global_position)
+	blackboard.set_value(BlackBoardValue.PLAYER_POSITION, player.global_position)
 	return SUCCESS

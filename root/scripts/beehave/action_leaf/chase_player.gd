@@ -12,7 +12,7 @@ extends ActionLeaf
 
 func tick(actor: Node, blackboard: Blackboard) -> int:
 	# blackboardからプレイヤー位置を取得
-	var player_pos: Variant = blackboard.get_value(BlackBordValue.PLAYER_POSITION)
+	var player_pos: Variant = blackboard.get_value(BlackBoardValue.PLAYER_POSITION)
 	if not player_pos:
 		return FAILURE
 
@@ -31,7 +31,7 @@ func tick(actor: Node, blackboard: Blackboard) -> int:
 		return SUCCESS
 
 	# 追跡中 → アニメーション希望を設定
-	blackboard.set_value(BlackBordValue.DESIRED_ANIM_STATE, "Run")
+	blackboard.set_value(BlackBoardValue.DESIRED_ANIM_STATE, "Run")
 	return RUNNING
 
 ## 追跡終了時に速度をクリア

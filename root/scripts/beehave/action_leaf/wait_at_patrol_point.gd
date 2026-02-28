@@ -19,7 +19,7 @@ func tick(actor: Node, blackboard: Blackboard) -> int:
 	actor.velocity = Vector2.ZERO
 
 	# アニメーション希望をIdleに設定
-	blackboard.set_value(BlackBordValue.DESIRED_ANIM_STATE, "Idle")
+	blackboard.set_value(BlackBoardValue.DESIRED_ANIM_STATE, "Idle")
 
 	# 待機時間の経過判定
 	_current_wait_time += get_physics_process_delta_time()
