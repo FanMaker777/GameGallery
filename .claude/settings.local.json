@@ -3,7 +3,16 @@
     "allow": [
       "mcp__godot__get_project_info",
       "mcp__godot_docs__search_docs",
-      "mcp__context7__resolve-library-id"
+      "mcp__context7__resolve-library-id",
+      "mcp__godot__stop_project",
+      "Bash(git add:*)",
+      "Bash(git mv:*)",
+      "Bash(\"/c/Program Files/Godot/Godot.exe\":*)",
+      "mcp__godot__get_debug_output",
+      "Bash(rm:*)",
+      "mcp__godot__run_project",
+      "mcp__godot__get_uid",
+      "Bash(git:*)"
     ]
   },
   "enableAllProjectMcpServers": true,
