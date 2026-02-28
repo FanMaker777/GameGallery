@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=4 uid="uid://ce3q56t7icpyb"]
+[gd_scene load_steps=19 format=4 uid="uid://ce3q56t7icpyb"]
 
 [ext_resource type="TileSet" uid="uid://1lnru68nr2ak" path="res://root/scenes/game_scene/achievement_master/world/map/village/village.tres" id="1_qtgsi"]
 [ext_resource type="Texture2D" uid="uid://cufjmds17blpk" path="res://root/scenes/game_scene/achievement_master/world/assets/Buildings/Blue Buildings/Castle.png" id="2_23c21"]
@@ -6,6 +6,7 @@
 [ext_resource type="SpriteFrames" uid="uid://dl16141l3bt14" path="res://root/scenes/game_scene/achievement_master/character/npc/animation_resource/archer_animation.tres" id="11_41te4"]
 [ext_resource type="SpriteFrames" uid="uid://crit3slt2r1xp" path="res://root/scenes/game_scene/achievement_master/character/npc/animation_resource/monk_animation.tres" id="12_23nuo"]
 [ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/ui/achievement_hud.tscn" id="achievement_hud_scene"]
+[ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/ui/menu/am_pause_menu.tscn" id="am_pause_menu_scene"]
 [ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/world/buildings/building.tscn" id="building_scene"]
 [ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/world/map/gate/map_gate.tscn" id="gate_scene"]
 [ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/world/spawner/generic_spawner.tscn" id="generic_spawner_scene"]
@@ -21,6 +22,8 @@
 [node name="Village" type="Node2D"]
 
 [node name="AchievementHud" parent="." instance=ExtResource("achievement_hud_scene")]
+
+[node name="AmPauseMenu" parent="." instance=ExtResource("am_pause_menu_scene")]
 
 [node name="FlatGroundLayer" type="TileMapLayer" parent="."]
 z_index = -5

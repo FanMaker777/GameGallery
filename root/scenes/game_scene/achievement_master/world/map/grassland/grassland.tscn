@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=4]
+[gd_scene load_steps=11 format=4]
 
 [ext_resource type="TileSet" uid="uid://1lnru68nr2ak" path="res://root/scenes/game_scene/achievement_master/world/map/village/village.tres" id="tileset"]
 [ext_resource type="PackedScene" uid="uid://clf2l483adbii" path="res://root/scenes/game_scene/achievement_master/character/Pawn/pawn.tscn" id="pawn_scene"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://cagovhn7pyb3o" path="res://root/scenes/game_scene/achievement_master/world/resource_nodes/tree_node.tscn" id="tree_scene"]
 [ext_resource type="PackedScene" uid="uid://dpqde2fe7owot" path="res://root/scenes/game_scene/achievement_master/world/resource_nodes/gold_stone_node.tscn" id="gold_stone_scene"]
 [ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/ui/achievement_hud.tscn" id="achievement_hud_scene"]
+[ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/ui/menu/am_pause_menu.tscn" id="am_pause_menu_scene"]
 [ext_resource type="Texture2D" path="res://root/scenes/game_scene/achievement_master/world/assets/Terrain/Decorations/Rocks/Rock1.png" id="rock_tex"]
 [ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/world/map/gate/map_gate.tscn" id="gate_scene"]
 
@@ -60,3 +61,5 @@ target_scene_path = "res://root/scenes/game_scene/achievement_master/world/map/v
 gate_label = "← 村"
 
 [node name="AchievementHud" parent="." instance=ExtResource("achievement_hud_scene")]
+
+[node name="AmPauseMenu" parent="." instance=ExtResource("am_pause_menu_scene")]
