@@ -273,7 +273,7 @@ radius = 91.00549
 size = Vector2(80, 60)
 
 [node name="Pawn" type="CharacterBody2D"]
-collision_mask = 260
+collision_mask = 268
 motion_mode = 1
 script = ExtResource("pawn_script")
 
