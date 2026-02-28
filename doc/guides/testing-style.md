@@ -324,8 +324,47 @@ godot -d -s --path "$PWD" addons/gut/gut_cmdln.gd -gprint_gutconfig_sample
 
 ### 11.1 `--script` ではなく `-s` を使う
 
-GUT の CLI 実行例では `-s` が基本です。GUT のオプションパーサの都合で、`--script` が通らないケースが報告されています。  
+GUT の CLI 実行例では `-s` が基本です。GUT のオプションパーサの都合で、`--script` が通らないケースが報告されています。
 CLI 実行時は **`godot -s addons/gut/gut_cmdln.gd`** を優先してください。
+
+### 11.2 `watch_signals` / `assert_signal_emitted` は解放済みオブジェクトに使えない
+
+`watch_signals(obj)` で監視中のオブジェクトが **シグナル発火後に `queue_free()` で自己解放** するパターンでは、`await` 後に `assert_signal_emitted(obj, ...)` を呼ぶと `<Freed Object>` エラーになる。
+
+**対策:** ラムダコールバックで発火を記録し、`assert_true` で検証する。
+
+```gdscript
+# NG: queue_free() で解放済みのため assert_signal_emitted が失敗する
+watch_signals(toast)
+toast.play_animation()
+await wait_seconds(3.0)
+assert_signal_emitted(toast, "toast_finished")  # => <Freed Object> エラー
+
+# OK: ラムダで発火を記録する
+var signal_fired := [false]
+toast.toast_finished.connect(func() -> void: signal_fired[0] = true)
+toast.play_animation()
+await wait_seconds(3.0)
+assert_true(signal_fired[0], "toast_finished が発火する")
+```
+
+### 11.3 `assert_signal_emitted_with_parameters` は boolean パラメータで壊れる（GUT 9.5.0）
+
+GUT 9.5.0 の `signal_watcher.gd` には、**boolean 型のシグナルパラメータ** を渡すと内部で `String` と `int` の比較エラーが発生するバグがある。
+
+```gdscript
+# NG: GUT 9.5.0 で Invalid operands 'String' and 'int' エラーになる
+watch_signals(node)
+node.my_signal.emit(true)
+assert_signal_emitted_with_parameters(node, "my_signal", [true])
+
+# OK: ラムダでパラメータを記録して個別に検証する
+var received := []
+node.my_signal.connect(func(v: bool) -> void: received.append(v))
+node.my_signal.emit(true)
+assert_eq(received.size(), 1, "シグナルが1回発火する")
+assert_true(received[0], "パラメータが true である")
+```
 
 ---
 
@@ -343,6 +382,8 @@ CLI 実行時は **`godot -s addons/gut/gut_cmdln.gd`** を優先してくださ
 - 各テストは必ず assert_* / pending / pass_test / fail_test のいずれかを呼ぶ
 - Node や Scene を生成したら autofree/autoqfree/add_child_autofree を使って後始末する
 - queue_free を使うなら await wait_seconds / wait_*frames で解放を待つ
+- シグナル発火後に queue_free で自己解放するオブジェクトには watch_signals ではなくラムダコールバックで発火を記録する
+- assert_signal_emitted_with_parameters は boolean パラメータで壊れるため、ラムダでパラメータを記録して個別に検証する（GUT 9.5.0）
 - 非同期は wait_for_signal(signal, timeout) を優先してハングを防ぐ
 - Unit と Integration は分け、Unit は外部依存を double/stub で切る
 出力:
@@ -362,6 +403,8 @@ CLI 実行時は **`godot -s addons/gut/gut_cmdln.gd`** を優先してくださ
 - [ ] 各テストが最低 1 回 assert/pending/pass/fail を実行している
 - [ ] Node/Scene を作ったら `autofree` / `add_child_autofree` 等で後始末している
 - [ ] `queue_free()` の場合は `await` で解放を待っている
+- [ ] シグナル発火後に自己解放するオブジェクトは `watch_signals` ではなくラムダで検証している
+- [ ] `assert_signal_emitted_with_parameters` を boolean パラメータに使っていない（GUT 9.5.0 バグ）
 - [ ] 非同期は `wait_for_signal(..., timeout)` でハングを防いでいる
 - [ ] unit / integration を意識して配置・命名している
 - [ ] CLI 実行は `-s` を使っている（`--script` は避ける）
