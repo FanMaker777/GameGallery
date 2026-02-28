@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://kabmdp7ej4et"]
 
-[ext_resource type="SpriteFrames" uid="uid://sgugg58ilg07" path="res://root/scenes/game_scene/achievement_master/character/npc/animation_resorce/lancer_animation.tres" id="2_5arcm"]
+[ext_resource type="SpriteFrames" uid="uid://sgugg58ilg07" path="res://root/scenes/game_scene/achievement_master/character/npc/animation_resource/lancer_animation.tres" id="2_5arcm"]
 [ext_resource type="Script" uid="uid://do2gea6mbqv2o" path="res://root/scenes/game_scene/achievement_master/character/npc/npc.gd" id="npc_script"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_npc"]
