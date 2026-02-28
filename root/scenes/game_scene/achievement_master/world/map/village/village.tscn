@@ -2,7 +2,7 @@
 
 [ext_resource type="TileSet" uid="uid://1lnru68nr2ak" path="res://root/scenes/game_scene/achievement_master/world/map/village/village.tres" id="1_qtgsi"]
 [ext_resource type="Texture2D" uid="uid://cufjmds17blpk" path="res://root/scenes/game_scene/achievement_master/world/assets/Buildings/Blue Buildings/Castle.png" id="2_23c21"]
-[ext_resource type="PackedScene" uid="uid://ci4xros7ui8ni" path="res://root/scenes/game_scene/achievement_master/enemys/enemy.tscn" id="4_01tu3"]
+[ext_resource type="PackedScene" uid="uid://ci4xros7ui8ni" path="res://root/scenes/game_scene/achievement_master/enemies/enemy.tscn" id="4_01tu3"]
 [ext_resource type="SpriteFrames" uid="uid://dl16141l3bt14" path="res://root/scenes/game_scene/achievement_master/character/npc/animation_resorce/archer_animation.tres" id="11_41te4"]
 [ext_resource type="SpriteFrames" uid="uid://crit3slt2r1xp" path="res://root/scenes/game_scene/achievement_master/character/npc/animation_resorce/monk_animation.tres" id="12_23nuo"]
 [ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/world/buildings/building.tscn" id="building_scene"]

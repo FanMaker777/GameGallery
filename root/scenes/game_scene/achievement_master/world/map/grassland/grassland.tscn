@@ -3,7 +3,7 @@
 [ext_resource type="TileSet" uid="uid://1lnru68nr2ak" path="res://root/scenes/game_scene/achievement_master/world/map/village/village.tres" id="tileset"]
 [ext_resource type="PackedScene" uid="uid://clf2l483adbii" path="res://root/scenes/game_scene/achievement_master/character/Pawn/pawn.tscn" id="pawn_scene"]
 [ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/world/spawner/generic_spawner.tscn" id="spawner_scene"]
-[ext_resource type="PackedScene" uid="uid://ci4xros7ui8ni" path="res://root/scenes/game_scene/achievement_master/enemys/enemy.tscn" id="enemy_scene"]
+[ext_resource type="PackedScene" uid="uid://ci4xros7ui8ni" path="res://root/scenes/game_scene/achievement_master/enemies/enemy.tscn" id="enemy_scene"]
 [ext_resource type="PackedScene" uid="uid://cagovhn7pyb3o" path="res://root/scenes/game_scene/achievement_master/world/resource_nodes/tree_node.tscn" id="tree_scene"]
 [ext_resource type="PackedScene" uid="uid://dpqde2fe7owot" path="res://root/scenes/game_scene/achievement_master/world/resource_nodes/gold_stone_node.tscn" id="gold_stone_scene"]
 [ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/ui/resource_hud.tscn" id="hud_scene"]
