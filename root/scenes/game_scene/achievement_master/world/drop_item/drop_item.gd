@@ -9,6 +9,19 @@ class_name DropItem extends Node2D
 ## ドロップ量（Inspector で設定）
 @export var amount: int = 5
 
+# ---- リソース種別ごとのテクスチャパス ----
+const _TEXTURE_MAP: Dictionary = {
+	ResourceDefinitions.ResourceType.GOLD: preload(
+		"res://root/scenes/game_scene/achievement_master/world/assets/Terrain/Resources/Gold/Gold Resource/Gold_Resource.png"
+	),
+	ResourceDefinitions.ResourceType.MEAT: preload(
+		"res://root/scenes/game_scene/achievement_master/world/assets/Terrain/Resources/Meat/Meat Resource/Meat Resource.png"
+	),
+	ResourceDefinitions.ResourceType.WOOD: preload(
+		"res://root/scenes/game_scene/achievement_master/world/assets/Terrain/Resources/Wood/Wood Resource/Wood Resource.png"
+	),
+}
+
 # ---- 内部状態 ----
 ## 二重回収防止フラグ（一度回収処理に入ったら true にする）
 var _picked_up: bool = false
@@ -24,6 +37,10 @@ var _picked_up: bool = false
 
 ## 初期化 — シグナル接続とスポーン演出を開始する
 func _ready() -> void:
+	# リソース種別に対応するテクスチャを設定する
+	var tex: Texture2D = _TEXTURE_MAP.get(resource_type)
+	if tex:
+		_sprite.texture = tex
 	# PickupArea に Pawn が入ったら回収処理を呼ぶ
 	_pickup_area.body_entered.connect(_on_pickup_area_body_entered)
 	# スポーン時のバウンド演出を再生する
