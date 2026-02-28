@@ -12,25 +12,12 @@ signal resource_harvested(resource_type: int, node_key: String)
 var is_depleted: bool = false
 
 var _node_data: Dictionary = {}
-var _respawn_timer: float = 0.0
 
 
 func _ready() -> void:
 	add_to_group("resource_node")
 	_node_data = ResourceDefinitions.NODE_DATA.get(node_key, {})
 	_update_visual()
-
-
-func _process(delta: float) -> void:
-	# 枯渇中のみリスポーンタイマーを進める
-	if not is_depleted:
-		return
-	var respawn_time: float = _node_data.get("respawn_time", 0.0)
-	if respawn_time <= 0.0:
-		return
-	_respawn_timer += delta
-	if _respawn_timer >= respawn_time:
-		_respawn()
 
 
 ## Pawn が採取前に呼ぶ — アニメーション種別や時間を返す
@@ -45,10 +32,13 @@ func harvest() -> Dictionary:
 	if is_depleted:
 		return {}
 	is_depleted = true
-	_respawn_timer = 0.0
 	_update_visual()
 	resource_harvested.emit(_node_data.get("resource_type"), node_key)
 	Log.info("ResourceNode: 採取完了 [%s]" % node_key)
+	# リスポーンタイマーを開始する（respawn_time が設定されている場合のみ）
+	var respawn_time: float = _node_data.get("respawn_time", 0.0)
+	if respawn_time > 0.0:
+		get_tree().create_timer(respawn_time).timeout.connect(_respawn)
 	return {
 		"type": _node_data.get("resource_type"),
 		"amount": _node_data.get("yield_amount", 1),
@@ -60,8 +50,8 @@ func _update_visual() -> void:
 	pass
 
 
+## リスポーン処理 — 枯渇状態を解除して外観を復活に切り替える
 func _respawn() -> void:
 	is_depleted = false
-	_respawn_timer = 0.0
 	_update_visual()
 	Log.info("ResourceNode: リスポーン [%s]" % node_key)
