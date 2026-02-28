@@ -178,6 +178,10 @@ game_scene_path = "uid://b7hikg0q3dsbv"
 [node name="GameCard3" parent="SelectGameMenu/VBoxContainer/CardMarginContainer/ScrollContainer/HBoxContainer" instance=ExtResource("3_xwt4j")]
 custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
+title = "Achievement Master"
+genre = "RPG"
+description = "目指せ！実績マスター！"
+game_scene_path = "uid://ce3q56t7icpyb"
 
 [node name="GameCard4" parent="SelectGameMenu/VBoxContainer/CardMarginContainer/ScrollContainer/HBoxContainer" instance=ExtResource("3_xwt4j")]
 custom_minimum_size = Vector2(400, 0)
