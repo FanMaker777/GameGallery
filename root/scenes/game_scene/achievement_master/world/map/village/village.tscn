@@ -71,18 +71,21 @@ collision_offset = Vector2(0, 75)
 
 [node name="NpcArcher" parent="NPC" instance=ExtResource("npc_scene")]
 position = Vector2(-250, 50)
+npc_id = &"npc_archer"
 npc_name = "弓使い"
 dialogues = Array[String](["この先の草原には魔物がいるから気をつけろ。", "弓の腕には自信がある。だが、近づかれると厄介だ。", "冒険者か？ まずは村で準備を整えるといい。"])
 sprite_frames = ExtResource("11_41te4")
 
 [node name="NpcMonk" parent="NPC" instance=ExtResource("npc_scene")]
 position = Vector2(0, -150)
+npc_id = &"npc_monk"
 npc_name = "修道士"
 dialogues = Array[String](["神の祝福がありますように。", "傷を負ったら無理せず戻ってきなさい。", "この村は平和だが、外は危険に満ちている。"])
 sprite_frames = ExtResource("12_23nuo")
 
 [node name="NpcLancer" parent="NPC" instance=ExtResource("npc_scene")]
 position = Vector2(296, 23)
+npc_id = &"npc_lancer"
 npc_name = "槍兵"
 dialogues = Array[String](["草原の魔物は手強いぞ。油断するなよ。", "槍は間合いが命だ。近すぎても遠すぎてもダメだ。", "村を守るのが俺の仕事だ。お前は外の脅威を頼む。"])
 

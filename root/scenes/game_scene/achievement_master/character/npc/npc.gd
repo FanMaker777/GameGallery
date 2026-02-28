@@ -12,6 +12,9 @@ signal npc_interacted(npc_id: String)
 # Inspector 変更時にエディタ上へリアルタイム反映する。
 # dialogues / display_duration はビューポートに表示先がないためセッター不要。
 
+## NPC の一意識別子（シグナル送信・クールダウン管理に使用）
+@export var npc_id: StringName
+
 ## NPC の表示名（NameLabel に反映）。セッターで足元ラベルに即時反映される
 @export var npc_name: String:
 	set(value):
@@ -102,7 +105,7 @@ func interact() -> void:
 	if dialogues.is_empty():
 		return
 	_is_talking = true
-	npc_interacted.emit(npc_name)
+	npc_interacted.emit(npc_id)
 	# 現在のインデックスのセリフを表示
 	_dialogue_label.text = dialogues[_dialogue_index]
 	_dialogue_label.visible = true
