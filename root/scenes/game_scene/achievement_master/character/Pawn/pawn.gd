@@ -13,6 +13,8 @@ const ATTACK_DURATION: float = 0.4
 const MAX_HP: int = 100
 ## 被ダメージ後の無敵時間（秒）
 const INVINCIBLE_DURATION: float = 1.0
+## 戦闘状態の持続時間（最後の戦闘行動からの秒数）
+const COMBAT_COOLDOWN: float = 5.0
 ## 無敵中のスプライト点滅間隔（秒）
 const _BLINK_INTERVAL: float = 0.1
 ## 死亡からリスポーンまでの待機時間（秒）
@@ -46,6 +48,12 @@ var _gather_duration: float = 0.0
 ## 攻撃経過時間
 var _attack_timer: float = 0.0
 
+# ---- 戦闘状態 ----
+## 戦闘中フラグ
+var _is_in_combat: bool = false
+## 戦闘状態クールダウン残り時間
+var _combat_cooldown: float = 0.0
+
 # ---- インベントリ ----
 ## リソース種別ごとの所持数
 var _inventory: Dictionary = {
@@ -65,6 +73,8 @@ signal health_changed(current_hp: int, max_hp: int)
 signal died
 ## 攻撃を開始したときに発火する（AchievementManager 連携用）
 signal attack_started
+## 戦闘状態が変化したときに発火する（ToastManager 連携用）
+signal combat_state_changed(is_in_combat: bool)
 
 # ---- ノードキャッシュ ----
 ## アニメーションスプライト
@@ -101,6 +111,8 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	# 無敵タイマーは状態に関わらず常に処理する
 	_process_invincibility(delta)
+	# 戦闘状態クールダウンを処理する
+	_process_combat_cooldown(delta)
 
 	match _state:
 		State.IDLE, State.MOVE:
@@ -132,6 +144,7 @@ func take_damage(amount: int) -> void:
 		return
 	# HP を減算（0未満にはしない）
 	hp = maxi(hp - amount, 0)
+	_enter_combat()
 	health_changed.emit(hp, MAX_HP)
 	Log.info("Pawn: ダメージ %d を受けた (残HP: %d/%d)" % [amount, hp, MAX_HP])
 	if hp <= 0:
@@ -279,6 +292,7 @@ func _start_attack() -> void:
 	_attack_timer = 0.0
 	velocity = Vector2.ZERO
 	_set_state(State.ATTACK)
+	_enter_combat()
 	attack_started.emit()
 	_animated_sprite.play("Attack")
 	# ヒットボックスの向きを flip_h に合わせる
@@ -357,6 +371,33 @@ func _add_resource(type: ResourceDefinitions.ResourceType, amount: int) -> void:
 ## 指定リソースの所持数を返す
 func get_resource_amount(type: ResourceDefinitions.ResourceType) -> int:
 	return _inventory.get(type, 0)
+
+# ========== 戦闘状態管理 ==========
+
+## 戦闘状態に入る — クールダウンをリセットし、未戦闘時はシグナルを発火する
+func _enter_combat() -> void:
+	_combat_cooldown = COMBAT_COOLDOWN
+	if not _is_in_combat:
+		_is_in_combat = true
+		combat_state_changed.emit(true)
+		Log.debug("Pawn: 戦闘状態に入った")
+
+
+## 戦闘状態から出る — シグナルを発火する
+func _exit_combat() -> void:
+	_is_in_combat = false
+	combat_state_changed.emit(false)
+	Log.debug("Pawn: 戦闘状態から出た")
+
+
+## 戦闘状態クールダウンを処理する — 時間経過で戦闘状態を解除する
+func _process_combat_cooldown(delta: float) -> void:
+	if not _is_in_combat:
+		return
+	_combat_cooldown -= delta
+	if _combat_cooldown <= 0.0:
+		_exit_combat()
+
 
 # ========== ユーティリティ ==========
 
