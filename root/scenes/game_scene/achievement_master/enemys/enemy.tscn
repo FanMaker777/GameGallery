@@ -248,7 +248,7 @@ collision_mask = 257
 motion_mode = 1
 script = ExtResource("1_dr4dj")
 drop_item_scene = ExtResource("15_drop")
-drop_gold_amount = 5
+drop_amount = 5
 
 [node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true

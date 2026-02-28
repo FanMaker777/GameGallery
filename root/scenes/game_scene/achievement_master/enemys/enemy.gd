@@ -13,8 +13,10 @@ signal died
 @export_range(1, 6, 1) var attack_hit_frame: int = 3
 ## ドロップアイテムのシーン（Inspector から drop_item.tscn を設定）
 @export var drop_item_scene: PackedScene
-## ドロップする Gold の量
-@export var drop_gold_amount: int = 5
+## ドロップするリソースの種別
+@export var drop_resource_type: ResourceDefinitions.ResourceType = ResourceDefinitions.ResourceType.GOLD
+## ドロップするリソースの量
+@export var drop_amount: int = 5
 
 # ---- 定数 ----
 ## 最大HP
@@ -124,11 +126,11 @@ func _spawn_drop_item() -> void:
 	# 自身の位置にドロップアイテムを配置する
 	drop.global_position = global_position
 	# リソース種別とドロップ量を設定する
-	drop.resource_type = ResourceDefinitions.ResourceType.GOLD
-	drop.amount = drop_gold_amount
+	drop.resource_type = drop_resource_type
+	drop.amount = drop_amount
 	# ワールド（current_scene）に追加する（自身の子にすると queue_free で消えるため）
 	get_tree().current_scene.add_child(drop)
-	Log.info("Enemy: ドロップアイテム生成 (Gold x%d)" % drop_gold_amount)
+	Log.info("Enemy: ドロップアイテム生成 (%s x%d)" % [ResourceDefinitions.ResourceType.keys()[drop_resource_type], drop_amount])
 
 
 ## 死亡演出 — 白フラッシュ3回 → フェードアウト + 縮小（合計約0.7秒）
