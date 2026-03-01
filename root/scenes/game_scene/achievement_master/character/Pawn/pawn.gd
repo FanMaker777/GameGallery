@@ -20,6 +20,16 @@ const _BLINK_INTERVAL: float = 0.1
 ## 死亡からリスポーンまでの待機時間（秒）
 const RESPAWN_DELAY: float = 2.0
 
+# ---- ダッシュ・スタミナ設定 ----
+## ダッシュ時の移動速度
+@export var dash_speed: float = 350.0
+## スタミナ最大値
+@export var max_stamina: float = 100.0
+## ダッシュ中のスタミナ消費量/秒
+@export var stamina_drain_rate: float = 30.0
+## スタミナ回復量/秒
+@export var stamina_recovery_rate: float = 20.0
+
 # ---- 状態 ----
 ## プレイヤーの行動状態
 enum State { IDLE, MOVE, GATHER, ATTACK, DEAD }
@@ -48,6 +58,12 @@ var _gather_duration: float = 0.0
 ## 攻撃経過時間
 var _attack_timer: float = 0.0
 
+# ---- スタミナ ----
+## 現在スタミナ
+var stamina: float = 100.0
+## ダッシュ中フラグ
+var _is_dashing: bool = false
+
 # ---- 戦闘状態 ----
 ## 戦闘中フラグ
 var _is_in_combat: bool = false
@@ -75,6 +91,8 @@ signal died
 signal attack_started
 ## 戦闘状態が変化したときに発火する（ToastManager 連携用）
 signal combat_state_changed(is_in_combat: bool)
+## スタミナが変化したときに発火する（HUD連携用）
+signal stamina_changed(current_stamina: float, max_stamina: float)
 
 # ---- ノードキャッシュ ----
 ## アニメーションスプライト
@@ -102,6 +120,9 @@ func _ready() -> void:
 	_interact_label.visible = false
 	# HP初期値を通知（HUD初期化用）
 	health_changed.emit(hp, MAX_HP)
+	# スタミナ初期値を通知（HUD初期化用）
+	stamina = max_stamina
+	stamina_changed.emit(stamina, max_stamina)
 	# 実績マネージャーにプレイヤーを登録する
 	AchievementManager.register_player(self)
 	Log.info("Pawn: 初期化完了 (HP=%d/%d)" % [hp, MAX_HP])
@@ -118,6 +139,7 @@ func _physics_process(delta: float) -> void:
 		State.IDLE, State.MOVE:
 			_process_movement()
 			_process_action_input()
+			_process_stamina(delta)
 			# 最寄りのインタラクト対象に応じてプロンプト表示を切り替え
 			var nearest: Node2D = _get_nearest_interactable()
 			if nearest != null:
@@ -216,13 +238,20 @@ func _process_movement() -> void:
 		dir = dir.normalized()
 
 	if dir != Vector2.ZERO:
-		velocity = dir * SPEED
+		# ダッシュ判定: Shift＋移動中＋スタミナ残あり
+		if Input.is_action_pressed("dash") and stamina > 0.0:
+			_is_dashing = true
+			velocity = dir * dash_speed
+		else:
+			_is_dashing = false
+			velocity = dir * SPEED
 		_set_state(State.MOVE)
 		_animated_sprite.play("Run")
 		# 左右フリップ
 		if dir.x != 0.0:
 			_animated_sprite.flip_h = dir.x < 0.0
 	else:
+		_is_dashing = false
 		velocity = Vector2.ZERO
 		if _state == State.MOVE:
 			_set_state(State.IDLE)
@@ -371,6 +400,21 @@ func _add_resource(type: ResourceDefinitions.ResourceType, amount: int) -> void:
 ## 指定リソースの所持数を返す
 func get_resource_amount(type: ResourceDefinitions.ResourceType) -> int:
 	return _inventory.get(type, 0)
+
+# ========== スタミナ処理 ==========
+
+## スタミナの消費・回復を処理する — ダッシュ中は消費、dashキー未押下かつ非攻撃時は回復
+func _process_stamina(delta: float) -> void:
+	var prev_stamina: float = stamina
+	if _is_dashing:
+		stamina = maxf(stamina - stamina_drain_rate * delta, 0.0)
+	# dashキー押下中は回復をブロックし、スタミナ0時の振動ループを防止する
+	elif not Input.is_action_pressed("dash") and (not _is_in_combat or _state != State.ATTACK):
+		stamina = minf(stamina + stamina_recovery_rate * delta, max_stamina)
+	# 変化があった場合のみシグナルを発火する
+	if stamina != prev_stamina:
+		stamina_changed.emit(stamina, max_stamina)
+
 
 # ========== 戦闘状態管理 ==========
 
