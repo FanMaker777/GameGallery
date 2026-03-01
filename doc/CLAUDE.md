@@ -34,7 +34,8 @@ doc/
 │   └── decisions.md             … 設計判断の記録（ADR）
 ├── guides/
 │   ├── coding-style.md          … GDScript コーディング規約
-│   └── testing-style.md         … GUT テスト規約
+│   ├── testing-style.md         … GUT テスト規約
+│   └── addon-beehave.md         … Beehave（ビヘイビアツリー）実装ガイド
 ├── spec/
 │   └── AchievementMaster_ClaudeCode_Spec.md … Achievement Master 詳細仕様
 ├── tasks/
@@ -52,6 +53,7 @@ doc/
 | 設計判断が必要な場面 | `architecture/decisions.md` — 過去の ADR |
 | コーディング | `guides/coding-style.md` — GDScript 規約 |
 | テスト追加・修正 | `guides/testing-style.md` — GUT テスト規約 |
+| NPC・Enemy のAI実装 | `guides/addon-beehave.md` — Beehave ビヘイビアツリー実装ガイド |
 | Achievement Master 関連 | `spec/AchievementMaster_ClaudeCode_Spec.md` — 仕様・実装状況 |
 | 作業開始時 | `tasks/*.md` — 未完了の残作業を確認 |
 
