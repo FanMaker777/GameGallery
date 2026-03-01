@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=4 format=3 uid="uid://ppyxf575l0sh"]
+
+[ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/world/drop_item/drop_item.tscn" id="1_6v0sr"]
+[ext_resource type="Script" uid="uid://bjmkmmdaxug1q" path="res://root/scenes/game_scene/achievement_master/data/enemy_data.gd" id="2_giogb"]
+[ext_resource type="SpriteFrames" uid="uid://dd7ose0nhs4dk" path="res://root/scenes/game_scene/achievement_master/data/enemies/bear/bear_sprite_frames.tres" id="3_dtdwf"]
+
+[resource]
+script = ExtResource("2_giogb")
+display_name = "Bear"
+max_hp = 50
+attack_damage = 20
+drop_item_scene = ExtResource("1_6v0sr")
+drop_resource_type = 2
+sprite_frames = ExtResource("3_dtdwf")
+detection_radius = 200.0

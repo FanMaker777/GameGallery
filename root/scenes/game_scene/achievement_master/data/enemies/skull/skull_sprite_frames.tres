@@ -1,0 +1,225 @@
+[gd_resource type="SpriteFrames" load_steps=33 format=3 uid="uid://bjg41oe5oerma"]
+
+[ext_resource type="Texture2D" uid="uid://clujuyjqnwsrq" path="res://root/scenes/game_scene/achievement_master/enemies/Skull/Skull_Attack.png" id="1_attack"]
+[ext_resource type="Texture2D" uid="uid://brdfocia00rgn" path="res://root/scenes/game_scene/achievement_master/enemies/Skull/Skull_Guard.png" id="2_guard"]
+[ext_resource type="Texture2D" uid="uid://d1ovuxtaqaos3" path="res://root/scenes/game_scene/achievement_master/enemies/Skull/Skull_Idle.png" id="3_idle"]
+[ext_resource type="Texture2D" uid="uid://br6ify6f8exge" path="res://root/scenes/game_scene/achievement_master/enemies/Skull/Skull_Run.png" id="4_run"]
+
+[sub_resource type="AtlasTexture" id="attack_0"]
+atlas = ExtResource("1_attack")
+region = Rect2(0, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="attack_1"]
+atlas = ExtResource("1_attack")
+region = Rect2(192, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="attack_2"]
+atlas = ExtResource("1_attack")
+region = Rect2(384, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="attack_3"]
+atlas = ExtResource("1_attack")
+region = Rect2(576, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="attack_4"]
+atlas = ExtResource("1_attack")
+region = Rect2(768, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="attack_5"]
+atlas = ExtResource("1_attack")
+region = Rect2(960, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="attack_6"]
+atlas = ExtResource("1_attack")
+region = Rect2(1152, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="guard_0"]
+atlas = ExtResource("2_guard")
+region = Rect2(0, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="guard_1"]
+atlas = ExtResource("2_guard")
+region = Rect2(192, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="guard_2"]
+atlas = ExtResource("2_guard")
+region = Rect2(384, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="guard_3"]
+atlas = ExtResource("2_guard")
+region = Rect2(576, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="guard_4"]
+atlas = ExtResource("2_guard")
+region = Rect2(768, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="guard_5"]
+atlas = ExtResource("2_guard")
+region = Rect2(960, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="guard_6"]
+atlas = ExtResource("2_guard")
+region = Rect2(1152, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="idle_0"]
+atlas = ExtResource("3_idle")
+region = Rect2(0, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="idle_1"]
+atlas = ExtResource("3_idle")
+region = Rect2(192, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="idle_2"]
+atlas = ExtResource("3_idle")
+region = Rect2(384, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="idle_3"]
+atlas = ExtResource("3_idle")
+region = Rect2(576, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="idle_4"]
+atlas = ExtResource("3_idle")
+region = Rect2(768, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="idle_5"]
+atlas = ExtResource("3_idle")
+region = Rect2(960, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="idle_6"]
+atlas = ExtResource("3_idle")
+region = Rect2(1152, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="idle_7"]
+atlas = ExtResource("3_idle")
+region = Rect2(1344, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="run_0"]
+atlas = ExtResource("4_run")
+region = Rect2(0, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="run_1"]
+atlas = ExtResource("4_run")
+region = Rect2(192, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="run_2"]
+atlas = ExtResource("4_run")
+region = Rect2(384, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="run_3"]
+atlas = ExtResource("4_run")
+region = Rect2(576, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="run_4"]
+atlas = ExtResource("4_run")
+region = Rect2(768, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="run_5"]
+atlas = ExtResource("4_run")
+region = Rect2(960, 0, 192, 192)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("attack_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("attack_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("attack_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("attack_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("attack_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("attack_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("attack_6")
+}],
+"loop": false,
+"name": &"Attack",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("guard_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("guard_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("guard_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("guard_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("guard_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("guard_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("guard_6")
+}],
+"loop": true,
+"name": &"Guard",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("idle_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("idle_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("idle_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("idle_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("idle_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("idle_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("idle_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("idle_7")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("run_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("run_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("run_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("run_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("run_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("run_5")
+}],
+"loop": true,
+"name": &"Run",
+"speed": 10.0
+}]

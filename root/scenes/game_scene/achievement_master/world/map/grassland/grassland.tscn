@@ -1,5 +1,6 @@
-[gd_scene load_steps=11 format=4 uid="uid://c54wfc46jx8v2"]
+[gd_scene load_steps=12 format=4 uid="uid://c54wfc46jx8v2"]
 
+[ext_resource type="Resource" uid="uid://ppyxf575l0sh" path="res://root/scenes/game_scene/achievement_master/data/enemies/bear/bear_data.tres" id="11_wkpcn"]
 [ext_resource type="PackedScene" uid="uid://cl2ogx0l8sjib" path="res://root/scenes/game_scene/achievement_master/ui/achievement_hud.tscn" id="achievement_hud_scene"]
 [ext_resource type="PackedScene" uid="uid://bcs6yx15qgf2b" path="res://root/scenes/game_scene/achievement_master/ui/menu/am_pause_menu.tscn" id="am_pause_menu_scene"]
 [ext_resource type="PackedScene" uid="uid://ci4xros7ui8ni" path="res://root/scenes/game_scene/achievement_master/enemies/enemy.tscn" id="enemy_scene"]
@@ -66,4 +67,5 @@ visible = false
 position = Vector2(-106, -88)
 
 [node name="Enemy2" parent="." instance=ExtResource("enemy_scene")]
-position = Vector2(-107, 304)
+position = Vector2(514, 452)
+enemy_data = ExtResource("11_wkpcn")

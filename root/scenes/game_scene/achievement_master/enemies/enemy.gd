@@ -1,5 +1,8 @@
+@tool
 ## 一般エネミーの基底スクリプト
 ## アニメーション管理を一元化し、リーフはBlackboard経由で希望アニメーションを指定する
+## EnemyData リソースからステータス・ドロップ・ビジュアル・AI パラメータを適用する
+## @tool によりエディタ上で EnemyData のスプライト変更がプレビューされる
 class_name Enemy extends CharacterBody2D
 
 # ---- シグナル ----
@@ -7,26 +10,26 @@ class_name Enemy extends CharacterBody2D
 signal died
 
 # ---- エクスポート ----
-## flip_hを切り替える最小X速度閾値（ちらつき防止）
-@export var flip_threshold: float = 10.0
-## 攻撃アニメーションのダメージ適用フレーム（0始まり、Inspectorで調整可能）
-@export_range(1, 6, 1) var attack_hit_frame: int = 3
-## ドロップアイテムのシーン（Inspector から drop_item.tscn を設定）
-@export var drop_item_scene: PackedScene
-## ドロップするリソースの種別
-@export var drop_resource_type: ResourceDefinitions.ResourceType = ResourceDefinitions.ResourceType.GOLD
-## ドロップするリソースの量
-@export var drop_amount: int = 5
+## エネミーのデータ定義リソース（ステータス・ドロップ・ビジュアル・AI を一括管理）
+@export var enemy_data: EnemyData:
+	set(value):
+		enemy_data = value
+		# エディタ上で enemy_data を変更した際にスプライトを即時反映する
+		_apply_editor_preview()
 
-# ---- 定数 ----
-## 最大HP
-const MAX_HP: int = 30
-## プレイヤーに与える攻撃ダメージ
-const ATTACK_DAMAGE: int = 10
-
-# ---- 内部状態 ----
+# ---- 内部状態（EnemyData から適用される値） ----
 ## 現在HP
-var hp: int = MAX_HP
+var hp: int = 0
+## flip_hを切り替える最小X速度閾値
+var _flip_threshold: float = 10.0
+## 攻撃アニメーションのダメージ適用フレーム
+var _attack_hit_frame: int = 3
+## ドロップアイテムのシーン
+var _drop_item_scene: PackedScene
+## ドロップするリソースの種別
+var _drop_resource_type: ResourceDefinitions.ResourceType = ResourceDefinitions.ResourceType.GOLD
+## ドロップするリソースの量
+var _drop_amount: int = 5
 ## 死亡演出中フラグ（true の間はダメージ・AI・移動を停止する）
 var _is_dying: bool = false
 
@@ -37,17 +40,73 @@ var _is_dying: bool = false
 var _current_anim: String = ""
 
 func _ready() -> void:
+	# エディタ上ではビジュアルプレビューのみ適用する
+	if Engine.is_editor_hint():
+		_apply_editor_preview()
+		return
 	add_to_group("enemies")
+	# EnemyData リソースからパラメータを適用する
+	_apply_enemy_data()
 	# blackboardに初期地点を待機地点として登録
 	_blackboard.set_value(BlackBoardValue.IDLE_POSITION, global_position)
-	# 攻撃ダメージ量をblackboardに登録（リーフから参照するため）
-	_blackboard.set_value(BlackBoardValue.ATTACK_DAMAGE, ATTACK_DAMAGE)
 	# 攻撃アニメーション完了シグナルを接続
 	_animated_sprite.animation_finished.connect(_on_animation_finished)
 	# ヒットフレーム検出用のフレーム変化シグナルを接続
 	_animated_sprite.frame_changed.connect(_on_frame_changed)
 
+
+## エディタ上で EnemyData のスプライトをプレビュー表示する
+func _apply_editor_preview() -> void:
+	# ノードがシーンツリーに入る前（セッター初回呼出時）はスキップする
+	if not is_node_ready():
+		return
+	var sprite: AnimatedSprite2D = %AnimatedSprite
+	if sprite == null:
+		return
+	# EnemyData の SpriteFrames をプレビュー適用する
+	if enemy_data != null and enemy_data.sprite_frames != null:
+		sprite.sprite_frames = enemy_data.sprite_frames
+	else:
+		sprite.sprite_frames = null
+
+
+## EnemyData リソースから各種パラメータを適用する（ランタイム専用）
+func _apply_enemy_data() -> void:
+	# EnemyData が未設定の場合はエラーログを出力して処理を中断する
+	if enemy_data == null:
+		Log.warn("Enemy: enemy_data が未設定です（ノード: %s）" % name)
+		return
+	# ステータスを適用する
+	hp = enemy_data.max_hp
+	# ビジュアルを適用する（SpriteFrames の差し替え）
+	if enemy_data.sprite_frames != null:
+		_animated_sprite.sprite_frames = enemy_data.sprite_frames
+	# アニメーション調整値を適用する
+	_flip_threshold = enemy_data.flip_threshold
+	_attack_hit_frame = enemy_data.attack_hit_frame
+	# ドロップ設定を適用する
+	_drop_item_scene = enemy_data.drop_item_scene
+	_drop_resource_type = enemy_data.drop_resource_type
+	_drop_amount = enemy_data.drop_amount
+	# Blackboard に AI パラメータを書き込む（リーフが参照するため）
+	_blackboard.set_value(BlackBoardValue.ATTACK_DAMAGE, enemy_data.attack_damage)
+	_blackboard.set_value(BlackBoardValue.MOVE_SPEED, enemy_data.chase_speed)
+	_blackboard.set_value(BlackBoardValue.PATROL_SPEED, enemy_data.patrol_speed)
+	_blackboard.set_value(BlackBoardValue.ATTACK_RANGE, enemy_data.attack_range)
+	_blackboard.set_value(BlackBoardValue.ATTACK_COOLDOWN, enemy_data.attack_cooldown)
+	# DetectArea の検知半径を適用する（shape を複製して他インスタンスへの影響を防ぐ）
+	var detect_collision: CollisionShape2D = %DetectArea.get_child(0) as CollisionShape2D
+	if detect_collision != null:
+		var new_shape: CircleShape2D = detect_collision.shape.duplicate() as CircleShape2D
+		new_shape.radius = enemy_data.detection_radius
+		detect_collision.shape = new_shape
+	Log.debug("Enemy: EnemyData 適用完了 (%s, HP=%d)" % [enemy_data.display_name, hp])
+
+
 func _physics_process(_delta: float) -> void:
+	# エディタ上ではゲームロジックを実行しない
+	if Engine.is_editor_hint():
+		return
 	# 死亡演出中はアニメーション更新を停止する
 	if _is_dying:
 		return
@@ -59,7 +118,7 @@ func _physics_process(_delta: float) -> void:
 	_update_animation(desired_anim)
 
 	# --- flip_h管理（閾値付きでちらつき防止） ---
-	if absf(velocity.x) > flip_threshold:
+	if absf(velocity.x) > _flip_threshold:
 		_animated_sprite.flip_h = velocity.x < 0.0
 
 ## アニメーションを更新する（重複再生を防止）
@@ -70,7 +129,7 @@ func _update_animation(anim_name: String) -> void:
 
 ## 攻撃アニメーションのヒットフレーム到達時にブラックボードを更新する
 func _on_frame_changed() -> void:
-	if _animated_sprite.animation == &"Attack" and _animated_sprite.frame == attack_hit_frame:
+	if _animated_sprite.animation == &"Attack" and _animated_sprite.frame == _attack_hit_frame:
 		_blackboard.set_value(BlackBoardValue.ATTACK_HIT_FRAME_REACHED, true)
 
 
@@ -119,19 +178,19 @@ func _die() -> void:
 ## ドロップアイテムをワールドに生成する
 func _spawn_drop_item() -> void:
 	# シーンが未設定の場合はスキップする（安全ガード）
-	if drop_item_scene == null:
+	if _drop_item_scene == null:
 		return
 	# DropItem インスタンスを生成する
-	var drop: Node2D = drop_item_scene.instantiate()
+	var drop: Node2D = _drop_item_scene.instantiate()
 	# 自身の位置にドロップアイテムを配置する
 	drop.global_position = global_position
 	# リソース種別とドロップ量を設定する
-	drop.resource_type = drop_resource_type
-	drop.amount = drop_amount
+	drop.resource_type = _drop_resource_type
+	drop.amount = _drop_amount
 	# シーンのルートに追加する（親がSpawner等の場合でも正しい位置に配置される）
 	# physics コールバック中は即時追加できないため call_deferred を使用
 	get_tree().current_scene.call_deferred("add_child", drop)
-	Log.info("Enemy: ドロップアイテム生成 (%s x%d)" % [ResourceDefinitions.ResourceType.keys()[drop_resource_type], drop_amount])
+	Log.info("Enemy: ドロップアイテム生成 (%s x%d)" % [ResourceDefinitions.ResourceType.keys()[_drop_resource_type], _drop_amount])
 
 
 ## 死亡演出 — 白フラッシュ3回 → フェードアウト + 縮小（合計約0.7秒）

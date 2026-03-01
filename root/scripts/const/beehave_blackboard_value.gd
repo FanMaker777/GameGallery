@@ -22,3 +22,5 @@ const ATTACK_HIT_FRAME_REACHED = "attack_hit_frame_reached"
 const ATTACK_DAMAGE = "attack_damage"
 ## 攻撃アニメーション再生中フラグ（true の間、攻撃シーケンスの中断を防止する）
 const IS_ENEMY_ATTACKING = "is_enemy_attacking"
+## パトロール速度
+const PATROL_SPEED = "patrol_speed"

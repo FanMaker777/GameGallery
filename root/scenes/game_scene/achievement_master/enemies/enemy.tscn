@@ -1,10 +1,8 @@
-[gd_scene load_steps=48 format=3 uid="uid://ci4xros7ui8ni"]
+[gd_scene load_steps=16 format=3 uid="uid://ci4xros7ui8ni"]
 
-[ext_resource type="Texture2D" uid="uid://clujuyjqnwsrq" path="res://root/scenes/game_scene/achievement_master/enemies/Skull/Skull_Attack.png" id="1_0tmuv"]
 [ext_resource type="Script" uid="uid://ddtnt5sktiv50" path="res://root/scenes/game_scene/achievement_master/enemies/enemy.gd" id="1_dr4dj"]
-[ext_resource type="Texture2D" uid="uid://brdfocia00rgn" path="res://root/scenes/game_scene/achievement_master/enemies/Skull/Skull_Guard.png" id="2_dr4dj"]
-[ext_resource type="Texture2D" uid="uid://d1ovuxtaqaos3" path="res://root/scenes/game_scene/achievement_master/enemies/Skull/Skull_Idle.png" id="3_ceokc"]
-[ext_resource type="Texture2D" uid="uid://br6ify6f8exge" path="res://root/scenes/game_scene/achievement_master/enemies/Skull/Skull_Run.png" id="4_d57pt"]
+[ext_resource type="Resource" uid="uid://cr632vbfdvia" path="res://root/scenes/game_scene/achievement_master/data/enemies/skull/skull_data.tres" id="2_skull"]
+[ext_resource type="SpriteFrames" uid="uid://bjg41oe5oerma" path="res://root/scenes/game_scene/achievement_master/data/enemies/skull/skull_sprite_frames.tres" id="3_w0ac6"]
 [ext_resource type="Script" uid="uid://bb0t2ovl7wifo" path="res://addons/beehave/nodes/beehave_tree.gd" id="6_6p106"]
 [ext_resource type="Script" uid="uid://dme5f24l0edsf" path="res://addons/beehave/blackboard.gd" id="6_20sed"]
 [ext_resource type="Script" uid="uid://cw22yurt5l74k" path="res://addons/beehave/nodes/composites/selector_reactive.gd" id="7_l7lq2"]
@@ -15,226 +13,6 @@
 [ext_resource type="Script" uid="uid://vwojukfqp0us" path="res://root/scripts/beehave/action_leaf/move_to_patrol_point.gd" id="12_tosgk"]
 [ext_resource type="Script" uid="uid://bdlgrvxemaxe5" path="res://root/scripts/beehave/action_leaf/wait_at_patrol_point.gd" id="13_20sed"]
 [ext_resource type="Script" uid="uid://dcojdhvj8qcw0" path="res://addons/beehave/nodes/composites/sequence_reactive.gd" id="14_react"]
-[ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/world/drop_item/drop_item.tscn" id="15_drop"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_6p106"]
-atlas = ExtResource("1_0tmuv")
-region = Rect2(0, 0, 192, 192)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_l7lq2"]
-atlas = ExtResource("1_0tmuv")
-region = Rect2(192, 0, 192, 192)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_cryph"]
-atlas = ExtResource("1_0tmuv")
-region = Rect2(384, 0, 192, 192)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_5plnc"]
-atlas = ExtResource("1_0tmuv")
-region = Rect2(576, 0, 192, 192)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_e7jxm"]
-atlas = ExtResource("1_0tmuv")
-region = Rect2(768, 0, 192, 192)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_tosgk"]
-atlas = ExtResource("1_0tmuv")
-region = Rect2(960, 0, 192, 192)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_20sed"]
-atlas = ExtResource("1_0tmuv")
-region = Rect2(1152, 0, 192, 192)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_e6cyu"]
-atlas = ExtResource("2_dr4dj")
-region = Rect2(0, 0, 192, 192)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_5gfsw"]
-atlas = ExtResource("2_dr4dj")
-region = Rect2(192, 0, 192, 192)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_fm36u"]
-atlas = ExtResource("2_dr4dj")
-region = Rect2(384, 0, 192, 192)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_xv41n"]
-atlas = ExtResource("2_dr4dj")
-region = Rect2(576, 0, 192, 192)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_3c65i"]
-atlas = ExtResource("2_dr4dj")
-region = Rect2(768, 0, 192, 192)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_yrryn"]
-atlas = ExtResource("2_dr4dj")
-region = Rect2(960, 0, 192, 192)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_6vkpo"]
-atlas = ExtResource("2_dr4dj")
-region = Rect2(1152, 0, 192, 192)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_pqpmi"]
-atlas = ExtResource("3_ceokc")
-region = Rect2(0, 0, 192, 192)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_uli1d"]
-atlas = ExtResource("3_ceokc")
-region = Rect2(192, 0, 192, 192)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_u8ac5"]
-atlas = ExtResource("3_ceokc")
-region = Rect2(384, 0, 192, 192)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_745h1"]
-atlas = ExtResource("3_ceokc")
-region = Rect2(576, 0, 192, 192)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_8aume"]
-atlas = ExtResource("3_ceokc")
-region = Rect2(768, 0, 192, 192)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ie2bk"]
-atlas = ExtResource("3_ceokc")
-region = Rect2(960, 0, 192, 192)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_3w47t"]
-atlas = ExtResource("3_ceokc")
-region = Rect2(1152, 0, 192, 192)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_567qh"]
-atlas = ExtResource("3_ceokc")
-region = Rect2(1344, 0, 192, 192)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_txx6t"]
-atlas = ExtResource("4_d57pt")
-region = Rect2(0, 0, 192, 192)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_mvrqc"]
-atlas = ExtResource("4_d57pt")
-region = Rect2(192, 0, 192, 192)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_fqhqt"]
-atlas = ExtResource("4_d57pt")
-region = Rect2(384, 0, 192, 192)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_11fjj"]
-atlas = ExtResource("4_d57pt")
-region = Rect2(576, 0, 192, 192)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_6ynit"]
-atlas = ExtResource("4_d57pt")
-region = Rect2(768, 0, 192, 192)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_6tdyb"]
-atlas = ExtResource("4_d57pt")
-region = Rect2(960, 0, 192, 192)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_r6ah4"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_6p106")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_l7lq2")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_cryph")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_5plnc")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_e7jxm")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_tosgk")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_20sed")
-}],
-"loop": false,
-"name": &"Attack",
-"speed": 10.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_e6cyu")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_5gfsw")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_fm36u")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_xv41n")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_3c65i")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_yrryn")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_6vkpo")
-}],
-"loop": true,
-"name": &"Guard",
-"speed": 10.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_pqpmi")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_uli1d")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_u8ac5")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_745h1")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_8aume")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ie2bk")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_3w47t")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_567qh")
-}],
-"loop": true,
-"name": &"Idle",
-"speed": 10.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_txx6t")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_mvrqc")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_fqhqt")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_11fjj")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_6ynit")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_6tdyb")
-}],
-"loop": true,
-"name": &"Run",
-"speed": 10.0
-}]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_v7l3o"]
 radius = 33.0
@@ -248,15 +26,13 @@ collision_layer = 2
 collision_mask = 257
 motion_mode = 1
 script = ExtResource("1_dr4dj")
-drop_item_scene = ExtResource("15_drop")
+enemy_data = ExtResource("2_skull")
 
 [node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
-sprite_frames = SubResource("SpriteFrames_r6ah4")
+sprite_frames = ExtResource("3_w0ac6")
 animation = &"Attack"
 autoplay = "Idle"
-frame = 6
-frame_progress = 0.022558514
 
 [node name="BodyCollisionShape" type="CollisionShape2D" parent="."]
 visible = false
