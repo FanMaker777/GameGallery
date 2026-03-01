@@ -4,6 +4,8 @@ class_name AchievementHud extends CanvasLayer
 # ---- ノードキャッシュ ----
 ## HPバー
 @onready var _hp_bar: ProgressBar = %HpBar
+## スタミナバー
+@onready var _stamina_bar: ProgressBar = %StaminaBar
 ## 木材ラベル
 @onready var _wood_label: Label = %WoodLabel
 ## 金ラベル
@@ -50,6 +52,9 @@ func _connect_to_pawn() -> void:
 	# HP変化シグナルを接続
 	if _pawn.has_signal("health_changed"):
 		_pawn.health_changed.connect(_on_health_changed)
+	# スタミナ変化シグナルを接続
+	if _pawn.has_signal("stamina_changed"):
+		_pawn.stamina_changed.connect(_on_stamina_changed)
 	# 全表示を最新化する
 	_refresh_all()
 	Log.info("AchievementHud: Pawn に接続完了")
@@ -71,6 +76,12 @@ func _on_inventory_changed(
 func _on_health_changed(current_hp: int, max_hp: int) -> void:
 	_hp_bar.max_value = max_hp
 	_hp_bar.value = current_hp
+
+
+## スタミナ変化時にスタミナバーを更新する
+func _on_stamina_changed(current_stamina: float, p_max_stamina: float) -> void:
+	_stamina_bar.max_value = p_max_stamina
+	_stamina_bar.value = current_stamina
 
 
 ## 実績解除時にAPカウンターを更新する

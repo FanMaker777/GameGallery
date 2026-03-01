@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://cl2ogx0l8sjib"]
+[gd_scene load_steps=6 format=3 uid="uid://cl2ogx0l8sjib"]
 
 [ext_resource type="Script" uid="uid://b3ky34d6kb7s7" path="res://root/scenes/game_scene/achievement_master/ui/achievement_hud.gd" id="achievement_hud_script"]
 [ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/ui/toast/toast_manager.tscn" id="toast_manager_scene"]
@@ -6,6 +6,9 @@
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hp_fill"]
 bg_color = Color(0.32280397, 0.6882976, 0.45200253, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_stamina_fill"]
+bg_color = Color(0.2, 0.5, 0.85, 1)
 
 [node name="AchievementHud" type="CanvasLayer"]
 layer = 10
@@ -39,6 +42,21 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(160, 16)
 layout_mode = 2
 theme_override_styles/fill = SubResource("StyleBoxFlat_hp_fill")
+value = 100.0
+
+[node name="StaminaHBoxContainer" type="HBoxContainer" parent="PlayerStatusPanel/VBoxContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="StaminaLabel" type="Label" parent="PlayerStatusPanel/VBoxContainer/StaminaHBoxContainer"]
+layout_mode = 2
+text = "ST"
+
+[node name="StaminaBar" type="ProgressBar" parent="PlayerStatusPanel/VBoxContainer/StaminaHBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 16)
+layout_mode = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_stamina_fill")
 value = 100.0
 
 [node name="ResourceHBoxContainer" type="HBoxContainer" parent="PlayerStatusPanel/VBoxContainer"]
