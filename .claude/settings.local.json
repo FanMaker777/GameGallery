@@ -15,7 +15,8 @@
       "Bash(git:*)",
       "Bash(sed:*)",
       "mcp__godot__update_project_uids",
-      "Bash(xargs grep:*)"
+      "Bash(xargs grep:*)",
+      "Bash(cd:*)"
     ]
   },
   "enableAllProjectMcpServers": true,
