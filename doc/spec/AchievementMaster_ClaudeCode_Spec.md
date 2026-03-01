@@ -309,12 +309,12 @@
 | 2 | Player 移動/攻撃（最小） | **ほぼ完了** | Pawn で移動＋攻撃＋採取＋HP＋被ダメージ＋死亡を実装済み |
 | 3 | 村・ダンジョンの最小ループ | **ほぼ完了** | 村＋草原マップ動作、MapGateでフェード遷移、★NPC会話実装済み、★敵死亡演出/ドロップ実装済み。建物配置が未実装 |
 | 4 | AchievementManager（データ定義 + 解除イベント） | **実装済み** | Custom Resource + JSON セーブ |
-| 5 | HUD（HP/プロンプト/トースト/ピン進捗） | **未着手** | |
-| 6 | PauseMenu（4タブ）— 実績タブ優先 | **未着手** | グローバルPauseScreenは存在するが4タブ構成ではない |
+| 5 | HUD（HP/プロンプト/トースト/ピン進捗） | **ほぼ完了** | AchievementHud（HP/スタミナバー/リソース/AP表示）、トースト通知、ピン留め実績パネル実装済み |
+| 6 | PauseMenu（4タブ）— 実績タブ優先 | **一部完了** | 実績タブ実装済み（カテゴリ/ステータス/ランクフィルタ、ピン留め）。装備/ステータス/スキルタブは未着手 |
 | 7 | RewardManager（報酬解放と効果適用） | **未着手** | |
 | 8 | セーブ/ロード | **未着手** | |
 | 9 | バランス調整 | **未着手** | |
-| 10 | GUTテスト追加/整備 | **未着手** | テンプレ（test_example.gd）のみ |
+| 10 | GUTテスト追加/整備 | **一部完了** | test_toast_manager / test_achievement_toast / test_pawn_combat_state 実装済み |
 
 ---
 
@@ -370,8 +370,9 @@ root/scenes/game_scene/achievement_master/
   - DEAD 状態：全入力無効化
 - **インベントリ**：Pawn 内部 Dictionary + `inventory_changed` signal（HUD連動）
 - **ドロップ回収**（★実装済み）：`collect_drop(type, amount)` メソッド — DropItem から呼ばれ `_add_resource()` 経由でインベントリ加算
+- **ダッシュ/スタミナ**（★実装済み）：Shift＋移動でダッシュ（`dash_speed=350`）、スタミナ消費（`stamina_drain_rate=30/s`）・回復（`stamina_recovery_rate=20/s`）、スタミナ0時はdashキー離すまで回復ブロック、`stamina_changed` signal でHUD連動
 - Camera2D 直付け
-- **未実装**：アイテム持ち替え表示、死亡後のリスポーン
+- **未実装**：アイテム持ち替え表示
 
 #### Player 旧（warrior.gd）
 - `class_name RpgPlayer extends CharacterBody2D`
@@ -482,6 +483,7 @@ root/scenes/game_scene/achievement_master/
 | `quickslot_1` | ★定義済み（1） |
 | `quickslot_2` | ★定義済み（2） |
 | `quickslot_3` | ★定義済み（3） |
+| `dash` | ★定義済み（Shift） |
 
 #### 物理レイヤー（project.godot）
 | Layer | 名前 | 対象 |
@@ -516,10 +518,10 @@ root/scenes/game_scene/achievement_master/
 | 実績データ（AchievementDatabase.tres） | 4.2, 5 | **★実装済み** — 50実績定義（戦闘15/農業12/探索10/交流8/システム5） |
 | 報酬ツリーデータ | 6 | 未着手 |
 | APシステム | 4.1 | 未着手 |
-| HUDシーン（hud.tscn）— 本格版 | 3.1, 8 | 未着手（簡易リソースHUDのみ実装済み） |
-| 4タブPauseMenu（実績タブ含む） | 3.2 | 未着手 |
-| 実績トースト通知 | 3.1, 8 | 未着手 |
-| ピン留め進捗表示 | 3.1, 3.2 | 未着手 |
+| HUDシーン（AchievementHud）— 本格版 | 3.1, 8 | **★実装済み** — HP/スタミナバー、リソース表示、APカウンター、ピン留め実績パネル |
+| PauseMenu — 実績タブ | 3.2 | **★一部完了** — 実績タブ（カテゴリ/ステータス/ランクフィルタ、ピン留め）実装済み。他タブ未着手 |
+| 実績トースト通知 | 3.1, 8 | **★実装済み** — トースト通知（説明文表示含む）、戦闘中抑制 |
+| ピン留め進捗表示 | 3.1, 3.2 | **★実装済み** — HUDにリアルタイム進捗表示 |
 | 中ボスシーン（mid_boss.tscn） | 7.1 | 未着手 |
 | 敵死亡アニメーション/ドロップ | — | **★実装済み** — Tween白フラッシュ+フェードアウト、Goldドロップ（自動回収+HUD連動） |
 | NPC会話・インタラクト | 5.1 | **★実装済み** — 簡易会話（Label表示、セリフ順送り）。Dialogic連携は未着手 |
@@ -527,7 +529,7 @@ root/scenes/game_scene/achievement_master/
 | 農業/クラフト — 本格版 | 6.3 | 未着手（基礎的な採取システムのみ実装済み） |
 | アイテム/装備 | 付録 | 未着手 |
 | セーブ/ロード | 9 | 未着手 |
-| GUTテスト（実質） | 10 | テンプレのみ |
+| GUTテスト（実質） | 10 | **★一部完了** — test_toast_manager / test_achievement_toast / test_pawn_combat_state |
 
 ---
 
@@ -643,9 +645,9 @@ root/scenes/game_scene/achievement_master/
 2. **建物配置** — 村に Buildings 素材で衝突付き建物配置
 3. ~~**敵死亡アニメ/ドロップ** — 倒した敵の演出強化~~ **★完了（2026-02-27）**
 
-**ステップ3（フェーズ B — コアシステム、推奨）:**
-4. **AchievementManager** — 実績データ(Resource) + 進捗管理 + 解除判定 + シグナル + セーブ/ロード(JSON)
-6. **イベントフック** — 各所に `AchievementManager.record_action()` 呼出を埋め込み
+**ステップ3（フェーズ B — コアシステム）:**
+4. ~~**AchievementManager** — 実績データ(Resource) + 進捗管理 + 解除判定 + シグナル + セーブ/ロード(JSON)~~ **★完了**
+6. ~~**イベントフック** — 各所に `AchievementManager.record_action()` 呼出を埋め込み~~ **★完了**
 
 **AM専用 Autoload の配置先（決定済み）:**
 ```

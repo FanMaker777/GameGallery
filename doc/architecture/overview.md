@@ -35,6 +35,7 @@ res://root/
     └── const/                # 定数定義
 
 res://test/unit/              # GUT ユニットテスト（test_*.gd）
+res://test/integration/       # GUT インテグレーションテスト（test_*.gd）
 res://addons/                 # プラグイン（beehave, dialogic, gut, logger）
 ```
 
@@ -53,6 +54,7 @@ res://addons/                 # プラグイン（beehave, dialogic, gut, logger
 | **Dialogic** | `res://addons/dialogic/Core/DialogicGameHandler.gd` | 会話システム |
 | **BeehaveGlobalMetrics** | `res://addons/beehave/metrics/beehave_global_metrics.gd` | BT メトリクス |
 | **BeehaveGlobalDebugger** | `res://addons/beehave/debug/global_debugger.gd` | BT デバッガー |
+| **AchievementManager** | `res://root/scenes/game_scene/achievement_master/autoload/achievement_manager/achievement_manager.tscn` | 実績進捗・解除判定・通知・セーブ/ロード |
 
 > Autoload を増やす場合は「責務」を最小にし、CLAUDE.md にも追記する。
 
@@ -79,7 +81,7 @@ res://addons/                 # プラグイン（beehave, dialogic, gut, logger
 ### 入力マッピング
 
 プロジェクトに定義済みのカスタムアクションを使用する：
-`move_up` / `move_down` / `move_left` / `move_right` / `jump` / `ESC`
+`move_up` / `move_down` / `move_left` / `move_right` / `jump` / `attack` / `interact` / `open_menu` / `quickslot_1` / `quickslot_2` / `quickslot_3` / `dash` / `ESC` / `dialogic_default_action`
 
 > `ui_left` 等のデフォルトアクションではなく、カスタムアクションを優先する。
 
