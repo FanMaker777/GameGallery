@@ -1,4 +1,5 @@
 ## 実績の進捗管理・解除判定・ピン留め・セーブ/ロードを担当する
+## 進捗データは RecordDatabase から導出し、実績状態（解除/ピン留め）のみ自身で管理する
 class_name AchievementTracker extends Node
 
 # ---- シグナル ----
@@ -23,15 +24,13 @@ var _database: AchievementDatabase = preload(
 ## { id: AchievementDefinition } の高速引きマップ
 var _def_map: Dictionary = {}
 
-# ---- 進捗状態 ----
-## { id: current_count } — 各実績の現在カウント
-var _progress: Dictionary = {}
+# ---- レコードデータベース ----
+## 生データの蓄積を担当する Resource
+var _record_db: RecordDatabase = null
+
+# ---- 実績状態（解除/ピン留めのみ） ----
 ## { id: unlock_timestamp } — 解除済み実績
 var _unlocked: Dictionary = {}
-## { id: Array[String] } — unique_instances 用の記録セット
-var _unique_sets: Dictionary = {}
-## { id: current_streak } — チャレンジ実績のストリーク
-var _challenge_streaks: Dictionary = {}
 ## 合計AP
 var _total_ap: int = 0
 ## ピン留め中の実績ID配列（最大 MAX_PIN_COUNT 件）
@@ -44,6 +43,7 @@ var _pinned_ids: Array[StringName] = []
 func initialize() -> void:
 	for def: AchievementDefinition in _database.achievements:
 		_def_map[def.id] = def
+	_record_db = RecordDatabase.load_from_file()
 	_load_progress()
 	Log.info("AchievementTracker: 初期化完了 (%d件の実績定義)" % _def_map.size())
 
@@ -52,38 +52,30 @@ func initialize() -> void:
 
 ## アクションを記録し、該当する実績の進捗を更新する
 func record_action(action: StringName, context: Dictionary = {}) -> void:
+	# 1. RecordDatabase に常にカウント
+	_record_db.record(action, context)
+	# 2. CHALLENGE 定義のストリーク加算
+	var amount: int = context.get(&"amount", 1)
+	for def: AchievementDefinition in _database.achievements:
+		if def.trigger_action != action:
+			continue
+		if def.type == AchievementDefinition.Type.CHALLENGE:
+			_record_db.increment_streak(def.trigger_action, def.reset_on, amount)
+	# 3. 全マッチ定義をループして進捗判定
 	for def: AchievementDefinition in _database.achievements:
 		if def.trigger_action != action:
 			continue
 		if _unlocked.has(def.id):
 			continue
-		# ユニーク制約チェック
-		if def.unique_instances:
-			var instance_id: String = context.get(&"instance_id", "")
-			if instance_id.is_empty():
-				continue
-			if not _unique_sets.has(def.id):
-				_unique_sets[def.id] = []
-			if instance_id in _unique_sets[def.id]:
-				continue
-			_unique_sets[def.id].append(instance_id)
-		# 進捗を更新する
-		var amount: int = context.get(&"amount", 1)
-		if def.type == AchievementDefinition.Type.CHALLENGE:
-			# チャレンジはストリークで管理
-			if not _challenge_streaks.has(def.id):
-				_challenge_streaks[def.id] = 0
-			_challenge_streaks[def.id] += amount
-			_progress[def.id] = _challenge_streaks[def.id]
-		else:
-			if not _progress.has(def.id):
-				_progress[def.id] = 0
-			_progress[def.id] += amount
+		# 進捗値を RecordDatabase から導出する
+		var current: int = _derive_progress(def)
 		# 進捗シグナルを発火する
-		achievement_progress_updated.emit(def.id, _progress.get(def.id, 0), def.target_count)
+		achievement_progress_updated.emit(def.id, current, def.target_count)
 		# 閾値到達チェック
-		if _progress.get(def.id, 0) >= def.target_count:
+		if current >= def.target_count:
 			_unlock_achievement(def)
+	# 4. RecordDatabase をセーブ
+	_record_db.save_to_file()
 
 
 ## 指定実績の進捗情報を返す
@@ -91,10 +83,16 @@ func get_progress(id: StringName) -> Dictionary:
 	var def: AchievementDefinition = _def_map.get(id)
 	if def == null:
 		return {}
+	var is_unlocked: bool = _unlocked.has(id)
+	var current: int
+	if is_unlocked:
+		current = def.target_count
+	else:
+		current = _derive_progress(def)
 	return {
-		"current": _progress.get(id, 0),
+		"current": current,
 		"target": def.target_count,
-		"unlocked": _unlocked.has(id),
+		"unlocked": is_unlocked,
 	}
 
 
@@ -172,19 +170,50 @@ func is_pinned(id: StringName) -> bool:
 
 ## チャレンジ実績のリセット処理
 func handle_challenge_reset(reset_action: StringName) -> void:
-	for def: AchievementDefinition in _database.achievements:
-		if def.type != AchievementDefinition.Type.CHALLENGE:
-			continue
-		if def.reset_on != reset_action:
-			continue
-		if _unlocked.has(def.id):
-			continue
-		# ストリークをリセットする
-		_challenge_streaks[def.id] = 0
-		_progress[def.id] = 0
+	_record_db.reset_streaks_by_reset_on(reset_action)
+
+
+# ========== RecordTab 用 API ==========
+
+## 指定アクションの累積カウントを返す
+func get_stat(action: StringName) -> int:
+	return _record_db.get_count(action)
+
+
+## 指定アクションの型名別内訳を返す
+func get_stat_by_type(action: StringName) -> Dictionary:
+	return _record_db.get_counts_by_type(action)
+
+
+## 累積プレイ時間（秒）を返す
+func get_play_time_seconds() -> float:
+	return _record_db.play_time_seconds
+
+
+## プレイ時間を加算する（セーブは呼び出し元が制御する）
+func add_play_time(seconds: float) -> void:
+	_record_db.add_play_time(seconds)
+
+
+## RecordDatabase を明示的にセーブする
+func save_record_db() -> void:
+	_record_db.save_to_file()
 
 
 # ========== 内部ロジック ==========
+
+## RecordDatabase から実績定義の type に基づいて進捗値を導出する
+func _derive_progress(def: AchievementDefinition) -> int:
+	match def.type:
+		AchievementDefinition.Type.CHALLENGE:
+			return _record_db.get_streak(def.trigger_action, def.reset_on)
+		_:
+			# ONE_SHOT / COUNTER
+			if def.unique_instances:
+				return _record_db.get_unique_count(def.trigger_action)
+			else:
+				return _record_db.get_count(def.trigger_action)
+
 
 ## 実績を解除する（二重解除防止付き）
 func _unlock_achievement(def: AchievementDefinition) -> void:
@@ -209,13 +238,10 @@ func _unlock_achievement(def: AchievementDefinition) -> void:
 
 # ========== セーブ/ロード ==========
 
-## 進捗データをJSONファイルに保存する
+## 実績状態をJSONファイルに保存する（unlocked, total_ap, pinned_ids のみ）
 func _save_progress() -> void:
 	var data: Dictionary = {
-		"progress": _progress,
 		"unlocked": _unlocked,
-		"unique_sets": _unique_sets,
-		"challenge_streaks": _challenge_streaks,
 		"total_ap": _total_ap,
 		"pinned_ids": _pinned_ids,
 	}
@@ -229,7 +255,7 @@ func _save_progress() -> void:
 	Log.debug("AchievementTracker: セーブ完了")
 
 
-## JSONファイルから進捗データを復元する
+## JSONファイルから実績状態を復元する（unlocked, total_ap, pinned_ids のみ）
 func _load_progress() -> void:
 	if not FileAccess.file_exists(SAVE_PATH):
 		Log.info("AchievementTracker: セーブデータなし — 初回起動")
@@ -246,19 +272,10 @@ func _load_progress() -> void:
 		Log.warn("AchievementTracker: JSONパース失敗 — %s" % json.get_error_message())
 		return
 	var data: Dictionary = json.data
-	# 進捗の復元（JSONのキーは文字列になるため StringName に変換）
-	_progress = {}
-	for key: String in data.get("progress", {}).keys():
-		_progress[StringName(key)] = int(data["progress"][key])
+	# unlocked の復元（JSONのキーは文字列になるため StringName に変換）
 	_unlocked = {}
 	for key: String in data.get("unlocked", {}).keys():
 		_unlocked[StringName(key)] = data["unlocked"][key]
-	_unique_sets = {}
-	for key: String in data.get("unique_sets", {}).keys():
-		_unique_sets[StringName(key)] = data["unique_sets"][key]
-	_challenge_streaks = {}
-	for key: String in data.get("challenge_streaks", {}).keys():
-		_challenge_streaks[StringName(key)] = int(data["challenge_streaks"][key])
 	_total_ap = int(data.get("total_ap", 0))
 	# ピン留めIDの復元（解除済み・未定義の実績は除外する）
 	_pinned_ids = []

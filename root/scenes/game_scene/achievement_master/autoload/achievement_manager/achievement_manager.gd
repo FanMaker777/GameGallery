@@ -32,6 +32,12 @@ var _previous_player_pos: Vector2 = Vector2.ZERO
 var _distance_accumulator: float = 0.0
 ## 前フレームのHP（ダメージ検出用）
 var _previous_hp: int = -1
+## プレイ時間の累積（1秒ごとに record）
+var _play_time_accumulator: float = 0.0
+## レコードDB定期セーブ用の累積時間
+var _record_save_accumulator: float = 0.0
+## レコードDB定期セーブ間隔（秒）
+const RECORD_SAVE_INTERVAL: float = 30.0
 
 
 # ========== ライフサイクル ==========
@@ -54,7 +60,17 @@ func _ready() -> void:
 	Log.info("AchievementManager: 初期化完了")
 
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
+	# プレイ時間を追跡する
+	_play_time_accumulator += delta
+	if _play_time_accumulator >= 1.0:
+		_play_time_accumulator -= 1.0
+		_tracker.add_play_time(1.0)
+	# レコードDBの定期セーブ
+	_record_save_accumulator += delta
+	if _record_save_accumulator >= RECORD_SAVE_INTERVAL:
+		_record_save_accumulator -= RECORD_SAVE_INTERVAL
+		_tracker.save_record_db()
 	# プレイヤーの歩行距離を追跡する
 	if _player != null and is_instance_valid(_player):
 		var current_pos: Vector2 = _player.global_position
@@ -138,6 +154,21 @@ func is_pinned(id: StringName) -> bool:
 	return _tracker.is_pinned(id)
 
 
+## 指定アクションの累積カウントを返す（RecordTab 用）
+func get_stat(action: StringName) -> int:
+	return _tracker.get_stat(action)
+
+
+## 指定アクションの型名別内訳を返す（RecordTab 用）
+func get_stat_by_type(action: StringName) -> Dictionary:
+	return _tracker.get_stat_by_type(action)
+
+
+## 累積プレイ時間（秒）を返す（RecordTab 用）
+func get_play_time_seconds() -> float:
+	return _tracker.get_play_time_seconds()
+
+
 # ========== ノード自動接続（node_added コールバック） ==========
 
 ## シーンツリーに追加されたノードのシグナルを自動接続する
@@ -167,7 +198,10 @@ func _on_node_added(node: Node) -> void:
 
 ## 敵が倒されたとき
 func _on_enemy_died(enemy: Node) -> void:
-	_tracker.record_action(&"enemy_killed", {&"instance_id": enemy.name})
+	var context: Dictionary = {&"instance_id": enemy.name}
+	if enemy is Enemy and enemy.enemy_data:
+		context[&"type_name"] = enemy.enemy_data.display_name
+	_tracker.record_action(&"enemy_killed", context)
 
 
 ## NPCに話しかけたとき
