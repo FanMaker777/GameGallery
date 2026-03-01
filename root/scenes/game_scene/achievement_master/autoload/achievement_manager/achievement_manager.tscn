@@ -1,6 +1,11 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://root/scenes/game_scene/achievement_master/autoload/achievement_manager/achievement_manager.gd" id="1"]
+[ext_resource type="Script" path="res://root/scenes/game_scene/achievement_master/autoload/achievement_manager/achievement_tracker.gd" id="2"]
 
 [node name="AchievementManager" type="Node"]
 script = ExtResource("1")
+
+[node name="AchievementTracker" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("2")
