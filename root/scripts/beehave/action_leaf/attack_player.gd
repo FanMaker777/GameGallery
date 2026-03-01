@@ -14,10 +14,21 @@ var _is_attacking: bool = false
 var _damage_dealt: bool = false
 
 
+## 攻撃が中断された際に内部状態とBlackboardフラグをリセットする
+func interrupt(_actor: Node, blackboard: Blackboard) -> void:
+	_is_attacking = false
+	_damage_dealt = false
+	blackboard.set_value(BlackBoardValue.IS_ENEMY_ATTACKING, false)
+	blackboard.set_value(BlackBoardValue.ATTACK_ANIM_FINISHED, false)
+	blackboard.set_value(BlackBoardValue.ATTACK_HIT_FRAME_REACHED, false)
+	super(_actor, blackboard)
+
+
 ## 攻撃開始前にフラグをリセットする
 func before_run(_actor: Node, blackboard: Blackboard) -> void:
 	_is_attacking = false
 	_damage_dealt = false
+	blackboard.set_value(BlackBoardValue.IS_ENEMY_ATTACKING, false)
 	# 攻撃アニメーション完了フラグをリセット
 	blackboard.set_value(BlackBoardValue.ATTACK_ANIM_FINISHED, false)
 	# ヒットフレーム到達フラグをリセット
@@ -45,6 +56,7 @@ func tick(actor: Node, blackboard: Blackboard) -> int:
 		if anim_finished:
 			# ブラックボードのフラグをリセットしてクールダウン開始
 			blackboard.set_value(BlackBoardValue.ATTACK_HIT_FRAME_REACHED, false)
+			blackboard.set_value(BlackBoardValue.IS_ENEMY_ATTACKING, false)
 			_is_attacking = false
 			_damage_dealt = false
 			_time_since_last_attack = 0.0
@@ -62,6 +74,7 @@ func tick(actor: Node, blackboard: Blackboard) -> int:
 	# クールダウン完了 → 攻撃開始
 	_is_attacking = true
 	_damage_dealt = false
+	blackboard.set_value(BlackBoardValue.IS_ENEMY_ATTACKING, true)
 	blackboard.set_value(BlackBoardValue.ATTACK_ANIM_FINISHED, false)
 	blackboard.set_value(BlackBoardValue.ATTACK_HIT_FRAME_REACHED, false)
 	blackboard.set_value(BlackBoardValue.DESIRED_ANIM_STATE, "Attack")

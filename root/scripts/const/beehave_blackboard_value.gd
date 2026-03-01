@@ -20,3 +20,5 @@ const ATTACK_ANIM_FINISHED = "attack_anim_finished"
 const ATTACK_HIT_FRAME_REACHED = "attack_hit_frame_reached"
 ## 攻撃ダメージ量
 const ATTACK_DAMAGE = "attack_damage"
+## 攻撃アニメーション再生中フラグ（true の間、攻撃シーケンスの中断を防止する）
+const IS_ENEMY_ATTACKING = "is_enemy_attacking"
