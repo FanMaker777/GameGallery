@@ -3,6 +3,11 @@
 [ext_resource type="Script" uid="uid://i0ipwai2f3ld" path="res://root/scenes/game_scene/achievement_master/ui/menu/achievement_tab/record_tab.gd" id="1_script"]
 
 [node name="RecordTab" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
@@ -19,3 +24,271 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 4
+
+[node name="HeaderBasic" type="Label" parent="ScrollContainer/RecordsContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.84, 0, 0.8)
+theme_override_font_sizes/font_size = 13
+text = "基本統計"
+
+[node name="SepBasic" type="HSeparator" parent="ScrollContainer/RecordsContainer"]
+layout_mode = 2
+
+[node name="RowPlayTime" type="HBoxContainer" parent="ScrollContainer/RecordsContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/RecordsContainer/RowPlayTime"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 12
+text = "プレイ時間"
+
+[node name="PlayTimeValue" type="Label" parent="ScrollContainer/RecordsContainer/RowPlayTime"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+
+[node name="RowDistance" type="HBoxContainer" parent="ScrollContainer/RecordsContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/RecordsContainer/RowDistance"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 12
+text = "総移動距離"
+
+[node name="DistanceValue" type="Label" parent="ScrollContainer/RecordsContainer/RowDistance"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+
+[node name="SpacerCombat" type="Control" parent="ScrollContainer/RecordsContainer"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+
+[node name="HeaderCombat" type="Label" parent="ScrollContainer/RecordsContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.84, 0, 0.8)
+theme_override_font_sizes/font_size = 13
+text = "戦闘"
+
+[node name="SepCombat" type="HSeparator" parent="ScrollContainer/RecordsContainer"]
+layout_mode = 2
+
+[node name="RowTotalKills" type="HBoxContainer" parent="ScrollContainer/RecordsContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/RecordsContainer/RowTotalKills"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 12
+text = "総討伐数"
+
+[node name="TotalKillsValue" type="Label" parent="ScrollContainer/RecordsContainer/RowTotalKills"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+
+[node name="KillsByTypeContainer" type="VBoxContainer" parent="ScrollContainer/RecordsContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="RowAttacks" type="HBoxContainer" parent="ScrollContainer/RecordsContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/RecordsContainer/RowAttacks"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 12
+text = "攻撃回数"
+
+[node name="AttacksValue" type="Label" parent="ScrollContainer/RecordsContainer/RowAttacks"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+
+[node name="RowDamageTaken" type="HBoxContainer" parent="ScrollContainer/RecordsContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/RecordsContainer/RowDamageTaken"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 12
+text = "被ダメージ回数"
+
+[node name="DamageTakenValue" type="Label" parent="ScrollContainer/RecordsContainer/RowDamageTaken"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+
+[node name="RowDeaths" type="HBoxContainer" parent="ScrollContainer/RecordsContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/RecordsContainer/RowDeaths"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 12
+text = "死亡回数"
+
+[node name="DeathsValue" type="Label" parent="ScrollContainer/RecordsContainer/RowDeaths"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+
+[node name="SpacerHarvest" type="Control" parent="ScrollContainer/RecordsContainer"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+
+[node name="HeaderHarvest" type="Label" parent="ScrollContainer/RecordsContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.84, 0, 0.8)
+theme_override_font_sizes/font_size = 13
+text = "採取"
+
+[node name="SepHarvest" type="HSeparator" parent="ScrollContainer/RecordsContainer"]
+layout_mode = 2
+
+[node name="RowTotalHarvest" type="HBoxContainer" parent="ScrollContainer/RecordsContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/RecordsContainer/RowTotalHarvest"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 12
+text = "総採取数"
+
+[node name="TotalHarvestValue" type="Label" parent="ScrollContainer/RecordsContainer/RowTotalHarvest"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+
+[node name="RowWood" type="MarginContainer" parent="ScrollContainer/RecordsContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 24
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/RecordsContainer/RowWood"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="ScrollContainer/RecordsContainer/RowWood/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.55, 0.55, 0.55, 1)
+theme_override_font_sizes/font_size = 11
+text = "木材"
+
+[node name="WoodValue" type="Label" parent="ScrollContainer/RecordsContainer/RowWood/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.75, 0.75, 1)
+theme_override_font_sizes/font_size = 11
+
+[node name="RowGold" type="MarginContainer" parent="ScrollContainer/RecordsContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 24
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/RecordsContainer/RowGold"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="ScrollContainer/RecordsContainer/RowGold/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.55, 0.55, 0.55, 1)
+theme_override_font_sizes/font_size = 11
+text = "金鉱石"
+
+[node name="GoldValue" type="Label" parent="ScrollContainer/RecordsContainer/RowGold/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.75, 0.75, 1)
+theme_override_font_sizes/font_size = 11
+
+[node name="RowMeat" type="MarginContainer" parent="ScrollContainer/RecordsContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 24
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/RecordsContainer/RowMeat"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="ScrollContainer/RecordsContainer/RowMeat/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.55, 0.55, 0.55, 1)
+theme_override_font_sizes/font_size = 11
+text = "羊肉"
+
+[node name="MeatValue" type="Label" parent="ScrollContainer/RecordsContainer/RowMeat/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.75, 0.75, 1)
+theme_override_font_sizes/font_size = 11
+
+[node name="SpacerExploration" type="Control" parent="ScrollContainer/RecordsContainer"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+
+[node name="HeaderExploration" type="Label" parent="ScrollContainer/RecordsContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.84, 0, 0.8)
+theme_override_font_sizes/font_size = 13
+text = "探索"
+
+[node name="SepExploration" type="HSeparator" parent="ScrollContainer/RecordsContainer"]
+layout_mode = 2
+
+[node name="RowNpcTalked" type="HBoxContainer" parent="ScrollContainer/RecordsContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/RecordsContainer/RowNpcTalked"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 12
+text = "NPC会話回数"
+
+[node name="NpcTalkedValue" type="Label" parent="ScrollContainer/RecordsContainer/RowNpcTalked"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+
+[node name="SpacerAchievement" type="Control" parent="ScrollContainer/RecordsContainer"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+
+[node name="HeaderAchievement" type="Label" parent="ScrollContainer/RecordsContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.84, 0, 0.8)
+theme_override_font_sizes/font_size = 13
+text = "実績"
+
+[node name="SepAchievement" type="HSeparator" parent="ScrollContainer/RecordsContainer"]
+layout_mode = 2
+
+[node name="RowUnlocked" type="HBoxContainer" parent="ScrollContainer/RecordsContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/RecordsContainer/RowUnlocked"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 12
+text = "解除済み"
+
+[node name="UnlockedValue" type="Label" parent="ScrollContainer/RecordsContainer/RowUnlocked"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+
+[node name="RowTotalAp" type="HBoxContainer" parent="ScrollContainer/RecordsContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/RecordsContainer/RowTotalAp"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 12
+text = "合計AP"
+
+[node name="TotalApValue" type="Label" parent="ScrollContainer/RecordsContainer/RowTotalAp"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
