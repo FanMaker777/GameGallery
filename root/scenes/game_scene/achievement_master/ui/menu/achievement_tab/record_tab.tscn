@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=2 format=3 uid="uid://dur5mu76vjehh"]
 
-[ext_resource type="Script" path="res://root/scenes/game_scene/achievement_master/ui/menu/achievement_tab/record_tab.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://i0ipwai2f3ld" path="res://root/scenes/game_scene/achievement_master/ui/menu/achievement_tab/record_tab.gd" id="1_script"]
 
 [node name="RecordTab" type="MarginContainer"]
 theme_override_constants/margin_left = 4
