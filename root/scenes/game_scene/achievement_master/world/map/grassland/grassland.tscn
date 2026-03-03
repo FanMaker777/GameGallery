@@ -61,7 +61,6 @@ gate_label = "← 村"
 [node name="AchievementHud" parent="." instance=ExtResource("achievement_hud_scene")]
 
 [node name="AmPauseMenu" parent="." instance=ExtResource("am_pause_menu_scene")]
-visible = false
 
 [node name="Enemy" parent="." instance=ExtResource("enemy_scene")]
 position = Vector2(-106, -88)
