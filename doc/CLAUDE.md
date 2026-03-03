@@ -91,6 +91,7 @@ doc/
 | `launch_editor` | Godot エディタ起動 | ユーザーの要望時 |
 
 **プロジェクトパス:** `D:/MyWork/GameDevelopment/Godot/Godot_v4.5.1/projects/GameGallery`
+**メインシーン（デバッグ起動）:** `res://root/scenes/boot_splash_scene/boot_splash_scene.tscn` — `run_project` で `scene` を省略した場合にこのシーンから起動される
 
 ### 3.2 実行テストの標準手順
 
