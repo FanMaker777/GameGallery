@@ -53,6 +53,8 @@ var _gather_target: Node2D = null
 var _gather_timer: float = 0.0
 ## 採取に必要な時間
 var _gather_duration: float = 0.0
+## 採取速度倍率（1.0=通常、1.5=50%高速=時間2/3に短縮）
+var gather_speed_multiplier: float = 1.0
 
 # ---- 攻撃関連 ----
 ## 攻撃経過時間
@@ -105,6 +107,8 @@ signal stamina_changed(current_stamina: float, max_stamina: float)
 @onready var _attack_hitbox: Area2D = $AttackHitbox
 ## 攻撃判定のコリジョン形状
 @onready var _attack_hitbox_shape: CollisionShape2D = $AttackHitbox/CollisionShape2D
+## 採取プログレスバー
+@onready var _gather_progress_bar: ProgressBar = %GatherProgressBar
 
 # ========== ライフサイクル ==========
 
@@ -164,6 +168,9 @@ func take_damage(amount: int) -> void:
 	# 無敵中または死亡中はダメージを無視
 	if _is_invincible or _state == State.DEAD:
 		return
+	# 採取中なら中断する
+	if _state == State.GATHER:
+		_cancel_gather()
 	# HP を減算（0未満にはしない）
 	hp = maxi(hp - amount, 0)
 	_enter_combat()
@@ -283,17 +290,30 @@ func _start_gather(node: Node2D) -> void:
 	if data.is_empty():
 		return
 	_gather_target = node
-	_gather_duration = data.get("gather_time", 1.0)
+	_gather_duration = data.get("gather_time", 1.0) / gather_speed_multiplier
 	_gather_timer = 0.0
 	velocity = Vector2.ZERO
 	_set_state(State.GATHER)
 	_animated_sprite.play(data.get("gather_animation", "Attack1"))
-	Log.info("Pawn: 採取開始 → %s" % node.name)
+	# プログレスバーを表示する
+	_gather_progress_bar.max_value = _gather_duration
+	_gather_progress_bar.value = 0.0
+	_gather_progress_bar.visible = true
+	Log.info("Pawn: 採取開始 → %s (%.1f秒)" % [node.name, _gather_duration])
 
 
 ## 採取タイマーを進め、完了したら収穫処理を呼ぶ
 func _process_gather_tick(delta: float) -> void:
+	# 移動入力があれば採取を中断する
+	var dir: Vector2 = Vector2(
+		Input.get_axis("move_left", "move_right"),
+		Input.get_axis("move_up", "move_down")
+	)
+	if dir != Vector2.ZERO:
+		_cancel_gather()
+		return
 	_gather_timer += delta
+	_gather_progress_bar.value = _gather_timer
 	if _gather_timer >= _gather_duration:
 		_finish_gather()
 
@@ -310,6 +330,17 @@ func _finish_gather() -> void:
 				ResourceDefinitions.get_type_name(type), amount
 			])
 	_gather_target = null
+	_gather_progress_bar.visible = false
+	_set_state(State.IDLE)
+	_animated_sprite.play("Idle")
+
+
+## 採取を中断する — 進捗をリセットしIDLE状態に復帰
+func _cancel_gather() -> void:
+	Log.debug("Pawn: 採取中断")
+	_gather_target = null
+	_gather_timer = 0.0
+	_gather_progress_bar.visible = false
 	_set_state(State.IDLE)
 	_animated_sprite.play("Idle")
 
