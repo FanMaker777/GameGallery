@@ -2,15 +2,15 @@
 ## 移動・採取・攻撃・被ダメージの行動を状態で管理する
 class_name Pawn extends CharacterBody2D
 
-# ---- 定数 ----
-## 移動速度（ピクセル/秒）
-const SPEED: float = 200.0
-## プレイヤーの攻撃力
-const ATTACK_DAMAGE: int = 10
+# ---- 基礎定数 ----
+## 基礎移動速度（ピクセル/秒）
+const BASE_SPEED: float = 200.0
+## 基礎攻撃力
+const BASE_ATTACK_DAMAGE: int = 10
 ## 攻撃アニメーションの持続時間（秒）
 const ATTACK_DURATION: float = 0.4
-## 最大HP
-const MAX_HP: int = 100
+## 基礎最大HP
+const BASE_MAX_HP: int = 100
 ## 被ダメージ後の無敵時間（秒）
 const INVINCIBLE_DURATION: float = 1.0
 ## 戦闘状態の持続時間（最後の戦闘行動からの秒数）
@@ -38,7 +38,7 @@ var _state: State = State.IDLE
 
 # ---- HP関連 ----
 ## 現在HP
-var hp: int = MAX_HP
+var hp: int = BASE_MAX_HP
 ## 無敵状態フラグ（被ダメージ後の一時無敵）
 var _is_invincible: bool = false
 ## 無敵タイマー（残り秒数）
@@ -53,8 +53,6 @@ var _gather_target: Node2D = null
 var _gather_timer: float = 0.0
 ## 採取に必要な時間
 var _gather_duration: float = 0.0
-## 採取速度倍率（1.0=通常、1.5=50%高速=時間2/3に短縮）
-var gather_speed_multiplier: float = 1.0
 
 # ---- 攻撃関連 ----
 ## 攻撃経過時間
@@ -123,13 +121,14 @@ func _ready() -> void:
 	# ポップアップ初期非表示
 	_interact_label.visible = false
 	# HP初期値を通知（HUD初期化用）
-	health_changed.emit(hp, MAX_HP)
+	hp = get_effective_max_hp()
+	health_changed.emit(hp, get_effective_max_hp())
 	# スタミナ初期値を通知（HUD初期化用）
-	stamina = max_stamina
-	stamina_changed.emit(stamina, max_stamina)
+	stamina = get_effective_max_stamina()
+	stamina_changed.emit(stamina, get_effective_max_stamina())
 	# 実績マネージャーにプレイヤーを登録する
 	AchievementManager.register_player(self)
-	Log.info("Pawn: 初期化完了 (HP=%d/%d)" % [hp, MAX_HP])
+	Log.info("Pawn: 初期化完了 (HP=%d/%d)" % [hp, get_effective_max_hp()])
 
 
 ## 毎フレームの物理処理 — 状態に応じた処理を振り分ける
@@ -174,8 +173,8 @@ func take_damage(amount: int) -> void:
 	# HP を減算（0未満にはしない）
 	hp = maxi(hp - amount, 0)
 	_enter_combat()
-	health_changed.emit(hp, MAX_HP)
-	Log.info("Pawn: ダメージ %d を受けた (残HP: %d/%d)" % [amount, hp, MAX_HP])
+	health_changed.emit(hp, get_effective_max_hp())
+	Log.info("Pawn: ダメージ %d を受けた (残HP: %d/%d)" % [amount, hp, get_effective_max_hp()])
 	if hp <= 0:
 		# HPが0になったら死亡処理へ
 		_die()
@@ -251,7 +250,7 @@ func _process_movement() -> void:
 			velocity = dir * dash_speed
 		else:
 			_is_dashing = false
-			velocity = dir * SPEED
+			velocity = dir * get_effective_speed()
 		_set_state(State.MOVE)
 		_animated_sprite.play("Run")
 		# 左右フリップ
@@ -290,7 +289,7 @@ func _start_gather(node: Node2D) -> void:
 	if data.is_empty():
 		return
 	_gather_target = node
-	_gather_duration = data.get("gather_time", 1.0) / gather_speed_multiplier
+	_gather_duration = data.get("gather_time", 1.0) / get_effective_gather_speed()
 	_gather_timer = 0.0
 	velocity = Vector2.ZERO
 	_set_state(State.GATHER)
@@ -380,9 +379,10 @@ func _finish_attack() -> void:
 ## 攻撃ヒットボックスに敵が入ったときの処理
 func _on_attack_hitbox_body_entered(body: Node2D) -> void:
 	if body.is_in_group("enemies") and body.has_method("take_damage"):
-		body.take_damage(ATTACK_DAMAGE)
-		attack_landed.emit(body, ATTACK_DAMAGE)
-		Log.info("Pawn: 敵にダメージ %d → %s" % [ATTACK_DAMAGE, body.name])
+		var damage: int = get_effective_attack()
+		body.take_damage(damage)
+		attack_landed.emit(body, damage)
+		Log.info("Pawn: 敵にダメージ %d → %s" % [damage, body.name])
 
 # ========== インタラクトエリア ==========
 
@@ -437,14 +437,16 @@ func get_resource_amount(type: ResourceDefinitions.ResourceType) -> int:
 ## スタミナの消費・回復を処理する — ダッシュ中は消費、dashキー未押下かつ非攻撃時は回復
 func _process_stamina(delta: float) -> void:
 	var prev_stamina: float = stamina
+	var effective_max: float = get_effective_max_stamina()
+	var effective_recovery: float = get_effective_stamina_recovery()
 	if _is_dashing:
 		stamina = maxf(stamina - stamina_drain_rate * delta, 0.0)
 	# dashキー押下中は回復をブロックし、スタミナ0時の振動ループを防止する
 	elif not Input.is_action_pressed("dash") and (not _is_in_combat or _state != State.ATTACK):
-		stamina = minf(stamina + stamina_recovery_rate * delta, max_stamina)
+		stamina = minf(stamina + effective_recovery * delta, effective_max)
 	# 変化があった場合のみシグナルを発火する
 	if stamina != prev_stamina:
-		stamina_changed.emit(stamina, max_stamina)
+		stamina_changed.emit(stamina, effective_max)
 
 
 # ========== 戦闘状態管理 ==========
@@ -472,6 +474,64 @@ func _process_combat_cooldown(delta: float) -> void:
 	_combat_cooldown -= delta
 	if _combat_cooldown <= 0.0:
 		_exit_combat()
+
+
+# ========== 報酬効果反映 ==========
+
+## 報酬効果キャッシュを取得する（RewardManager 未登録時は null）
+func _get_effect_cache() -> RewardEffectCache:
+	var rm: Node = get_node_or_null("/root/RewardManager")
+	if rm == null:
+		return null
+	return rm.get_effect_cache()
+
+
+## 有効な最大HPを返す（基礎値 + 報酬ボーナス）
+func get_effective_max_hp() -> int:
+	var cache: RewardEffectCache = _get_effect_cache()
+	if cache == null:
+		return BASE_MAX_HP
+	return int(BASE_MAX_HP * (1.0 + cache.hp_percent_up / 100.0))
+
+
+## 有効な攻撃力を返す
+func get_effective_attack() -> int:
+	var cache: RewardEffectCache = _get_effect_cache()
+	if cache == null:
+		return BASE_ATTACK_DAMAGE
+	return int(BASE_ATTACK_DAMAGE * (1.0 + cache.attack_percent_up / 100.0))
+
+
+## 有効な移動速度を返す
+func get_effective_speed() -> float:
+	var cache: RewardEffectCache = _get_effect_cache()
+	if cache == null:
+		return BASE_SPEED
+	return BASE_SPEED * (1.0 + cache.move_speed_up / 100.0)
+
+
+## 有効なスタミナ最大値を返す
+func get_effective_max_stamina() -> float:
+	var cache: RewardEffectCache = _get_effect_cache()
+	if cache == null:
+		return max_stamina
+	return max_stamina * (1.0 + cache.stamina_max_up / 100.0)
+
+
+## 有効なスタミナ回復速度を返す
+func get_effective_stamina_recovery() -> float:
+	var cache: RewardEffectCache = _get_effect_cache()
+	if cache == null:
+		return stamina_recovery_rate
+	return stamina_recovery_rate * (1.0 + cache.stamina_recovery_up / 100.0)
+
+
+## 有効な採取速度倍率を返す（1.0=通常）
+func get_effective_gather_speed() -> float:
+	var cache: RewardEffectCache = _get_effect_cache()
+	if cache == null:
+		return 1.0
+	return 1.0 + cache.gather_speed_up / 100.0
 
 
 # ========== ユーティリティ ==========

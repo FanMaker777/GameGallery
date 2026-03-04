@@ -25,19 +25,19 @@ func test_take_damage_reduces_hp() -> void:
 
 
 func test_take_damage_clamps_to_zero() -> void:
-	_pawn.take_damage(Pawn.MAX_HP + 50)
+	_pawn.take_damage(Pawn.BASE_MAX_HP + 50)
 
 	assert_eq(_pawn.hp, 0, "take_damage で HP が 0 にクランプされる（超過ダメージ）")
 
 
 func test_take_damage_exact_max_hp() -> void:
-	_pawn.take_damage(Pawn.MAX_HP)
+	_pawn.take_damage(Pawn.BASE_MAX_HP)
 
 	assert_eq(_pawn.hp, 0, "take_damage で amount == MAX_HP → HP が 0 になる")
 
 
 func test_take_damage_max_hp_minus_1() -> void:
-	_pawn.take_damage(Pawn.MAX_HP - 1)
+	_pawn.take_damage(Pawn.BASE_MAX_HP - 1)
 
 	assert_eq(_pawn.hp, 1, "take_damage で amount == MAX_HP - 1 → HP が 1 残る")
 
@@ -45,7 +45,7 @@ func test_take_damage_max_hp_minus_1() -> void:
 func test_take_damage_zero() -> void:
 	_pawn.take_damage(0)
 
-	assert_eq(_pawn.hp, Pawn.MAX_HP, "take_damage(0) で HP が変化しない")
+	assert_eq(_pawn.hp, Pawn.BASE_MAX_HP, "take_damage(0) で HP が変化しない")
 
 
 func test_take_damage_ignored_while_invincible() -> void:
@@ -53,7 +53,7 @@ func test_take_damage_ignored_while_invincible() -> void:
 
 	_pawn.take_damage(50)
 
-	assert_eq(_pawn.hp, Pawn.MAX_HP, "無敵中は take_damage が無視される")
+	assert_eq(_pawn.hp, Pawn.BASE_MAX_HP, "無敵中は take_damage が無視される")
 
 
 # ---- テスト: スタミナ ----

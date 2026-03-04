@@ -1,0 +1,169 @@
+[gd_resource type="Resource" script_class="RewardDatabase" load_steps=19 format=3 uid="uid://dc7scokcg13w4"]
+
+[ext_resource type="Script" uid="uid://ba87g737rn4nw" path="res://root/scenes/game_scene/achievement_master/data/reward_database.gd" id="1"]
+[ext_resource type="Script" uid="uid://dlqbyq51mcfak" path="res://root/scenes/game_scene/achievement_master/data/reward_definition.gd" id="2"]
+
+[sub_resource type="Resource" id="qol_01"]
+script = ExtResource("2")
+id = &"qol_pin_slot"
+name_ja = "ピン留め枠拡張"
+description_ja = "実績ピン留め枠が1つ増える（最大4件）"
+effect_type = 0
+effect_value = 1.0
+
+[sub_resource type="Resource" id="qol_02"]
+script = ExtResource("2")
+id = &"qol_diversity"
+name_ja = "多様性ボーナス"
+description_ja = "異なるカテゴリの行動を連続するとAP+10%"
+ap_cost = 8
+effect_type = 1
+effect_value = 10.0
+
+[sub_resource type="Resource" id="combat_01"]
+script = ExtResource("2")
+id = &"combat_hp_up"
+name_ja = "体力強化"
+description_ja = "最大HPが10%増加する"
+category = 1
+effect_value = 10.0
+
+[sub_resource type="Resource" id="combat_02"]
+script = ExtResource("2")
+id = &"combat_atk_up"
+name_ja = "攻撃強化"
+description_ja = "攻撃力が5%増加する"
+category = 1
+effect_type = 3
+effect_value = 5.0
+
+[sub_resource type="Resource" id="combat_03"]
+script = ExtResource("2")
+id = &"combat_auto_collect"
+name_ja = "自動回収"
+description_ja = "ドロップアイテムの回収範囲が広がる"
+category = 1
+ap_cost = 6
+effect_type = 4
+effect_value = 2.0
+prerequisites = Array[StringName]([&"combat_atk_up"])
+
+[sub_resource type="Resource" id="combat_04"]
+script = ExtResource("2")
+id = &"combat_hp_up_2"
+name_ja = "体力強化II"
+description_ja = "最大HPがさらに15%増加する"
+category = 1
+ap_cost = 8
+effect_value = 15.0
+prerequisites = Array[StringName]([&"combat_hp_up"])
+
+[sub_resource type="Resource" id="combat_05"]
+script = ExtResource("2")
+id = &"combat_respawn"
+name_ja = "復帰短縮"
+description_ja = "死亡からの復帰時間が50%短縮する"
+category = 1
+ap_cost = 10
+effect_type = 5
+effect_value = 50.0
+prerequisites = Array[StringName]([&"combat_hp_up", &"combat_atk_up"])
+
+[sub_resource type="Resource" id="combat_06"]
+script = ExtResource("2")
+id = &"combat_stamina_max"
+name_ja = "スタミナ増強"
+description_ja = "スタミナ最大値が20%増加する"
+category = 1
+ap_cost = 6
+effect_type = 6
+effect_value = 20.0
+
+[sub_resource type="Resource" id="combat_07"]
+script = ExtResource("2")
+id = &"combat_stamina_recovery"
+name_ja = "スタミナ回復強化"
+description_ja = "スタミナ回復速度が25%増加する"
+category = 1
+ap_cost = 8
+effect_type = 7
+effect_value = 25.0
+prerequisites = Array[StringName]([&"combat_stamina_max"])
+
+[sub_resource type="Resource" id="farm_01"]
+script = ExtResource("2")
+id = &"farm_harvest_bonus"
+name_ja = "収穫増"
+description_ja = "リソースの収穫量が20%増加する"
+category = 2
+ap_cost = 4
+effect_type = 8
+effect_value = 20.0
+
+[sub_resource type="Resource" id="farm_02"]
+script = ExtResource("2")
+id = &"farm_gather_speed"
+name_ja = "採取加速"
+description_ja = "採取速度が25%向上する"
+category = 2
+ap_cost = 6
+effect_type = 9
+effect_value = 25.0
+prerequisites = Array[StringName]([&"farm_harvest_bonus"])
+
+[sub_resource type="Resource" id="farm_03"]
+script = ExtResource("2")
+id = &"farm_gather_speed_2"
+name_ja = "採取加速II"
+description_ja = "採取速度がさらに50%向上する"
+category = 2
+ap_cost = 10
+effect_type = 9
+effect_value = 50.0
+prerequisites = Array[StringName]([&"farm_gather_speed"])
+
+[sub_resource type="Resource" id="explore_01"]
+script = ExtResource("2")
+id = &"explore_speed_up"
+name_ja = "移動速度UP"
+description_ja = "移動速度が10%増加する"
+category = 3
+ap_cost = 4
+effect_type = 10
+effect_value = 10.0
+
+[sub_resource type="Resource" id="explore_02"]
+script = ExtResource("2")
+id = &"explore_minimap"
+name_ja = "ミニマップ"
+description_ja = "画面右上にミニマップが表示される"
+category = 3
+ap_cost = 8
+effect_type = 11
+effect_value = 1.0
+prerequisites = Array[StringName]([&"explore_speed_up"])
+
+[sub_resource type="Resource" id="explore_03"]
+script = ExtResource("2")
+id = &"explore_fast_travel"
+name_ja = "高速移動"
+description_ja = "マップゲートでファストトラベルが可能になる"
+category = 3
+ap_cost = 12
+effect_type = 12
+effect_value = 1.0
+prerequisites = Array[StringName]([&"explore_minimap"])
+
+[sub_resource type="Resource" id="explore_04"]
+script = ExtResource("2")
+id = &"explore_shop_discount"
+name_ja = "店割引"
+description_ja = "ショップの価格が10%割引される"
+category = 3
+ap_cost = 6
+effect_type = 13
+effect_value = 10.0
+
+[resource]
+script = ExtResource("1")
+rewards = Array[ExtResource("2")]([SubResource("qol_01"), SubResource("qol_02"), SubResource("combat_01"), SubResource("combat_02"), SubResource("combat_03"), SubResource("combat_04"), SubResource("combat_05"), SubResource("combat_06"), SubResource("combat_07"), SubResource("farm_01"), SubResource("farm_02"), SubResource("farm_03"), SubResource("explore_01"), SubResource("explore_02"), SubResource("explore_03"), SubResource("explore_04")])

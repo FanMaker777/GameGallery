@@ -310,11 +310,11 @@
 | 3 | 村・ダンジョンの最小ループ | **ほぼ完了** | 村＋草原マップ動作、MapGateでフェード遷移、★NPC会話実装済み、★敵死亡演出/ドロップ実装済み。建物配置が未実装 |
 | 4 | AchievementManager（データ定義 + 解除イベント） | **実装済み** | Custom Resource + JSON セーブ |
 | 5 | HUD（HP/プロンプト/トースト/ピン進捗） | **ほぼ完了** | AchievementHud（HP/スタミナバー/リソース/AP表示）、トースト通知、ピン留め実績パネル実装済み |
-| 6 | PauseMenu（4タブ）— 実績タブ優先 | **一部完了** | 実績タブ実装済み（カテゴリ/ステータス/ランクフィルタ、ピン留め）。装備/ステータス/スキルタブは未着手 |
+| 6 | PauseMenu（4タブ）— 実績タブ優先 | **一部完了** | 実績タブ（カテゴリ/ステータス/ランクフィルタ、ピン留め）、レコードタブ（統計表示、レコード・実績リセット機能）実装済み。装備/ステータス/スキルタブは未着手 |
 | 7 | RewardManager（報酬解放と効果適用） | **未着手** | |
 | 8 | セーブ/ロード | **未着手** | |
 | 9 | バランス調整 | **未着手** | |
-| 10 | GUTテスト追加/整備 | **一部完了** | test_toast_manager / test_achievement_toast / test_pawn_combat_state 実装済み |
+| 10 | GUTテスト追加/整備 | **一部完了** | unit 6ファイル + integration 2ファイル（計74テスト PASS） |
 
 ---
 
@@ -529,7 +529,7 @@ root/scenes/game_scene/achievement_master/
 | 農業/クラフト — 本格版 | 6.3 | 未着手（基礎的な採取システムのみ実装済み） |
 | アイテム/装備 | 付録 | 未着手 |
 | セーブ/ロード | 9 | 未着手 |
-| GUTテスト（実質） | 10 | **★一部完了** — test_toast_manager / test_achievement_toast / test_pawn_combat_state |
+| GUTテスト（実質） | 10 | **★一部完了** — unit: test_example / test_toast_manager / test_record_database / test_achievement_tracker / test_pawn_combat / test_jump_physics、integration: test_achievement_toast / test_pawn_combat_state（計74テスト PASS） |
 
 ---
 
