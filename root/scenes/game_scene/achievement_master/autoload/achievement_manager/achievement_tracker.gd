@@ -200,6 +200,17 @@ func save_record_db() -> void:
 	_record_db.save_to_file()
 
 
+## 全レコードと実績状態をリセットする
+func reset_records() -> void:
+	_record_db.reset_all()
+	_unlocked = {}
+	_total_ap = 0
+	_pinned_ids = []
+	_save_progress()
+	pinned_changed.emit()
+	Log.info("AchievementTracker: 全レコード・実績をリセットしました")
+
+
 # ========== 内部ロジック ==========
 
 ## RecordDatabase から実績定義の type に基づいて進捗値を導出する

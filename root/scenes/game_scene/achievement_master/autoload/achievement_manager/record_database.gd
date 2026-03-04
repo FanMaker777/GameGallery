@@ -176,6 +176,44 @@ func add_play_time(seconds: float) -> void:
 	play_time_seconds += seconds
 
 
+# ========== リセット ==========
+
+## 全レコードを初期値にリセットし、ファイルに保存する
+func reset_all() -> void:
+	# 戦闘
+	enemy_killed = 0
+	enemy_killed_by_type = {}
+	attack_landed = 0
+	attack_started = 0
+	player_damaged = 0
+	player_died = 0
+	# 採取
+	resource_harvested = 0
+	resource_harvested_wood = 0
+	resource_harvested_gold = 0
+	resource_harvested_meat = 0
+	# 探索
+	map_entered = 0
+	unique_maps_entered = []
+	distance_walked = 0
+	npc_talked = 0
+	unique_npcs_talked = []
+	# 実績
+	achievement_unlocked = 0
+	ap_earned = 0
+	# プレイ時間
+	play_time_seconds = 0.0
+	# ストリーク
+	streak_enemy_killed_no_damage = 0
+	streak_enemy_killed_rapid = 0
+	streak_harvest_no_attack = 0
+	streak_map_no_damage = 0
+	streak_npc_no_kill = 0
+	# 保存
+	save_to_file()
+	Log.info("RecordDatabase: 全レコードをリセットしました")
+
+
 # ========== 永続化 ==========
 
 ## ファイルに保存する

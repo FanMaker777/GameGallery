@@ -22,10 +22,15 @@ const SUB_ITEM_MARGIN: int = 24
 @onready var _npc_talked_value: Label = %NpcTalkedValue
 @onready var _unlocked_value: Label = %UnlockedValue
 @onready var _total_ap_value: Label = %TotalApValue
+@onready var _clear_button: Button = %ClearButton
+@onready var _warning_dialog: WarningDialog = $WarningDialog
 
 
+## シグナル接続と初期表示を行う
 func _ready() -> void:
 	visibility_changed.connect(_on_visibility_changed)
+	_clear_button.pressed.connect(_on_clear_button_pressed)
+	_warning_dialog.confirmed.connect(_on_clear_confirmed)
 	_refresh()
 
 
@@ -69,6 +74,17 @@ func _refresh() -> void:
 	var total_count: int = AchievementManager.get_all_definitions().size()
 	_unlocked_value.text = "%d / %d" % [unlocked_count, total_count]
 	_total_ap_value.text = str(AchievementManager.get_total_ap())
+
+
+## クリアボタン押下時 → 警告ダイアログを表示する
+func _on_clear_button_pressed() -> void:
+	_warning_dialog.show_warning("レコードクリア", "この操作は取り消せません。\n本当にレコードをクリアしますか？")
+
+
+## 警告ダイアログで「はい」が押されたとき
+func _on_clear_confirmed() -> void:
+	AchievementManager.reset_records()
+	_refresh()
 
 
 ## 敵種別ごとの討伐数を動的に再構築する

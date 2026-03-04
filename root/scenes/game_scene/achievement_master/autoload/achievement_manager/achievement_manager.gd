@@ -169,6 +169,11 @@ func get_play_time_seconds() -> float:
 	return _tracker.get_play_time_seconds()
 
 
+## 全レコードをリセットする（RecordTab 用）
+func reset_records() -> void:
+	_tracker.reset_records()
+
+
 # ========== ノード自動接続（node_added コールバック） ==========
 
 ## シーンツリーに追加されたノードのシグナルを自動接続する
