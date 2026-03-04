@@ -348,7 +348,28 @@ await wait_seconds(3.0)
 assert_true(signal_fired[0], "toast_finished が発火する")
 ```
 
-### 11.3 `assert_signal_emitted_with_parameters` は boolean パラメータで壊れる（GUT 9.5.0）
+### 11.3 ラムダキャプチャでプリミティブ値を変更できない（GDScript の仕様）
+
+GDScript のラムダは外部スコープの **プリミティブ変数（int, float, bool）をキャプチャした場合、ラムダ内の代入は外部に反映されない**。
+これはクロージャではなくキャプチャ時のコピーであるため。
+
+```gdscript
+# NG: count は 0 のまま（ラムダ内の count は外部と別のコピー）
+var count := 0
+signal_name.connect(func() -> void: count += 1)
+signal_name.emit()
+assert_eq(count, 1)  # => FAIL: count == 0
+
+# OK: Array はオブジェクト参照なのでラムダ内から変更可能
+var received := []
+signal_name.connect(func() -> void: received.append(true))
+signal_name.emit()
+assert_eq(received.size(), 1)  # => PASS
+```
+
+**ルール:** シグナル発火のカウントやパラメータ記録には、`int` 変数ではなく **`Array` に append するパターン** を使うこと。
+
+### 11.4 `assert_signal_emitted_with_parameters` は boolean パラメータで壊れる（GUT 9.5.0）
 
 GUT 9.5.0 の `signal_watcher.gd` には、**boolean 型のシグナルパラメータ** を渡すと内部で `String` と `int` の比較エラーが発生するバグがある。
 
@@ -404,10 +425,74 @@ assert_true(received[0], "パラメータが true である")
 - [ ] Node/Scene を作ったら `autofree` / `add_child_autofree` 等で後始末している
 - [ ] `queue_free()` の場合は `await` で解放を待っている
 - [ ] シグナル発火後に自己解放するオブジェクトは `watch_signals` ではなくラムダで検証している
-- [ ] `assert_signal_emitted_with_parameters` を boolean パラメータに使っていない（GUT 9.5.0 バグ）
+- [ ] シグナル発火カウントには `int` 変数ではなく `Array` に append するパターンを使っている（11.3）
+- [ ] `assert_signal_emitted_with_parameters` を boolean パラメータに使っていない（GUT 9.5.0 バグ, 11.4）
+- [ ] 意図的に `Log.warn` / `Log.error` を発生させるテストでは `assert_engine_error` でマークしている（11.5）
 - [ ] 非同期は `wait_for_signal(..., timeout)` でハングを防いでいる
 - [ ] unit / integration を意識して配置・命名している
 - [ ] CLI 実行は `-s` を使っている（`--script` は避ける）
+
+### 11.5 `Log.warn` / `Log.error` は GUT のエラートラッカーに検出される
+
+Logger アドオンの `Log.warn()` は内部で `push_warning()` を呼び、`Log.error()` は `push_error()` を呼ぶ。
+GUT 9.5.0 はこれらを **engine error** として検出し、テストを自動的に失敗させる。
+
+意図的に警告/エラーを発生させるテストでは、`assert_engine_error()` でエラーを「期待済み」としてマークすること。
+
+```gdscript
+# NG: Log.warn が "Unexpected Errors" として検出されテストが失敗する
+func test_unknown_action_is_ignored() -> void:
+    db.record(&"unknown_action")
+    assert_eq(db.enemy_killed, 0, "未知のアクションは無視される")
+
+# OK: assert_engine_error で期待済みとしてマーク
+func test_unknown_action_is_ignored() -> void:
+    db.record(&"unknown_action")
+    assert_eq(db.enemy_killed, 0, "未知のアクションは無視される")
+    assert_engine_error("未知のアクション", "Log.warn が出力される")
+```
+
+`assert_engine_error` は部分一致（大文字小文字区別なし）でマッチする。
+`push_error` 由来のエラーには `assert_push_error()` を使う。
+
+### 11.6 CLI 実行時の GUT コマンド全体像
+
+このプロジェクトの Godot 実行ファイルパス:
+```
+D:/MyWork/GameDevelopment/Godot/Godot_v4.5.1/Godot_v4.5.1-stable_win64.exe
+```
+
+#### 全テスト実行（ヘッドレス・CI向け）
+
+```bash
+"D:/MyWork/GameDevelopment/Godot/Godot_v4.5.1/Godot_v4.5.1-stable_win64.exe" \
+  --headless -d -s \
+  --path "D:/MyWork/GameDevelopment/Godot/Godot_v4.5.1/projects/GameGallery" \
+  addons/gut/gut_cmdln.gd \
+  -gdir=res://test/ -ginclude_subdirs -gexit
+```
+
+#### 特定ファイルだけ実行
+
+```bash
+"D:/MyWork/GameDevelopment/Godot/Godot_v4.5.1/Godot_v4.5.1-stable_win64.exe" \
+  --headless -d -s \
+  --path "D:/MyWork/GameDevelopment/Godot/Godot_v4.5.1/projects/GameGallery" \
+  addons/gut/gut_cmdln.gd \
+  -gtest=res://test/unit/test_record_database.gd -gexit
+```
+
+#### 重要なポイント
+
+| 項目 | 説明 |
+|------|------|
+| エントリスクリプト | `addons/gut/gut_cmdln.gd`（`gut_cli.gd` や `gut_loader_the_scene.gd` ではない） |
+| `-s` vs `--script` | **必ず `-s` を使う**。`--script` は通らないケースがある |
+| `-g` オプションの書式 | **`-gxxx=VALUE` 形式**（`=` の前後にスペースを入れない） |
+| `--headless` | 画面なし実行（CI環境向け）。`--display-driver headless --audio-driver Dummy` 相当 |
+| `-d` | デバッグモード（スタックトレース等が出力される） |
+| `--path` | プロジェクトルートの指定（**絶対パス推奨**） |
+| 終了コード | 成功=`0`、失敗=`1`（`pending` は影響しない） |
 
 ---
 
