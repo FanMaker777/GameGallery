@@ -107,7 +107,7 @@ func is_menu_visible() -> bool:
 ## タブの表示名を日本語に設定するメソッド
 func _setup_tab_titles() -> void:
 	# タブインデックスと日本語名の対応
-	var tab_titles: PackedStringArray = ["装備", "ステータス", "スキル", "実績", "レコード"]
+	var tab_titles: PackedStringArray = ["装備", "ステータス", "スキル", "実績", "レコード", "報酬"]
 	# 各タブに日本語名を設定する
 	for i: int in tab_titles.size():
 		_tab_container.set_tab_title(i, tab_titles[i])
