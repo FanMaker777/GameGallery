@@ -12,6 +12,8 @@ enum Category { EQUIPMENT, CONSUMABLE, MATERIAL }
 @export var name_ja: String = ""
 ## 説明文（日本語）
 @export var description_ja: String = ""
+## アイコン画像
+@export var icon: Texture2D = null
 
 @export_group("経済")
 ## 購入価格（GOLD）

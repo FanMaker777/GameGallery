@@ -16,6 +16,8 @@ var _definition: ItemDefinition = null
 var _is_selected: bool = false
 
 # ---- ノードキャッシュ ----
+## アイコン
+@onready var _icon_rect: TextureRect = %IconRect
 ## アイテム名ラベル
 @onready var _name_label: Label = %NameLabel
 ## 数量ラベル
@@ -36,6 +38,7 @@ func _ready() -> void:
 ## アイテムデータを設定する
 func setup(def: ItemDefinition, count: int) -> void:
 	_definition = def
+	_icon_rect.texture = def.icon
 	_name_label.text = def.name_ja
 	_count_label.text = "x%d" % count
 

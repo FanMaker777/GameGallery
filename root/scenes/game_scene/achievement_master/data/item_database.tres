@@ -1,10 +1,17 @@
-[gd_resource type="Resource" script_class="ItemDatabase" load_steps=13 format=3 uid="uid://c3i1wuf5scymt"]
+[gd_resource type="Resource" script_class="ItemDatabase" load_steps=20 format=3 uid="uid://c3i1wuf5scymt"]
 
 [ext_resource type="Script" uid="uid://cx85nsulyxg6g" path="res://root/scenes/game_scene/achievement_master/data/item_database.gd" id="1_db"]
 [ext_resource type="Script" uid="uid://6iwkck5m0gtw" path="res://root/scenes/game_scene/achievement_master/data/item_definition.gd" id="1_xas0v"]
 [ext_resource type="Script" uid="uid://dt552lsh20dvf" path="res://root/scenes/game_scene/achievement_master/data/equipment_definition.gd" id="2_equip"]
 [ext_resource type="Script" uid="uid://bwch00ksfsw3i" path="res://root/scenes/game_scene/achievement_master/data/consumable_definition.gd" id="3_consume"]
 [ext_resource type="Script" uid="uid://b2k0dbvg5np1n" path="res://root/scenes/game_scene/achievement_master/data/material_definition.gd" id="4_material"]
+[ext_resource type="Texture2D" uid="uid://c05aoptmnav7c" path="res://root/scenes/game_scene/achievement_master/ui/assets/icon/ten_k_games_icons (204)/ore_gold.png" id="icon_gold"]
+[ext_resource type="Texture2D" uid="uid://betiokp3ga40s" path="res://root/scenes/game_scene/achievement_master/ui/assets/icon/material/meat.png" id="icon_meat"]
+[ext_resource type="Texture2D" uid="uid://drgde13bp13tv" path="res://root/scenes/game_scene/achievement_master/ui/assets/icon/ten_k_games_icons (204)/potion_bottle_red.png" id="icon_potion"]
+[ext_resource type="Texture2D" uid="uid://drhlrdsu1etfr" path="res://root/scenes/game_scene/achievement_master/ui/assets/icon/ten_k_games_icons (204)/orb_aqua.png" id="icon_ring"]
+[ext_resource type="Texture2D" uid="uid://eqwjj8djlvvo" path="res://root/scenes/game_scene/achievement_master/ui/assets/icon/equipment/shiled.png" id="icon_shield"]
+[ext_resource type="Texture2D" uid="uid://b453h5xts5qu6" path="res://root/scenes/game_scene/achievement_master/ui/assets/icon/equipment/sword.png" id="icon_sword"]
+[ext_resource type="Texture2D" uid="uid://ceoa2vmqoi6x8" path="res://root/scenes/game_scene/achievement_master/ui/assets/icon/material/wood.png" id="icon_wood"]
 
 [sub_resource type="Resource" id="equip_01"]
 script = ExtResource("2_equip")
@@ -12,6 +19,7 @@ attack_flat = 5
 id = &"iron_sword"
 name_ja = "鉄の剣"
 description_ja = "基本的な鉄の剣。攻撃力が少し上がる。"
+icon = ExtResource("icon_sword")
 buy_price = 50
 sell_price = 25
 
@@ -22,6 +30,7 @@ hp_flat = 20
 id = &"leather_armor"
 name_ja = "革の鎧"
 description_ja = "軽くて丈夫な革製の鎧。最大HPが上がる。"
+icon = ExtResource("icon_shield")
 buy_price = 80
 sell_price = 40
 
@@ -33,6 +42,7 @@ gather_percent = 15.0
 id = &"swift_ring"
 name_ja = "疾風の指輪"
 description_ja = "風の力が宿る指輪。移動速度と採取速度が上がる。"
+icon = ExtResource("icon_ring")
 buy_price = 120
 sell_price = 60
 
@@ -42,6 +52,7 @@ effect_value = 30.0
 id = &"health_potion"
 name_ja = "HPポーション"
 description_ja = "飲むとHPが30回復する。"
+icon = ExtResource("icon_potion")
 buy_price = 20
 sell_price = 10
 max_stack = 10
@@ -51,6 +62,7 @@ script = ExtResource("4_material")
 id = &"wood"
 name_ja = "木材"
 description_ja = "木から採取した木材。建築や製作に使う。"
+icon = ExtResource("icon_wood")
 sell_price = 2
 max_stack = 999
 
@@ -59,7 +71,8 @@ script = ExtResource("4_material")
 resource_type = 1
 id = &"gold"
 name_ja = "金鉱石"
-description_ja = "金色に輝く鉱石。通貨として使える。"
+description_ja = "金色に輝く鉱石。高く売れる。"
+icon = ExtResource("icon_gold")
 sell_price = 5
 max_stack = 999
 
@@ -69,6 +82,7 @@ resource_type = 2
 id = &"meat"
 name_ja = "肉"
 description_ja = "羊から得た新鮮な肉。"
+icon = ExtResource("icon_meat")
 sell_price = 3
 max_stack = 999
 
