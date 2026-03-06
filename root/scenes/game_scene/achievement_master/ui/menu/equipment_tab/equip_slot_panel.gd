@@ -11,6 +11,8 @@ var _slot: EquipmentDefinition.EquipSlot = EquipmentDefinition.EquipSlot.WEAPON
 # ---- ノードキャッシュ ----
 ## スロット名ラベル（武器/防具/装飾）
 @onready var _slot_name_label: Label = %SlotNameLabel
+## アイテムアイコン
+@onready var _icon_rect: TextureRect = %IconRect
 ## 装備中アイテム名ラベル
 @onready var _item_name_label: Label = %ItemNameLabel
 
@@ -34,11 +36,13 @@ func refresh() -> void:
 	var equipped_id: StringName = InventoryManager.get_equipped(_slot)
 	if equipped_id == &"":
 		# 未装備
+		_icon_rect.texture = null
 		_item_name_label.text = "---"
 		_item_name_label.add_theme_color_override("font_color", Color(0.5, 0.5, 0.5))
 	else:
-		# 装備中アイテムの名前を表示する
+		# 装備中アイテムの名前とアイコンを表示する
 		var def: ItemDefinition = InventoryManager.get_definition(equipped_id)
+		_icon_rect.texture = def.icon if def != null else null
 		_item_name_label.text = def.name_ja if def != null else str(equipped_id)
 		_item_name_label.remove_theme_color_override("font_color")
 
