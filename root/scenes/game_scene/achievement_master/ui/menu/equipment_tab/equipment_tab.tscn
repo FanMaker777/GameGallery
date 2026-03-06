@@ -1,0 +1,116 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://root/scenes/game_scene/achievement_master/ui/menu/equipment_tab/equipment_tab.gd" id="1"]
+[ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/ui/menu/equipment_tab/equip_slot_panel.tscn" id="2_slot"]
+
+[node name="EquipmentTab" type="MarginContainer"]
+script = ExtResource("1")
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="HSplitContainer" type="HSplitContainer" parent="."]
+layout_mode = 2
+split_offset = 240
+
+[node name="LeftPanel" type="VBoxContainer" parent="HSplitContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(220, 0)
+
+[node name="SlotsLabel" type="Label" parent="HSplitContainer/LeftPanel"]
+layout_mode = 2
+text = "装備スロット"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 12
+
+[node name="WeaponSlot" parent="HSplitContainer/LeftPanel" instance=ExtResource("2_slot")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ArmorSlot" parent="HSplitContainer/LeftPanel" instance=ExtResource("2_slot")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="AccessorySlot" parent="HSplitContainer/LeftPanel" instance=ExtResource("2_slot")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="HSplitContainer/LeftPanel"]
+layout_mode = 2
+
+[node name="BagHeader" type="HBoxContainer" parent="HSplitContainer/LeftPanel"]
+layout_mode = 2
+
+[node name="BagLabel" type="Label" parent="HSplitContainer/LeftPanel/BagHeader"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "バッグ"
+theme_override_font_sizes/font_size = 12
+
+[node name="CategoryFilter" type="OptionButton" parent="HSplitContainer/LeftPanel/BagHeader"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(90, 0)
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HSplitContainer/LeftPanel"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ListContainer" type="VBoxContainer" parent="HSplitContainer/LeftPanel/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RightPanel" type="PanelContainer" parent="HSplitContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(200, 0)
+
+[node name="MarginContainer" type="MarginContainer" parent="HSplitContainer/RightPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="EmptyLabel" type="Label" parent="HSplitContainer/RightPanel/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "アイテムを選択してください"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="DetailContent" type="VBoxContainer" parent="HSplitContainer/RightPanel/MarginContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="DetailNameLabel" type="Label" parent="HSplitContainer/RightPanel/MarginContainer/DetailContent"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "アイテム名"
+theme_override_font_sizes/font_size = 18
+
+[node name="HSeparator" type="HSeparator" parent="HSplitContainer/RightPanel/MarginContainer/DetailContent"]
+layout_mode = 2
+
+[node name="DetailDescLabel" type="Label" parent="HSplitContainer/RightPanel/MarginContainer/DetailContent"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "説明文"
+autowrap_mode = 2
+
+[node name="DetailStatsLabel" type="Label" parent="HSplitContainer/RightPanel/MarginContainer/DetailContent"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "効果: なし"
+
+[node name="Spacer" type="Control" parent="HSplitContainer/RightPanel/MarginContainer/DetailContent"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ActionButton" type="Button" parent="HSplitContainer/RightPanel/MarginContainer/DetailContent"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "装備する"
