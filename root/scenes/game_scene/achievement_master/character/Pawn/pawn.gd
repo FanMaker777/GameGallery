@@ -70,17 +70,7 @@ var _is_in_combat: bool = false
 ## 戦闘状態クールダウン残り時間
 var _combat_cooldown: float = 0.0
 
-# ---- インベントリ ----
-## リソース種別ごとの所持数
-var _inventory: Dictionary = {
-	ResourceDefinitions.ResourceType.WOOD: 0,
-	ResourceDefinitions.ResourceType.GOLD: 0,
-	ResourceDefinitions.ResourceType.MEAT: 0,
-}
-
 # ---- シグナル ----
-## インベントリのリソース量が変化したときに発火する
-signal inventory_changed(type: ResourceDefinitions.ResourceType, new_amount: int)
 ## 攻撃が敵に命中したときに発火する
 signal attack_landed(target: Node2D, damage: int)
 ## HPが変化したときに発火する（HUD連携用）
@@ -128,6 +118,8 @@ func _ready() -> void:
 	stamina_changed.emit(stamina, get_effective_max_stamina())
 	# 実績マネージャーにプレイヤーを登録する
 	AchievementManager.register_player(self)
+	# InventoryManager の消耗品使用シグナルを接続する
+	InventoryManager.item_used.connect(_on_item_used)
 	Log.info("Pawn: 初期化完了 (HP=%d/%d)" % [hp, get_effective_max_hp()])
 
 
@@ -324,7 +316,9 @@ func _finish_gather() -> void:
 		if not result.is_empty():
 			var type: ResourceDefinitions.ResourceType = result.get("type")
 			var amount: int = result.get("amount", 0)
-			_add_resource(type, amount)
+			# InventoryManager 経由でインベントリに追加する
+			var item_id: StringName = ResourceDefinitions.to_item_id(type)
+			InventoryManager.add_item(item_id, amount)
 			Log.info("Pawn: 採取完了 %s x%d" % [
 				ResourceDefinitions.get_type_name(type), amount
 			])
@@ -417,20 +411,35 @@ func _start_talk(npc: Node2D) -> void:
 
 # ========== インベントリ ==========
 
-## ドロップアイテムを回収してインベントリに加算する（DropItem から呼ばれる）
+## 消耗品が使用されたときの処理 — 効果種別に応じてHP/スタミナを回復する
+func _on_item_used(_id: StringName, def: ItemDefinition) -> void:
+	var definition: ConsumableDefinition = def as ConsumableDefinition
+	if definition == null:
+		return
+	match definition.effect_type:
+		ConsumableDefinition.EffectType.HP_RECOVER:
+			# HPを回復する（最大HPを超えない）
+			var max_hp: int = get_effective_max_hp()
+			hp = mini(hp + int(definition.effect_value), max_hp)
+			health_changed.emit(hp, max_hp)
+			Log.info("Pawn: HP回復 +%d (現在HP=%d/%d)" % [
+				int(definition.effect_value), hp, max_hp
+			])
+		ConsumableDefinition.EffectType.STAMINA_RECOVER:
+			# スタミナを回復する（最大値を超えない）
+			var max_stam: float = get_effective_max_stamina()
+			stamina = minf(stamina + definition.effect_value, max_stam)
+			stamina_changed.emit(stamina, max_stam)
+			Log.info("Pawn: スタミナ回復 +%.0f (現在=%.0f/%.0f)" % [
+				definition.effect_value, stamina, max_stam
+			])
+
+
+## ドロップアイテムを回収して InventoryManager に追加する（DropItem から呼ばれる）
 func collect_drop(type: ResourceDefinitions.ResourceType, amount: int) -> void:
-	_add_resource(type, amount)
+	var item_id: StringName = ResourceDefinitions.to_item_id(type)
+	InventoryManager.add_item(item_id, amount)
 	Log.info("Pawn: ドロップ回収 %s x%d" % [ResourceDefinitions.get_type_name(type), amount])
-
-
-## リソースをインベントリに追加する
-func _add_resource(type: ResourceDefinitions.ResourceType, amount: int) -> void:
-	_inventory[type] = _inventory.get(type, 0) + amount
-	inventory_changed.emit(type, _inventory[type])
-
-## 指定リソースの所持数を返す
-func get_resource_amount(type: ResourceDefinitions.ResourceType) -> int:
-	return _inventory.get(type, 0)
 
 # ========== スタミナ処理 ==========
 
@@ -478,60 +487,92 @@ func _process_combat_cooldown(delta: float) -> void:
 
 # ========== 報酬効果反映 ==========
 
-## 報酬効果キャッシュを取得する（RewardManager 未登録時は null）
+## 報酬効果キャッシュを取得する
 func _get_effect_cache() -> RewardEffectCache:
-	var rm: Node = get_node_or_null("/root/RewardManager")
-	if rm == null:
-		return null
-	return rm.get_effect_cache()
+	return RewardManager.get_effect_cache()
 
 
-## 有効な最大HPを返す（基礎値 + 報酬ボーナス）
+## 装備ステータスキャッシュを取得する
+func _get_equip_cache() -> EquipmentStatCache:
+	return InventoryManager.get_equip_cache()
+
+
+## 有効な最大HPを返す（基礎値 + 装備固定値 → 報酬%ボーナス）
 func get_effective_max_hp() -> int:
-	var cache: RewardEffectCache = _get_effect_cache()
-	if cache == null:
-		return BASE_MAX_HP
-	return int(BASE_MAX_HP * (1.0 + cache.hp_percent_up / 100.0))
+	var base: int = BASE_MAX_HP
+	# 装備の固定値を加算する
+	var ec: EquipmentStatCache = _get_equip_cache()
+	if ec != null:
+		base += ec.hp_flat
+	# 報酬の%ボーナスを乗算する
+	var rc: RewardEffectCache = _get_effect_cache()
+	if rc != null:
+		return int(base * (1.0 + rc.hp_percent_up / 100.0))
+	return base
 
 
-## 有効な攻撃力を返す
+## 有効な攻撃力を返す（基礎値 + 装備固定値 → 報酬%ボーナス）
 func get_effective_attack() -> int:
-	var cache: RewardEffectCache = _get_effect_cache()
-	if cache == null:
-		return BASE_ATTACK_DAMAGE
-	return int(BASE_ATTACK_DAMAGE * (1.0 + cache.attack_percent_up / 100.0))
+	var base: int = BASE_ATTACK_DAMAGE
+	# 装備の固定値を加算する
+	var ec: EquipmentStatCache = _get_equip_cache()
+	if ec != null:
+		base += ec.attack_flat
+	# 報酬の%ボーナスを乗算する
+	var rc: RewardEffectCache = _get_effect_cache()
+	if rc != null:
+		return int(base * (1.0 + rc.attack_percent_up / 100.0))
+	return base
 
 
-## 有効な移動速度を返す
+## 有効な移動速度を返す（基礎値 → 装備%ボーナス + 報酬%ボーナス）
 func get_effective_speed() -> float:
-	var cache: RewardEffectCache = _get_effect_cache()
-	if cache == null:
-		return BASE_SPEED
-	return BASE_SPEED * (1.0 + cache.move_speed_up / 100.0)
+	var percent_bonus: float = 0.0
+	# 装備の%ボーナスを加算する
+	var ec: EquipmentStatCache = _get_equip_cache()
+	if ec != null:
+		percent_bonus += ec.speed_percent
+	# 報酬の%ボーナスを加算する
+	var rc: RewardEffectCache = _get_effect_cache()
+	if rc != null:
+		percent_bonus += rc.move_speed_up
+	return BASE_SPEED * (1.0 + percent_bonus / 100.0)
 
 
-## 有効なスタミナ最大値を返す
+## 有効なスタミナ最大値を返す（基礎値 + 装備固定値 → 報酬%ボーナス）
 func get_effective_max_stamina() -> float:
-	var cache: RewardEffectCache = _get_effect_cache()
-	if cache == null:
-		return max_stamina
-	return max_stamina * (1.0 + cache.stamina_max_up / 100.0)
+	var base: float = max_stamina
+	# 装備の固定値を加算する
+	var ec: EquipmentStatCache = _get_equip_cache()
+	if ec != null:
+		base += ec.stamina_flat
+	# 報酬の%ボーナスを乗算する
+	var rc: RewardEffectCache = _get_effect_cache()
+	if rc != null:
+		return base * (1.0 + rc.stamina_max_up / 100.0)
+	return base
 
 
 ## 有効なスタミナ回復速度を返す
 func get_effective_stamina_recovery() -> float:
-	var cache: RewardEffectCache = _get_effect_cache()
-	if cache == null:
+	var rc: RewardEffectCache = _get_effect_cache()
+	if rc == null:
 		return stamina_recovery_rate
-	return stamina_recovery_rate * (1.0 + cache.stamina_recovery_up / 100.0)
+	return stamina_recovery_rate * (1.0 + rc.stamina_recovery_up / 100.0)
 
 
-## 有効な採取速度倍率を返す（1.0=通常）
+## 有効な採取速度倍率を返す（1.0=通常、装備%ボーナス + 報酬%ボーナス）
 func get_effective_gather_speed() -> float:
-	var cache: RewardEffectCache = _get_effect_cache()
-	if cache == null:
-		return 1.0
-	return 1.0 + cache.gather_speed_up / 100.0
+	var percent_bonus: float = 0.0
+	# 装備の%ボーナスを加算する
+	var ec: EquipmentStatCache = _get_equip_cache()
+	if ec != null:
+		percent_bonus += ec.gather_percent
+	# 報酬の%ボーナスを加算する
+	var rc: RewardEffectCache = _get_effect_cache()
+	if rc != null:
+		percent_bonus += rc.gather_speed_up
+	return 1.0 + percent_bonus / 100.0
 
 
 # ========== ユーティリティ ==========

@@ -57,6 +57,10 @@ func _ready() -> void:
 	_tracker.pinned_changed.connect(func() -> void: pinned_changed.emit())
 	# シーンツリーの node_added シグナルに接続し、ノード自動接続を行う
 	get_tree().node_added.connect(_on_node_added)
+	# InventoryManager のシグナルを接続してアイテム関連実績を追跡する
+	InventoryManager.bag_changed.connect(_on_inventory_bag_changed)
+	InventoryManager.equipment_changed.connect(_on_inventory_equipment_changed)
+	InventoryManager.item_used.connect(_on_inventory_item_used)
 	Log.info("AchievementManager: 初期化完了")
 
 
@@ -266,3 +270,20 @@ func _on_player_health_changed(current_hp: int, _max_hp: int) -> void:
 ## プレイヤーが死亡したとき
 func _on_player_died() -> void:
 	_tracker.record_action(&"player_died")
+
+
+# ========== InventoryManager 連携 ==========
+
+## バッグ内容が変化したとき
+func _on_inventory_bag_changed(_id: StringName, _new_count: int) -> void:
+	pass
+
+
+## 装備が変更されたとき
+func _on_inventory_equipment_changed(_slot: int) -> void:
+	pass
+
+
+## 消耗品が使用されたとき
+func _on_inventory_item_used(_id: StringName, _definition: ItemDefinition) -> void:
+	pass

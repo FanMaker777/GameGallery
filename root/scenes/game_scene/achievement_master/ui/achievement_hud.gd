@@ -40,15 +40,14 @@ func _connect_to_pawn() -> void:
 	if _pawn == null:
 		Log.debug("AchievementHud: グループ 'player' に Pawn が見つからない")
 		return
-	# ラベルマッピングを構築（種別 → ラベル + 表示名）
+	# アイテムIDとラベルの対応マッピングを構築する
 	_label_map = {
-		ResourceDefinitions.ResourceType.WOOD: { "label": _wood_label, "name": "Wood" },
-		ResourceDefinitions.ResourceType.GOLD: { "label": _gold_label, "name": "Gold" },
-		ResourceDefinitions.ResourceType.MEAT: { "label": _meat_label, "name": "Meat" },
+		&"wood": { "label": _wood_label, "name": "Wood" },
+		&"gold": { "label": _gold_label, "name": "Gold" },
+		&"meat": { "label": _meat_label, "name": "Meat" },
 	}
-	# インベントリ変化シグナルを接続
-	if _pawn.has_signal("inventory_changed"):
-		_pawn.inventory_changed.connect(_on_inventory_changed)
+	# InventoryManager のバッグ変化シグナルを接続する
+	InventoryManager.bag_changed.connect(_on_bag_changed)
 	# HP変化シグナルを接続
 	if _pawn.has_signal("health_changed"):
 		_pawn.health_changed.connect(_on_health_changed)
@@ -60,16 +59,12 @@ func _connect_to_pawn() -> void:
 	Log.info("AchievementHud: Pawn に接続完了")
 
 
-## インベントリ変化時に該当ラベルのみ更新する
-func _on_inventory_changed(
-	type: ResourceDefinitions.ResourceType, new_amount: int
-) -> void:
-	if not is_instance_valid(_pawn):
-		return
+## バッグ内容変化時に該当ラベルのみ更新する
+func _on_bag_changed(id: StringName, new_count: int) -> void:
 	# 該当するラベルのみ更新する
-	var entry: Dictionary = _label_map.get(type, {})
+	var entry: Dictionary = _label_map.get(id, {})
 	if not entry.is_empty():
-		entry["label"].text = "%s: %d" % [entry["name"], new_amount]
+		entry["label"].text = "%s: %d" % [entry["name"], new_count]
 
 
 ## HP変化時にHPバーを更新する
@@ -98,20 +93,9 @@ func _refresh_ap() -> void:
 
 ## 全ラベルを最新の値で更新する
 func _refresh_all() -> void:
-	# リソースラベルを更新する
-	if is_instance_valid(_pawn) and _pawn.has_method("get_resource_amount"):
-		_wood_label.text = "Wood: %d" % _pawn.get_resource_amount(
-			ResourceDefinitions.ResourceType.WOOD
-		)
-		_gold_label.text = "Gold: %d" % _pawn.get_resource_amount(
-			ResourceDefinitions.ResourceType.GOLD
-		)
-		_meat_label.text = "Meat: %d" % _pawn.get_resource_amount(
-			ResourceDefinitions.ResourceType.MEAT
-		)
-	else:
-		_wood_label.text = "Wood: 0"
-		_gold_label.text = "Gold: 0"
-		_meat_label.text = "Meat: 0"
+	# リソースラベルを InventoryManager から更新する
+	_wood_label.text = "Wood: %d" % InventoryManager.get_item_count(&"wood")
+	_gold_label.text = "Gold: %d" % InventoryManager.get_item_count(&"gold")
+	_meat_label.text = "Meat: %d" % InventoryManager.get_item_count(&"meat")
 	# APカウンターを更新する
 	_refresh_ap()

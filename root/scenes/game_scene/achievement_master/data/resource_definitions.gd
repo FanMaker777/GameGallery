@@ -48,3 +48,16 @@ static func get_type_name(type: ResourceType) -> String:
 			return "Meat"
 		_:
 			return "Unknown"
+
+
+## ResourceType を InventoryManager のアイテムIDに変換する
+static func to_item_id(type: ResourceType) -> StringName:
+	match type:
+		ResourceType.WOOD:
+			return &"wood"
+		ResourceType.GOLD:
+			return &"gold"
+		ResourceType.MEAT:
+			return &"meat"
+		_:
+			return &""
