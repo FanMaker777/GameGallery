@@ -7,8 +7,8 @@ const MAIN_MENU_SCENE: String = "uid://byjaiv21t5df7"
 const LUCY_ADVENTURE_SCENE: String = "uid://b7hikg0q3dsbv"
 ## Achievement Master — 村マップのパス
 const AM_VILLAGE_SCENE: String = "uid://ce3q56t7icpyb"
-## Achievement Master — 草原マップのパス（UID 未割当のため res:// を使用）
-const AM_GRASSLAND_SCENE: String = "res://root/scenes/game_scene/achievement_master/world/map/grassland/grassland.tscn"
+## Achievement Master — 草原マップのパス
+const AM_GRASSLAND_SCENE: String = "uid://c54wfc46jx8v2"
 ## 設定永続化ファイルパス
 const SETTINGS_FILE_PATH: String = "user://settings.cfg"
 

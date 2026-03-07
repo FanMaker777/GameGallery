@@ -4,9 +4,7 @@ class_name ToastManager extends VBoxContainer
 
 # ---- 定数 ----
 ## トーストシーン（preload で事前読み込み）
-const TOAST_SCENE: PackedScene = preload(
-	"res://root/scenes/game_scene/achievement_master/ui/toast/achievement_toast.tscn"
-)
+const TOAST_SCENE: PackedScene = preload("uid://c3ib35gf3op2g")
 
 # ---- 状態 ----
 ## 通常キュー（Bronze の通知を格納）

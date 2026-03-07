@@ -11,9 +11,7 @@ signal item_used(id: StringName, definition: ItemDefinition)
 
 # ---- アイテムデータベース ----
 ## preload したアイテム定義リソース
-var _database: ItemDatabase = preload(
-	"res://root/scenes/game_scene/achievement_master/data/item_database.tres"
-)
+var _database: ItemDatabase = preload("uid://c3i1wuf5scymt")
 ## { id: ItemDefinition } の高速引きマップ
 var _def_map: Dictionary = {}
 

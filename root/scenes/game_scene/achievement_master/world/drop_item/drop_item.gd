@@ -11,15 +11,9 @@ class_name DropItem extends Node2D
 
 # ---- リソース種別ごとのテクスチャパス ----
 const _TEXTURE_MAP: Dictionary = {
-	ResourceDefinitions.ResourceType.GOLD: preload(
-		"res://root/scenes/game_scene/achievement_master/world/assets/Terrain/Resources/Gold/Gold Resource/Gold_Resource.png"
-	),
-	ResourceDefinitions.ResourceType.MEAT: preload(
-		"res://root/scenes/game_scene/achievement_master/world/assets/Terrain/Resources/Meat/Meat Resource/Meat Resource.png"
-	),
-	ResourceDefinitions.ResourceType.WOOD: preload(
-		"res://root/scenes/game_scene/achievement_master/world/assets/Terrain/Resources/Wood/Wood Resource/Wood Resource.png"
-	),
+	ResourceDefinitions.ResourceType.GOLD: preload("uid://dlygjfvss5gc3"),
+	ResourceDefinitions.ResourceType.MEAT: preload("uid://dwc066hs0fgkm"),
+	ResourceDefinitions.ResourceType.WOOD: preload("uid://dr717u7jdal33"),
 }
 
 # ---- 内部状態 ----

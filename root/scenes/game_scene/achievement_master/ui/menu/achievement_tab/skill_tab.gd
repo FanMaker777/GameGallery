@@ -3,7 +3,7 @@
 class_name SkillTab extends MarginContainer
 
 # ---- 定数 ----
-## リスト項目シーン
+## リスト項目シーン（.tscn に UID 未割当のため res:// を使用）
 const LIST_ITEM_SCENE: PackedScene = preload(
 	"res://root/scenes/game_scene/achievement_master/ui/menu/achievement_tab/skill_list_item.tscn"
 )

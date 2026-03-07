@@ -3,7 +3,7 @@
 class_name PinnedAchievementPanel extends MarginContainer
 
 # ---- 定数 ----
-## PinnedAchievementItem シーン
+## PinnedAchievementItem シーン（.tscn に UID 未割当のため res:// を使用）
 const ITEM_SCENE: PackedScene = preload(
 	"res://root/scenes/game_scene/achievement_master/ui/pinned/pinned_achievement_item.tscn"
 )

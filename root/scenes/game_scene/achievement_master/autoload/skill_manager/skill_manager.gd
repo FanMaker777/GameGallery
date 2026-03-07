@@ -9,9 +9,7 @@ signal available_ap_changed(available_ap: int)
 
 # ---- スキルデータベース ----
 ## preload したスキル定義リソース
-var _database: SkillDatabase = preload(
-	"res://root/scenes/game_scene/achievement_master/data/skill_database.tres"
-)
+var _database: SkillDatabase = preload("uid://dc7scokcg13w4")
 ## { id: SkillDefinition } の高速引きマップ
 var _def_map: Dictionary = {}
 

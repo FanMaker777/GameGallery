@@ -16,9 +16,7 @@ const MAX_PIN_COUNT: int = 3
 
 # ---- 実績データベース ----
 ## preload した実績定義リソース
-var _database: AchievementDatabase = preload(
-	"res://root/scenes/game_scene/achievement_master/data/achievement_database.tres"
-)
+var _database: AchievementDatabase = preload("uid://djq03bqmx8mfq")
 ## { id: AchievementDefinition } の高速引きマップ
 var _def_map: Dictionary = {}
 
