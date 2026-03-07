@@ -11,8 +11,6 @@ const AM_VILLAGE_SCENE: String = "uid://ce3q56t7icpyb"
 const AM_GRASSLAND_SCENE: String = "res://root/scenes/game_scene/achievement_master/world/map/grassland/grassland.tscn"
 ## 設定永続化ファイルパス
 const SETTINGS_FILE_PATH: String = "user://settings.cfg"
-## セーブスロットのベースパス（%d にスロット番号が入る）
-const SAVE_SLOT_BASE_PATH: String = "user://save_slot_%d.save"
 
 ## ポーズスクリーンの表示が可能なシーンのパスリスト
 ## scene_file_path は res:// 形式を返すため、ここでは res:// パスを使用する
