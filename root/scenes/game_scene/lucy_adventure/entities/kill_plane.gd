@@ -1,7 +1,10 @@
+## 落下死判定用の無限平面エリアを生成・管理する
+## プレイヤーが接触すると死亡処理を呼び出す
 @tool
 class_name KillPlane2D extends Area2D
 
 
+## 初期化処理（無限判定エリアを生成し、プレイヤー接触時の死亡処理を接続する）
 func _ready() -> void:
 	# Nothing can detect this area, it is only for killing players.
 	collision_layer = 0

@@ -1,11 +1,18 @@
+## ステージクリア用のゴールフラグを管理する
+## プレイヤーが接触するとフラグが起動し、プレイヤーを停止させる
 class_name EndFlag extends Area2D
 
+# ---- ノード参照 ----
+## フラグのアニメーションスプライト
 @onready var _animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
+## クリア時のパーティクルエフェクト
 @onready var _gpu_particles_2d: GPUParticles2D = $GPUParticles2D
 
+## 初期化処理（デフォルトアニメーション再生とプレイヤー接触シグナル接続）
 func _ready() -> void:
 	_animated_sprite_2d.play("default")
 
+	# プレイヤーが接触したらフラグを起動し、プレイヤーを停止させる
 	body_entered.connect(func _on_body_entered(body: Node2D) -> void:
 		if body is Player:
 			activate()
@@ -13,7 +20,8 @@ func _ready() -> void:
 	)
 
 
-func activate():
+## フラグを起動し、風アニメーションとパーティクルを再生する
+func activate() -> void:
 	_animated_sprite_2d.play("wind")
 
 	# This controls the little squash and stretch animation when touching the flag.
