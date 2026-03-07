@@ -26,6 +26,11 @@ signal npc_interacted(npc_id: String)
 ## セリフの表示秒数。ビューポート反映先がないためセッター不要
 @export var display_duration: float = 3.0
 
+## 初回会話時にプレイヤーに渡すアイテム ID の配列（空なら渡さない）
+@export var gift_items: Array[StringName] = []
+## ギフト付与時に表示するセリフ
+@export var gift_dialogue: String = ""
+
 ## アニメーション用 SpriteFrames リソース（Inspector から設定）
 ## セッターで AnimatedSprite2D に即時反映される（再生はランタイムのみ）
 @export var sprite_frames: SpriteFrames:
@@ -46,6 +51,8 @@ var _is_talking: bool = false
 @onready var _dialogue_label: Label = %DialogueLabel
 ## NPC 名表示用ラベル（足元に表示、%NameLabel ユニーク名で参照）
 @onready var _name_label: Label = %NameLabel
+## ギフト未受取を示す強調ラベル（頭上に「!」を表示、%AlertLabel ユニーク名で参照）
+@onready var _alert_label: Label = %AlertLabel
 
 # ========== ライフサイクル ==========
 
@@ -67,6 +74,8 @@ func _ready() -> void:
 		_animated_sprite.play("Idle")
 	# セリフラベルは初期非表示（interact 時に表示する）
 	_dialogue_label.visible = false
+	# ギフト未受取なら頭上の「!」を表示する
+	_update_alert_visibility()
 	Log.info("Npc: %s 初期化完了" % npc_name)
 
 # ========== エディタ反映 ==========
@@ -93,7 +102,7 @@ func _apply_sprite_frames() -> void:
 # ========== インタラクション ==========
 
 ## プレイヤーから呼び出される会話メソッド
-## セリフを順番に表示し、一定時間後に非表示にする
+## ギフト未受取なら初回のみアイテムを付与し、以降は通常セリフを順番に表示する
 func interact() -> void:
 	# エディタ内では実行しない（Log やタイマーがエディタで問題を起こす防止）
 	if Engine.is_editor_hint():
@@ -101,18 +110,30 @@ func interact() -> void:
 	# 会話中は再インタラクトを無視（連打防止）
 	if _is_talking:
 		return
-	# セリフが未設定の場合は何もしない
-	if dialogues.is_empty():
+	# セリフもギフトも未設定の場合は何もしない
+	if dialogues.is_empty() and gift_items.is_empty():
 		return
 	_is_talking = true
 	npc_interacted.emit(npc_id)
-	# 現在のインデックスのセリフを表示
-	_dialogue_label.text = dialogues[_dialogue_index]
-	_dialogue_label.visible = true
-	# 次回は次のセリフを表示（末尾に達したら先頭に戻る）
+	# ---- ギフト処理（初回のみ） ----
+	if _has_unclaimed_gift():
+		_give_gift()
+		return
+	# ---- 通常セリフ処理 ----
+	# セリフが未設定の場合は何もしない
+	if dialogues.is_empty():
+		_is_talking = false
+		return
+	# 現在のインデックスのセリフを表示し、次回用にインデックスを進める
+	_show_dialogue_text(dialogues[_dialogue_index])
 	_dialogue_index = (_dialogue_index + 1) % dialogues.size()
 	Log.debug("Npc: %s がセリフを表示 (index=%d)" % [npc_name, _dialogue_index])
-	# 一定時間後にセリフを非表示にする
+
+
+## 指定テキストをセリフラベルに表示し、一定時間後に自動で非表示にする
+func _show_dialogue_text(text: String) -> void:
+	_dialogue_label.text = text
+	_dialogue_label.visible = true
 	var timer: SceneTreeTimer = get_tree().create_timer(display_duration)
 	timer.timeout.connect(_hide_dialogue)
 
@@ -124,3 +145,29 @@ func _hide_dialogue() -> void:
 		return
 	_dialogue_label.visible = false
 	_is_talking = false
+
+
+# ========== ギフト処理 ==========
+
+## ギフトが未受取かどうかを返す
+func _has_unclaimed_gift() -> bool:
+	return not gift_items.is_empty() and not NpcManager.is_gift_claimed(npc_id)
+
+
+## ギフトアイテムをプレイヤーに付与し、受取済みフラグを立てる
+func _give_gift() -> void:
+	# 各アイテムをバッグに追加する
+	for item_id: StringName in gift_items:
+		InventoryManager.add_item(item_id)
+	# 受取済みフラグを永続化する
+	NpcManager.mark_gift_claimed(npc_id)
+	# 頭上の「!」を非表示にする
+	_update_alert_visibility()
+	# ギフト用セリフを表示する（_hide_dialogue のタイマーで _is_talking が解除される）
+	_show_dialogue_text(gift_dialogue)
+	Log.info("Npc: %s がギフトを付与 (%s)" % [npc_name, str(gift_items)])
+
+
+## ギフト未受取なら「!」を表示、受取済みなら非表示にする
+func _update_alert_visibility() -> void:
+	_alert_label.visible = _has_unclaimed_gift()

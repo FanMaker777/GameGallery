@@ -28,6 +28,7 @@ BeehaveGlobalDebugger="*res://addons/beehave/debug/global_debugger.gd"
 AchievementManager="*res://root/scenes/game_scene/achievement_master/autoload/achievement_manager/achievement_manager.tscn"
 RewardManager="*res://root/scenes/game_scene/achievement_master/autoload/reward_manager/reward_manager.tscn"
 InventoryManager="*res://root/scenes/game_scene/achievement_master/autoload/inventory_manager/inventory_manager.tscn"
+NpcManager="*res://root/scenes/game_scene/achievement_master/autoload/npc_manager/npc_manager.tscn"
 
 [dialogic]
 

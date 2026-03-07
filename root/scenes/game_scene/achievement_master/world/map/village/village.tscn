@@ -91,6 +91,8 @@ position = Vector2(296, 23)
 npc_id = &"npc_lancer"
 npc_name = "槍兵"
 dialogues = Array[String](["草原の魔物は手強いぞ。油断するなよ。", "槍は間合いが命だ。近すぎても遠すぎてもダメだ。", "村を守るのが俺の仕事だ。お前は外の脅威を頼む。"])
+gift_items = Array[StringName]([&"iron_sword", &"leather_armor", &"swift_ring"])
+gift_dialogue = "これを使え。鉄の剣、革の鎧、疾風の指輪だ。メニューのインベントリタブから装備するんだぞ。"
 
 [node name="Resource" type="Node2D" parent="."]
 
