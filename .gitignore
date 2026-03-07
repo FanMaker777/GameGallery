@@ -5,3 +5,4 @@
 tools/mcp/godot-mcp
 /.claude/tools/mcp
 doc/tasks/*.md
+/doc/tasks
