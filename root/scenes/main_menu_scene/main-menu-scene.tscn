@@ -181,7 +181,7 @@ layout_mode = 2
 title = "Achievement Master"
 genre = "RPG"
 description = "目指せ！実績マスター！"
-game_scene_path = "uid://ce3q56t7icpyb"
+game_scene_path = "res://root/scenes/game_scene/achievement_master/ui/save_select/save_select.tscn"
 
 [node name="GameCard4" parent="SelectGameMenu/VBoxContainer/CardMarginContainer/ScrollContainer/HBoxContainer" instance=ExtResource("3_xwt4j")]
 custom_minimum_size = Vector2(400, 0)
