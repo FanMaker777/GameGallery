@@ -1,8 +1,8 @@
-## 報酬ノード1件の定義データ（Inspector 編集可能な Custom Resource）
-class_name RewardDefinition
+## スキルノード1件の定義データ（Inspector 編集可能な Custom Resource）
+class_name SkillDefinition
 extends Resource
 
-## 報酬カテゴリ
+## スキルカテゴリ
 enum Category { GLOBAL_QOL, COMBAT, FARMING, EXPLORATION }
 
 ## 効果の種類
@@ -27,7 +27,7 @@ enum EffectType {
 	SHOP_DISCOUNT,        ## 店割引 N%
 }
 
-## 報酬の一意識別子
+## スキルの一意識別子
 @export var id: StringName = &""
 ## 表示名（日本語）
 @export var name_ja: String = ""

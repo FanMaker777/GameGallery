@@ -1,7 +1,7 @@
-[gd_resource type="Resource" script_class="RewardDatabase" load_steps=19 format=3 uid="uid://dc7scokcg13w4"]
+[gd_resource type="Resource" script_class="SkillDatabase" load_steps=19 format=3 uid="uid://dc7scokcg13w4"]
 
-[ext_resource type="Script" uid="uid://ba87g737rn4nw" path="res://root/scenes/game_scene/achievement_master/data/reward_database.gd" id="1"]
-[ext_resource type="Script" uid="uid://dlqbyq51mcfak" path="res://root/scenes/game_scene/achievement_master/data/reward_definition.gd" id="2"]
+[ext_resource type="Script" uid="uid://ba87g737rn4nw" path="res://root/scenes/game_scene/achievement_master/data/skill_database.gd" id="1"]
+[ext_resource type="Script" uid="uid://dlqbyq51mcfak" path="res://root/scenes/game_scene/achievement_master/data/skill_definition.gd" id="2"]
 
 [sub_resource type="Resource" id="qol_01"]
 script = ExtResource("2")
@@ -166,4 +166,4 @@ effect_value = 10.0
 
 [resource]
 script = ExtResource("1")
-rewards = Array[ExtResource("2")]([SubResource("qol_01"), SubResource("qol_02"), SubResource("combat_01"), SubResource("combat_02"), SubResource("combat_03"), SubResource("combat_04"), SubResource("combat_05"), SubResource("combat_06"), SubResource("combat_07"), SubResource("farm_01"), SubResource("farm_02"), SubResource("farm_03"), SubResource("explore_01"), SubResource("explore_02"), SubResource("explore_03"), SubResource("explore_04")])
+skills = Array[ExtResource("2")]([SubResource("qol_01"), SubResource("qol_02"), SubResource("combat_01"), SubResource("combat_02"), SubResource("combat_03"), SubResource("combat_04"), SubResource("combat_05"), SubResource("combat_06"), SubResource("combat_07"), SubResource("farm_01"), SubResource("farm_02"), SubResource("farm_03"), SubResource("explore_01"), SubResource("explore_02"), SubResource("explore_03"), SubResource("explore_04")])

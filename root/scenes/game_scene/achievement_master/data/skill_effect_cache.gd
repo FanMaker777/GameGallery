@@ -1,6 +1,6 @@
-## 解放済み報酬の効果累積値を保持するキャッシュ
-## RewardManager が報酬解放・ロード時に更新し、各システムが参照する
-class_name RewardEffectCache
+## 解放済みスキルの効果累積値を保持するキャッシュ
+## SkillManager がスキル解放・ロード時に更新し、各システムが参照する
+class_name SkillEffectCache
 extends Resource
 
 # ---- 戦闘系 ----
@@ -58,34 +58,34 @@ func reset() -> void:
 	fast_travel_enabled = false
 
 
-## 報酬定義の効果をキャッシュに加算する
-func apply_effect(def: RewardDefinition) -> void:
+## スキル定義の効果をキャッシュに加算する
+func apply_effect(def: SkillDefinition) -> void:
 	match def.effect_type:
-		RewardDefinition.EffectType.HP_PERCENT_UP:
+		SkillDefinition.EffectType.HP_PERCENT_UP:
 			hp_percent_up += def.effect_value
-		RewardDefinition.EffectType.ATTACK_PERCENT_UP:
+		SkillDefinition.EffectType.ATTACK_PERCENT_UP:
 			attack_percent_up += def.effect_value
-		RewardDefinition.EffectType.RESPAWN_TIME_DOWN:
+		SkillDefinition.EffectType.RESPAWN_TIME_DOWN:
 			respawn_time_down += def.effect_value
-		RewardDefinition.EffectType.STAMINA_MAX_UP:
+		SkillDefinition.EffectType.STAMINA_MAX_UP:
 			stamina_max_up += def.effect_value
-		RewardDefinition.EffectType.STAMINA_RECOVERY_UP:
+		SkillDefinition.EffectType.STAMINA_RECOVERY_UP:
 			stamina_recovery_up += def.effect_value
-		RewardDefinition.EffectType.HARVEST_BONUS:
+		SkillDefinition.EffectType.HARVEST_BONUS:
 			harvest_bonus += def.effect_value
-		RewardDefinition.EffectType.GATHER_SPEED_UP:
+		SkillDefinition.EffectType.GATHER_SPEED_UP:
 			gather_speed_up += def.effect_value
-		RewardDefinition.EffectType.MOVE_SPEED_UP:
+		SkillDefinition.EffectType.MOVE_SPEED_UP:
 			move_speed_up += def.effect_value
-		RewardDefinition.EffectType.SHOP_DISCOUNT:
+		SkillDefinition.EffectType.SHOP_DISCOUNT:
 			shop_discount += def.effect_value
-		RewardDefinition.EffectType.AUTO_COLLECT:
+		SkillDefinition.EffectType.AUTO_COLLECT:
 			auto_collect_multiplier += def.effect_value
-		RewardDefinition.EffectType.PIN_SLOT_PLUS_1:
+		SkillDefinition.EffectType.PIN_SLOT_PLUS_1:
 			pin_slot_bonus += int(def.effect_value)
-		RewardDefinition.EffectType.DIVERSITY_BONUS:
+		SkillDefinition.EffectType.DIVERSITY_BONUS:
 			diversity_bonus_enabled = true
-		RewardDefinition.EffectType.MINIMAP:
+		SkillDefinition.EffectType.MINIMAP:
 			minimap_enabled = true
-		RewardDefinition.EffectType.FAST_TRAVEL:
+		SkillDefinition.EffectType.FAST_TRAVEL:
 			fast_travel_enabled = true

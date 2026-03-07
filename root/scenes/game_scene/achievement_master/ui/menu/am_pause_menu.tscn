@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://b0c0jkfed2pwo" path="res://root/scenes/game_scene/achievement_master/ui/menu/am_pause_menu.gd" id="2_script"]
 [ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/ui/menu/achievement_tab/achievement_tab.tscn" id="3_achievement_tab"]
 [ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/ui/menu/achievement_tab/record_tab.tscn" id="4_record_tab"]
-[ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/ui/menu/achievement_tab/reward_tab.tscn" id="5_reward_tab"]
+[ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/ui/menu/achievement_tab/skill_tab.tscn" id="5_skill_tab"]
 [ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/ui/menu/equipment_tab/equipment_tab.tscn" id="6_equipment_tab"]
 [ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/ui/menu/save_tab/save_tab.tscn" id="7_save_tab"]
 
@@ -87,17 +87,10 @@ text = "開発中"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Skill" type="MarginContainer" parent="MenuContent/MenuPanel/MarginContainer/VBoxContainer/TabContainer"]
+[node name="Skill" parent="MenuContent/MenuPanel/MarginContainer/VBoxContainer/TabContainer" instance=ExtResource("5_skill_tab")]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 2
-
-[node name="Label" type="Label" parent="MenuContent/MenuPanel/MarginContainer/VBoxContainer/TabContainer/Skill"]
-layout_mode = 2
-size_flags_horizontal = 4
-text = "開発中"
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="Achievement" parent="MenuContent/MenuPanel/MarginContainer/VBoxContainer/TabContainer" instance=ExtResource("3_achievement_tab")]
 visible = false
@@ -109,12 +102,7 @@ visible = false
 layout_mode = 2
 metadata/_tab_index = 4
 
-[node name="Reward" parent="MenuContent/MenuPanel/MarginContainer/VBoxContainer/TabContainer" instance=ExtResource("5_reward_tab")]
-visible = false
-layout_mode = 2
-metadata/_tab_index = 5
-
 [node name="Save" parent="MenuContent/MenuPanel/MarginContainer/VBoxContainer/TabContainer" instance=ExtResource("7_save_tab")]
 visible = false
 layout_mode = 2
-metadata/_tab_index = 6
+metadata/_tab_index = 5

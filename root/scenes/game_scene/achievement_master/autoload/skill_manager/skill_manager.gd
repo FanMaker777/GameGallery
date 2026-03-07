@@ -1,27 +1,27 @@
-## 報酬ツリーの解放・効果適用を担当する Autoload
+## スキルツリーの解放・効果適用を担当する Autoload
 extends Node
 
 # ---- シグナル ----
-## 報酬が解放されたときに発火する
-signal reward_unlocked(id: StringName, definition: RewardDefinition)
+## スキルが解放されたときに発火する
+signal skill_unlocked(id: StringName, definition: SkillDefinition)
 ## 利用可能APが変化したときに発火する
 signal available_ap_changed(available_ap: int)
 
-# ---- 報酬データベース ----
-## preload した報酬定義リソース
-var _database: RewardDatabase = preload(
-	"res://root/scenes/game_scene/achievement_master/data/reward_database.tres"
+# ---- スキルデータベース ----
+## preload したスキル定義リソース
+var _database: SkillDatabase = preload(
+	"res://root/scenes/game_scene/achievement_master/data/skill_database.tres"
 )
-## { id: RewardDefinition } の高速引きマップ
+## { id: SkillDefinition } の高速引きマップ
 var _def_map: Dictionary = {}
 
-# ---- 報酬状態 ----
-## 解放済み報酬IDの配列
+# ---- スキル状態 ----
+## 解放済みスキルIDの配列
 var _unlocked_ids: Array[StringName] = []
 ## 消費済みAP
 var _spent_ap: int = 0
 ## 効果累積値キャッシュ（解放時に更新、各システムが参照する）
-var _effect_cache: RewardEffectCache = RewardEffectCache.new()
+var _effect_cache: SkillEffectCache = SkillEffectCache.new()
 
 
 # ========== ライフサイクル ==========
@@ -29,9 +29,9 @@ var _effect_cache: RewardEffectCache = RewardEffectCache.new()
 ## 初期化 — 定義マップ構築・効果キャッシュ再構築
 func _ready() -> void:
 	# データベースの高速引きマップを構築する
-	for def: RewardDefinition in _database.rewards:
+	for def: SkillDefinition in _database.skills:
 		_def_map[def.id] = def
-	Log.info("RewardManager: 初期化完了 (%d件の報酬定義, 解放済み=%d, 消費AP=%d)" % [
+	Log.info("SkillManager: 初期化完了 (%d件のスキル定義, 解放済み=%d, 消費AP=%d)" % [
 		_def_map.size(), _unlocked_ids.size(), _spent_ap
 	])
 
@@ -48,21 +48,21 @@ func get_spent_ap() -> int:
 	return _spent_ap
 
 
-## 報酬ノードを解放する（AP消費 + 前提チェック + 効果適用 + セーブ）
-func unlock_reward(id: StringName) -> bool:
+## スキルノードを解放する（AP消費 + 前提チェック + 効果適用 + セーブ）
+func unlock_skill(id: StringName) -> bool:
 	if not can_unlock(id):
 		return false
-	var def: RewardDefinition = _def_map[id]
+	var def: SkillDefinition = _def_map[id]
 	# AP を消費する
 	_spent_ap += def.ap_cost
 	_unlocked_ids.append(id)
-	Log.info("RewardManager: 報酬解放 [%s] %s (AP消費=%d, 残AP=%d)" % [
+	Log.info("SkillManager: スキル解放 [%s] %s (AP消費=%d, 残AP=%d)" % [
 		id, def.name_ja, def.ap_cost, get_available_ap()
 	])
 	# 効果キャッシュに差分を加算する
 	_effect_cache.apply_effect(def)
 	# シグナル発火
-	reward_unlocked.emit(id, def)
+	skill_unlocked.emit(id, def)
 	available_ap_changed.emit(get_available_ap())
 	return true
 
@@ -73,7 +73,7 @@ func can_unlock(id: StringName) -> bool:
 		return false
 	if is_unlocked(id):
 		return false
-	var def: RewardDefinition = _def_map[id]
+	var def: SkillDefinition = _def_map[id]
 	# AP チェック
 	if get_available_ap() < def.ap_cost:
 		return false
@@ -90,22 +90,22 @@ func is_unlocked(id: StringName) -> bool:
 
 
 ## 効果キャッシュを返す（各システムが直接プロパティを参照する）
-func get_effect_cache() -> RewardEffectCache:
+func get_effect_cache() -> SkillEffectCache:
 	return _effect_cache
 
 
-## 全報酬定義を返す
-func get_all_definitions() -> Array[RewardDefinition]:
-	var result: Array[RewardDefinition] = []
-	for def: RewardDefinition in _database.rewards:
+## 全スキル定義を返す
+func get_all_definitions() -> Array[SkillDefinition]:
+	var result: Array[SkillDefinition] = []
+	for def: SkillDefinition in _database.skills:
 		result.append(def)
 	return result
 
 
-## カテゴリ別の報酬定義を返す
-func get_definitions_by_category(cat: RewardDefinition.Category) -> Array[RewardDefinition]:
-	var result: Array[RewardDefinition] = []
-	for def: RewardDefinition in _database.rewards:
+## カテゴリ別のスキル定義を返す
+func get_definitions_by_category(cat: SkillDefinition.Category) -> Array[SkillDefinition]:
+	var result: Array[SkillDefinition] = []
+	for def: SkillDefinition in _database.skills:
 		if def.category == cat:
 			result.append(def)
 	return result
@@ -116,30 +116,30 @@ func get_unlocked_ids() -> Array[StringName]:
 	return _unlocked_ids.duplicate()
 
 
-## 指定IDの報酬定義を返す（未定義の場合は null）
-func get_definition(id: StringName) -> RewardDefinition:
+## 指定IDのスキル定義を返す（未定義の場合は null）
+func get_definition(id: StringName) -> SkillDefinition:
 	return _def_map.get(id)
 
 
-## 全報酬状態をリセットする
-func reset_rewards() -> void:
+## 全スキル状態をリセットする
+func reset_skills() -> void:
 	_unlocked_ids = []
 	_spent_ap = 0
 	_effect_cache.reset()
 	available_ap_changed.emit(get_available_ap())
-	Log.info("RewardManager: 全報酬をリセットしました")
+	Log.info("SkillManager: 全スキルをリセットしました")
 
 
 # ========== 効果キャッシュ（内部） ==========
 
-## 解放済み報酬から効果キャッシュを全再構築する（ロード時に使用）
+## 解放済みスキルから効果キャッシュを全再構築する（ロード時に使用）
 func _rebuild_effect_cache() -> void:
 	_effect_cache.reset()
 	for id: StringName in _unlocked_ids:
-		var def: RewardDefinition = _def_map.get(id)
+		var def: SkillDefinition = _def_map.get(id)
 		if def != null:
 			_effect_cache.apply_effect(def)
-	Log.debug("RewardManager: 効果キャッシュ再構築完了 (HP+%.0f%%, ATK+%.0f%%, SPD+%.0f%%)" % [
+	Log.debug("SkillManager: 効果キャッシュ再構築完了 (HP+%.0f%%, ATK+%.0f%%, SPD+%.0f%%)" % [
 		_effect_cache.hp_percent_up, _effect_cache.attack_percent_up, _effect_cache.move_speed_up
 	])
 
@@ -168,6 +168,6 @@ func load_save_data(data: Dictionary) -> void:
 	_spent_ap = int(data.get("spent_ap", 0))
 	# 効果キャッシュを再構築する
 	_rebuild_effect_cache()
-	Log.info("RewardManager: ロード完了 (解放済み=%d, 消費AP=%d)" % [
+	Log.info("SkillManager: ロード完了 (解放済み=%d, 消費AP=%d)" % [
 		_unlocked_ids.size(), _spent_ap
 	])

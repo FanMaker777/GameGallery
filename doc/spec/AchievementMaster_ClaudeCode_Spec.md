@@ -167,7 +167,7 @@
 
 ### 7.2 Autoload（シングルトン）
 - `AchievementManager`：実績進捗、解除判定、通知イベント、セーブ/ロード（JSON）
-- `RewardManager`：報酬ツリー解放と効果適用
+- `SkillManager`：スキルツリー解放と効果適用
 - （任意）`AudioManager`
 
 ### 7.3 入力（InputMap）
@@ -241,7 +241,7 @@
   - 条件達成で解除される
   - 二重解除されない
   - ピン留めが最大数を超えない
-- `RewardManager`
+- `SkillManager`
   - ノード解放で効果が反映される
   - AP消費が正しい
 
@@ -254,7 +254,7 @@
 4) `AchievementManager`（データ定義 + 解除イベント）
 5) HUD（HP/プロンプト/トースト/ピン進捗）
 6) PauseMenu（4タブ）— 実績タブ優先
-7) `RewardManager`（報酬解放と効果適用）
+7) `SkillManager`（スキル解放と効果適用）
 8) セーブ/ロード
 9) バランス調整（解除頻度・通知・APコスト）
 10) GUTテスト追加/整備
@@ -311,7 +311,7 @@
 | 4 | AchievementManager（データ定義 + 解除イベント） | **実装済み** | Custom Resource + JSON セーブ |
 | 5 | HUD（HP/プロンプト/トースト/ピン進捗） | **ほぼ完了** | AchievementHud（HP/スタミナバー/リソース/AP表示）、トースト通知、ピン留め実績パネル実装済み |
 | 6 | PauseMenu（4タブ）— 実績タブ優先 | **一部完了** | 実績タブ（カテゴリ/ステータス/ランクフィルタ、ピン留め）、レコードタブ（統計表示、レコード・実績リセット機能）実装済み。装備/ステータス/スキルタブは未着手 |
-| 7 | RewardManager（報酬解放と効果適用） | **未着手** | |
+| 7 | SkillManager（スキル解放と効果適用） | **実装済み** | 旧 RewardManager をリネーム統合 |
 | 8 | セーブ/ロード | **未着手** | |
 | 9 | バランス調整 | **未着手** | |
 | 10 | GUTテスト追加/整備 | **一部完了** | unit 6ファイル + integration 2ファイル（計74テスト PASS） |
@@ -514,7 +514,7 @@ root/scenes/game_scene/achievement_master/
 | 機能 | 仕様セクション | 状態 |
 |---|---|---|
 | `AchievementManager` Autoload | 7.2 | **★実装済み** — Custom Resource 定義(50実績) + 進捗管理 + JSON セーブ/ロード |
-| `RewardManager` Autoload | 7.2 | 未着手 |
+| `SkillManager` Autoload | 7.2 | **★実装済み** — 旧 RewardManager をリネーム統合 |
 | 実績データ（AchievementDatabase.tres） | 4.2, 5 | **★実装済み** — 50実績定義（戦闘15/農業12/探索10/交流8/システム5） |
 | 報酬ツリーデータ | 6 | 未着手 |
 | APシステム | 4.1 | 未着手 |
@@ -653,7 +653,7 @@ root/scenes/game_scene/achievement_master/
 ```
 res://root/scenes/game_scene/achievement_master/autoload/
 ├── achievement_manager/achievement_manager.gd + .tscn
-├── reward_manager/reward_manager.gd
+├── skill_manager/skill_manager.gd
 └── save_manager/save_manager.gd
 ```
 

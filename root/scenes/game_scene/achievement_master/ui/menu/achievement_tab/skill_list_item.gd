@@ -1,10 +1,10 @@
-## 報酬リスト内の1行表示ノード
-## 報酬名・APコスト・解放状態を表示し、状態に応じて背景色を切り替える
-class_name RewardListItem extends PanelContainer
+## スキルリスト内の1行表示ノード
+## スキル名・APコスト・解放状態を表示し、状態に応じて背景色を切り替える
+class_name SkillListItem extends PanelContainer
 
 # ---- シグナル ----
 ## この項目が選択されたときに発火する
-signal item_selected(definition: RewardDefinition)
+signal item_selected(definition: SkillDefinition)
 
 # ---- 定数 ----
 ## 解放済みの背景色（緑系）
@@ -33,7 +33,7 @@ const STATUS_UNLOCKED: String = "✓"
 const STATUS_AVAILABLE: String = "解放可"
 
 # ---- ノードキャッシュ ----
-## 報酬名ラベル
+## スキル名ラベル
 @onready var _name_label: Label = %NameLabel
 ## APコストラベル
 @onready var _cost_label: Label = %CostLabel
@@ -41,8 +41,8 @@ const STATUS_AVAILABLE: String = "解放可"
 @onready var _status_label: Label = %StatusLabel
 
 # ---- 状態 ----
-## この行が保持する報酬定義
-var _definition: RewardDefinition = null
+## この行が保持するスキル定義
+var _definition: SkillDefinition = null
 ## 選択状態
 var _is_selected: bool = false
 ## 現在の状態別背景色（選択解除時に戻すため保持）
@@ -57,18 +57,18 @@ func _ready() -> void:
 	add_theme_stylebox_override("panel", _style_box)
 
 
-## 報酬定義からUIを構築する
-func setup(definition: RewardDefinition) -> void:
+## スキル定義からUIを構築する
+func setup(definition: SkillDefinition) -> void:
 	_definition = definition
-	# 報酬名の設定
+	# スキル名の設定
 	_name_label.text = definition.name_ja
 	# APコストの設定
 	_cost_label.text = "%dAP" % definition.ap_cost
 	# 状態判定と表示更新
-	if RewardManager.is_unlocked(definition.id):
+	if SkillManager.is_unlocked(definition.id):
 		# 解放済み（緑）
 		_apply_state(UNLOCKED_BG_COLOR, UNLOCKED_TEXT_COLOR, STATUS_UNLOCKED)
-	elif RewardManager.can_unlock(definition.id):
+	elif SkillManager.can_unlock(definition.id):
 		# 解放可能（青・目立つ）
 		_apply_state(AVAILABLE_BG_COLOR, AVAILABLE_TEXT_COLOR, STATUS_AVAILABLE)
 	else:
@@ -102,8 +102,8 @@ func set_selected(selected: bool) -> void:
 	_update_bg(SELECTED_BG_COLOR if selected else _state_bg_color)
 
 
-## この行が保持する報酬定義を返す
-func get_definition() -> RewardDefinition:
+## この行が保持するスキル定義を返す
+func get_definition() -> SkillDefinition:
 	return _definition
 
 

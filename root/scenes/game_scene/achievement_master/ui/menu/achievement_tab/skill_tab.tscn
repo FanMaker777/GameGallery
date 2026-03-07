@@ -1,8 +1,8 @@
 [gd_scene load_steps=2 format=3]
 
-[ext_resource type="Script" path="res://root/scenes/game_scene/achievement_master/ui/menu/achievement_tab/reward_tab.gd" id="1_script"]
+[ext_resource type="Script" path="res://root/scenes/game_scene/achievement_master/ui/menu/achievement_tab/skill_tab.gd" id="1_script"]
 
-[node name="RewardTab" type="MarginContainer"]
+[node name="SkillTab" type="MarginContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -68,7 +68,7 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
 theme_override_font_sizes/font_size = 12
-text = "報酬を選択してください"
+text = "スキルを選択してください"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -93,7 +93,7 @@ theme_override_constants/separation = 6
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
-text = "報酬名"
+text = "スキル名"
 
 [node name="DetailDescLabel" type="Label" parent="HBoxContainer/RightPanel/DetailContent/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true

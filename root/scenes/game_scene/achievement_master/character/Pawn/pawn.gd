@@ -485,11 +485,11 @@ func _process_combat_cooldown(delta: float) -> void:
 		_exit_combat()
 
 
-# ========== 報酬効果反映 ==========
+# ========== スキル効果反映 ==========
 
-## 報酬効果キャッシュを取得する
-func _get_effect_cache() -> RewardEffectCache:
-	return RewardManager.get_effect_cache()
+## スキル効果キャッシュを取得する
+func _get_effect_cache() -> SkillEffectCache:
+	return SkillManager.get_effect_cache()
 
 
 ## 装備ステータスキャッシュを取得する
@@ -497,57 +497,57 @@ func _get_equip_cache() -> EquipmentStatCache:
 	return InventoryManager.get_equip_cache()
 
 
-## 有効な最大HPを返す（基礎値 + 装備固定値 → 報酬%ボーナス）
+## 有効な最大HPを返す（基礎値 + 装備固定値 → スキル%ボーナス）
 func get_effective_max_hp() -> int:
 	var base: int = BASE_MAX_HP
 	# 装備の固定値を加算する
 	var ec: EquipmentStatCache = _get_equip_cache()
 	if ec != null:
 		base += ec.hp_flat
-	# 報酬の%ボーナスを乗算する
-	var rc: RewardEffectCache = _get_effect_cache()
+	# スキルの%ボーナスを乗算する
+	var rc: SkillEffectCache = _get_effect_cache()
 	if rc != null:
 		return int(base * (1.0 + rc.hp_percent_up / 100.0))
 	return base
 
 
-## 有効な攻撃力を返す（基礎値 + 装備固定値 → 報酬%ボーナス）
+## 有効な攻撃力を返す（基礎値 + 装備固定値 → スキル%ボーナス）
 func get_effective_attack() -> int:
 	var base: int = BASE_ATTACK_DAMAGE
 	# 装備の固定値を加算する
 	var ec: EquipmentStatCache = _get_equip_cache()
 	if ec != null:
 		base += ec.attack_flat
-	# 報酬の%ボーナスを乗算する
-	var rc: RewardEffectCache = _get_effect_cache()
+	# スキルの%ボーナスを乗算する
+	var rc: SkillEffectCache = _get_effect_cache()
 	if rc != null:
 		return int(base * (1.0 + rc.attack_percent_up / 100.0))
 	return base
 
 
-## 有効な移動速度を返す（基礎値 → 装備%ボーナス + 報酬%ボーナス）
+## 有効な移動速度を返す（基礎値 → 装備%ボーナス + スキル%ボーナス）
 func get_effective_speed() -> float:
 	var percent_bonus: float = 0.0
 	# 装備の%ボーナスを加算する
 	var ec: EquipmentStatCache = _get_equip_cache()
 	if ec != null:
 		percent_bonus += ec.speed_percent
-	# 報酬の%ボーナスを加算する
-	var rc: RewardEffectCache = _get_effect_cache()
+	# スキルの%ボーナスを加算する
+	var rc: SkillEffectCache = _get_effect_cache()
 	if rc != null:
 		percent_bonus += rc.move_speed_up
 	return BASE_SPEED * (1.0 + percent_bonus / 100.0)
 
 
-## 有効なスタミナ最大値を返す（基礎値 + 装備固定値 → 報酬%ボーナス）
+## 有効なスタミナ最大値を返す（基礎値 + 装備固定値 → スキル%ボーナス）
 func get_effective_max_stamina() -> float:
 	var base: float = max_stamina
 	# 装備の固定値を加算する
 	var ec: EquipmentStatCache = _get_equip_cache()
 	if ec != null:
 		base += ec.stamina_flat
-	# 報酬の%ボーナスを乗算する
-	var rc: RewardEffectCache = _get_effect_cache()
+	# スキルの%ボーナスを乗算する
+	var rc: SkillEffectCache = _get_effect_cache()
 	if rc != null:
 		return base * (1.0 + rc.stamina_max_up / 100.0)
 	return base
@@ -555,21 +555,21 @@ func get_effective_max_stamina() -> float:
 
 ## 有効なスタミナ回復速度を返す
 func get_effective_stamina_recovery() -> float:
-	var rc: RewardEffectCache = _get_effect_cache()
+	var rc: SkillEffectCache = _get_effect_cache()
 	if rc == null:
 		return stamina_recovery_rate
 	return stamina_recovery_rate * (1.0 + rc.stamina_recovery_up / 100.0)
 
 
-## 有効な採取速度倍率を返す（1.0=通常、装備%ボーナス + 報酬%ボーナス）
+## 有効な採取速度倍率を返す（1.0=通常、装備%ボーナス + スキル%ボーナス）
 func get_effective_gather_speed() -> float:
 	var percent_bonus: float = 0.0
 	# 装備の%ボーナスを加算する
 	var ec: EquipmentStatCache = _get_equip_cache()
 	if ec != null:
 		percent_bonus += ec.gather_percent
-	# 報酬の%ボーナスを加算する
-	var rc: RewardEffectCache = _get_effect_cache()
+	# スキルの%ボーナスを加算する
+	var rc: SkillEffectCache = _get_effect_cache()
 	if rc != null:
 		percent_bonus += rc.gather_speed_up
 	return 1.0 + percent_bonus / 100.0

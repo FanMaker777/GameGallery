@@ -126,7 +126,7 @@ func is_slot_used(slot: int) -> bool:
 ## 全マネージャーを初期状態にリセットする（ニューゲーム用）
 func reset_all_managers() -> void:
 	AchievementManager.reset_records()
-	RewardManager.reset_rewards()
+	SkillManager.reset_skills()
 	InventoryManager.reset_inventory()
 	NpcManager.reset()
 	Log.info("SaveManager: 全マネージャーをリセット")
@@ -161,7 +161,7 @@ func _collect_save_data() -> Dictionary:
 		"meta": meta,
 		"achievement": AchievementManager.get_save_data(),
 		"record": AchievementManager.get_record_save_data(),
-		"reward": RewardManager.get_save_data(),
+		"skill": SkillManager.get_save_data(),
 		"inventory": InventoryManager.get_save_data(),
 		"npc": NpcManager.get_save_data(),
 		"player": player_data,
@@ -174,8 +174,9 @@ func _distribute_save_data(data: Dictionary) -> void:
 		AchievementManager.load_save_data(data["achievement"])
 	if data.has("record"):
 		AchievementManager.load_record_save_data(data["record"])
-	if data.has("reward"):
-		RewardManager.load_save_data(data["reward"])
+	var _skill_key: String = "skill" if data.has("skill") else "reward"
+	if data.has(_skill_key):
+		SkillManager.load_save_data(data[_skill_key])
 	if data.has("inventory"):
 		InventoryManager.load_save_data(data["inventory"])
 	if data.has("npc"):

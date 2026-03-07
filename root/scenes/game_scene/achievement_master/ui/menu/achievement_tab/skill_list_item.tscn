@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3]
 
-[ext_resource type="Script" path="res://root/scenes/game_scene/achievement_master/ui/menu/achievement_tab/reward_list_item.gd" id="1_script"]
+[ext_resource type="Script" path="res://root/scenes/game_scene/achievement_master/ui/menu/achievement_tab/skill_list_item.gd" id="1_script"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_normal"]
 bg_color = Color(0.15, 0.15, 0.15, 0.5)
@@ -13,7 +13,7 @@ content_margin_top = 4.0
 content_margin_right = 6.0
 content_margin_bottom = 4.0
 
-[node name="RewardListItem" type="PanelContainer"]
+[node name="SkillListItem" type="PanelContainer"]
 custom_minimum_size = Vector2(0, 32)
 theme_override_styles/panel = SubResource("StyleBoxFlat_normal")
 script = ExtResource("1_script")

@@ -26,7 +26,7 @@ Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
 BeehaveGlobalMetrics="*res://addons/beehave/metrics/beehave_global_metrics.gd"
 BeehaveGlobalDebugger="*res://addons/beehave/debug/global_debugger.gd"
 AchievementManager="*res://root/scenes/game_scene/achievement_master/autoload/achievement_manager/achievement_manager.tscn"
-RewardManager="*res://root/scenes/game_scene/achievement_master/autoload/reward_manager/reward_manager.tscn"
+SkillManager="*res://root/scenes/game_scene/achievement_master/autoload/skill_manager/skill_manager.tscn"
 InventoryManager="*res://root/scenes/game_scene/achievement_master/autoload/inventory_manager/inventory_manager.tscn"
 NpcManager="*res://root/scenes/game_scene/achievement_master/autoload/npc_manager/npc_manager.tscn"
 SaveManager="*res://root/scenes/game_scene/achievement_master/autoload/save_manager/save_manager.tscn"
@@ -34,7 +34,6 @@ SaveManager="*res://root/scenes/game_scene/achievement_master/autoload/save_mana
 [dialogic]
 
 directories/dch_directory={
-"dialogic_resource/sophia": "res://root/scenes/game_scene/introduce_godot/dialogic_resource/sophia.dch",
 "sophia": "res://root/scenes/game_scene/introduce_godot/dialogic_resource/sophia.dch"
 }
 directories/dtl_directory={
