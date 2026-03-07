@@ -10,6 +10,8 @@ class_name SaveTab extends MarginContainer
 enum _PendingAction { NONE, SAVE, LOAD, DELETE }
 var _pending_action: _PendingAction = _PendingAction.NONE
 var _pending_slot: int = -1
+## スロットごとのノードキャッシュ [{detail_label, load_btn, delete_btn}]
+var _slot_cache: Array[Dictionary] = []
 
 
 func _ready() -> void:
@@ -106,18 +108,24 @@ func _create_slot_panel(slot: int) -> PanelContainer:
 	delete_btn.pressed.connect(_on_delete_pressed.bind(slot))
 	button_hbox.add_child(delete_btn)
 
+	_slot_cache.append({
+		"detail_label": detail_label,
+		"load_btn": load_btn,
+		"delete_btn": delete_btn,
+	})
 	return panel
 
 
 ## スロットパネルの表示を更新する
 @warning_ignore("integer_division")
-func _refresh_slot_panel(panel: Node, slot: int) -> void:
-	var detail_label: Label = panel.find_child("DetailLabel", true, false)
-	var load_btn: Button = panel.find_child("LoadButton", true, false)
-	var delete_btn: Button = panel.find_child("DeleteButton", true, false)
+func _refresh_slot_panel(_panel: Node, slot: int) -> void:
+	var cache: Dictionary = _slot_cache[slot]
+	var detail_label: Label = cache["detail_label"]
+	var load_btn: Button = cache["load_btn"]
+	var delete_btn: Button = cache["delete_btn"]
 
-	if SaveManager.is_slot_used(slot):
-		var meta: Dictionary = SaveManager.get_slot_info(slot)
+	var meta: Dictionary = SaveManager.get_slot_info(slot)
+	if not meta.is_empty():
 		var timestamp: String = meta.get("timestamp", "")
 		var map_name: String = meta.get("map_name", "")
 		var play_time: float = float(meta.get("play_time_seconds", 0.0))
