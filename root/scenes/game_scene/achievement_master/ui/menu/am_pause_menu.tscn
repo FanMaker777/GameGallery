@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bcs6yx15qgf2b"]
+[gd_scene load_steps=9 format=3 uid="uid://bcs6yx15qgf2b"]
 
 [ext_resource type="Shader" uid="uid://dp1hn66gsihpv" path="res://root/autoload/game_manager/pause_screen/resorce/blur.gdshader" id="1_blur"]
 [ext_resource type="Script" uid="uid://b0c0jkfed2pwo" path="res://root/scenes/game_scene/achievement_master/ui/menu/am_pause_menu.gd" id="2_script"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/ui/menu/achievement_tab/record_tab.tscn" id="4_record_tab"]
 [ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/ui/menu/achievement_tab/reward_tab.tscn" id="5_reward_tab"]
 [ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/ui/menu/equipment_tab/equipment_tab.tscn" id="6_equipment_tab"]
+[ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/ui/menu/save_tab/save_tab.tscn" id="7_save_tab"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_menu"]
 shader = ExtResource("1_blur")
@@ -112,3 +113,8 @@ metadata/_tab_index = 4
 visible = false
 layout_mode = 2
 metadata/_tab_index = 5
+
+[node name="Save" parent="MenuContent/MenuPanel/MarginContainer/VBoxContainer/TabContainer" instance=ExtResource("7_save_tab")]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 6

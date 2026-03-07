@@ -2,9 +2,6 @@
 ## 実績の状態（解除/ピン留め）は持たない — 生データのみを管理する
 class_name RecordDatabase extends Resource
 
-## セーブファイルのパス
-const SAVE_PATH: String = "user://achievement_master_records.tres"
-
 ## ---- 戦闘 ----
 @export var enemy_killed: int = 0                    ## 敵討伐数
 @export var enemy_killed_by_type: Dictionary = {}    ## 敵種別ごとの討伐数 {String: int}
@@ -209,30 +206,63 @@ func reset_all() -> void:
 	streak_harvest_no_attack = 0
 	streak_map_no_damage = 0
 	streak_npc_no_kill = 0
-	# 保存
-	save_to_file()
 	Log.info("RecordDatabase: 全レコードをリセットしました")
 
 
-# ========== 永続化 ==========
+# ========== セーブ/ロード（SaveManager から呼ばれる） ==========
 
-## ファイルに保存する
-func save_to_file() -> void:
-	var err: Error = ResourceSaver.save(self, SAVE_PATH)
-	if err != OK:
-		Log.warn("RecordDatabase: セーブ失敗 — %s" % error_string(err))
-	else:
-		Log.debug("RecordDatabase: セーブ完了")
+## 全 @export フィールドの値を Dictionary で返す
+func get_save_data() -> Dictionary:
+	return {
+		"enemy_killed": enemy_killed,
+		"enemy_killed_by_type": enemy_killed_by_type.duplicate(),
+		"attack_landed": attack_landed,
+		"attack_started": attack_started,
+		"player_damaged": player_damaged,
+		"player_died": player_died,
+		"resource_harvested": resource_harvested,
+		"resource_harvested_wood": resource_harvested_wood,
+		"resource_harvested_gold": resource_harvested_gold,
+		"resource_harvested_meat": resource_harvested_meat,
+		"map_entered": map_entered,
+		"unique_maps_entered": unique_maps_entered.duplicate(),
+		"distance_walked": distance_walked,
+		"npc_talked": npc_talked,
+		"unique_npcs_talked": unique_npcs_talked.duplicate(),
+		"achievement_unlocked": achievement_unlocked,
+		"ap_earned": ap_earned,
+		"play_time_seconds": play_time_seconds,
+		"streak_enemy_killed_no_damage": streak_enemy_killed_no_damage,
+		"streak_enemy_killed_rapid": streak_enemy_killed_rapid,
+		"streak_harvest_no_attack": streak_harvest_no_attack,
+		"streak_map_no_damage": streak_map_no_damage,
+		"streak_npc_no_kill": streak_npc_no_kill,
+	}
 
 
-## ファイルから読み込む（存在しない場合は新規インスタンスを返す）
-static func load_from_file() -> RecordDatabase:
-	if ResourceLoader.exists(SAVE_PATH):
-		var res: Resource = ResourceLoader.load(SAVE_PATH)
-		if res is RecordDatabase:
-			Log.info("RecordDatabase: ロード完了")
-			return res as RecordDatabase
-		Log.warn("RecordDatabase: ロードしたリソースの型が不一致 — 新規作成")
-	else:
-		Log.info("RecordDatabase: セーブデータなし — 新規作成")
-	return RecordDatabase.new()
+## Dictionary から全フィールドを復元する
+func load_save_data(data: Dictionary) -> void:
+	enemy_killed = int(data.get("enemy_killed", 0))
+	enemy_killed_by_type = data.get("enemy_killed_by_type", {})
+	attack_landed = int(data.get("attack_landed", 0))
+	attack_started = int(data.get("attack_started", 0))
+	player_damaged = int(data.get("player_damaged", 0))
+	player_died = int(data.get("player_died", 0))
+	resource_harvested = int(data.get("resource_harvested", 0))
+	resource_harvested_wood = int(data.get("resource_harvested_wood", 0))
+	resource_harvested_gold = int(data.get("resource_harvested_gold", 0))
+	resource_harvested_meat = int(data.get("resource_harvested_meat", 0))
+	map_entered = int(data.get("map_entered", 0))
+	unique_maps_entered = Array(data.get("unique_maps_entered", []))
+	distance_walked = int(data.get("distance_walked", 0))
+	npc_talked = int(data.get("npc_talked", 0))
+	unique_npcs_talked = Array(data.get("unique_npcs_talked", []))
+	achievement_unlocked = int(data.get("achievement_unlocked", 0))
+	ap_earned = int(data.get("ap_earned", 0))
+	play_time_seconds = float(data.get("play_time_seconds", 0.0))
+	streak_enemy_killed_no_damage = int(data.get("streak_enemy_killed_no_damage", 0))
+	streak_enemy_killed_rapid = int(data.get("streak_enemy_killed_rapid", 0))
+	streak_harvest_no_attack = int(data.get("streak_harvest_no_attack", 0))
+	streak_map_no_damage = int(data.get("streak_map_no_damage", 0))
+	streak_npc_no_kill = int(data.get("streak_npc_no_kill", 0))
+	Log.info("RecordDatabase: ロード完了")

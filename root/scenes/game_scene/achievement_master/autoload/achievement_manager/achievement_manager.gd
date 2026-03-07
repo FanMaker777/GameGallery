@@ -34,10 +34,6 @@ var _distance_accumulator: float = 0.0
 var _previous_hp: int = -1
 ## プレイ時間の累積（1秒ごとに record）
 var _play_time_accumulator: float = 0.0
-## レコードDB定期セーブ用の累積時間
-var _record_save_accumulator: float = 0.0
-## レコードDB定期セーブ間隔（秒）
-const RECORD_SAVE_INTERVAL: float = 30.0
 
 
 # ========== ライフサイクル ==========
@@ -70,11 +66,6 @@ func _process(delta: float) -> void:
 	if _play_time_accumulator >= 1.0:
 		_play_time_accumulator -= 1.0
 		_tracker.add_play_time(1.0)
-	# レコードDBの定期セーブ
-	_record_save_accumulator += delta
-	if _record_save_accumulator >= RECORD_SAVE_INTERVAL:
-		_record_save_accumulator -= RECORD_SAVE_INTERVAL
-		_tracker.save_record_db()
 	# プレイヤーの歩行距離を追跡する
 	if _player != null and is_instance_valid(_player):
 		var current_pos: Vector2 = _player.global_position
@@ -176,6 +167,28 @@ func get_play_time_seconds() -> float:
 ## 全レコードをリセットする（RecordTab 用）
 func reset_records() -> void:
 	_tracker.reset_records()
+
+
+# ========== セーブ/ロード（SaveManager から呼ばれる） ==========
+
+## 実績状態を Dictionary で返す
+func get_save_data() -> Dictionary:
+	return _tracker.get_save_data()
+
+
+## Dictionary から実績状態を復元する
+func load_save_data(data: Dictionary) -> void:
+	_tracker.load_save_data(data)
+
+
+## レコード状態を Dictionary で返す
+func get_record_save_data() -> Dictionary:
+	return _tracker.get_record_save_data()
+
+
+## Dictionary からレコード状態を復元する
+func load_record_save_data(data: Dictionary) -> void:
+	_tracker.load_record_save_data(data)
 
 
 # ========== ノード自動接続（node_added コールバック） ==========

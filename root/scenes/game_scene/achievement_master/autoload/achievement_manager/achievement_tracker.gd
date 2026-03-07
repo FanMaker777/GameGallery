@@ -1,4 +1,4 @@
-## 実績の進捗管理・解除判定・ピン留め・セーブ/ロードを担当する
+## 実績の進捗管理・解除判定・ピン留めを担当する
 ## 進捗データは RecordDatabase から導出し、実績状態（解除/ピン留め）のみ自身で管理する
 class_name AchievementTracker extends Node
 
@@ -11,8 +11,6 @@ signal achievement_progress_updated(id: StringName, current: int, target: int)
 signal pinned_changed
 
 # ---- 定数 ----
-## セーブファイルのパス
-const SAVE_PATH: String = "user://achievement_master_progress.save"
 ## ピン留め可能な最大件数
 const MAX_PIN_COUNT: int = 3
 
@@ -39,12 +37,11 @@ var _pinned_ids: Array[StringName] = []
 
 # ========== 初期化 ==========
 
-## データベース構築とセーブデータ復元を行う（親ノードの _ready から呼ばれる）
+## データベース構築を行う（親ノードの _ready から呼ばれる）
 func initialize() -> void:
 	for def: AchievementDefinition in _database.achievements:
 		_def_map[def.id] = def
-	_record_db = RecordDatabase.load_from_file()
-	_load_progress()
+	_record_db = RecordDatabase.new()
 	Log.info("AchievementTracker: 初期化完了 (%d件の実績定義)" % _def_map.size())
 
 
@@ -74,8 +71,6 @@ func record_action(action: StringName, context: Dictionary = {}) -> void:
 		# 閾値到達チェック
 		if current >= def.target_count:
 			_unlock_achievement(def)
-	# 4. RecordDatabase をセーブ
-	_record_db.save_to_file()
 
 
 ## 指定実績の進捗情報を返す
@@ -147,7 +142,6 @@ func pin_achievement(id: StringName) -> void:
 	# ピン留めを追加する
 	_pinned_ids.append(id)
 	pinned_changed.emit()
-	_save_progress()
 	Log.info("AchievementTracker: ピン留め追加 [%s] (合計 %d 件)" % [id, _pinned_ids.size()])
 
 
@@ -159,7 +153,6 @@ func unpin_achievement(id: StringName) -> void:
 	# ピン留めを解除する
 	_pinned_ids.remove_at(idx)
 	pinned_changed.emit()
-	_save_progress()
 	Log.info("AchievementTracker: ピン留め解除 [%s] (合計 %d 件)" % [id, _pinned_ids.size()])
 
 
@@ -195,18 +188,12 @@ func add_play_time(seconds: float) -> void:
 	_record_db.add_play_time(seconds)
 
 
-## RecordDatabase を明示的にセーブする
-func save_record_db() -> void:
-	_record_db.save_to_file()
-
-
 ## 全レコードと実績状態をリセットする
 func reset_records() -> void:
 	_record_db.reset_all()
 	_unlocked = {}
 	_total_ap = 0
 	_pinned_ids = []
-	_save_progress()
 	pinned_changed.emit()
 	Log.info("AchievementTracker: 全レコード・実績をリセットしました")
 
@@ -243,46 +230,28 @@ func _unlock_achievement(def: AchievementDefinition) -> void:
 	# システム実績の自動進捗
 	record_action(&"achievement_unlocked")
 	record_action(&"ap_earned", {&"amount": def.ap})
-	# 自動セーブ
-	_save_progress()
 
 
-# ========== セーブ/ロード ==========
+# ========== セーブ/ロード（SaveManager から呼ばれる） ==========
 
-## 実績状態をJSONファイルに保存する（unlocked, total_ap, pinned_ids のみ）
-func _save_progress() -> void:
-	var data: Dictionary = {
-		"unlocked": _unlocked,
+## 実績状態を Dictionary で返す
+func get_save_data() -> Dictionary:
+	# unlocked の StringName キーを String に変換する
+	var unlocked_data: Dictionary = {}
+	for key: StringName in _unlocked:
+		unlocked_data[String(key)] = _unlocked[key]
+	var pinned_data: Array[String] = []
+	for id: StringName in _pinned_ids:
+		pinned_data.append(String(id))
+	return {
+		"unlocked": unlocked_data,
 		"total_ap": _total_ap,
-		"pinned_ids": _pinned_ids,
+		"pinned_ids": pinned_data,
 	}
-	var json_string: String = JSON.stringify(data, "\t")
-	var file: FileAccess = FileAccess.open(SAVE_PATH, FileAccess.WRITE)
-	if file == null:
-		Log.warn("AchievementTracker: セーブ失敗 — %s" % FileAccess.get_open_error())
-		return
-	file.store_string(json_string)
-	file.close()
-	Log.debug("AchievementTracker: セーブ完了")
 
 
-## JSONファイルから実績状態を復元する（unlocked, total_ap, pinned_ids のみ）
-func _load_progress() -> void:
-	if not FileAccess.file_exists(SAVE_PATH):
-		Log.info("AchievementTracker: セーブデータなし — 初回起動")
-		return
-	var file: FileAccess = FileAccess.open(SAVE_PATH, FileAccess.READ)
-	if file == null:
-		Log.warn("AchievementTracker: ロード失敗 — %s" % FileAccess.get_open_error())
-		return
-	var json_string: String = file.get_as_text()
-	file.close()
-	var json: JSON = JSON.new()
-	var error: Error = json.parse(json_string)
-	if error != OK:
-		Log.warn("AchievementTracker: JSONパース失敗 — %s" % json.get_error_message())
-		return
-	var data: Dictionary = json.data
+## Dictionary から実績状態を復元する
+func load_save_data(data: Dictionary) -> void:
 	# unlocked の復元（JSONのキーは文字列になるため StringName に変換）
 	_unlocked = {}
 	for key: String in data.get("unlocked", {}).keys():
@@ -294,6 +263,17 @@ func _load_progress() -> void:
 		var id: StringName = StringName(id_str)
 		if not _unlocked.has(id) and _def_map.has(id):
 			_pinned_ids.append(id)
+	pinned_changed.emit()
 	Log.info("AchievementTracker: ロード完了 (解除済み=%d, AP=%d, ピン留め=%d)" % [
 		_unlocked.size(), _total_ap, _pinned_ids.size()
 	])
+
+
+## RecordDatabase の状態を Dictionary で返す
+func get_record_save_data() -> Dictionary:
+	return _record_db.get_save_data()
+
+
+## Dictionary から RecordDatabase の状態を復元する
+func load_record_save_data(data: Dictionary) -> void:
+	_record_db.load_save_data(data)

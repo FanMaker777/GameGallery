@@ -1,4 +1,4 @@
-## インベントリの管理（バッグ・装備）・セーブ/ロードを担当する Autoload
+## インベントリの管理（バッグ・装備）を担当する Autoload
 extends Node
 
 # ---- シグナル ----
@@ -8,10 +8,6 @@ signal bag_changed(id: StringName, new_count: int)
 signal equipment_changed(slot: int)
 ## 消耗品が使用されたときに発火する（効果適用は Pawn 側で行う）
 signal item_used(id: StringName, definition: ItemDefinition)
-
-# ---- 定数 ----
-## セーブファイルのパス
-const SAVE_PATH: String = "user://achievement_master_inventory.save"
 
 # ---- アイテムデータベース ----
 ## preload したアイテム定義リソース
@@ -36,15 +32,11 @@ var _equip_cache: EquipmentStatCache = EquipmentStatCache.new()
 
 # ========== ライフサイクル ==========
 
-## 初期化 — 定義マップ構築・セーブ復元・装備キャッシュ再構築
+## 初期化 — 定義マップ構築
 func _ready() -> void:
 	# データベースの高速引きマップを構築する
 	for def: ItemDefinition in _database.items:
 		_def_map[def.id] = def
-	# セーブデータを復元する
-	_load()
-	# 装備キャッシュを再構築する
-	_rebuild_equip_cache()
 	Log.info("InventoryManager: 初期化完了 (%d件のアイテム定義, バッグ=%d種, 装備=%d)" % [
 		_def_map.size(), _bag.size(), _get_equipped_count()
 	])
@@ -56,7 +48,6 @@ func _ready() -> void:
 func add_item(id: StringName, count: int = 1) -> bool:
 	if not _add_item_internal(id, count):
 		return false
-	_save()
 	return true
 
 
@@ -64,7 +55,6 @@ func add_item(id: StringName, count: int = 1) -> bool:
 func remove_item(id: StringName, count: int = 1) -> bool:
 	if not _remove_item_internal(id, count):
 		return false
-	_save()
 	return true
 
 
@@ -145,7 +135,6 @@ func equip_item(id: StringName) -> bool:
 	_equipment[slot] = id
 	# 装備キャッシュを再構築する
 	_rebuild_equip_cache()
-	_save()
 	equipment_changed.emit(slot)
 	Log.info("InventoryManager: 装備 [%s] → %s" % [
 		EquipmentDefinition.EquipSlot.keys()[slot], id
@@ -162,7 +151,6 @@ func unequip_item(slot: EquipmentDefinition.EquipSlot) -> bool:
 	_unequip_to_bag(slot)
 	# 装備キャッシュを再構築する
 	_rebuild_equip_cache()
-	_save()
 	equipment_changed.emit(slot)
 	Log.info("InventoryManager: 装備解除 [%s]" % EquipmentDefinition.EquipSlot.keys()[slot])
 	return true
@@ -196,7 +184,6 @@ func use_item(id: StringName) -> bool:
 		return false
 	# バッグから1個消費する
 	_remove_item_internal(id)
-	_save()
 	# 効果適用は Pawn 側で行う（シグナルのみ発火）
 	item_used.emit(id, def as ConsumableDefinition)
 	Log.info("InventoryManager: 消耗品使用 — %s" % id)
@@ -227,7 +214,6 @@ func reset_inventory() -> void:
 		EquipmentDefinition.EquipSlot.ACCESSORY: &"",
 	}
 	_equip_cache.reset()
-	_save()
 	Log.info("InventoryManager: 全インベントリをリセットしました")
 
 
@@ -267,10 +253,10 @@ func _get_equipped_count() -> int:
 	return count
 
 
-# ========== セーブ/ロード ==========
+# ========== セーブ/ロード（SaveManager から呼ばれる） ==========
 
-## インベントリ状態をJSONファイルに保存する
-func _save() -> void:
+## 現在の状態を Dictionary で返す
+func get_save_data() -> Dictionary:
 	# バッグデータを変換する（StringName → String）
 	var bag_data: Dictionary = {}
 	for id: StringName in _bag:
@@ -279,37 +265,14 @@ func _save() -> void:
 	var equip_data: Dictionary = {}
 	for slot: EquipmentDefinition.EquipSlot in _equipment:
 		equip_data[str(int(slot))] = String(_equipment[slot])
-	var data: Dictionary = {
+	return {
 		"bag": bag_data,
 		"equipment": equip_data,
 	}
-	var json_string: String = JSON.stringify(data, "\t")
-	var file: FileAccess = FileAccess.open(SAVE_PATH, FileAccess.WRITE)
-	if file == null:
-		Log.warn("InventoryManager: セーブ失敗 — %s" % FileAccess.get_open_error())
-		return
-	file.store_string(json_string)
-	file.close()
-	Log.debug("InventoryManager: セーブ完了")
 
 
-## JSONファイルからインベントリ状態を復元する
-func _load() -> void:
-	if not FileAccess.file_exists(SAVE_PATH):
-		Log.info("InventoryManager: セーブデータなし — 初回起動")
-		return
-	var file: FileAccess = FileAccess.open(SAVE_PATH, FileAccess.READ)
-	if file == null:
-		Log.warn("InventoryManager: ロード失敗 — %s" % FileAccess.get_open_error())
-		return
-	var json_string: String = file.get_as_text()
-	file.close()
-	var json: JSON = JSON.new()
-	var error: Error = json.parse(json_string)
-	if error != OK:
-		Log.warn("InventoryManager: JSONパース失敗 — %s" % json.get_error_message())
-		return
-	var data: Dictionary = json.data
+## Dictionary から状態を復元する
+func load_save_data(data: Dictionary) -> void:
 	# バッグの復元（存在しないIDは除外する）
 	_bag = {}
 	var bag_data: Dictionary = data.get("bag", {})
@@ -318,14 +281,23 @@ func _load() -> void:
 		if _def_map.has(id):
 			_bag[id] = int(bag_data[id_str])
 	# 装備の復元（存在しないIDは除外する）
+	_equipment = {
+		EquipmentDefinition.EquipSlot.WEAPON: &"",
+		EquipmentDefinition.EquipSlot.ARMOR: &"",
+		EquipmentDefinition.EquipSlot.ACCESSORY: &"",
+	}
 	var equip_data: Dictionary = data.get("equipment", {})
 	for slot_str: String in equip_data:
 		var slot_int: int = int(slot_str)
 		var id: StringName = StringName(equip_data[slot_str])
 		if id != &"" and _def_map.has(id):
 			_equipment[slot_int] = id
-		else:
-			_equipment[slot_int] = &""
+	# 装備キャッシュを再構築する
+	_rebuild_equip_cache()
+	# UI 更新用シグナルを発火する
+	bag_changed.emit(&"", 0)
+	for slot: EquipmentDefinition.EquipSlot in _equipment:
+		equipment_changed.emit(slot)
 	Log.info("InventoryManager: ロード完了 (バッグ=%d種, 装備=%d)" % [
 		_bag.size(), _get_equipped_count()
 	])
