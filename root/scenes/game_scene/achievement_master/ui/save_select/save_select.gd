@@ -75,9 +75,18 @@ func _create_slot_panel(slot: int) -> PanelContainer:
 	load_btn.pressed.connect(_on_load_pressed.bind(slot))
 	hbox.add_child(load_btn)
 
+	# 削除ボタン
+	var delete_btn := Button.new()
+	delete_btn.name = "DeleteButton"
+	delete_btn.text = "削除"
+	delete_btn.custom_minimum_size = Vector2(60, 32)
+	delete_btn.pressed.connect(_on_delete_pressed.bind(slot))
+	hbox.add_child(delete_btn)
+
 	_slot_cache.append({
 		"detail_label": detail_label,
 		"load_btn": load_btn,
+		"delete_btn": delete_btn,
 	})
 	return panel
 
@@ -88,6 +97,7 @@ func _refresh_slot_panel(_panel: Node, slot: int) -> void:
 	var cache: Dictionary = _slot_cache[slot]
 	var detail_label: Label = cache["detail_label"]
 	var load_btn: Button = cache["load_btn"]
+	var delete_btn: Button = cache["delete_btn"]
 
 	var meta: Dictionary = SaveManager.get_slot_info(slot)
 	if not meta.is_empty():
@@ -99,15 +109,23 @@ func _refresh_slot_panel(_panel: Node, slot: int) -> void:
 		detail_label.text = "%s | %s | %d時間%d分" % [timestamp, map_name, hours, minutes]
 		detail_label.add_theme_color_override("font_color", Color(0.85, 0.85, 0.85))
 		load_btn.disabled = false
+		delete_btn.disabled = false
 	else:
 		detail_label.text = "-- 空きスロット --"
 		detail_label.add_theme_color_override("font_color", Color(0.6, 0.6, 0.6))
 		load_btn.disabled = true
+		delete_btn.disabled = true
 
 
 ## ロードボタン押下
 func _on_load_pressed(slot: int) -> void:
 	SaveManager.load_from_slot(slot)
+
+
+## 削除ボタン押下
+func _on_delete_pressed(slot: int) -> void:
+	SaveManager.delete_slot(slot)
+	_refresh()
 
 
 ## ニューゲームボタン押下
