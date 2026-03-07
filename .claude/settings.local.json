@@ -17,7 +17,15 @@
       "mcp__godot__update_project_uids",
       "Bash(xargs grep:*)",
       "Bash(cd:*)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(while read f)",
+      "Bash(do echo \"=== $f ===\")",
+      "Read(//d/MyWork/GameDevelopment/Godot/Godot_v4.5.1/projects/GameGallery/**)",
+      "Bash(done)",
+      "Bash(find:*)",
+      "Bash(grep:*)",
+      "Bash(cut -d'|' -f1)",
+      "mcp__godot__save_scene"
     ]
   },
   "enableAllProjectMcpServers": true,
