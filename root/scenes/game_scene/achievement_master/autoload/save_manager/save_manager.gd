@@ -17,16 +17,6 @@ const SLOT_COUNT: int = 4
 const AUTO_SAVE_INTERVAL: float = 30.0
 ## セーブデータバージョン
 const SAVE_VERSION: int = 1
-## 旧セーブファイルパス（マイグレーション用）
-const _LEGACY_PATHS: PackedStringArray = [
-	"user://achievement_master_progress.save",
-	"user://achievement_master_records.tres",
-	"user://achievement_master_rewards.save",
-	"user://achievement_master_inventory.save",
-	"user://achievement_master_npc.save",
-]
-## マイグレーション完了フラグファイル
-const _MIGRATION_FLAG: String = "user://save_migrated.flag"
 
 # ---- 状態 ----
 ## オートセーブタイマー
@@ -38,8 +28,6 @@ var _is_loading: bool = false
 # ========== ライフサイクル ==========
 
 func _ready() -> void:
-	# マイグレーションを実行する（旧セーブファイルが存在する場合のみ）
-	_migrate_legacy_saves()
 	# オートセーブスロットからデータを復元する
 	_load_auto_save()
 	Log.info("SaveManager: 初期化完了")
@@ -277,77 +265,3 @@ func _load_auto_save() -> void:
 	# マネージャーにデータを配布する（シーン遷移は行わない）
 	_distribute_save_data(data)
 	Log.info("SaveManager: オートセーブから復元完了")
-
-
-# ========== マイグレーション ==========
-
-## 旧セーブファイルから統合セーブに変換する（初回のみ）
-func _migrate_legacy_saves() -> void:
-	# 既にマイグレーション済みならスキップ
-	if FileAccess.file_exists(_MIGRATION_FLAG):
-		return
-	# 旧ファイルが1つでも存在するかチェック
-	var has_legacy: bool = false
-	for path: String in _LEGACY_PATHS:
-		if FileAccess.file_exists(path):
-			has_legacy = true
-			break
-	if not has_legacy:
-		# 旧ファイルなし — フラグだけ作成して終了
-		_write_migration_flag()
-		return
-	Log.info("SaveManager: 旧セーブファイルのマイグレーションを開始")
-	# 各旧ファイルから個別にデータを読み込む
-	var achievement_data: Dictionary = _read_save_file(_LEGACY_PATHS[0])
-	var record_data: Dictionary = _read_legacy_record(_LEGACY_PATHS[1])
-	var reward_data: Dictionary = _read_save_file(_LEGACY_PATHS[2])
-	var inventory_data: Dictionary = _read_save_file(_LEGACY_PATHS[3])
-	var npc_data: Dictionary = _read_save_file(_LEGACY_PATHS[4])
-	# 統合データを構築する
-	var meta: Dictionary = {
-		"timestamp": Time.get_datetime_string_from_system(),
-		"map_name": "migrated",
-		"play_time_seconds": record_data.get("play_time_seconds", 0.0),
-		"version": SAVE_VERSION,
-	}
-	var unified: Dictionary = {
-		"meta": meta,
-		"achievement": achievement_data,
-		"record": record_data,
-		"reward": reward_data,
-		"inventory": inventory_data,
-		"npc": npc_data,
-		"player": {},
-	}
-	# オートセーブスロットに保存する
-	var json_string: String = JSON.stringify(unified, "\t")
-	var file: FileAccess = FileAccess.open(SAVE_BASE_PATH % 0, FileAccess.WRITE)
-	if file != null:
-		file.store_string(json_string)
-		file.close()
-		Log.info("SaveManager: マイグレーション完了 — オートセーブスロットに保存")
-	# 旧ファイルを .bak にリネームする
-	var dir: DirAccess = DirAccess.open("user://")
-	if dir != null:
-		for path: String in _LEGACY_PATHS:
-			if FileAccess.file_exists(path):
-				dir.rename(path, path + ".bak")
-	_write_migration_flag()
-
-
-## 旧 RecordDatabase (.tres) ファイルを読み込んで Dictionary に変換する
-func _read_legacy_record(path: String) -> Dictionary:
-	if not ResourceLoader.exists(path):
-		return {}
-	var res: Resource = ResourceLoader.load(path)
-	if res is RecordDatabase:
-		return (res as RecordDatabase).get_save_data()
-	return {}
-
-
-## マイグレーション完了フラグを書き込む
-func _write_migration_flag() -> void:
-	var file: FileAccess = FileAccess.open(_MIGRATION_FLAG, FileAccess.WRITE)
-	if file != null:
-		file.store_string("migrated")
-		file.close()
