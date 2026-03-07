@@ -1,0 +1,342 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://root/scenes/game_scene/achievement_master/ui/menu/status_tab/status_tab.gd" id="1_script"]
+
+[node name="StatusTab" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+script = ExtResource("1_script")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="VBox" type="VBoxContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+[node name="HeaderCombat" type="Label" parent="ScrollContainer/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.84, 0, 0.8)
+theme_override_font_sizes/font_size = 13
+text = "戦闘"
+
+[node name="SepCombat" type="HSeparator" parent="ScrollContainer/VBox"]
+layout_mode = 2
+
+[node name="RowMaxHp" type="HBoxContainer" parent="ScrollContainer/VBox"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/VBox/RowMaxHp"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 12
+text = "最大HP"
+
+[node name="MaxHpValue" type="Label" parent="ScrollContainer/VBox/RowMaxHp"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+size_flags_horizontal = 10
+custom_minimum_size = Vector2(60, 0)
+horizontal_alignment = 2
+
+[node name="MaxHpDetail" type="Label" parent="ScrollContainer/VBox/RowMaxHp"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.55, 0.55, 0.55, 1)
+theme_override_font_sizes/font_size = 11
+
+[node name="RowAttack" type="HBoxContainer" parent="ScrollContainer/VBox"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/VBox/RowAttack"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 12
+text = "攻撃力"
+
+[node name="AttackValue" type="Label" parent="ScrollContainer/VBox/RowAttack"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+size_flags_horizontal = 10
+custom_minimum_size = Vector2(60, 0)
+horizontal_alignment = 2
+
+[node name="AttackDetail" type="Label" parent="ScrollContainer/VBox/RowAttack"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.55, 0.55, 0.55, 1)
+theme_override_font_sizes/font_size = 11
+
+[node name="SpacerMobility" type="Control" parent="ScrollContainer/VBox"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+
+[node name="HeaderMobility" type="Label" parent="ScrollContainer/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.84, 0, 0.8)
+theme_override_font_sizes/font_size = 13
+text = "機動"
+
+[node name="SepMobility" type="HSeparator" parent="ScrollContainer/VBox"]
+layout_mode = 2
+
+[node name="RowSpeed" type="HBoxContainer" parent="ScrollContainer/VBox"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/VBox/RowSpeed"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 12
+text = "移動速度"
+
+[node name="SpeedValue" type="Label" parent="ScrollContainer/VBox/RowSpeed"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+size_flags_horizontal = 10
+custom_minimum_size = Vector2(60, 0)
+horizontal_alignment = 2
+
+[node name="SpeedDetail" type="Label" parent="ScrollContainer/VBox/RowSpeed"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.55, 0.55, 0.55, 1)
+theme_override_font_sizes/font_size = 11
+
+[node name="RowStaminaMax" type="HBoxContainer" parent="ScrollContainer/VBox"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/VBox/RowStaminaMax"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 12
+text = "スタミナ最大値"
+
+[node name="StaminaMaxValue" type="Label" parent="ScrollContainer/VBox/RowStaminaMax"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+size_flags_horizontal = 10
+custom_minimum_size = Vector2(60, 0)
+horizontal_alignment = 2
+
+[node name="StaminaMaxDetail" type="Label" parent="ScrollContainer/VBox/RowStaminaMax"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.55, 0.55, 0.55, 1)
+theme_override_font_sizes/font_size = 11
+
+[node name="RowStaminaRecovery" type="HBoxContainer" parent="ScrollContainer/VBox"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/VBox/RowStaminaRecovery"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 12
+text = "スタミナ回復"
+
+[node name="StaminaRecoveryValue" type="Label" parent="ScrollContainer/VBox/RowStaminaRecovery"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+size_flags_horizontal = 10
+custom_minimum_size = Vector2(60, 0)
+horizontal_alignment = 2
+
+[node name="StaminaRecoveryDetail" type="Label" parent="ScrollContainer/VBox/RowStaminaRecovery"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.55, 0.55, 0.55, 1)
+theme_override_font_sizes/font_size = 11
+
+[node name="SpacerGathering" type="Control" parent="ScrollContainer/VBox"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+
+[node name="HeaderGathering" type="Label" parent="ScrollContainer/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.84, 0, 0.8)
+theme_override_font_sizes/font_size = 13
+text = "採取・生産"
+
+[node name="SepGathering" type="HSeparator" parent="ScrollContainer/VBox"]
+layout_mode = 2
+
+[node name="RowGatherSpeed" type="HBoxContainer" parent="ScrollContainer/VBox"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/VBox/RowGatherSpeed"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 12
+text = "採取速度"
+
+[node name="GatherSpeedValue" type="Label" parent="ScrollContainer/VBox/RowGatherSpeed"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+size_flags_horizontal = 10
+custom_minimum_size = Vector2(60, 0)
+horizontal_alignment = 2
+
+[node name="GatherSpeedDetail" type="Label" parent="ScrollContainer/VBox/RowGatherSpeed"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.55, 0.55, 0.55, 1)
+theme_override_font_sizes/font_size = 11
+
+[node name="RowHarvestBonus" type="HBoxContainer" parent="ScrollContainer/VBox"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/VBox/RowHarvestBonus"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 12
+text = "収穫量ボーナス"
+
+[node name="HarvestBonusValue" type="Label" parent="ScrollContainer/VBox/RowHarvestBonus"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+size_flags_horizontal = 10
+custom_minimum_size = Vector2(60, 0)
+horizontal_alignment = 2
+
+[node name="HarvestBonusDetail" type="Label" parent="ScrollContainer/VBox/RowHarvestBonus"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.55, 0.55, 0.55, 1)
+theme_override_font_sizes/font_size = 11
+
+[node name="RowShopDiscount" type="HBoxContainer" parent="ScrollContainer/VBox"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/VBox/RowShopDiscount"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 12
+text = "店割引"
+
+[node name="ShopDiscountValue" type="Label" parent="ScrollContainer/VBox/RowShopDiscount"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+size_flags_horizontal = 10
+custom_minimum_size = Vector2(60, 0)
+horizontal_alignment = 2
+
+[node name="ShopDiscountDetail" type="Label" parent="ScrollContainer/VBox/RowShopDiscount"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.55, 0.55, 0.55, 1)
+theme_override_font_sizes/font_size = 11
+
+[node name="SpacerSpecial" type="Control" parent="ScrollContainer/VBox"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+
+[node name="HeaderSpecial" type="Label" parent="ScrollContainer/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.84, 0, 0.8)
+theme_override_font_sizes/font_size = 13
+text = "特殊能力"
+
+[node name="SepSpecial" type="HSeparator" parent="ScrollContainer/VBox"]
+layout_mode = 2
+
+[node name="RowAutoCollect" type="HBoxContainer" parent="ScrollContainer/VBox"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/VBox/RowAutoCollect"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 12
+text = "ドロップ自動回収"
+
+[node name="AutoCollectValue" type="Label" parent="ScrollContainer/VBox/RowAutoCollect"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+size_flags_horizontal = 10
+custom_minimum_size = Vector2(60, 0)
+horizontal_alignment = 2
+
+[node name="RowPinSlot" type="HBoxContainer" parent="ScrollContainer/VBox"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/VBox/RowPinSlot"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 12
+text = "ピン留め枠"
+
+[node name="PinSlotValue" type="Label" parent="ScrollContainer/VBox/RowPinSlot"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+size_flags_horizontal = 10
+custom_minimum_size = Vector2(60, 0)
+horizontal_alignment = 2
+
+[node name="RowDiversity" type="HBoxContainer" parent="ScrollContainer/VBox"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/VBox/RowDiversity"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 12
+text = "多様性ボーナス"
+
+[node name="DiversityValue" type="Label" parent="ScrollContainer/VBox/RowDiversity"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+size_flags_horizontal = 10
+custom_minimum_size = Vector2(60, 0)
+horizontal_alignment = 2
+
+[node name="RowMinimap" type="HBoxContainer" parent="ScrollContainer/VBox"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/VBox/RowMinimap"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 12
+text = "ミニマップ"
+
+[node name="MinimapValue" type="Label" parent="ScrollContainer/VBox/RowMinimap"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+size_flags_horizontal = 10
+custom_minimum_size = Vector2(60, 0)
+horizontal_alignment = 2
+
+[node name="RowFastTravel" type="HBoxContainer" parent="ScrollContainer/VBox"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/VBox/RowFastTravel"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 12
+text = "ファストトラベル"
+
+[node name="FastTravelValue" type="Label" parent="ScrollContainer/VBox/RowFastTravel"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+size_flags_horizontal = 10
+custom_minimum_size = Vector2(60, 0)
+horizontal_alignment = 2

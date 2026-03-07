@@ -19,12 +19,14 @@ const COMBAT_COOLDOWN: float = 5.0
 const _BLINK_INTERVAL: float = 0.1
 ## 死亡からリスポーンまでの待機時間（秒）
 const RESPAWN_DELAY: float = 2.0
+## 基礎スタミナ最大値
+const BASE_MAX_STAMINA: float = 100.0
 
 # ---- ダッシュ・スタミナ設定 ----
 ## ダッシュ時の移動速度
 @export var dash_speed: float = 350.0
 ## スタミナ最大値
-@export var max_stamina: float = 100.0
+@export var max_stamina: float = BASE_MAX_STAMINA
 ## ダッシュ中のスタミナ消費量/秒
 @export var stamina_drain_rate: float = 30.0
 ## スタミナ回復量/秒

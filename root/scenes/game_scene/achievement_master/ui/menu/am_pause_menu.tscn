@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bcs6yx15qgf2b"]
+[gd_scene load_steps=10 format=3 uid="uid://bcs6yx15qgf2b"]
 
 [ext_resource type="Shader" uid="uid://dp1hn66gsihpv" path="res://root/autoload/game_manager/pause_screen/resorce/blur.gdshader" id="1_blur"]
 [ext_resource type="Script" uid="uid://b0c0jkfed2pwo" path="res://root/scenes/game_scene/achievement_master/ui/menu/am_pause_menu.gd" id="2_script"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/ui/menu/achievement_tab/skill_tab.tscn" id="5_skill_tab"]
 [ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/ui/menu/equipment_tab/equipment_tab.tscn" id="6_equipment_tab"]
 [ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/ui/menu/save_tab/save_tab.tscn" id="7_save_tab"]
+[ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/ui/menu/status_tab/status_tab.tscn" id="8_status_tab"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_menu"]
 shader = ExtResource("1_blur")
@@ -75,17 +76,10 @@ current_tab = 0
 layout_mode = 2
 metadata/_tab_index = 0
 
-[node name="Status" type="MarginContainer" parent="MenuContent/MenuPanel/MarginContainer/VBoxContainer/TabContainer"]
+[node name="Status" parent="MenuContent/MenuPanel/MarginContainer/VBoxContainer/TabContainer" instance=ExtResource("8_status_tab")]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 1
-
-[node name="Label" type="Label" parent="MenuContent/MenuPanel/MarginContainer/VBoxContainer/TabContainer/Status"]
-layout_mode = 2
-size_flags_horizontal = 4
-text = "開発中"
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="Skill" parent="MenuContent/MenuPanel/MarginContainer/VBoxContainer/TabContainer" instance=ExtResource("5_skill_tab")]
 visible = false
