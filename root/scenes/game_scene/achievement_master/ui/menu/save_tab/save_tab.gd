@@ -110,6 +110,7 @@ func _create_slot_panel(slot: int) -> PanelContainer:
 
 
 ## スロットパネルの表示を更新する
+@warning_ignore("integer_division")
 func _refresh_slot_panel(panel: Node, slot: int) -> void:
 	var detail_label: Label = panel.find_child("DetailLabel", true, false)
 	var load_btn: Button = panel.find_child("LoadButton", true, false)
