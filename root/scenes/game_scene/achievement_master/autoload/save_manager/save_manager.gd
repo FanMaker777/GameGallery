@@ -49,6 +49,9 @@ func _process(delta: float) -> void:
 	_auto_save_accumulator += delta
 	if _auto_save_accumulator >= AUTO_SAVE_INTERVAL:
 		_auto_save_accumulator -= AUTO_SAVE_INTERVAL
+		# プレイヤーが存在しない場合（メインメニュー等）はオートセーブしない
+		if get_tree().get_nodes_in_group("player").is_empty():
+			return
 		auto_save()
 
 
@@ -130,6 +133,15 @@ func is_slot_used(slot: int) -> bool:
 	if slot < 0 or slot >= SLOT_COUNT:
 		return false
 	return FileAccess.file_exists(SAVE_BASE_PATH % slot)
+
+
+## 全マネージャーを初期状態にリセットする（ニューゲーム用）
+func reset_all_managers() -> void:
+	AchievementManager.reset_records()
+	RewardManager.reset_rewards()
+	InventoryManager.reset_inventory()
+	NpcManager.reset()
+	Log.info("SaveManager: 全マネージャーをリセット")
 
 
 ## 指定スロットのセーブデータを削除する
@@ -238,11 +250,8 @@ func _restore_player_state(player_data: Dictionary) -> void:
 
 ## セーブファイルを読み込んで Dictionary を返す（存在しない/エラー時は空辞書）
 func _read_save_file(path: String) -> Dictionary:
-	if not FileAccess.file_exists(path):
-		return {}
 	var file: FileAccess = FileAccess.open(path, FileAccess.READ)
 	if file == null:
-		Log.warn("SaveManager: ファイル読み込み失敗 — %s" % FileAccess.get_open_error())
 		return {}
 	var json_string: String = file.get_as_text()
 	file.close()
@@ -289,11 +298,11 @@ func _migrate_legacy_saves() -> void:
 		return
 	Log.info("SaveManager: 旧セーブファイルのマイグレーションを開始")
 	# 各旧ファイルから個別にデータを読み込む
-	var achievement_data: Dictionary = _read_legacy_json(_LEGACY_PATHS[0])
+	var achievement_data: Dictionary = _read_save_file(_LEGACY_PATHS[0])
 	var record_data: Dictionary = _read_legacy_record(_LEGACY_PATHS[1])
-	var reward_data: Dictionary = _read_legacy_json(_LEGACY_PATHS[2])
-	var inventory_data: Dictionary = _read_legacy_json(_LEGACY_PATHS[3])
-	var npc_data: Dictionary = _read_legacy_json(_LEGACY_PATHS[4])
+	var reward_data: Dictionary = _read_save_file(_LEGACY_PATHS[2])
+	var inventory_data: Dictionary = _read_save_file(_LEGACY_PATHS[3])
+	var npc_data: Dictionary = _read_save_file(_LEGACY_PATHS[4])
 	# 統合データを構築する
 	var meta: Dictionary = {
 		"timestamp": Time.get_datetime_string_from_system(),
@@ -324,23 +333,6 @@ func _migrate_legacy_saves() -> void:
 			if FileAccess.file_exists(path):
 				dir.rename(path, path + ".bak")
 	_write_migration_flag()
-
-
-## 旧 JSON セーブファイルを読み込む
-func _read_legacy_json(path: String) -> Dictionary:
-	if not FileAccess.file_exists(path):
-		return {}
-	var file: FileAccess = FileAccess.open(path, FileAccess.READ)
-	if file == null:
-		return {}
-	var json_string: String = file.get_as_text()
-	file.close()
-	var json: JSON = JSON.new()
-	if json.parse(json_string) != OK:
-		return {}
-	if json.data is Dictionary:
-		return json.data as Dictionary
-	return {}
 
 
 ## 旧 RecordDatabase (.tres) ファイルを読み込んで Dictionary に変換する
