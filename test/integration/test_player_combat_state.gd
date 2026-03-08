@@ -44,13 +44,13 @@ func test_enter_combat_idempotent() -> void:
 	_player._enter_combat()
 
 	# シグナル監視を開始（2回目以降を検出するため）
-	watch_signals(_pawn)
+	watch_signals(_player)
 
 	# 2回目の呼び出し — 既に戦闘中なのでシグナルは発火しない
 	_player._enter_combat()
 
 	assert_signal_not_emitted(
-		_pawn,
+		_player,
 		"combat_state_changed",
 		"既に戦闘中のとき _enter_combat はシグナルを発火しない",
 	)
