@@ -21,6 +21,8 @@ const _BLINK_INTERVAL: float = 0.1
 const RESPAWN_DELAY: float = 2.0
 ## 基礎スタミナ最大値
 const BASE_MAX_STAMINA: float = 100.0
+## 基礎スタミナ回復速度（/秒）
+const BASE_STAMINA_RECOVERY_RATE: float = 20.0
 
 # ---- ダッシュ・スタミナ設定 ----
 ## ダッシュ時の移動速度
@@ -30,7 +32,7 @@ const BASE_MAX_STAMINA: float = 100.0
 ## ダッシュ中のスタミナ消費量/秒
 @export var stamina_drain_rate: float = 30.0
 ## スタミナ回復量/秒
-@export var stamina_recovery_rate: float = 20.0
+@export var stamina_recovery_rate: float = BASE_STAMINA_RECOVERY_RATE
 
 # ---- 状態 ----
 ## プレイヤーの行動状態
@@ -113,16 +115,16 @@ func _ready() -> void:
 	# ポップアップ初期非表示
 	_interact_label.visible = false
 	# HP初期値を通知（HUD初期化用）
-	hp = get_effective_max_hp()
-	health_changed.emit(hp, get_effective_max_hp())
+	hp = AmPlayerStatCalculator.get_effective_max_hp(_get_equip_cache(), _get_effect_cache())
+	health_changed.emit(hp, hp)
 	# スタミナ初期値を通知（HUD初期化用）
-	stamina = get_effective_max_stamina()
-	stamina_changed.emit(stamina, get_effective_max_stamina())
+	stamina = AmPlayerStatCalculator.get_effective_max_stamina(_get_equip_cache(), _get_effect_cache())
+	stamina_changed.emit(stamina, stamina)
 	# 実績マネージャーにプレイヤーを登録する
 	AchievementManager.register_player(self)
 	# InventoryManager の消耗品使用シグナルを接続する
 	InventoryManager.item_used.connect(_on_item_used)
-	Log.info("Player: 初期化完了 (HP=%d/%d)" % [hp, get_effective_max_hp()])
+	Log.info("Player: 初期化完了 (HP=%d/%d)" % [hp, hp])
 
 
 ## 毎フレームの物理処理 — 状態に応じた処理を振り分ける
@@ -167,8 +169,9 @@ func take_damage(amount: int) -> void:
 	# HP を減算（0未満にはしない）
 	hp = maxi(hp - amount, 0)
 	_enter_combat()
-	health_changed.emit(hp, get_effective_max_hp())
-	Log.info("Player: ダメージ %d を受けた (残HP: %d/%d)" % [amount, hp, get_effective_max_hp()])
+	var effective_max_hp: int = AmPlayerStatCalculator.get_effective_max_hp(_get_equip_cache(), _get_effect_cache())
+	health_changed.emit(hp, effective_max_hp)
+	Log.info("Player: ダメージ %d を受けた (残HP: %d/%d)" % [amount, hp, effective_max_hp])
 	if hp <= 0:
 		# HPが0になったら死亡処理へ
 		_die()
@@ -244,7 +247,7 @@ func _process_movement() -> void:
 			velocity = dir * dash_speed
 		else:
 			_is_dashing = false
-			velocity = dir * get_effective_speed()
+			velocity = dir * AmPlayerStatCalculator.get_effective_speed(_get_equip_cache(), _get_effect_cache())
 		_set_state(State.MOVE)
 		_animated_sprite.play("Run")
 		# 左右フリップ
@@ -283,7 +286,7 @@ func _start_gather(node: Node2D) -> void:
 	if data.is_empty():
 		return
 	_gather_target = node
-	_gather_duration = data.get("gather_time", 1.0) / get_effective_gather_speed()
+	_gather_duration = data.get("gather_time", 1.0) / AmPlayerStatCalculator.get_effective_gather_speed(_get_equip_cache(), _get_effect_cache())
 	_gather_timer = 0.0
 	velocity = Vector2.ZERO
 	_set_state(State.GATHER)
@@ -375,7 +378,7 @@ func _finish_attack() -> void:
 ## 攻撃ヒットボックスに敵が入ったときの処理
 func _on_attack_hitbox_body_entered(body: Node2D) -> void:
 	if body.is_in_group("enemies") and body.has_method("take_damage"):
-		var damage: int = get_effective_attack()
+		var damage: int = AmPlayerStatCalculator.get_effective_attack(_get_equip_cache(), _get_effect_cache())
 		body.take_damage(damage)
 		attack_landed.emit(body, damage)
 		Log.info("Player: 敵にダメージ %d → %s" % [damage, body.name])
@@ -421,7 +424,7 @@ func _on_item_used(_id: StringName, def: ItemDefinition) -> void:
 	match definition.effect_type:
 		ConsumableDefinition.EffectType.HP_RECOVER:
 			# HPを回復する（最大HPを超えない）
-			var max_hp: int = get_effective_max_hp()
+			var max_hp: int = AmPlayerStatCalculator.get_effective_max_hp(_get_equip_cache(), _get_effect_cache())
 			hp = mini(hp + int(definition.effect_value), max_hp)
 			health_changed.emit(hp, max_hp)
 			Log.info("Player: HP回復 +%d (現在HP=%d/%d)" % [
@@ -429,7 +432,7 @@ func _on_item_used(_id: StringName, def: ItemDefinition) -> void:
 			])
 		ConsumableDefinition.EffectType.STAMINA_RECOVER:
 			# スタミナを回復する（最大値を超えない）
-			var max_stam: float = get_effective_max_stamina()
+			var max_stam: float = AmPlayerStatCalculator.get_effective_max_stamina(_get_equip_cache(), _get_effect_cache())
 			stamina = minf(stamina + definition.effect_value, max_stam)
 			stamina_changed.emit(stamina, max_stam)
 			Log.info("Player: スタミナ回復 +%.0f (現在=%.0f/%.0f)" % [
@@ -448,8 +451,8 @@ func collect_drop(type: ResourceDefinitions.ResourceType, amount: int) -> void:
 ## スタミナの消費・回復を処理する — ダッシュ中は消費、dashキー未押下かつ非攻撃時は回復
 func _process_stamina(delta: float) -> void:
 	var prev_stamina: float = stamina
-	var effective_max: float = get_effective_max_stamina()
-	var effective_recovery: float = get_effective_stamina_recovery()
+	var effective_max: float = AmPlayerStatCalculator.get_effective_max_stamina(_get_equip_cache(), _get_effect_cache())
+	var effective_recovery: float = AmPlayerStatCalculator.get_effective_stamina_recovery(_get_effect_cache())
 	if _is_dashing:
 		stamina = maxf(stamina - stamina_drain_rate * delta, 0.0)
 	# dashキー押下中は回復をブロックし、スタミナ0時の振動ループを防止する
@@ -497,84 +500,6 @@ func _get_effect_cache() -> SkillEffectCache:
 ## 装備ステータスキャッシュを取得する
 func _get_equip_cache() -> EquipmentStatCache:
 	return InventoryManager.get_equip_cache()
-
-
-## 有効な最大HPを返す（基礎値 + 装備固定値 → スキル%ボーナス）
-func get_effective_max_hp() -> int:
-	var base: int = BASE_MAX_HP
-	# 装備の固定値を加算する
-	var ec: EquipmentStatCache = _get_equip_cache()
-	if ec != null:
-		base += ec.hp_flat
-	# スキルの%ボーナスを乗算する
-	var rc: SkillEffectCache = _get_effect_cache()
-	if rc != null:
-		return int(base * (1.0 + rc.hp_percent_up / 100.0))
-	return base
-
-
-## 有効な攻撃力を返す（基礎値 + 装備固定値 → スキル%ボーナス）
-func get_effective_attack() -> int:
-	var base: int = BASE_ATTACK_DAMAGE
-	# 装備の固定値を加算する
-	var ec: EquipmentStatCache = _get_equip_cache()
-	if ec != null:
-		base += ec.attack_flat
-	# スキルの%ボーナスを乗算する
-	var rc: SkillEffectCache = _get_effect_cache()
-	if rc != null:
-		return int(base * (1.0 + rc.attack_percent_up / 100.0))
-	return base
-
-
-## 有効な移動速度を返す（基礎値 → 装備%ボーナス + スキル%ボーナス）
-func get_effective_speed() -> float:
-	var percent_bonus: float = 0.0
-	# 装備の%ボーナスを加算する
-	var ec: EquipmentStatCache = _get_equip_cache()
-	if ec != null:
-		percent_bonus += ec.speed_percent
-	# スキルの%ボーナスを加算する
-	var rc: SkillEffectCache = _get_effect_cache()
-	if rc != null:
-		percent_bonus += rc.move_speed_up
-	return BASE_SPEED * (1.0 + percent_bonus / 100.0)
-
-
-## 有効なスタミナ最大値を返す（基礎値 + 装備固定値 → スキル%ボーナス）
-func get_effective_max_stamina() -> float:
-	var base: float = max_stamina
-	# 装備の固定値を加算する
-	var ec: EquipmentStatCache = _get_equip_cache()
-	if ec != null:
-		base += ec.stamina_flat
-	# スキルの%ボーナスを乗算する
-	var rc: SkillEffectCache = _get_effect_cache()
-	if rc != null:
-		return base * (1.0 + rc.stamina_max_up / 100.0)
-	return base
-
-
-## 有効なスタミナ回復速度を返す
-func get_effective_stamina_recovery() -> float:
-	var rc: SkillEffectCache = _get_effect_cache()
-	if rc == null:
-		return stamina_recovery_rate
-	return stamina_recovery_rate * (1.0 + rc.stamina_recovery_up / 100.0)
-
-
-## 有効な採取速度倍率を返す（1.0=通常、装備%ボーナス + スキル%ボーナス）
-func get_effective_gather_speed() -> float:
-	var percent_bonus: float = 0.0
-	# 装備の%ボーナスを加算する
-	var ec: EquipmentStatCache = _get_equip_cache()
-	if ec != null:
-		percent_bonus += ec.gather_percent
-	# スキルの%ボーナスを加算する
-	var rc: SkillEffectCache = _get_effect_cache()
-	if rc != null:
-		percent_bonus += rc.gather_speed_up
-	return 1.0 + percent_bonus / 100.0
 
 
 # ========== ユーティリティ ==========

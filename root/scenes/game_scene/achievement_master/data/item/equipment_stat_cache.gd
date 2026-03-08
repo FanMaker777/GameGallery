@@ -1,5 +1,5 @@
 ## 装備中アイテムのステータス効果累積値を保持するキャッシュ
-## InventoryManager が装備変更時に更新し、AmPlayer の get_effective_*() が参照する
+## InventoryManager が装備変更時に更新し、AmPlayerStatCalculator の get_effective_*() が参照する
 class_name EquipmentStatCache
 extends Resource
 

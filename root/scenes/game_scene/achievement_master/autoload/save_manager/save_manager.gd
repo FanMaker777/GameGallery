@@ -229,7 +229,8 @@ func _restore_player_state(player_data: Dictionary) -> void:
 	# HPを復元する（_ready() でリセットされた後に上書きする）
 	if player_data.has("hp"):
 		player.hp = int(player_data["hp"])
-		player.health_changed.emit(player.hp, player.get_effective_max_hp())
+		player.health_changed.emit(player.hp, AmPlayerStatCalculator.get_effective_max_hp(
+			InventoryManager.get_equip_cache(), SkillManager.get_effect_cache()))
 	Log.info("SaveManager: プレイヤー状態を復元 (HP=%d, pos=%s)" % [
 		player.hp, player.global_position
 	])
