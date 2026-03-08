@@ -33,6 +33,7 @@
     ],
     "ask": [
       "Bash(git push *)",
+      "Bash(curl *)",
       "Bash(rm *)",
       "Bash(mv *)",
       "Bash(git add .)",
@@ -43,7 +44,6 @@
     ],
     "deny": [
       "Bash(npm publish *)",
-      "Bash(curl *)",
       "Bash(wget *)",
       "Bash(grep *)",   
       "Bash(find *)",  

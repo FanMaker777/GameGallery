@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=3 uid="uid://cl2ogx0l8sjib"]
 
 [ext_resource type="Script" uid="uid://b3ky34d6kb7s7" path="res://root/scenes/game_scene/achievement_master/ui/achievement_hud.gd" id="achievement_hud_script"]
-[ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/ui/toast/toast_manager.tscn" id="toast_manager_scene"]
 [ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/ui/pinned/pinned_achievement_panel.tscn" id="pinned_panel_scene"]
+[ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/ui/toast/toast_manager.tscn" id="toast_manager_scene"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hp_fill"]
 bg_color = Color(0.32280397, 0.6882976, 0.45200253, 1)
