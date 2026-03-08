@@ -7,8 +7,6 @@ class_name AmPlayer extends CharacterBody2D
 const BASE_SPEED: float = 200.0
 ## 基礎攻撃力
 const BASE_ATTACK_DAMAGE: int = 10
-## 攻撃アニメーションの持続時間（秒）
-const ATTACK_DURATION: float = 0.4
 ## 基礎最大HP
 const BASE_MAX_HP: int = 100
 ## 被ダメージ後の無敵時間（秒）
@@ -49,10 +47,6 @@ var _is_invincible: bool = false
 var _invincible_timer: float = 0.0
 ## 点滅用タイマー（スプライトの表示/非表示切り替え用）
 var _blink_timer: float = 0.0
-
-# ---- 攻撃関連 ----
-## 攻撃経過時間
-var _attack_timer: float = 0.0
 
 # ---- スタミナ ----
 ## 現在スタミナ
@@ -95,17 +89,18 @@ signal stamina_changed(current_stamina: float, max_stamina: float)
 @onready var _gather_progress_bar: ProgressBar = %GatherProgressBar
 ## 採取コンポーネント
 @onready var _gather: AmGatherComponent = $GatherComponent
+## 攻撃コンポーネント
+@onready var _attack: AmAttackComponent = $AttackComponent
 
 # ========== ライフサイクル ==========
 
 ## 初期化 — グループ登録、ヒットボックス無効化、シグナル接続
 func _ready() -> void:
 	add_to_group("player")
-	# 攻撃ヒットボックスは通常時無効
-	_attack_hitbox.monitoring = false
-	_attack_hitbox_shape.disabled = true
-	# シグナル接続
-	_attack_hitbox.body_entered.connect(_on_attack_hitbox_body_entered)
+	# 攻撃コンポーネントを初期化する
+	_attack.initialize(_animated_sprite, _attack_hitbox, _attack_hitbox_shape)
+	_attack.attack_finished.connect(_on_attack_finished)
+	_attack.attack_hit.connect(_on_attack_hit)
 	# 採取コンポーネントを初期化する
 	_gather.initialize(_animated_sprite, _gather_progress_bar)
 	_gather.gather_finished.connect(_on_gather_finished)
@@ -148,7 +143,7 @@ func _physics_process(delta: float) -> void:
 			_gather.process_tick(delta)
 			_interact_label.visible = false
 		State.ATTACK:
-			_process_attack_tick(delta)
+			_attack.process_tick(delta)
 			_interact_label.visible = false
 		State.DEAD:
 			# 死亡中は全入力を無視する
@@ -272,7 +267,11 @@ func _process_action_input() -> void:
 				velocity = Vector2.ZERO
 				_set_state(State.GATHER)
 	elif Input.is_action_just_pressed("attack"):
-		_start_attack()
+		velocity = Vector2.ZERO
+		_set_state(State.ATTACK)
+		_enter_combat()
+		attack_started.emit()
+		_attack.start_attack()
 
 # ========== 採取コンポーネントハンドラ ==========
 
@@ -295,45 +294,18 @@ func _on_gather_ended() -> void:
 	_animated_sprite.play("Idle")
 
 
-# ========== 攻撃処理 ==========
+# ========== 攻撃コンポーネントハンドラ ==========
 
-## 攻撃を開始する — アニメ再生、ヒットボックス有効化
-func _start_attack() -> void:
-	_attack_timer = 0.0
-	velocity = Vector2.ZERO
-	_set_state(State.ATTACK)
-	_enter_combat()
-	attack_started.emit()
-	_animated_sprite.play("Attack")
-	# ヒットボックスの向きを flip_h に合わせる
-	var dir_sign: float = -1.0 if _animated_sprite.flip_h else 1.0
-	_attack_hitbox.position.x = absf(_attack_hitbox.position.x) * dir_sign
-	# ヒットボックスを有効化
-	_attack_hitbox.monitoring = true
-	_attack_hitbox_shape.disabled = false
-
-
-## 攻撃タイマーを進め、持続時間を超えたら攻撃終了
-func _process_attack_tick(delta: float) -> void:
-	_attack_timer += delta
-	if _attack_timer >= ATTACK_DURATION:
-		_finish_attack()
-
-
-## 攻撃終了 — ヒットボックス無効化
-func _finish_attack() -> void:
-	_attack_hitbox.monitoring = false
-	_attack_hitbox_shape.disabled = true
+## 攻撃完了時の処理 — IDLE に復帰する
+func _on_attack_finished() -> void:
 	_set_state(State.IDLE)
 	_animated_sprite.play("Idle")
 
-## 攻撃ヒットボックスに敵が入ったときの処理
-func _on_attack_hitbox_body_entered(body: Node2D) -> void:
-	if body.is_in_group("enemies") and body.has_method("take_damage"):
-		var damage: int = AmPlayerStatCalculator.get_effective_attack(_get_equip_cache(), _get_effect_cache())
-		body.take_damage(damage)
-		attack_landed.emit(body, damage)
-		Log.info("Player: 敵にダメージ %d → %s" % [damage, body.name])
+
+## 攻撃命中時の処理 — attack_landed シグナルを中継する
+func _on_attack_hit(target: Node2D, damage: int) -> void:
+	attack_landed.emit(target, damage)
+
 
 # ========== インタラクトエリア ==========
 
