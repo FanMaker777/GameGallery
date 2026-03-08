@@ -42,7 +42,7 @@ func reset_option() -> void:
 		
 		1:  # Videoタブの場合
 			# Video設定値をデフォルト値に初期化
-			_video_tab.set_default_video_option()
+			VideoManager.set_default_video_option()
 			# Video設定値をUIへ同期
 			_video_tab.sync_ui_from_setting_value()
 	
