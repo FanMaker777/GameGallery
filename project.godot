@@ -23,6 +23,7 @@ buses/default_bus_layout="res://root/assets/audio/default_bus_layout.tres"
 [autoload]
 
 SettingsRepository="*res://root/autoload/settings_repository/settings_repository.tscn"
+VideoManager="*res://root/autoload/video_manager/video_manager.tscn"
 GameManager="*res://root/autoload/game_manager/game_manager.tscn"
 AudioManager="*res://root/autoload/audio_manager/audio_manager.tscn"
 Log="*res://addons/logger/logger.gd"
