@@ -1,8 +1,7 @@
 # Godot 4+ specific ignores
+.claude/
 .godot/
-.DS_Store
-/android/
-tools/mcp/godot-mcp
-/.claude/tools/mcp
-doc/tasks/*.md
 /doc/tasks
+tools/
+.DS_store
+
