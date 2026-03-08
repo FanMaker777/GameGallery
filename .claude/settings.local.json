@@ -25,7 +25,9 @@
       "Bash(find:*)",
       "Bash(grep:*)",
       "Bash(cut -d'|' -f1)",
-      "mcp__godot__save_scene"
+      "mcp__godot__save_scene",
+      "Bash(sort -t: -k2 -rn)",
+      "Bash(xargs wc:*)"
     ]
   },
   "enableAllProjectMcpServers": true,
