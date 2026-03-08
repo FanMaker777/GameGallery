@@ -1,8 +1,8 @@
 [gd_resource type="SpriteFrames" load_steps=26 format=3 uid="uid://dd7ose0nhs4dk"]
 
-[ext_resource type="Texture2D" uid="uid://dok3m3lvnq3ib" path="res://root/scenes/game_scene/achievement_master/enemies/Bear/Bear_Attack.png" id="1_ca13a"]
-[ext_resource type="Texture2D" uid="uid://caitp5gyvg1ji" path="res://root/scenes/game_scene/achievement_master/enemies/Bear/Bear_Idle.png" id="2_yccx4"]
-[ext_resource type="Texture2D" uid="uid://dkd2nq04p2uwp" path="res://root/scenes/game_scene/achievement_master/enemies/Bear/Bear_Run.png" id="3_yccx4"]
+[ext_resource type="Texture2D" uid="uid://dok3m3lvnq3ib" path="res://root/scenes/game_scene/achievement_master/enemies/aseets/Bear/Bear_Attack.png" id="1_ca13a"]
+[ext_resource type="Texture2D" uid="uid://caitp5gyvg1ji" path="res://root/scenes/game_scene/achievement_master/enemies/aseets/Bear/Bear_Idle.png" id="2_yccx4"]
+[ext_resource type="Texture2D" uid="uid://dkd2nq04p2uwp" path="res://root/scenes/game_scene/achievement_master/enemies/aseets/Bear/Bear_Run.png" id="3_yccx4"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kwlur"]
 atlas = ExtResource("1_ca13a")

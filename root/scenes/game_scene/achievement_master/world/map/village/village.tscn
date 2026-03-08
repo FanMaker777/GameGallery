@@ -7,7 +7,7 @@
 [ext_resource type="SpriteFrames" uid="uid://crit3slt2r1xp" path="res://root/scenes/game_scene/achievement_master/character/npc/animation_resource/monk_animation.tres" id="12_23nuo"]
 [ext_resource type="PackedScene" uid="uid://cl2ogx0l8sjib" path="res://root/scenes/game_scene/achievement_master/ui/achievement_hud.tscn" id="achievement_hud_scene"]
 [ext_resource type="PackedScene" uid="uid://bcs6yx15qgf2b" path="res://root/scenes/game_scene/achievement_master/ui/menu/am_pause_menu.tscn" id="am_pause_menu_scene"]
-[ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/world/buildings/building.tscn" id="building_scene"]
+[ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/world/object/buildings/building.tscn" id="building_scene"]
 [ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/world/map/gate/map_gate.tscn" id="gate_scene"]
 [ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/world/spawner/generic_spawner.tscn" id="generic_spawner_scene"]
 [ext_resource type="PackedScene" uid="uid://dpqde2fe7owot" path="res://root/scenes/game_scene/achievement_master/world/resource_nodes/gold_stone_node.tscn" id="gold_stone_scene"]

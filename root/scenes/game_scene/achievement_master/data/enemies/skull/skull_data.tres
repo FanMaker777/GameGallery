@@ -1,8 +1,8 @@
 [gd_resource type="Resource" script_class="EnemyData" load_steps=4 format=3 uid="uid://cr632vbfdvia"]
 
-[ext_resource type="Script" uid="uid://bjmkmmdaxug1q" path="res://root/scenes/game_scene/achievement_master/data/enemy_data.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://bjmkmmdaxug1q" path="res://root/scenes/game_scene/achievement_master/data/enemies/enemy_data.gd" id="1_script"]
 [ext_resource type="SpriteFrames" uid="uid://bjg41oe5oerma" path="res://root/scenes/game_scene/achievement_master/data/enemies/skull/skull_sprite_frames.tres" id="2_sprite"]
-[ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/world/drop_item/drop_item.tscn" id="3_drop"]
+[ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/world/object/drop_item/drop_item.tscn" id="3_drop"]
 
 [resource]
 script = ExtResource("1_script")

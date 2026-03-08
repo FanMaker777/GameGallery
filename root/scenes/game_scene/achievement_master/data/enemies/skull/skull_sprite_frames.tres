@@ -1,9 +1,9 @@
 [gd_resource type="SpriteFrames" load_steps=33 format=3 uid="uid://bjg41oe5oerma"]
 
-[ext_resource type="Texture2D" uid="uid://clujuyjqnwsrq" path="res://root/scenes/game_scene/achievement_master/enemies/Skull/Skull_Attack.png" id="1_attack"]
-[ext_resource type="Texture2D" uid="uid://brdfocia00rgn" path="res://root/scenes/game_scene/achievement_master/enemies/Skull/Skull_Guard.png" id="2_guard"]
-[ext_resource type="Texture2D" uid="uid://d1ovuxtaqaos3" path="res://root/scenes/game_scene/achievement_master/enemies/Skull/Skull_Idle.png" id="3_idle"]
-[ext_resource type="Texture2D" uid="uid://br6ify6f8exge" path="res://root/scenes/game_scene/achievement_master/enemies/Skull/Skull_Run.png" id="4_run"]
+[ext_resource type="Texture2D" uid="uid://clujuyjqnwsrq" path="res://root/scenes/game_scene/achievement_master/enemies/aseets/Skull/Skull_Attack.png" id="1_attack"]
+[ext_resource type="Texture2D" uid="uid://brdfocia00rgn" path="res://root/scenes/game_scene/achievement_master/enemies/aseets/Skull/Skull_Guard.png" id="2_guard"]
+[ext_resource type="Texture2D" uid="uid://d1ovuxtaqaos3" path="res://root/scenes/game_scene/achievement_master/enemies/aseets/Skull/Skull_Idle.png" id="3_idle"]
+[ext_resource type="Texture2D" uid="uid://br6ify6f8exge" path="res://root/scenes/game_scene/achievement_master/enemies/aseets/Skull/Skull_Run.png" id="4_run"]
 
 [sub_resource type="AtlasTexture" id="attack_0"]
 atlas = ExtResource("1_attack")
