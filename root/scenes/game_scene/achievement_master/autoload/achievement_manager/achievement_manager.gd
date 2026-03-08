@@ -1,5 +1,5 @@
 ## 実績システムのファサード（Autoload）
-## イベント配線・距離追跡を担当し、コアロジックは AchievementTracker に委譲する
+## イベント配線を担当し、コアロジックは AchievementTracker に委譲する
 extends Node
 
 # ---- シグナル（Tracker から中継） ----
@@ -10,30 +10,12 @@ signal achievement_progress_updated(id: StringName, current: int, target: int)
 ## ピン留め状態が変更されたときに発火する
 signal pinned_changed
 
-# ---- 定数 ----
-## NPC会話のクールダウン時間（秒）
-const NPC_TALK_COOLDOWN: float = 30.0
-## 歩行距離の記録間隔（ピクセル）
-const DISTANCE_RECORD_INTERVAL: float = 100.0
-
 # ---- 子ノード ----
 @onready var tracker: AchievementTracker = %AchievementTracker
+@onready var player_metrics: PlayerMetricsTracker = %PlayerMetricsTracker
 
-# ---- NPC クールダウン ----
-## NPC会話クールダウン { npc_id: last_time_msec }
-var _npc_talk_cooldowns: Dictionary = {}
-
-# ---- プレイヤー参照 ----
-## 登録されたプレイヤーノード
-var _player: Node = null
-## 前フレームのプレイヤー位置（歩行距離計算用）
-var _previous_player_pos: Vector2 = Vector2.ZERO
-## 歩行距離の累積（DISTANCE_RECORD_INTERVAL に達したら record）
-var _distance_accumulator: float = 0.0
 ## 前フレームのHP（ダメージ検出用）
 var _previous_hp: int = -1
-## プレイ時間の累積（1秒ごとに record）
-var _play_time_accumulator: float = 0.0
 
 
 # ========== ライフサイクル ==========
@@ -60,33 +42,11 @@ func _ready() -> void:
 	Log.info("AchievementManager: 初期化完了")
 
 
-func _process(delta: float) -> void:
-	# プレイ時間を追跡する
-	_play_time_accumulator += delta
-	if _play_time_accumulator >= 1.0:
-		_play_time_accumulator -= 1.0
-		tracker.add_play_time(1.0)
-	# プレイヤーの歩行距離を追跡する
-	if _player != null and is_instance_valid(_player):
-		var current_pos: Vector2 = _player.global_position
-		if _previous_player_pos != Vector2.ZERO:
-			var moved: float = current_pos.distance_to(_previous_player_pos)
-			if moved > 0.1 and moved < 500.0:  # テレポート除外
-				_distance_accumulator += moved
-				# 一定距離ごとに record_action を呼ぶ
-				while _distance_accumulator >= DISTANCE_RECORD_INTERVAL:
-					_distance_accumulator -= DISTANCE_RECORD_INTERVAL
-					tracker.record_action(&"distance_walked", {&"amount": int(DISTANCE_RECORD_INTERVAL)})
-		_previous_player_pos = current_pos
-
-
 # ========== 公開 API ==========
 
 ## プレイヤーノードを登録し、シグナルを接続する
 func register_player(player: Node) -> void:
-	_player = player
-	_previous_player_pos = player.global_position
-	_distance_accumulator = 0.0
+	player_metrics.register_player(player)
 	# Player のシグナルを接続する
 	if player.has_signal("attack_landed"):
 		player.attack_landed.connect(_on_player_attack_landed)
@@ -110,8 +70,8 @@ func _on_node_added(node: Node) -> void:
 	# Npc の npc_interacted シグナルを接続する
 	if node is Npc:
 		if node.has_signal("npc_interacted"):
-			if not node.npc_interacted.is_connected(_on_npc_interacted):
-				node.npc_interacted.connect(_on_npc_interacted)
+			if not node.npc_interacted.is_connected(player_metrics._on_npc_interacted):
+				node.npc_interacted.connect(player_metrics._on_npc_interacted)
 	# ResourceNode の resource_harvested シグナルを接続する
 	if node is ResourceNode:
 		if node.has_signal("resource_harvested"):
@@ -132,18 +92,6 @@ func _on_enemy_died(enemy: Node) -> void:
 	if enemy is Enemy and enemy.enemy_data:
 		context[&"type_name"] = enemy.enemy_data.display_name
 	tracker.record_action(&"enemy_killed", context)
-
-
-## NPCに話しかけたとき
-func _on_npc_interacted(npc_id: String) -> void:
-	# クールダウンチェック（同一NPC連打防止）
-	var now: int = Time.get_ticks_msec()
-	var last_time: int = _npc_talk_cooldowns.get(npc_id, 0)
-	if now - last_time < int(NPC_TALK_COOLDOWN * 1000.0):
-		Log.debug("AchievementManager: NPC会話クールダウン中 [%s]" % npc_id)
-		return
-	_npc_talk_cooldowns[npc_id] = now
-	tracker.record_action(&"npc_talked", {&"instance_id": npc_id})
 
 
 ## リソースが採取されたとき
