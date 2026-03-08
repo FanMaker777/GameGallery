@@ -9,11 +9,15 @@ const PLAYER_SCENE: PackedScene = preload(
 # ---- セットアップ ----
 
 var _player: AmPlayer
+## _ready() 完了後の effective_max_hp を保存する
+var _max_hp: int
 
 
 func before_each() -> void:
 	_player = PLAYER_SCENE.instantiate()
 	add_child_autofree(_player)
+	# _ready() でhp は effective_max_hp に設定済み（装備/スキルボーナス込み）
+	_max_hp = _player.hp
 
 
 # ---- テスト: take_damage 基本 ----
@@ -21,23 +25,23 @@ func before_each() -> void:
 func test_take_damage_reduces_hp() -> void:
 	_player.take_damage(20)
 
-	assert_eq(_player.hp, 80, "take_damage で HP が減算される")
+	assert_eq(_player.hp, _max_hp - 20, "take_damage で HP が減算される")
 
 
 func test_take_damage_clamps_to_zero() -> void:
-	_player.take_damage(AmPlayer.BASE_MAX_HP + 50)
+	_player.take_damage(_max_hp + 50)
 
 	assert_eq(_player.hp, 0, "take_damage で HP が 0 にクランプされる（超過ダメージ）")
 
 
 func test_take_damage_exact_max_hp() -> void:
-	_player.take_damage(AmPlayer.BASE_MAX_HP)
+	_player.take_damage(_max_hp)
 
 	assert_eq(_player.hp, 0, "take_damage で amount == MAX_HP → HP が 0 になる")
 
 
 func test_take_damage_max_hp_minus_1() -> void:
-	_player.take_damage(AmPlayer.BASE_MAX_HP - 1)
+	_player.take_damage(_max_hp - 1)
 
 	assert_eq(_player.hp, 1, "take_damage で amount == MAX_HP - 1 → HP が 1 残る")
 
@@ -45,7 +49,7 @@ func test_take_damage_max_hp_minus_1() -> void:
 func test_take_damage_zero() -> void:
 	_player.take_damage(0)
 
-	assert_eq(_player.hp, AmPlayer.BASE_MAX_HP, "take_damage(0) で HP が変化しない")
+	assert_eq(_player.hp, _max_hp, "take_damage(0) で HP が変化しない")
 
 
 func test_take_damage_ignored_while_invincible() -> void:
@@ -53,7 +57,7 @@ func test_take_damage_ignored_while_invincible() -> void:
 
 	_player.take_damage(50)
 
-	assert_eq(_player.hp, AmPlayer.BASE_MAX_HP, "無敵中は take_damage が無視される")
+	assert_eq(_player.hp, _max_hp, "無敵中は take_damage が無視される")
 
 
 # ---- テスト: スタミナ ----
