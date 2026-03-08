@@ -52,7 +52,7 @@ func setup(definition: AchievementDefinition) -> void:
 	# 実績名の設定
 	_name_label.text = definition.name_ja
 	# 進捗情報の取得
-	var progress: Dictionary = AchievementManager.get_progress(definition.id)
+	var progress: Dictionary = AchievementManager.tracker.get_progress(definition.id)
 	var is_unlocked: bool = progress.get("unlocked", false)
 	# ステータス表示の設定
 	if is_unlocked:
@@ -68,7 +68,7 @@ func setup(definition: AchievementDefinition) -> void:
 		_status_label.remove_theme_color_override("font_color")
 		_name_label.remove_theme_color_override("font_color")
 	# ピンアイコンの設定
-	_pin_icon.text = "P" if AchievementManager.is_pinned(definition.id) else ""
+	_pin_icon.text = "P" if AchievementManager.tracker.is_pinned(definition.id) else ""
 
 
 ## 選択状態を設定する

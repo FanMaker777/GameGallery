@@ -115,7 +115,7 @@ func _rebuild_list() -> void:
 	for child: Node in _list_container.get_children():
 		child.queue_free()
 	# 全実績定義を取得する
-	var all_defs: Array[AchievementDefinition] = AchievementManager.get_all_definitions()
+	var all_defs: Array[AchievementDefinition] = AchievementManager.tracker.get_all_definitions()
 	# フィルタ条件を取得する
 	var cat_idx: int = _category_filter.selected
 	var status_idx: int = _status_filter.selected
@@ -157,7 +157,7 @@ func _apply_filters(
 		if cat_idx > 0 and def.category != (cat_idx - 1):
 			continue
 		# ステータスフィルタ（0=全て、1=未達成、2=達成済）
-		var is_unlocked: bool = AchievementManager.get_progress(def.id).get("unlocked", false)
+		var is_unlocked: bool = AchievementManager.tracker.get_progress(def.id).get("unlocked", false)
 		if status_idx == 1 and is_unlocked:
 			continue
 		if status_idx == 2 and not is_unlocked:
@@ -202,7 +202,7 @@ func _get_recommendations(
 	# 未解除かつ進捗ありの実績を候補として収集する
 	var candidates: Array[Dictionary] = []
 	for def: AchievementDefinition in all_defs:
-		var progress: Dictionary = AchievementManager.get_progress(def.id)
+		var progress: Dictionary = AchievementManager.tracker.get_progress(def.id)
 		if progress.get("unlocked", false):
 			continue
 		var current: int = progress.get("current", 0)
@@ -264,7 +264,7 @@ func _show_detail(def: AchievementDefinition) -> void:
 	# 説明
 	_detail_desc_label.text = def.description_ja
 	# 進捗
-	var progress: Dictionary = AchievementManager.get_progress(def.id)
+	var progress: Dictionary = AchievementManager.tracker.get_progress(def.id)
 	var current: int = progress.get("current", 0)
 	var target: int = progress.get("target", 1)
 	var is_unlocked: bool = progress.get("unlocked", false)
@@ -290,7 +290,7 @@ func _show_empty_detail() -> void:
 
 ## ピン留めボタンの表示と有効/無効を更新する
 func _update_pin_button(def: AchievementDefinition, is_unlocked: bool) -> void:
-	var is_pinned: bool = AchievementManager.is_pinned(def.id)
+	var is_pinned: bool = AchievementManager.tracker.is_pinned(def.id)
 	if is_pinned:
 		# ピン留め中 — 解除可能
 		_pin_button.text = "ピン解除"
@@ -299,7 +299,7 @@ func _update_pin_button(def: AchievementDefinition, is_unlocked: bool) -> void:
 		# 達成済み — ピン留め不可
 		_pin_button.text = "達成済み"
 		_pin_button.disabled = true
-	elif AchievementManager.get_pinned_ids().size() >= AchievementManager.MAX_PIN_COUNT:
+	elif AchievementManager.tracker.get_pinned_ids().size() >= AchievementTracker.MAX_PIN_COUNT:
 		# 上限到達 — ピン留め不可
 		_pin_button.text = "ピン留め (上限)"
 		_pin_button.disabled = true
@@ -331,10 +331,10 @@ func _on_pin_button_pressed() -> void:
 	if _selected_def == null:
 		return
 	# ピン留め状態をトグルする
-	if AchievementManager.is_pinned(_selected_def.id):
-		AchievementManager.unpin_achievement(_selected_def.id)
+	if AchievementManager.tracker.is_pinned(_selected_def.id):
+		AchievementManager.tracker.unpin_achievement(_selected_def.id)
 	else:
-		AchievementManager.pin_achievement(_selected_def.id)
+		AchievementManager.tracker.pin_achievement(_selected_def.id)
 
 
 ## ピン留め状態が変更されたときのコールバック

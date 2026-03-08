@@ -125,7 +125,7 @@ func is_slot_used(slot: int) -> bool:
 
 ## 全マネージャーを初期状態にリセットする（ニューゲーム用）
 func reset_all_managers() -> void:
-	AchievementManager.reset_records()
+	AchievementManager.tracker.reset_records()
 	SkillManager.reset_skills()
 	InventoryManager.reset_inventory()
 	NpcManager.reset()
@@ -154,13 +154,13 @@ func _collect_save_data() -> Dictionary:
 	var meta: Dictionary = {
 		"timestamp": Time.get_datetime_string_from_system(),
 		"map_name": player_data.get("map_name", ""),
-		"play_time_seconds": AchievementManager.get_play_time_seconds(),
+		"play_time_seconds": AchievementManager.tracker.get_play_time_seconds(),
 		"version": SAVE_VERSION,
 	}
 	return {
 		"meta": meta,
-		"achievement": AchievementManager.get_save_data(),
-		"record": AchievementManager.get_record_save_data(),
+		"achievement": AchievementManager.tracker.get_save_data(),
+		"record": AchievementManager.tracker.get_record_save_data(),
 		"skill": SkillManager.get_save_data(),
 		"inventory": InventoryManager.get_save_data(),
 		"npc": NpcManager.get_save_data(),
@@ -171,9 +171,9 @@ func _collect_save_data() -> Dictionary:
 ## セーブデータを全マネージャーに配布する
 func _distribute_save_data(data: Dictionary) -> void:
 	if data.has("achievement"):
-		AchievementManager.load_save_data(data["achievement"])
+		AchievementManager.tracker.load_save_data(data["achievement"])
 	if data.has("record"):
-		AchievementManager.load_record_save_data(data["record"])
+		AchievementManager.tracker.load_record_save_data(data["record"])
 	var _skill_key: String = "skill" if data.has("skill") else "reward"
 	if data.has(_skill_key):
 		SkillManager.load_save_data(data[_skill_key])

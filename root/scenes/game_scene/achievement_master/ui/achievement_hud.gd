@@ -88,7 +88,7 @@ func _on_achievement_unlocked(
 
 ## APカウンターを最新値で更新する
 func _refresh_ap() -> void:
-	_ap_label.text = "AP: %d" % AchievementManager.get_total_ap()
+	_ap_label.text = "AP: %d" % AchievementManager.tracker.get_total_ap()
 
 
 ## 全ラベルを最新の値で更新する

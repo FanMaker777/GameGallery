@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=3 format=3 uid="uid://db8cyc55r8cdv"]
 
-[ext_resource type="Script" path="res://root/scenes/game_scene/achievement_master/autoload/achievement_manager/achievement_manager.gd" id="1"]
-[ext_resource type="Script" path="res://root/scenes/game_scene/achievement_master/autoload/achievement_manager/achievement_tracker.gd" id="2"]
+[ext_resource type="Script" uid="uid://dloy4iyajwpvw" path="res://root/scenes/game_scene/achievement_master/autoload/achievement_manager/achievement_manager.gd" id="1"]
+[ext_resource type="Script" uid="uid://odj4cs2dkquj" path="res://root/scenes/game_scene/achievement_master/autoload/achievement_manager/achievement_tracker.gd" id="2"]
 
 [node name="AchievementManager" type="Node"]
 script = ExtResource("1")

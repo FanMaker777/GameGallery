@@ -43,37 +43,37 @@ func _on_visibility_changed() -> void:
 ## 全統計値を更新する
 func _refresh() -> void:
 	# プレイ時間
-	var total_seconds: float = AchievementManager.get_play_time_seconds()
+	var total_seconds: float = AchievementManager.tracker.get_play_time_seconds()
 	var hours: int = int(total_seconds) / 3600
 	var minutes: int = (int(total_seconds) % 3600) / 60
 	_play_time_value.text = "%d時間%d分" % [hours, minutes]
 	# 総移動距離
-	var distance_px: int = AchievementManager.get_stat(&"distance_walked")
+	var distance_px: int = AchievementManager.tracker.get_stat(&"distance_walked")
 	var distance_m: float = float(distance_px) / PIXELS_PER_METER
 	_distance_value.text = "%dm" % int(distance_m)
 	# 総討伐数
-	_total_kills_value.text = str(AchievementManager.get_stat(&"enemy_killed"))
+	_total_kills_value.text = str(AchievementManager.tracker.get_stat(&"enemy_killed"))
 	# 敵種別ごとの討伐数
 	_refresh_kills_by_type()
 	# 攻撃回数
-	_attacks_value.text = str(AchievementManager.get_stat(&"attack_started"))
+	_attacks_value.text = str(AchievementManager.tracker.get_stat(&"attack_started"))
 	# 被ダメージ回数
-	_damage_taken_value.text = str(AchievementManager.get_stat(&"player_damaged"))
+	_damage_taken_value.text = str(AchievementManager.tracker.get_stat(&"player_damaged"))
 	# 死亡回数
-	_deaths_value.text = str(AchievementManager.get_stat(&"player_died"))
+	_deaths_value.text = str(AchievementManager.tracker.get_stat(&"player_died"))
 	# 総採取数
-	_total_harvest_value.text = str(AchievementManager.get_stat(&"resource_harvested"))
+	_total_harvest_value.text = str(AchievementManager.tracker.get_stat(&"resource_harvested"))
 	# 種別ごとの採取数
-	_wood_value.text = str(AchievementManager.get_stat(&"resource_harvested_wood"))
-	_gold_value.text = str(AchievementManager.get_stat(&"resource_harvested_gold"))
-	_meat_value.text = str(AchievementManager.get_stat(&"resource_harvested_meat"))
+	_wood_value.text = str(AchievementManager.tracker.get_stat(&"resource_harvested_wood"))
+	_gold_value.text = str(AchievementManager.tracker.get_stat(&"resource_harvested_gold"))
+	_meat_value.text = str(AchievementManager.tracker.get_stat(&"resource_harvested_meat"))
 	# NPC会話回数
-	_npc_talked_value.text = str(AchievementManager.get_stat(&"npc_talked"))
+	_npc_talked_value.text = str(AchievementManager.tracker.get_stat(&"npc_talked"))
 	# 実績
-	var unlocked_count: int = AchievementManager.get_unlocked_ids().size()
-	var total_count: int = AchievementManager.get_all_definitions().size()
+	var unlocked_count: int = AchievementManager.tracker.get_unlocked_ids().size()
+	var total_count: int = AchievementManager.tracker.get_all_definitions().size()
 	_unlocked_value.text = "%d / %d" % [unlocked_count, total_count]
-	_total_ap_value.text = str(AchievementManager.get_total_ap())
+	_total_ap_value.text = str(AchievementManager.tracker.get_total_ap())
 
 
 ## クリアボタン押下時 → 警告ダイアログを表示する
@@ -83,7 +83,7 @@ func _on_clear_button_pressed() -> void:
 
 ## 警告ダイアログで「はい」が押されたとき
 func _on_clear_confirmed() -> void:
-	AchievementManager.reset_records()
+	AchievementManager.tracker.reset_records()
 	_refresh()
 
 
@@ -91,7 +91,7 @@ func _on_clear_confirmed() -> void:
 func _refresh_kills_by_type() -> void:
 	for child: Node in _kills_by_type_container.get_children():
 		child.queue_free()
-	var kills_by_type: Dictionary = AchievementManager.get_stat_by_type(&"enemy_killed")
+	var kills_by_type: Dictionary = AchievementManager.tracker.get_stat_by_type(&"enemy_killed")
 	for type_name: String in kills_by_type.keys():
 		var margin: MarginContainer = MarginContainer.new()
 		margin.add_theme_constant_override("margin_left", SUB_ITEM_MARGIN)

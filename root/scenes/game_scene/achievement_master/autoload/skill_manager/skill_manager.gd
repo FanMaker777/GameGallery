@@ -38,7 +38,7 @@ func _ready() -> void:
 
 ## 利用可能AP（累計AP - 消費済AP）を返す
 func get_available_ap() -> int:
-	return AchievementManager.get_total_ap() - _spent_ap
+	return AchievementManager.tracker.get_total_ap() - _spent_ap
 
 
 ## 消費済みAPを返す

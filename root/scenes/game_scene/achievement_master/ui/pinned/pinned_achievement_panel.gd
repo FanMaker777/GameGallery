@@ -74,16 +74,16 @@ func _rebuild_items() -> void:
 	for child: Node in _item_container.get_children():
 		child.queue_free()
 	# ピン留めIDを取得してアイテムを生成する
-	var pinned_ids: Array[StringName] = AchievementManager.get_pinned_ids()
+	var pinned_ids: Array[StringName] = AchievementManager.tracker.get_pinned_ids()
 	if pinned_ids.is_empty():
 		visible = false
 		return
 	visible = true
 	for id: StringName in pinned_ids:
-		var def: AchievementDefinition = AchievementManager.get_definition(id)
+		var def: AchievementDefinition = AchievementManager.tracker.get_definition(id)
 		if def == null:
 			continue
-		var progress: Dictionary = AchievementManager.get_progress(id)
+		var progress: Dictionary = AchievementManager.tracker.get_progress(id)
 		var current: int = progress.get("current", 0)
 		var target: int = progress.get("target", def.target_count)
 		# アイテムを生成して追加する
