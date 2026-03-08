@@ -11,6 +11,7 @@
       "mcp__godot__get_uid",
       "mcp__godot__update_project_uids",
       "mcp__godot__save_scene",
+      "Bash(cd *)",
       "Bash(npm run *)",
       "Bash(yarn *)",
       "Bash(pnpm *)",
