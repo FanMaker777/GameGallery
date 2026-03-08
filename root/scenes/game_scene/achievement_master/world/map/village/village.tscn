@@ -15,7 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://c0lwb1x7tqobn" path="res://root/scenes/game_scene/achievement_master/world/assets/Buildings/Blue Buildings/House2.png" id="house2_texture"]
 [ext_resource type="Texture2D" uid="uid://bmqh7f2kbeqms" path="res://root/scenes/game_scene/achievement_master/world/assets/Buildings/Blue Buildings/Monastery.png" id="monastery_texture"]
 [ext_resource type="PackedScene" uid="uid://kabmdp7ej4et" path="res://root/scenes/game_scene/achievement_master/character/npc/npc.tscn" id="npc_scene"]
-[ext_resource type="PackedScene" uid="uid://clf2l483adbii" path="res://root/scenes/game_scene/achievement_master/character/Pawn/pawn.tscn" id="pawn_scene"]
+[ext_resource type="PackedScene" uid="uid://clf2l483adbii" path="res://root/scenes/game_scene/achievement_master/character/Player/player.tscn" id="pawn_scene"]
 [ext_resource type="PackedScene" uid="uid://4rnts66f2wbv" path="res://root/scenes/game_scene/achievement_master/world/resource_nodes/sheep_node.tscn" id="sheep_node_scene"]
 [ext_resource type="PackedScene" uid="uid://cagovhn7pyb3o" path="res://root/scenes/game_scene/achievement_master/world/resource_nodes/tree_node.tscn" id="tree_scene"]
 
@@ -35,7 +35,7 @@ z_index = -4
 tile_map_data = PackedByteArray("AAD6//z/AQADAAUAAAD5//v/AQAGAAIAAAD5//r/AQAHAAEAAAD5//z/AQAGAAQAAAD2//z/AQAGAAQAAAD3//z/AQAGAAQAAAD4//z/AQAGAAQAAAD1//z/AQAGAAQAAAD0//z/AQAFAAQAAAD0//n/AQAFAAAAAAD0//r/AQAFAAEAAAD0//v/AQAFAAIAAAD1//n/AQAGAAAAAAD1//r/AQAGAAEAAAD1//v/AQAGAAIAAAD2//n/AQAGAAAAAAD2//r/AQAGAAEAAAD2//v/AQAGAAIAAAD3//n/AQAGAAAAAAD3//r/AQAGAAEAAAD3//v/AQAGAAIAAAD4//n/AQAGAAAAAAD4//r/AQAGAAEAAAD4//v/AQAGAAIAAAD5//n/AQAHAAAAAAD6//v/AQADAAQAAAA=")
 tile_set = ExtResource("1_qtgsi")
 
-[node name="Pawn" parent="." instance=ExtResource("pawn_scene")]
+[node name="Player" parent="." instance=ExtResource("pawn_scene")]
 
 [node name="Enemy" parent="." instance=ExtResource("4_01tu3")]
 position = Vector2(515, -251)

@@ -190,8 +190,8 @@ func _collect_player_state() -> Dictionary:
 	var players: Array[Node] = get_tree().get_nodes_in_group("player")
 	if players.is_empty():
 		return {}
-	var pawn: Node2D = players[0] as Node2D
-	if pawn == null:
+	var player: Node2D = players[0] as Node2D
+	if player == null:
 		return {}
 	# 現在のシーンからマップパスを取得する
 	var current_scene: Node = get_tree().current_scene
@@ -201,8 +201,8 @@ func _collect_player_state() -> Dictionary:
 		map_path = current_scene.scene_file_path
 		map_name = map_path.get_file().get_basename()
 	return {
-		"hp": pawn.hp,
-		"position": {"x": pawn.global_position.x, "y": pawn.global_position.y},
+		"hp": player.hp,
+		"position": {"x": player.global_position.x, "y": player.global_position.y},
 		"map_path": map_path,
 		"map_name": map_name,
 	}
@@ -216,22 +216,22 @@ func _restore_player_state(player_data: Dictionary) -> void:
 	if players.is_empty():
 		Log.warn("SaveManager: プレイヤーが見つからないため復元をスキップ")
 		return
-	var pawn: CharacterBody2D = players[0] as CharacterBody2D
-	if pawn == null:
+	var player: CharacterBody2D = players[0] as CharacterBody2D
+	if player == null:
 		return
 	# 位置を復元する
 	var pos: Dictionary = player_data.get("position", {})
 	if not pos.is_empty():
-		pawn.global_position = Vector2(
+		player.global_position = Vector2(
 			float(pos.get("x", 0.0)),
 			float(pos.get("y", 0.0))
 		)
 	# HPを復元する（_ready() でリセットされた後に上書きする）
 	if player_data.has("hp"):
-		pawn.hp = int(player_data["hp"])
-		pawn.health_changed.emit(pawn.hp, pawn.get_effective_max_hp())
+		player.hp = int(player_data["hp"])
+		player.health_changed.emit(player.hp, player.get_effective_max_hp())
 	Log.info("SaveManager: プレイヤー状態を復元 (HP=%d, pos=%s)" % [
-		pawn.hp, pawn.global_position
+		player.hp, player.global_position
 	])
 
 

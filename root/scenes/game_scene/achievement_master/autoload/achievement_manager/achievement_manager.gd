@@ -87,7 +87,7 @@ func register_player(player: Node) -> void:
 	_player = player
 	_previous_player_pos = player.global_position
 	_distance_accumulator = 0.0
-	# Pawn のシグナルを接続する
+	# Player のシグナルを接続する
 	if player.has_signal("attack_landed"):
 		player.attack_landed.connect(_on_player_attack_landed)
 	if player.has_signal("attack_started"):

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cp5awfj2n3hjd"
-path="res://.godot/imported/Pawn_Interact Axe.png-9f69808546c4b89bae4ccabb7924bbfa.ctex"
+uid="uid://x6unk6uxrtbe"
+path="res://.godot/imported/Pawn_Idle Gold.png-edaebbe982d83e351826e328fb07b153.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://root/scenes/game_scene/achievement_master/character/Pawn/image/Pawn_Interact Axe.png"
-dest_files=["res://.godot/imported/Pawn_Interact Axe.png-9f69808546c4b89bae4ccabb7924bbfa.ctex"]
+source_file="res://root/scenes/game_scene/achievement_master/character/Player/image/Pawn_Idle Gold.png"
+dest_files=["res://.godot/imported/Pawn_Idle Gold.png-edaebbe982d83e351826e328fb07b153.ctex"]
 
 [params]
 

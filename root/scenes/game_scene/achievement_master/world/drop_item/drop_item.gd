@@ -1,5 +1,5 @@
 ## 敵がドロップするアイテム
-## Pawn が接近すると自動回収され、インベントリに加算される
+## Player が接近すると自動回収され、インベントリに加算される
 class_name DropItem extends Node2D
 
 
@@ -23,7 +23,7 @@ var _picked_up: bool = false
 # ---- ノードキャッシュ ----
 ## ドロップアイテムのスプライト
 @onready var _sprite: Sprite2D = $Sprite2D
-## Pawn 検知用エリア
+## Player 検知用エリア
 @onready var _pickup_area: Area2D = $PickupArea
 
 
@@ -35,7 +35,7 @@ func _ready() -> void:
 	var tex: Texture2D = _TEXTURE_MAP.get(resource_type)
 	if tex:
 		_sprite.texture = tex
-	# PickupArea に Pawn が入ったら回収処理を呼ぶ
+	# PickupArea に Player が入ったら回収処理を呼ぶ
 	_pickup_area.body_entered.connect(_on_pickup_area_body_entered)
 	# スポーン時のバウンド演出を再生する
 	_play_spawn_bounce()
@@ -57,30 +57,30 @@ func _play_spawn_bounce() -> void:
 
 # ========== 回収処理 ==========
 
-## Pawn が PickupArea に入ったときのコールバック
+## Player が PickupArea に入ったときのコールバック
 func _on_pickup_area_body_entered(body: Node2D) -> void:
 	# 二重回収を防止する
 	if _picked_up:
 		return
-	# Pawn グループに属していない場合は無視する
+	# Player グループに属していない場合は無視する
 	if not body.is_in_group("player"):
 		return
 	# collect_drop メソッドを持っていない場合は無視する
 	if not body.has_method("collect_drop"):
 		return
-	# 回収フラグを立てて Pawn のインベントリに加算する
+	# 回収フラグを立てて Player のインベントリに加算する
 	_picked_up = true
 	body.collect_drop(resource_type, amount)
 	# 回収演出を再生する
 	_play_collect_effect(body)
 
 
-## 回収演出 — Pawn に向かって吸い込まれ + フェードアウトし、完了後に削除する
+## 回収演出 — Player に向かって吸い込まれ + フェードアウトし、完了後に削除する
 func _play_collect_effect(target: Node2D) -> void:
 	var tween: Tween = create_tween()
 	# 3つの演出を同時に再生する
 	tween.set_parallel(true)
-	# Pawn の位置に向かって移動する（0.25秒）
+	# Player の位置に向かって移動する（0.25秒）
 	tween.tween_property(self, "global_position", target.global_position, 0.25) \
 		.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
 	# 透明度を 0 にフェードアウトする（0.25秒）

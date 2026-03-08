@@ -28,8 +28,8 @@ func _ready() -> void:
 
 ## プレイヤーがゲートに接触した時の処理
 func _on_body_entered(body: Node2D) -> void:
-	# Pawn（プレイヤー）以外は無視
-	if not body is Pawn:
+	# Player 以外は無視
+	if not body is AmPlayer:
 		return
 	# 遷移先が未設定の場合は警告して処理しない
 	if target_scene_path.is_empty():

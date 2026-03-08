@@ -1,5 +1,5 @@
 ## 採取可能なリソースノードの基底クラス
-## Pawn が InteractArea で検知し、interact キーで採取する
+## Player が InteractArea で検知し、interact キーで採取する
 class_name ResourceNode extends StaticBody2D
 
 ## 採取完了時に発火する（AchievementManager 連携用）
@@ -20,14 +20,14 @@ func _ready() -> void:
 	_update_visual()
 
 
-## Pawn が採取前に呼ぶ — アニメーション種別や時間を返す
+## Player が採取前に呼ぶ — アニメーション種別や時間を返す
 func get_gather_data() -> Dictionary:
 	if is_depleted:
 		return {}
 	return _node_data.duplicate()
 
 
-## Pawn が採取完了時に呼ぶ — リソース種別と量を返す
+## Player が採取完了時に呼ぶ — リソース種別と量を返す
 func harvest() -> Dictionary:
 	if is_depleted:
 		return {}

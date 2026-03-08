@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c83k5jp3cs7jm"
-path="res://.godot/imported/Pawn_Idle Wood.png-239e89ad1a068aa09e4e73dc8c031a22.ctex"
+uid="uid://dtji7r0i0gpay"
+path="res://.godot/imported/Pawn_Idle Knife.png-8f3e7a27baebef123e63294e347228cb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://root/scenes/game_scene/achievement_master/character/Pawn/image/Pawn_Idle Wood.png"
-dest_files=["res://.godot/imported/Pawn_Idle Wood.png-239e89ad1a068aa09e4e73dc8c031a22.ctex"]
+source_file="res://root/scenes/game_scene/achievement_master/character/Player/image/Pawn_Idle Knife.png"
+dest_files=["res://.godot/imported/Pawn_Idle Knife.png-8f3e7a27baebef123e63294e347228cb.ctex"]
 
 [params]
 

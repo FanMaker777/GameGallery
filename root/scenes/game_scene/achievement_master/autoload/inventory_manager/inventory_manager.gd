@@ -6,7 +6,7 @@ extends Node
 signal bag_changed(id: StringName, new_count: int)
 ## 装備スロットが変化したときに発火する
 signal equipment_changed(slot: int)
-## 消耗品が使用されたときに発火する（効果適用は Pawn 側で行う）
+## 消耗品が使用されたときに発火する（効果適用は Player 側で行う）
 signal item_used(id: StringName, definition: ItemDefinition)
 
 # ---- アイテムデータベース ----
@@ -24,7 +24,7 @@ var _equipment: Dictionary = {
 	EquipmentDefinition.EquipSlot.ARMOR: &"",
 	EquipmentDefinition.EquipSlot.ACCESSORY: &"",
 }
-## 装備ステータスキャッシュ（装備変更時に更新、Pawn が参照する）
+## 装備ステータスキャッシュ（装備変更時に更新、Player が参照する）
 var _equip_cache: EquipmentStatCache = EquipmentStatCache.new()
 
 
@@ -159,7 +159,7 @@ func get_equipped(slot: EquipmentDefinition.EquipSlot) -> StringName:
 	return _equipment.get(slot, &"")
 
 
-## 装備ステータスキャッシュを返す（Pawn が参照する）
+## 装備ステータスキャッシュを返す（Player が参照する）
 func get_equip_cache() -> EquipmentStatCache:
 	return _equip_cache
 
@@ -182,7 +182,7 @@ func use_item(id: StringName) -> bool:
 		return false
 	# バッグから1個消費する
 	_remove_item_internal(id)
-	# 効果適用は Pawn 側で行う（シグナルのみ発火）
+	# 効果適用は Player 側で行う（シグナルのみ発火）
 	item_used.emit(id, def as ConsumableDefinition)
 	Log.info("InventoryManager: 消耗品使用 — %s" % id)
 	return true

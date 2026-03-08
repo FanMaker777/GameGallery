@@ -16,27 +16,27 @@ var _is_showing: bool = false
 ## 現在戦闘中かどうか
 var _is_in_combat: bool = false
 ## プレイヤーへの参照キャッシュ
-var _pawn: Node = null
+var _player: Node = null
 
 
-## 初期化 — AchievementManager のシグナルを購読し、Pawn への接続を遅延実行する
+## 初期化 — AchievementManager のシグナルを購読し、Player への接続を遅延実行する
 func _ready() -> void:
 	# AchievementManager の実績解除シグナルを購読する
 	AchievementManager.achievement_unlocked.connect(_on_achievement_unlocked)
-	# Pawn への接続を遅延実行する（Pawn が先に _ready される保証がないため）
-	_connect_to_pawn.call_deferred()
+	# Player への接続を遅延実行する（Player が先に _ready される保証がないため）
+	_connect_to_player.call_deferred()
 	Log.info("ToastManager: 初期化完了")
 
 
-## Pawn の戦闘状態シグナルを購読する
-func _connect_to_pawn() -> void:
-	_pawn = get_tree().get_first_node_in_group("player")
-	if _pawn == null:
+## Player の戦闘状態シグナルを購読する
+func _connect_to_player() -> void:
+	_player = get_tree().get_first_node_in_group("player")
+	if _player == null:
 		return
 	# 戦闘状態変化シグナルを接続する
-	if _pawn.has_signal("combat_state_changed"):
-		_pawn.combat_state_changed.connect(_on_combat_state_changed)
-		Log.debug("ToastManager: Pawn の combat_state_changed に接続完了")
+	if _player.has_signal("combat_state_changed"):
+		_player.combat_state_changed.connect(_on_combat_state_changed)
+		Log.debug("ToastManager: Player の combat_state_changed に接続完了")
 
 
 ## 実績解除時のコールバック — ランクに応じてキューに振り分ける

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dlgl2nktqreja"
-path="res://.godot/imported/Pawn_Run Gold.png-77c0f44df331dd8dc7ad2c39aa88f47c.ctex"
+uid="uid://d0jx8aemt6jog"
+path="res://.godot/imported/Pawn_Run Wood.png-69999e2e97dfa18b63e9d2cdc63b36b8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://root/scenes/game_scene/achievement_master/character/Pawn/image/Pawn_Run Gold.png"
-dest_files=["res://.godot/imported/Pawn_Run Gold.png-77c0f44df331dd8dc7ad2c39aa88f47c.ctex"]
+source_file="res://root/scenes/game_scene/achievement_master/character/Player/image/Pawn_Run Wood.png"
+dest_files=["res://.godot/imported/Pawn_Run Wood.png-69999e2e97dfa18b63e9d2cdc63b36b8.ctex"]
 
 [params]
 

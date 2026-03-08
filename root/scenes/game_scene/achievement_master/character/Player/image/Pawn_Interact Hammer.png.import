@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dtji7r0i0gpay"
-path="res://.godot/imported/Pawn_Idle Knife.png-333e1d6dca698f3f5ec77cdaeb4ca09c.ctex"
+uid="uid://d2l1qdfqgtqp4"
+path="res://.godot/imported/Pawn_Interact Hammer.png-c23e909baa220baa7e06f98713be9924.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://root/scenes/game_scene/achievement_master/character/Pawn/image/Pawn_Idle Knife.png"
-dest_files=["res://.godot/imported/Pawn_Idle Knife.png-333e1d6dca698f3f5ec77cdaeb4ca09c.ctex"]
+source_file="res://root/scenes/game_scene/achievement_master/character/Player/image/Pawn_Interact Hammer.png"
+dest_files=["res://.godot/imported/Pawn_Interact Hammer.png-c23e909baa220baa7e06f98713be9924.ctex"]
 
 [params]
 

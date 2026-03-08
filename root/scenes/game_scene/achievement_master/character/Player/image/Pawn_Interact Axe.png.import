@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://boqfon868p4fs"
-path="res://.godot/imported/Pawn_Interact Knife.png-4bde34f74ffa12214853d3af7e6b66c5.ctex"
+uid="uid://cp5awfj2n3hjd"
+path="res://.godot/imported/Pawn_Interact Axe.png-047740f11b87e3229339b476a2309d9e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://root/scenes/game_scene/achievement_master/character/Pawn/image/Pawn_Interact Knife.png"
-dest_files=["res://.godot/imported/Pawn_Interact Knife.png-4bde34f74ffa12214853d3af7e6b66c5.ctex"]
+source_file="res://root/scenes/game_scene/achievement_master/character/Player/image/Pawn_Interact Axe.png"
+dest_files=["res://.godot/imported/Pawn_Interact Axe.png-047740f11b87e3229339b476a2309d9e.ctex"]
 
 [params]
 

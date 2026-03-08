@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dgs6mx82er6w3"
-path="res://.godot/imported/Pawn_Idle Hammer.png-e43782121ecce71cf5345b787810be4a.ctex"
+path="res://.godot/imported/Pawn_Idle Hammer.png-d7db4e5cdcf4aeefa0d4cb96b3c0f728.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://root/scenes/game_scene/achievement_master/character/Pawn/image/Pawn_Idle Hammer.png"
-dest_files=["res://.godot/imported/Pawn_Idle Hammer.png-e43782121ecce71cf5345b787810be4a.ctex"]
+source_file="res://root/scenes/game_scene/achievement_master/character/Player/image/Pawn_Idle Hammer.png"
+dest_files=["res://.godot/imported/Pawn_Idle Hammer.png-d7db4e5cdcf4aeefa0d4cb96b3c0f728.ctex"]
 
 [params]
 

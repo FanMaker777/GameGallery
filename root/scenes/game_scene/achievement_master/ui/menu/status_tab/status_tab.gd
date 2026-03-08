@@ -51,25 +51,25 @@ func _refresh() -> void:
 
 func _refresh_combat(ec: EquipmentStatCache, sc: SkillEffectCache) -> void:
 	_display_additive_stat(
-		Pawn.BASE_MAX_HP, ec.hp_flat, sc.hp_percent_up,
+		AmPlayer.BASE_MAX_HP, ec.hp_flat, sc.hp_percent_up,
 		_max_hp_value, _max_hp_detail,
 	)
 	_display_additive_stat(
-		Pawn.BASE_ATTACK_DAMAGE, ec.attack_flat, sc.attack_percent_up,
+		AmPlayer.BASE_ATTACK_DAMAGE, ec.attack_flat, sc.attack_percent_up,
 		_attack_value, _attack_detail,
 	)
 
 
 func _refresh_mobility(ec: EquipmentStatCache, sc: SkillEffectCache) -> void:
 	# 移動速度: base * (1 + equip% + skill%)
-	var spd_total: float = Pawn.BASE_SPEED * (1.0 + (ec.speed_percent + sc.move_speed_up) / 100.0)
+	var spd_total: float = AmPlayer.BASE_SPEED * (1.0 + (ec.speed_percent + sc.move_speed_up) / 100.0)
 	_speed_value.text = "%.1f" % spd_total
 	_speed_detail.text = "(基礎:%.0f  装備:+%.0f%%  スキル:+%.0f%%)" % [
-		Pawn.BASE_SPEED, ec.speed_percent, sc.move_speed_up,
+		AmPlayer.BASE_SPEED, ec.speed_percent, sc.move_speed_up,
 	]
 
 	# スタミナ最大値: (base + equip) * (1 + skill%)
-	var stam_base: float = Pawn.BASE_MAX_STAMINA
+	var stam_base: float = AmPlayer.BASE_MAX_STAMINA
 	var stam_total: float = (stam_base + ec.stamina_flat) * (1.0 + sc.stamina_max_up / 100.0)
 	_stamina_max_value.text = "%.1f" % stam_total
 	_stamina_max_detail.text = "(基礎:%.0f  装備:+%.0f  スキル:+%.0f%%)" % [

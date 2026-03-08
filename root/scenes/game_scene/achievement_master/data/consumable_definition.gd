@@ -1,5 +1,5 @@
 ## 消耗品1件の定義データ（HPポーション・スタミナ回復薬など）
-## 使用するとバッグから1個消費され、Pawn 側で効果が適用される
+## 使用するとバッグから1個消費され、Player 側で効果が適用される
 class_name ConsumableDefinition
 extends ItemDefinition
 

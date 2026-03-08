@@ -18,27 +18,27 @@ class_name AchievementHud extends CanvasLayer
 @onready var _pinned_panel: PinnedAchievementPanel = %PinnedAchievementPanel
 
 # ---- 状態 ----
-## Pawn への参照キャッシュ（毎回検索しない）
-var _pawn: Node = null
+## Player への参照キャッシュ（毎回検索しない）
+var _player: Node = null
 ## リソース種別とラベルの対応マッピング
 var _label_map: Dictionary = {}
 
 
-## 初期化 — Pawn へのシグナル接続を遅延実行し、AP表示を初期化する
+## 初期化 — Player へのシグナル接続を遅延実行し、AP表示を初期化する
 func _ready() -> void:
-	# Pawn が先に _ready される保証がないため遅延接続する
-	_connect_to_pawn.call_deferred()
+	# Player が先に _ready される保証がないため遅延接続する
+	_connect_to_player.call_deferred()
 	# 全ラベルを初期化する
 	_refresh_all()
 	# AchievementManager のシグナルを購読してAPをリアルタイム更新する
 	AchievementManager.achievement_unlocked.connect(_on_achievement_unlocked)
 
 
-## Pawn のシグナルを購読し、参照をキャッシュする
-func _connect_to_pawn() -> void:
-	_pawn = get_tree().get_first_node_in_group("player")
-	if _pawn == null:
-		Log.debug("AchievementHud: グループ 'player' に Pawn が見つからない")
+## Player のシグナルを購読し、参照をキャッシュする
+func _connect_to_player() -> void:
+	_player = get_tree().get_first_node_in_group("player")
+	if _player == null:
+		Log.debug("AchievementHud: グループ 'player' に Player が見つからない")
 		return
 	# アイテムIDとラベルの対応マッピングを構築する
 	_label_map = {
@@ -49,14 +49,14 @@ func _connect_to_pawn() -> void:
 	# InventoryManager のバッグ変化シグナルを接続する
 	InventoryManager.bag_changed.connect(_on_bag_changed)
 	# HP変化シグナルを接続
-	if _pawn.has_signal("health_changed"):
-		_pawn.health_changed.connect(_on_health_changed)
+	if _player.has_signal("health_changed"):
+		_player.health_changed.connect(_on_health_changed)
 	# スタミナ変化シグナルを接続
-	if _pawn.has_signal("stamina_changed"):
-		_pawn.stamina_changed.connect(_on_stamina_changed)
+	if _player.has_signal("stamina_changed"):
+		_player.stamina_changed.connect(_on_stamina_changed)
 	# 全表示を最新化する
 	_refresh_all()
-	Log.info("AchievementHud: Pawn に接続完了")
+	Log.info("AchievementHud: Player に接続完了")
 
 
 ## バッグ内容変化時に該当ラベルのみ更新する

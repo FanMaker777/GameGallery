@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://pw5qf5rmldtl"
-path="res://.godot/imported/Pawn_Idle Meat.png-19631268d4c7c858d7f9ea2304b475c8.ctex"
+uid="uid://dw6qsp58hxsbh"
+path="res://.godot/imported/Pawn_Idle Pickaxe.png-125649577133f7ac72c514a0138d2574.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://root/scenes/game_scene/achievement_master/character/Pawn/image/Pawn_Idle Meat.png"
-dest_files=["res://.godot/imported/Pawn_Idle Meat.png-19631268d4c7c858d7f9ea2304b475c8.ctex"]
+source_file="res://root/scenes/game_scene/achievement_master/character/Player/image/Pawn_Idle Pickaxe.png"
+dest_files=["res://.godot/imported/Pawn_Idle Pickaxe.png-125649577133f7ac72c514a0138d2574.ctex"]
 
 [params]
 

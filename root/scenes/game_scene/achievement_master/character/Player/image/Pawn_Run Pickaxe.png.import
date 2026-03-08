@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://x6unk6uxrtbe"
-path="res://.godot/imported/Pawn_Idle Gold.png-dbfc36d66333722c8713c9a65336c1cf.ctex"
+uid="uid://bsxeg851n8wph"
+path="res://.godot/imported/Pawn_Run Pickaxe.png-49d4523a69b2aed2adfbc8602abe8493.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://root/scenes/game_scene/achievement_master/character/Pawn/image/Pawn_Idle Gold.png"
-dest_files=["res://.godot/imported/Pawn_Idle Gold.png-dbfc36d66333722c8713c9a65336c1cf.ctex"]
+source_file="res://root/scenes/game_scene/achievement_master/character/Player/image/Pawn_Run Pickaxe.png"
+dest_files=["res://.godot/imported/Pawn_Run Pickaxe.png-49d4523a69b2aed2adfbc8602abe8493.ctex"]
 
 [params]
 

@@ -138,7 +138,7 @@ func _on_animation_finished() -> void:
 	if _animated_sprite.animation == &"Attack":
 		_blackboard.set_value(BlackBoardValue.ATTACK_ANIM_FINISHED, true)
 
-## Pawnの攻撃ヒットボックスから呼ばれる — ダメージを受ける
+## Playerの攻撃ヒットボックスから呼ばれる — ダメージを受ける
 func take_damage(amount: int) -> void:
 	# 死亡演出中はダメージを無視する
 	if _is_dying:

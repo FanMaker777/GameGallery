@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://l5i7orf7idrm"
-path="res://.godot/imported/Pawn_Run Meat.png-661c2420aefb035a52508f4aa65875e6.ctex"
+path="res://.godot/imported/Pawn_Run Meat.png-844a15ce5422a1c57db7d5ab4a9999fd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://root/scenes/game_scene/achievement_master/character/Pawn/image/Pawn_Run Meat.png"
-dest_files=["res://.godot/imported/Pawn_Run Meat.png-661c2420aefb035a52508f4aa65875e6.ctex"]
+source_file="res://root/scenes/game_scene/achievement_master/character/Player/image/Pawn_Run Meat.png"
+dest_files=["res://.godot/imported/Pawn_Run Meat.png-844a15ce5422a1c57db7d5ab4a9999fd.ctex"]
 
 [params]
 

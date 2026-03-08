@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ckir6cia4pg11"
-path="res://.godot/imported/Pawn_Run Hammer.png-4ab1076ef723cbd16d3913da21d2c86d.ctex"
+uid="uid://ck1j7guh4bo5k"
+path="res://.godot/imported/Pawn_Run Axe.png-1718ba02605c468316d266f790ab08ac.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://root/scenes/game_scene/achievement_master/character/Pawn/image/Pawn_Run Hammer.png"
-dest_files=["res://.godot/imported/Pawn_Run Hammer.png-4ab1076ef723cbd16d3913da21d2c86d.ctex"]
+source_file="res://root/scenes/game_scene/achievement_master/character/Player/image/Pawn_Run Axe.png"
+dest_files=["res://.godot/imported/Pawn_Run Axe.png-1718ba02605c468316d266f790ab08ac.ctex"]
 
 [params]
 

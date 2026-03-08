@@ -1,6 +1,6 @@
 ## プレイヤーが操作するキャラクター
 ## 移動・採取・攻撃・被ダメージの行動を状態で管理する
-class_name Pawn extends CharacterBody2D
+class_name AmPlayer extends CharacterBody2D
 
 # ---- 基礎定数 ----
 ## 基礎移動速度（ピクセル/秒）
@@ -122,7 +122,7 @@ func _ready() -> void:
 	AchievementManager.register_player(self)
 	# InventoryManager の消耗品使用シグナルを接続する
 	InventoryManager.item_used.connect(_on_item_used)
-	Log.info("Pawn: 初期化完了 (HP=%d/%d)" % [hp, get_effective_max_hp()])
+	Log.info("Player: 初期化完了 (HP=%d/%d)" % [hp, get_effective_max_hp()])
 
 
 ## 毎フレームの物理処理 — 状態に応じた処理を振り分ける
@@ -168,7 +168,7 @@ func take_damage(amount: int) -> void:
 	hp = maxi(hp - amount, 0)
 	_enter_combat()
 	health_changed.emit(hp, get_effective_max_hp())
-	Log.info("Pawn: ダメージ %d を受けた (残HP: %d/%d)" % [amount, hp, get_effective_max_hp()])
+	Log.info("Player: ダメージ %d を受けた (残HP: %d/%d)" % [amount, hp, get_effective_max_hp()])
 	if hp <= 0:
 		# HPが0になったら死亡処理へ
 		_die()
@@ -186,7 +186,7 @@ func _die() -> void:
 	_animated_sprite.visible = true
 	_animated_sprite.play("Idle")
 	died.emit()
-	Log.info("Pawn: 死亡")
+	Log.info("Player: 死亡")
 	# 一定時間後に村へリスポーンする
 	_start_respawn_timer()
 
@@ -199,7 +199,7 @@ func _start_respawn_timer() -> void:
 
 ## 村シーンの中央にリスポーンする
 func _respawn() -> void:
-	Log.info("Pawn: 村にリスポーン")
+	Log.info("Player: 村にリスポーン")
 	GameManager.load_scene_with_transition(PathConsts.AM_VILLAGE_SCENE)
 
 
@@ -292,7 +292,7 @@ func _start_gather(node: Node2D) -> void:
 	_gather_progress_bar.max_value = _gather_duration
 	_gather_progress_bar.value = 0.0
 	_gather_progress_bar.visible = true
-	Log.info("Pawn: 採取開始 → %s (%.1f秒)" % [node.name, _gather_duration])
+	Log.info("Player: 採取開始 → %s (%.1f秒)" % [node.name, _gather_duration])
 
 
 ## 採取タイマーを進め、完了したら収穫処理を呼ぶ
@@ -321,7 +321,7 @@ func _finish_gather() -> void:
 			# InventoryManager 経由でインベントリに追加する
 			var item_id: StringName = ResourceDefinitions.to_item_id(type)
 			InventoryManager.add_item(item_id, amount)
-			Log.info("Pawn: 採取完了 %s x%d" % [
+			Log.info("Player: 採取完了 %s x%d" % [
 				ResourceDefinitions.get_type_name(type), amount
 			])
 	_gather_target = null
@@ -332,7 +332,7 @@ func _finish_gather() -> void:
 
 ## 採取を中断する — 進捗をリセットしIDLE状態に復帰
 func _cancel_gather() -> void:
-	Log.debug("Pawn: 採取中断")
+	Log.debug("Player: 採取中断")
 	_gather_target = null
 	_gather_timer = 0.0
 	_gather_progress_bar.visible = false
@@ -378,7 +378,7 @@ func _on_attack_hitbox_body_entered(body: Node2D) -> void:
 		var damage: int = get_effective_attack()
 		body.take_damage(damage)
 		attack_landed.emit(body, damage)
-		Log.info("Pawn: 敵にダメージ %d → %s" % [damage, body.name])
+		Log.info("Player: 敵にダメージ %d → %s" % [damage, body.name])
 
 # ========== インタラクトエリア ==========
 
@@ -409,7 +409,7 @@ func _start_talk(npc: Node2D) -> void:
 	if not npc.has_method("interact"):
 		return
 	npc.interact()
-	Log.debug("Pawn: NPCに話しかけた → %s" % npc.name)
+	Log.debug("Player: NPCに話しかけた → %s" % npc.name)
 
 # ========== インベントリ ==========
 
@@ -424,7 +424,7 @@ func _on_item_used(_id: StringName, def: ItemDefinition) -> void:
 			var max_hp: int = get_effective_max_hp()
 			hp = mini(hp + int(definition.effect_value), max_hp)
 			health_changed.emit(hp, max_hp)
-			Log.info("Pawn: HP回復 +%d (現在HP=%d/%d)" % [
+			Log.info("Player: HP回復 +%d (現在HP=%d/%d)" % [
 				int(definition.effect_value), hp, max_hp
 			])
 		ConsumableDefinition.EffectType.STAMINA_RECOVER:
@@ -432,7 +432,7 @@ func _on_item_used(_id: StringName, def: ItemDefinition) -> void:
 			var max_stam: float = get_effective_max_stamina()
 			stamina = minf(stamina + definition.effect_value, max_stam)
 			stamina_changed.emit(stamina, max_stam)
-			Log.info("Pawn: スタミナ回復 +%.0f (現在=%.0f/%.0f)" % [
+			Log.info("Player: スタミナ回復 +%.0f (現在=%.0f/%.0f)" % [
 				definition.effect_value, stamina, max_stam
 			])
 
@@ -441,7 +441,7 @@ func _on_item_used(_id: StringName, def: ItemDefinition) -> void:
 func collect_drop(type: ResourceDefinitions.ResourceType, amount: int) -> void:
 	var item_id: StringName = ResourceDefinitions.to_item_id(type)
 	InventoryManager.add_item(item_id, amount)
-	Log.info("Pawn: ドロップ回収 %s x%d" % [ResourceDefinitions.get_type_name(type), amount])
+	Log.info("Player: ドロップ回収 %s x%d" % [ResourceDefinitions.get_type_name(type), amount])
 
 # ========== スタミナ処理 ==========
 
@@ -468,14 +468,14 @@ func _enter_combat() -> void:
 	if not _is_in_combat:
 		_is_in_combat = true
 		combat_state_changed.emit(true)
-		Log.debug("Pawn: 戦闘状態に入った")
+		Log.debug("Player: 戦闘状態に入った")
 
 
 ## 戦闘状態から出る — シグナルを発火する
 func _exit_combat() -> void:
 	_is_in_combat = false
 	combat_state_changed.emit(false)
-	Log.debug("Pawn: 戦闘状態から出た")
+	Log.debug("Player: 戦闘状態から出た")
 
 
 ## 戦闘状態クールダウンを処理する — 時間経過で戦闘状態を解除する

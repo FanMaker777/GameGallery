@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d1hb1gkpfnld7"
-path="res://.godot/imported/Pawn_Interact Pickaxe.png-7f1af13ab62195c197a82a357247e717.ctex"
+uid="uid://ckir6cia4pg11"
+path="res://.godot/imported/Pawn_Run Hammer.png-31412defe71fd276dcaee768a911ca58.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://root/scenes/game_scene/achievement_master/character/Pawn/image/Pawn_Interact Pickaxe.png"
-dest_files=["res://.godot/imported/Pawn_Interact Pickaxe.png-7f1af13ab62195c197a82a357247e717.ctex"]
+source_file="res://root/scenes/game_scene/achievement_master/character/Player/image/Pawn_Run Hammer.png"
+dest_files=["res://.godot/imported/Pawn_Run Hammer.png-31412defe71fd276dcaee768a911ca58.ctex"]
 
 [params]
 
