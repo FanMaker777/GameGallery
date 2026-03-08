@@ -28,6 +28,10 @@ extends Control
 
 ## 各プロパティの初期反映とPlayボタンのシグナル接続を行う
 func _ready() -> void:
+	# ゲームシーンが未設定のカードは非表示にする
+	if game_scene_path == "":
+		visible = false
+		return
 	# 各プロパティの表示を初期化
 	set_title(title)
 	set_thumbnail(thumbnail)
