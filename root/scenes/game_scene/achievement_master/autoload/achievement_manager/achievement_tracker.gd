@@ -275,3 +275,35 @@ func get_record_save_data() -> Dictionary:
 ## Dictionary から RecordDatabase の状態を復元する
 func load_record_save_data(data: Dictionary) -> void:
 	_record_db.load_save_data(data)
+
+
+# ========== Saveable インターフェース ==========
+
+## セーブキーの配列を返す
+func get_save_keys() -> Array[StringName]:
+	return [&"achievement", &"record"]
+
+
+## 指定キーのセーブデータを返す
+func get_save_data_for_key(key: StringName) -> Dictionary:
+	match key:
+		&"achievement":
+			return get_save_data()
+		&"record":
+			return get_record_save_data()
+		_:
+			return {}
+
+
+## 指定キーのセーブデータを復元する
+func load_save_data_for_key(key: StringName, data: Dictionary) -> void:
+	match key:
+		&"achievement":
+			load_save_data(data)
+		&"record":
+			load_record_save_data(data)
+
+
+## 全状態をリセットする
+func reset_save_state() -> void:
+	reset_records()

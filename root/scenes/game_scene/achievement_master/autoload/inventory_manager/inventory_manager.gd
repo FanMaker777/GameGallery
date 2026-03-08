@@ -299,3 +299,21 @@ func load_save_data(data: Dictionary) -> void:
 	Log.info("InventoryManager: ロード完了 (バッグ=%d種, 装備=%d)" % [
 		_bag.size(), _get_equipped_count()
 	])
+
+
+# ========== Saveable インターフェース ==========
+
+func get_save_keys() -> Array[StringName]:
+	return [&"inventory"]
+
+
+func get_save_data_for_key(_key: StringName) -> Dictionary:
+	return get_save_data()
+
+
+func load_save_data_for_key(_key: StringName, data: Dictionary) -> void:
+	load_save_data(data)
+
+
+func reset_save_state() -> void:
+	reset_inventory()

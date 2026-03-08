@@ -48,3 +48,21 @@ func load_save_data(data: Dictionary) -> void:
 	for npc_id_str: String in data.get("gifts_claimed", []):
 		_gifts_claimed[StringName(npc_id_str)] = true
 	Log.info("NpcManager: ロード完了 (ギフト受取済み=%d件)" % _gifts_claimed.size())
+
+
+# ========== Saveable インターフェース ==========
+
+func get_save_keys() -> Array[StringName]:
+	return [&"npc"]
+
+
+func get_save_data_for_key(_key: StringName) -> Dictionary:
+	return get_save_data()
+
+
+func load_save_data_for_key(_key: StringName, data: Dictionary) -> void:
+	load_save_data(data)
+
+
+func reset_save_state() -> void:
+	reset()

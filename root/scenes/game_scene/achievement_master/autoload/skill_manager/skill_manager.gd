@@ -169,3 +169,21 @@ func load_save_data(data: Dictionary) -> void:
 	Log.info("SkillManager: ロード完了 (解放済み=%d, 消費AP=%d)" % [
 		_unlocked_ids.size(), _spent_ap
 	])
+
+
+# ========== Saveable インターフェース ==========
+
+func get_save_keys() -> Array[StringName]:
+	return [&"skill"]
+
+
+func get_save_data_for_key(_key: StringName) -> Dictionary:
+	return get_save_data()
+
+
+func load_save_data_for_key(_key: StringName, data: Dictionary) -> void:
+	load_save_data(data)
+
+
+func reset_save_state() -> void:
+	reset_skills()
