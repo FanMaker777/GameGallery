@@ -11,6 +11,8 @@ var _gifts_claimed: Dictionary = {}
 ## 初期化
 func _ready() -> void:
 	Log.info("NpcManager: 初期化完了 (ギフト受取済み=%d件)" % _gifts_claimed.size())
+	# Saveable として登録する
+	SaveManager.register_saveable(self)
 
 
 # ========== ギフト API ==========

@@ -32,6 +32,8 @@ func _ready() -> void:
 	Log.info("SkillManager: 初期化完了 (%d件のスキル定義, 解放済み=%d, 消費AP=%d)" % [
 		_def_map.size(), _unlocked_ids.size(), _spent_ap
 	])
+	# Saveable として登録する
+	SaveManager.register_saveable(self)
 
 
 # ========== 公開 API ==========

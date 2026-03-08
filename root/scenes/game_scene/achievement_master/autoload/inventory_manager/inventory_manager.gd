@@ -38,6 +38,8 @@ func _ready() -> void:
 	Log.info("InventoryManager: 初期化完了 (%d件のアイテム定義, バッグ=%d種, 装備=%d)" % [
 		_def_map.size(), _bag.size(), _get_equipped_count()
 	])
+	# Saveable として登録する
+	SaveManager.register_saveable(self)
 
 
 # ========== バッグ操作 API ==========

@@ -23,6 +23,8 @@ const SAVE_VERSION: int = 1
 var _auto_save_accumulator: float = 0.0
 ## ロード処理中フラグ（二重ロード防止）
 var _is_loading: bool = false
+## 登録済み Saveable ノードの配列
+var _saveables: Array[Node] = []
 
 
 # ========== ライフサイクル ==========
@@ -41,6 +43,20 @@ func _process(delta: float) -> void:
 		if get_tree().get_nodes_in_group("player").is_empty():
 			return
 		auto_save()
+
+
+# ========== Saveable 登録 ==========
+
+## Saveable ノードを登録する（必須メソッドの存在を検証）
+func register_saveable(node: Node) -> void:
+	for method: String in ["get_save_keys", "get_save_data_for_key", "load_save_data_for_key", "reset_save_state"]:
+		if not node.has_method(method):
+			Log.warn("SaveManager: %s() が未実装 — %s" % [method, node.name])
+			return
+	if node in _saveables:
+		return
+	_saveables.append(node)
+	Log.info("SaveManager: Saveable 登録 — %s (keys=%s)" % [node.name, str(node.get_save_keys())])
 
 
 # ========== 公開 API ==========
@@ -125,10 +141,8 @@ func is_slot_used(slot: int) -> bool:
 
 ## 全マネージャーを初期状態にリセットする（ニューゲーム用）
 func reset_all_managers() -> void:
-	AchievementManager.tracker.reset_records()
-	SkillManager.reset_skills()
-	InventoryManager.reset_inventory()
-	NpcManager.reset()
+	for saveable: Node in _saveables:
+		saveable.reset_save_state()
 	Log.info("SaveManager: 全マネージャーをリセット")
 
 
@@ -146,41 +160,41 @@ func delete_slot(slot: int) -> bool:
 
 # ========== データ収集・配布 ==========
 
+## メタ情報用のプレイ時間を取得する（Saveable 外の例外的な直接参照）
+func _get_meta_play_time() -> float:
+	if AchievementManager == null or AchievementManager.tracker == null:
+		return 0.0
+	return AchievementManager.tracker.get_play_time_seconds()
+
+
 ## 全マネージャーからセーブデータを収集する
 func _collect_save_data() -> Dictionary:
-	# プレイヤー状態を収集する
 	var player_data: Dictionary = _collect_player_state()
-	# メタ情報を構築する
 	var meta: Dictionary = {
 		"timestamp": Time.get_datetime_string_from_system(),
 		"map_name": player_data.get("map_name", ""),
-		"play_time_seconds": AchievementManager.tracker.get_play_time_seconds(),
+		"play_time_seconds": _get_meta_play_time(),
 		"version": SAVE_VERSION,
 	}
-	return {
-		"meta": meta,
-		"achievement": AchievementManager.tracker.get_save_data(),
-		"record": AchievementManager.tracker.get_record_save_data(),
-		"skill": SkillManager.get_save_data(),
-		"inventory": InventoryManager.get_save_data(),
-		"npc": NpcManager.get_save_data(),
-		"player": player_data,
-	}
+	var data: Dictionary = {"meta": meta, "player": player_data}
+	# 全 Saveable からデータを収集する
+	for saveable: Node in _saveables:
+		for key: StringName in saveable.get_save_keys():
+			data[String(key)] = saveable.get_save_data_for_key(key)
+	return data
 
 
 ## セーブデータを全マネージャーに配布する
 func _distribute_save_data(data: Dictionary) -> void:
-	if data.has("achievement"):
-		AchievementManager.tracker.load_save_data(data["achievement"])
-	if data.has("record"):
-		AchievementManager.tracker.load_record_save_data(data["record"])
-	var _skill_key: String = "skill" if data.has("skill") else "reward"
-	if data.has(_skill_key):
-		SkillManager.load_save_data(data[_skill_key])
-	if data.has("inventory"):
-		InventoryManager.load_save_data(data["inventory"])
-	if data.has("npc"):
-		NpcManager.load_save_data(data["npc"])
+	# 旧キー "reward" → "skill" マイグレーション（後方互換）
+	if not data.has("skill") and data.has("reward"):
+		data["skill"] = data["reward"]
+	# 全 Saveable にデータを配布する
+	for saveable: Node in _saveables:
+		for key: StringName in saveable.get_save_keys():
+			var str_key: String = String(key)
+			if data.has(str_key):
+				saveable.load_save_data_for_key(key, data[str_key])
 
 
 # ========== プレイヤー状態 ==========

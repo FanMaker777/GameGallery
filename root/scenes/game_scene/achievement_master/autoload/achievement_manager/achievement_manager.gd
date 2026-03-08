@@ -23,6 +23,8 @@ var _previous_hp: int = -1
 func _ready() -> void:
 	# Tracker を初期化する
 	tracker.initialize()
+	# Saveable として登録する
+	SaveManager.register_saveable(tracker)
 	# Tracker のシグナルを自身のシグナルに中継する
 	tracker.achievement_unlocked.connect(
 		func(id: StringName, def: AchievementDefinition) -> void:
