@@ -50,14 +50,6 @@ var _invincible_timer: float = 0.0
 ## 点滅用タイマー（スプライトの表示/非表示切り替え用）
 var _blink_timer: float = 0.0
 
-# ---- 採取関連 ----
-## 採取中の対象ノード
-var _gather_target: Node2D = null
-## 採取経過時間
-var _gather_timer: float = 0.0
-## 採取に必要な時間
-var _gather_duration: float = 0.0
-
 # ---- 攻撃関連 ----
 ## 攻撃経過時間
 var _attack_timer: float = 0.0
@@ -101,6 +93,8 @@ signal stamina_changed(current_stamina: float, max_stamina: float)
 @onready var _attack_hitbox_shape: CollisionShape2D = $AttackHitbox/CollisionShape2D
 ## 採取プログレスバー
 @onready var _gather_progress_bar: ProgressBar = %GatherProgressBar
+## 採取コンポーネント
+@onready var _gather: AmGatherComponent = $GatherComponent
 
 # ========== ライフサイクル ==========
 
@@ -112,6 +106,10 @@ func _ready() -> void:
 	_attack_hitbox_shape.disabled = true
 	# シグナル接続
 	_attack_hitbox.body_entered.connect(_on_attack_hitbox_body_entered)
+	# 採取コンポーネントを初期化する
+	_gather.initialize(_animated_sprite, _gather_progress_bar)
+	_gather.gather_finished.connect(_on_gather_finished)
+	_gather.gather_cancelled.connect(_on_gather_ended)
 	# ポップアップ初期非表示
 	_interact_label.visible = false
 	# HP初期値を通知（HUD初期化用）
@@ -147,7 +145,7 @@ func _physics_process(delta: float) -> void:
 			else:
 				_interact_label.visible = false
 		State.GATHER:
-			_process_gather_tick(delta)
+			_gather.process_tick(delta)
 			_interact_label.visible = false
 		State.ATTACK:
 			_process_attack_tick(delta)
@@ -165,7 +163,7 @@ func take_damage(amount: int) -> void:
 		return
 	# 採取中なら中断する
 	if _state == State.GATHER:
-		_cancel_gather()
+		_gather.cancel()
 	# HP を減算（0未満にはしない）
 	hp = maxi(hp - amount, 0)
 	_enter_combat()
@@ -270,75 +268,29 @@ func _process_action_input() -> void:
 			# NPC の場合は会話、リソースノードの場合は採取
 			if nearest.is_in_group("npc"):
 				_start_talk(nearest)
-			else:
-				_start_gather(nearest)
+			elif _gather.start_gather(nearest):
+				velocity = Vector2.ZERO
+				_set_state(State.GATHER)
 	elif Input.is_action_just_pressed("attack"):
 		_start_attack()
 
-# ========== 採取処理 ==========
+# ========== 採取コンポーネントハンドラ ==========
 
-## 採取を開始する — 対象ノードから設定を取得しアニメーション再生
-func _start_gather(node: Node2D) -> void:
-	if not node.has_method("get_gather_data"):
-		return
-	var data: Dictionary = node.get_gather_data()
-	# 枯渇チェック
-	if data.is_empty():
-		return
-	_gather_target = node
-	_gather_duration = data.get("gather_time", 1.0) / AmPlayerStatCalculator.get_effective_gather_speed(_get_equip_cache(), _get_effect_cache())
-	_gather_timer = 0.0
-	velocity = Vector2.ZERO
-	_set_state(State.GATHER)
-	_animated_sprite.play(data.get("gather_animation", "Attack1"))
-	# プログレスバーを表示する
-	_gather_progress_bar.max_value = _gather_duration
-	_gather_progress_bar.value = 0.0
-	_gather_progress_bar.visible = true
-	Log.info("Player: 採取開始 → %s (%.1f秒)" % [node.name, _gather_duration])
+## 採取完了時の処理 — インベントリに追加して IDLE に復帰する
+func _on_gather_finished(result: Dictionary) -> void:
+	if not result.is_empty():
+		var type: ResourceDefinitions.ResourceType = result.get("type")
+		var amount: int = result.get("amount", 0)
+		var item_id: StringName = ResourceDefinitions.to_item_id(type)
+		InventoryManager.add_item(item_id, amount)
+		Log.info("Player: 採取完了 %s x%d" % [
+			ResourceDefinitions.get_type_name(type), amount
+		])
+	_on_gather_ended()
 
 
-## 採取タイマーを進め、完了したら収穫処理を呼ぶ
-func _process_gather_tick(delta: float) -> void:
-	# 移動入力があれば採取を中断する
-	var dir: Vector2 = Vector2(
-		Input.get_axis("move_left", "move_right"),
-		Input.get_axis("move_up", "move_down")
-	)
-	if dir != Vector2.ZERO:
-		_cancel_gather()
-		return
-	_gather_timer += delta
-	_gather_progress_bar.value = _gather_timer
-	if _gather_timer >= _gather_duration:
-		_finish_gather()
-
-
-## 採取完了 — リソースをインベントリに追加
-func _finish_gather() -> void:
-	if _gather_target != null and is_instance_valid(_gather_target) and _gather_target.has_method("harvest"):
-		var result: Dictionary = _gather_target.harvest()
-		if not result.is_empty():
-			var type: ResourceDefinitions.ResourceType = result.get("type")
-			var amount: int = result.get("amount", 0)
-			# InventoryManager 経由でインベントリに追加する
-			var item_id: StringName = ResourceDefinitions.to_item_id(type)
-			InventoryManager.add_item(item_id, amount)
-			Log.info("Player: 採取完了 %s x%d" % [
-				ResourceDefinitions.get_type_name(type), amount
-			])
-	_gather_target = null
-	_gather_progress_bar.visible = false
-	_set_state(State.IDLE)
-	_animated_sprite.play("Idle")
-
-
-## 採取を中断する — 進捗をリセットしIDLE状態に復帰
-func _cancel_gather() -> void:
-	Log.debug("Player: 採取中断")
-	_gather_target = null
-	_gather_timer = 0.0
-	_gather_progress_bar.visible = false
+## 採取終了時の共通処理（完了/中断）— IDLE に復帰する
+func _on_gather_ended() -> void:
 	_set_state(State.IDLE)
 	_animated_sprite.play("Idle")
 

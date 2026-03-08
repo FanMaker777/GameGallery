@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://boqfon868p4fs" path="res://root/scenes/game_scene/achievement_master/character/Player/image/Pawn_Interact Knife.png" id="2_twkj7"]
 [ext_resource type="Texture2D" uid="uid://d1hb1gkpfnld7" path="res://root/scenes/game_scene/achievement_master/character/Player/image/Pawn_Interact Pickaxe.png" id="3_twkj7"]
 [ext_resource type="Script" uid="uid://c2h5acahxf6o5" path="res://root/scenes/game_scene/achievement_master/character/Player/player.gd" id="pawn_script"]
+[ext_resource type="Script" uid="uid://db5px3dnk3sg" path="res://root/scenes/game_scene/achievement_master/character/Player/am_gather_component.gd" id="gather_component_script"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_w4mg3"]
 atlas = ExtResource("2_twkj7")
@@ -328,6 +329,9 @@ monitoring = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackHitbox"]
 shape = SubResource("RectangleShape2D_attack")
 disabled = true
+
+[node name="GatherComponent" type="Node" parent="."]
+script = ExtResource("gather_component_script")
 
 [node name="GatherProgressBar" type="ProgressBar" parent="."]
 unique_name_in_owner = true
