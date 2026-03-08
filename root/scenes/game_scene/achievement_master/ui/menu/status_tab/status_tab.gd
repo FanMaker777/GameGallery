@@ -50,42 +50,42 @@ func _refresh() -> void:
 
 
 func _refresh_combat(ec: EquipmentStatCache, sc: SkillEffectCache) -> void:
-	_display_additive_stat(
-		AmPlayer.BASE_MAX_HP, ec.hp_flat, sc.hp_percent_up,
-		_max_hp_value, _max_hp_detail,
-	)
-	_display_additive_stat(
-		AmPlayer.BASE_ATTACK_DAMAGE, ec.attack_flat, sc.attack_percent_up,
-		_attack_value, _attack_detail,
-	)
+	# 最大HP
+	_max_hp_value.text = str(AmPlayerStatCalculator.get_effective_max_hp(ec, sc))
+	_max_hp_detail.text = "(基礎:%d  装備:+%d  スキル:+%d%%)" % [
+		AmPlayer.BASE_MAX_HP, ec.hp_flat, int(sc.hp_percent_up),
+	]
+	# 攻撃力
+	_attack_value.text = str(AmPlayerStatCalculator.get_effective_attack(ec, sc))
+	_attack_detail.text = "(基礎:%d  装備:+%d  スキル:+%d%%)" % [
+		AmPlayer.BASE_ATTACK_DAMAGE, ec.attack_flat, int(sc.attack_percent_up),
+	]
 
 
 func _refresh_mobility(ec: EquipmentStatCache, sc: SkillEffectCache) -> void:
-	# 移動速度: base * (1 + equip% + skill%)
-	var spd_total: float = AmPlayer.BASE_SPEED * (1.0 + (ec.speed_percent + sc.move_speed_up) / 100.0)
-	_speed_value.text = "%.1f" % spd_total
+	# 移動速度
+	_speed_value.text = "%.1f" % AmPlayerStatCalculator.get_effective_speed(ec, sc)
 	_speed_detail.text = "(基礎:%.0f  装備:+%.0f%%  スキル:+%.0f%%)" % [
 		AmPlayer.BASE_SPEED, ec.speed_percent, sc.move_speed_up,
 	]
 
-	# スタミナ最大値: (base + equip) * (1 + skill%)
-	var stam_base: float = AmPlayer.BASE_MAX_STAMINA
-	var stam_total: float = (stam_base + ec.stamina_flat) * (1.0 + sc.stamina_max_up / 100.0)
-	_stamina_max_value.text = "%.1f" % stam_total
+	# スタミナ最大値
+	_stamina_max_value.text = "%.1f" % AmPlayerStatCalculator.get_effective_max_stamina(ec, sc)
 	_stamina_max_detail.text = "(基礎:%.0f  装備:+%.0f  スキル:+%.0f%%)" % [
-		stam_base, ec.stamina_flat, sc.stamina_max_up,
+		AmPlayer.BASE_MAX_STAMINA, ec.stamina_flat, sc.stamina_max_up,
 	]
 
-	# スタミナ回復: 100% + skill%
-	var rec_total: int = 100 + int(sc.stamina_recovery_up)
-	_stamina_recovery_value.text = "%d%%" % rec_total
-	_stamina_recovery_detail.text = "(スキル:+%.0f%%)" % sc.stamina_recovery_up
+	# スタミナ回復
+	_stamina_recovery_value.text = "%.1f/s" % AmPlayerStatCalculator.get_effective_stamina_recovery(sc)
+	_stamina_recovery_detail.text = "(基礎:%.0f  スキル:+%.0f%%)" % [
+		AmPlayer.BASE_STAMINA_RECOVERY_RATE, sc.stamina_recovery_up,
+	]
 
 
 func _refresh_gathering(ec: EquipmentStatCache, sc: SkillEffectCache) -> void:
-	# 採取速度: (1 + equip% + skill%) を %表示
-	var gath_total: int = 100 + int(ec.gather_percent + sc.gather_speed_up)
-	_gather_speed_value.text = "%d%%" % gath_total
+	# 採取速度
+	var gath_pct: int = int(AmPlayerStatCalculator.get_effective_gather_speed(ec, sc) * 100.0)
+	_gather_speed_value.text = "%d%%" % gath_pct
 	_gather_speed_detail.text = "(装備:+%.0f%%  スキル:+%.0f%%)" % [ec.gather_percent, sc.gather_speed_up]
 
 	# 収穫量ボーナス: skill%
@@ -101,16 +101,6 @@ func _refresh_special(sc: SkillEffectCache) -> void:
 	_diversity_value.text = "+10%%" if sc.diversity_bonus_enabled else "+0%%"
 	_minimap_value.text = "有効" if sc.minimap_enabled else "---"
 	_fast_travel_value.text = "有効" if sc.fast_travel_enabled else "---"
-
-
-## (base + equip_flat) * (1 + skill_pct%) の加算型ステータスを表示する
-func _display_additive_stat(
-	base: int, equip_flat: int, skill_pct: float,
-	value_label: Label, detail_label: Label,
-) -> void:
-	var total: int = int((base + equip_flat) * (1.0 + skill_pct / 100.0))
-	value_label.text = str(total)
-	detail_label.text = "(基礎:%d  装備:+%d  スキル:+%d%%)" % [base, equip_flat, int(skill_pct)]
 
 
 ## スキル由来の %値のみを表示する
