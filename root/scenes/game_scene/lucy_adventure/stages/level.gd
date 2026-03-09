@@ -15,6 +15,7 @@ class_name GameLevel extends Node2D
 func _ready() -> void:
 	if Engine.is_editor_hint():
 		return
+	AudioManager.play_bgm(AudioConsts.BGM_LUCY)
 
 	await get_tree().process_frame
 	for child in gameplay_tilemap.get_children():

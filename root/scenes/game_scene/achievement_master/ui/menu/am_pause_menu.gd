@@ -75,6 +75,8 @@ func toggle() -> void:
 		return
 	# 切り替え中フラグを有効にする
 	_is_in_toggle = true
+	# メニュー開閉SEを再生する
+	AudioManager.play_se(AudioConsts.SE_MENU_TOGGLE)
 	# 表示状態を反転する
 	_is_currently_opening = not _is_currently_opening
 	# Tween アニメーションを作成する

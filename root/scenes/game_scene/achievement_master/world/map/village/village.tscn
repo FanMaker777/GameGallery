@@ -1,5 +1,6 @@
-[gd_scene load_steps=19 format=4 uid="uid://ce3q56t7icpyb"]
+[gd_scene load_steps=20 format=4 uid="uid://ce3q56t7icpyb"]
 
+[ext_resource type="Script" path="res://root/scenes/game_scene/achievement_master/world/map/village/village.gd" id="village_script"]
 [ext_resource type="TileSet" uid="uid://1lnru68nr2ak" path="res://root/scenes/game_scene/achievement_master/world/map/village/village.tres" id="1_qtgsi"]
 [ext_resource type="Texture2D" uid="uid://cufjmds17blpk" path="res://root/scenes/game_scene/achievement_master/world/assets/Buildings/Blue Buildings/Castle.png" id="2_23c21"]
 [ext_resource type="PackedScene" uid="uid://ci4xros7ui8ni" path="res://root/scenes/game_scene/achievement_master/enemies/enemy.tscn" id="4_01tu3"]
@@ -20,6 +21,7 @@
 [ext_resource type="PackedScene" uid="uid://cagovhn7pyb3o" path="res://root/scenes/game_scene/achievement_master/world/resource_nodes/tree_node.tscn" id="tree_scene"]
 
 [node name="Village" type="Node2D"]
+script = ExtResource("village_script")
 
 [node name="AchievementHud" parent="." instance=ExtResource("achievement_hud_scene")]
 

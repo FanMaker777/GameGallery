@@ -49,6 +49,7 @@ func die() -> void:
 		return
 
 	is_dead = true
+	AudioManager.play_se(AudioConsts.SE_STOMP)
 	set_physics_process(false)
 	sprite.play("hurt")
 	collision_layer = 0

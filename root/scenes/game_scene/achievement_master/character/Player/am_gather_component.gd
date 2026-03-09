@@ -81,6 +81,7 @@ func _finish() -> void:
 	var result: Dictionary = {}
 	if _gather_target != null and is_instance_valid(_gather_target) and _gather_target.has_method("harvest"):
 		result = _gather_target.harvest()
+	AudioManager.play_se(AudioConsts.SE_GATHER_FINISH)
 	_gather_target = null
 	_progress_bar.visible = false
 	gather_finished.emit(result)

@@ -152,6 +152,7 @@ func take_damage(amount: int) -> void:
 ## 死亡処理 — 演出・ドロップ生成後に queue_free で削除する
 func _die() -> void:
 	Log.info("Enemy: 死亡 [%s]" % name)
+	AudioManager.play_se(AudioConsts.SE_ENEMY_DEFEAT)
 	# 死亡演出中フラグを立てる（ダメージ・AI・移動を停止）
 	_is_dying = true
 	# BeehaveTree の処理を停止する

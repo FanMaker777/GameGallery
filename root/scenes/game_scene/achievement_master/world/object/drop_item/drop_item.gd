@@ -2,7 +2,6 @@
 ## Player が接近すると自動回収され、インベントリに加算される
 class_name DropItem extends Node2D
 
-
 # ---- エクスポート ----
 ## ドロップするリソースの種別（Inspector で設定）
 @export var resource_type: ResourceDefinitions.ResourceType
@@ -70,6 +69,7 @@ func _on_pickup_area_body_entered(body: Node2D) -> void:
 		return
 	# 回収フラグを立てて Player のインベントリに加算する
 	_picked_up = true
+	AudioManager.play_se(AudioConsts.SE_ITEM_PICKUP)
 	body.collect_drop(resource_type, amount)
 	# 回収演出を再生する
 	_play_collect_effect(body)

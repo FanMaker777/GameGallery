@@ -28,6 +28,7 @@ func _ready() -> void:
 	# Tracker のシグナルを自身のシグナルに中継する
 	tracker.achievement_unlocked.connect(
 		func(id: StringName, def: AchievementDefinition) -> void:
+			AudioManager.play_se(AudioConsts.SE_ACHIEVEMENT_UNLOCK)
 			achievement_unlocked.emit(id, def)
 	)
 	tracker.achievement_progress_updated.connect(

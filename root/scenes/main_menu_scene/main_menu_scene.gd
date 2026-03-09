@@ -10,13 +10,15 @@ extends Control
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	Log.info("_ready MainMenuScene")
+	# メニューBGMを再生する
+	AudioManager.play_bgm(AudioConsts.BGM_MENU)
 	# メインメニューの表示を有効化
 	_main_menu.visible = true
 	# ゲーム選択画面の表示を無効化
 	_select_game_menu.visible = false
 	# シグナルを接続
 	_conect_signal()
-	
+
 	# web実行時、終了ボタンを非表示に変更
 	if  OS.has_feature("web"):
 		_quit_button.visible = false
@@ -25,17 +27,25 @@ func _ready() -> void:
 func _conect_signal() -> void:
 	# プレイボタン押下時
 	_play_button.pressed.connect(func() -> void:
+		AudioManager.play_se(AudioConsts.SE_UI_CLICK)
 		# メインメニューの表示を無効化
 		_main_menu.visible = false
 		# ゲーム選択画面の表示を有効化
 		_select_game_menu.visible = true
 		)
 	# オプションボタン押下時、オプションメニューを表示
-	_option_button.pressed.connect(GameManager.overlay_contoroller.open_options_menu)
+	_option_button.pressed.connect(func() -> void:
+		AudioManager.play_se(AudioConsts.SE_UI_CLICK)
+		GameManager.overlay_contoroller.open_options_menu()
+		)
 	# 終了ボタン押下時、ゲーム終了
-	_quit_button.pressed.connect(get_tree().quit)
+	_quit_button.pressed.connect(func() -> void:
+		AudioManager.play_se(AudioConsts.SE_UI_CLICK)
+		get_tree().quit()
+		)
 	# メインメニューボタン押下時
 	_main_menu_button.pressed.connect(func() -> void:
+		AudioManager.play_se(AudioConsts.SE_UI_CLICK)
 		# メインメニューの表示を有効化
 		_main_menu.visible = true
 		# ゲーム選択画面の表示を無効化

@@ -283,6 +283,7 @@ func _transition_to_state(new_state: States) -> void:
 			velocity.y = jump_speed
 			current_gravity = jump_gravity
 			animated_sprite.play("Jump")
+			AudioManager.play_se(AudioConsts.SE_JUMP)
 			jump_count = 1
 			dust.emitting = true
 
@@ -309,6 +310,7 @@ func _transition_to_state(new_state: States) -> void:
 			velocity = Vector2.ZERO
 			set_physics_process(false)
 			animated_sprite.play("Die")
+			AudioManager.play_se(AudioConsts.SE_PLAYER_DIE)
 			dust.emitting = false
 			# 爆発エフェクトを生成する
 			var explosion: Node2D = EXPLOSION.instantiate()

@@ -161,6 +161,7 @@ func take_damage(amount: int) -> void:
 		_gather.cancel()
 	# HP を減算（0未満にはしない）
 	hp = maxi(hp - amount, 0)
+	AudioManager.play_se(AudioConsts.SE_PLAYER_DAMAGE)
 	_enter_combat()
 	var effective_max_hp: int = AmPlayerStatCalculator.get_effective_max_hp(_get_equip_cache(), _get_effect_cache())
 	health_changed.emit(hp, effective_max_hp)

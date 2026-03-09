@@ -22,6 +22,7 @@ func _ready() -> void:
 
 ## フラグを起動し、風アニメーションとパーティクルを再生する
 func activate() -> void:
+	AudioManager.play_se(AudioConsts.SE_GOAL_REACH)
 	_animated_sprite_2d.play("wind")
 
 	# This controls the little squash and stretch animation when touching the flag.

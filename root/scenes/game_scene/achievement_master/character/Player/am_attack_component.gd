@@ -4,7 +4,6 @@ class_name AmAttackComponent extends Node
 # ---- 定数 ----
 ## 攻撃アニメーションの持続時間（秒）
 const ATTACK_DURATION: float = 0.4
-
 # ---- シグナル ----
 ## 攻撃が終了したときに発火する
 signal attack_finished
@@ -73,5 +72,6 @@ func _on_hitbox_body_entered(body: Node2D) -> void:
 			InventoryManager.get_equip_cache(), SkillManager.get_effect_cache()
 		)
 		body.take_damage(damage)
+		AudioManager.play_se(AudioConsts.SE_ATTACK_HIT)
 		attack_hit.emit(body, damage)
 		Log.info("Attack: 敵にダメージ %d → %s" % [damage, body.name])
