@@ -29,11 +29,12 @@ var _move_direction: float = 1.0
 var _origin_position: Vector2 = Vector2.ZERO
 
 
-## 採取完了後、リソースを返してからノードを消滅させる
+## 採取完了後、リソースを返してからエフェクト完了を待ってノードを消滅させる
 func harvest() -> Dictionary:
 	var result: Dictionary = super.harvest()
 	if not result.is_empty():
-		queue_free()
+		# エフェクト完了を待ってからノードを消す（await は使わない）
+		get_tree().create_timer(0.4).timeout.connect(queue_free)
 	return result
 
 
