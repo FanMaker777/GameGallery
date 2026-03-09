@@ -84,7 +84,7 @@ doc/
 | `load_sprite` | Sprite2D にテクスチャ読込 | スプライト設定時 |
 | `save_scene` | シーンの保存 | シーン変更後の永続化 |
 | `get_project_info` | プロジェクト情報取得 | 構造把握時 |
-| `get_uid` | ファイルの UID 取得 | リソース参照時 |
+| `get_uid` | ファイルの UID 取得 | **非推奨（正常に機能しない場合がある）。UID が必要な場合は `launch_editor` で Godot エディタを起動し、エディタ側で自動生成させること** |
 | `update_project_uids` | UID 参照の更新 | リソース追加/移動後 |
 | `launch_editor` | Godot エディタ起動 | ユーザーの要望時 |
 
