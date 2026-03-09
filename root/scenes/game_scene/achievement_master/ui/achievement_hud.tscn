@@ -1,8 +1,24 @@
-[gd_scene load_steps=6 format=3 uid="uid://cl2ogx0l8sjib"]
+[gd_scene load_steps=7 format=3 uid="uid://cl2ogx0l8sjib"]
 
 [ext_resource type="Script" uid="uid://b3ky34d6kb7s7" path="res://root/scenes/game_scene/achievement_master/ui/achievement_hud.gd" id="achievement_hud_script"]
 [ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/ui/pinned/pinned_achievement_panel.tscn" id="pinned_panel_scene"]
 [ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/ui/toast/toast_manager.tscn" id="toast_manager_scene"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel_bg"]
+bg_color = Color(0.1, 0.08, 0.12, 0.75)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 0.15)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+content_margin_left = 10.0
+content_margin_top = 8.0
+content_margin_right = 10.0
+content_margin_bottom = 8.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hp_fill"]
 bg_color = Color(0.32280397, 0.6882976, 0.45200253, 1)
@@ -14,15 +30,20 @@ bg_color = Color(0.2, 0.5, 0.85, 1)
 layer = 10
 script = ExtResource("achievement_hud_script")
 
-[node name="PlayerStatusPanel" type="MarginContainer" parent="."]
+[node name="PlayerStatusPanel" type="PanelContainer" parent="."]
 anchors_preset = -1
-anchor_right = 0.3
-anchor_bottom = 0.022
-offset_bottom = 80.0
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -120.0
+offset_top = -80.0
+offset_right = 120.0
+offset_bottom = -10.0
 grow_horizontal = 2
+grow_vertical = 0
 mouse_filter = 2
-theme_override_constants/margin_left = 16
-theme_override_constants/margin_top = 8
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel_bg")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PlayerStatusPanel"]
 layout_mode = 2
@@ -35,14 +56,24 @@ mouse_filter = 2
 
 [node name="HpLabel" type="Label" parent="PlayerStatusPanel/VBoxContainer/HpHBoxContainer"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.93, 0.9, 1)
 text = "HP"
 
 [node name="HpBar" type="ProgressBar" parent="PlayerStatusPanel/VBoxContainer/HpHBoxContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(160, 16)
+custom_minimum_size = Vector2(120, 16)
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_styles/fill = SubResource("StyleBoxFlat_hp_fill")
+show_percentage = false
 value = 100.0
+
+[node name="HpValueLabel" type="Label" parent="PlayerStatusPanel/VBoxContainer/HpHBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.93, 0.9, 1)
+theme_override_font_sizes/font_size = 12
+text = "100/100"
 
 [node name="StaminaHBoxContainer" type="HBoxContainer" parent="PlayerStatusPanel/VBoxContainer"]
 layout_mode = 2
@@ -50,51 +81,24 @@ mouse_filter = 2
 
 [node name="StaminaLabel" type="Label" parent="PlayerStatusPanel/VBoxContainer/StaminaHBoxContainer"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.93, 0.9, 1)
 text = "ST"
 
 [node name="StaminaBar" type="ProgressBar" parent="PlayerStatusPanel/VBoxContainer/StaminaHBoxContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(160, 16)
+custom_minimum_size = Vector2(120, 16)
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_styles/fill = SubResource("StyleBoxFlat_stamina_fill")
+show_percentage = false
 value = 100.0
 
-[node name="ResourceHBoxContainer" type="HBoxContainer" parent="PlayerStatusPanel/VBoxContainer"]
-layout_mode = 2
-mouse_filter = 2
-theme_override_constants/separation = 24
-
-[node name="WoodLabel" type="Label" parent="PlayerStatusPanel/VBoxContainer/ResourceHBoxContainer"]
+[node name="StaminaValueLabel" type="Label" parent="PlayerStatusPanel/VBoxContainer/StaminaHBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Wood: 0"
-
-[node name="GoldLabel" type="Label" parent="PlayerStatusPanel/VBoxContainer/ResourceHBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Gold: 0"
-
-[node name="MeatLabel" type="Label" parent="PlayerStatusPanel/VBoxContainer/ResourceHBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Meat: 0"
-
-[node name="ApHBoxContainer" type="HBoxContainer" parent="PlayerStatusPanel/VBoxContainer"]
-layout_mode = 2
-mouse_filter = 2
-
-[node name="ApIconLabel" type="Label" parent="PlayerStatusPanel/VBoxContainer/ApHBoxContainer"]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.84, 0, 1)
-theme_override_font_sizes/font_size = 14
-text = "★"
-
-[node name="ApLabel" type="Label" parent="PlayerStatusPanel/VBoxContainer/ApHBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.84, 0, 1)
-theme_override_font_sizes/font_size = 14
-text = "AP: 0"
+theme_override_colors/font_color = Color(0.95, 0.93, 0.9, 1)
+theme_override_font_sizes/font_size = 12
+text = "100/100"
 
 [node name="PinnedAchievementPanel" parent="." instance=ExtResource("pinned_panel_scene")]
 unique_name_in_owner = true
