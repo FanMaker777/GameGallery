@@ -320,6 +320,7 @@ func _on_unlock_button_pressed() -> void:
 	# スキルを解放する
 	var success: bool = SkillManager.unlock_skill(_selected_def.id)
 	if success:
+		AudioManager.play_se(AudioConsts.SE_GET_SKILL)
 		Log.debug("SkillTab: スキル '%s' を解放しました" % _selected_def.name_ja)
 
 

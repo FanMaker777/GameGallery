@@ -276,12 +276,14 @@ func _on_action_button_pressed() -> void:
 	if _selected_from_slot:
 		# 装備を外す
 		InventoryManager.unequip_item(_selected_slot)
+		AudioManager.play_se(AudioConsts.SE_EQUIP_EQUIPMENT)
 		_selected_def = null
 		_selected_from_slot = false
 		_show_empty_detail()
 	elif _selected_def is EquipmentDefinition:
 		# 装備する
 		InventoryManager.equip_item(_selected_def.id)
+		AudioManager.play_se(AudioConsts.SE_EQUIP_EQUIPMENT)
 	elif _selected_def is ConsumableDefinition:
 		# 使用する
 		InventoryManager.use_item(_selected_def.id)
