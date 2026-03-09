@@ -23,6 +23,8 @@ func load_scene_with_transition(load_to_scene_path: String) -> void:
 	
 	# 画面遷移中に設定
 	_is_transitioning = true
+	# BGM をフェードアウト（視覚フェードと並行）
+	AudioManager.stop_bgm(1.0)
 	# 遷移エフェクト付きでフェードアウト
 	_transition_effect_layer.fade_out()
 	# フェードアウト完了まで待機

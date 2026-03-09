@@ -170,6 +170,8 @@ func stop_bgm(fade_sec: float = 0.5) -> void:
 	if _bgm_tween and _bgm_tween.is_valid():
 		_bgm_tween.kill()
 	_bgm_tween = create_tween()
+	_bgm_tween.set_ease(Tween.EASE_IN)
+	_bgm_tween.set_trans(Tween.TRANS_SINE)
 	_bgm_tween.tween_property(bgm_player, "volume_db", -40.0, fade_sec)
 	await _bgm_tween.finished
 	bgm_player.stop()
