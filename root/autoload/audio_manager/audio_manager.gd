@@ -1,4 +1,5 @@
 ## ゲームの音量状態を管理してAudioServerへ反映するマネージャー
+## BGM 再生（フェード切り替え）と SE プール再生の機能を提供する
 extends Node
 
 @onready var bgm_player: AudioStreamPlayer = %BackGroundMusicPlayer
@@ -6,6 +7,16 @@ extends Node
 const MASTER_BUS_NAME: StringName = &"Master"
 const BGM_BUS_NAME: StringName = &"BGM"
 const SE_BUS_NAME: StringName = &"SE"
+
+# ---- SE プール ----
+const _SE_POOL_SIZE: int = 4
+var _se_pool: Array[AudioStreamPlayer] = []
+var _se_pool_index: int = 0
+
+# ---- BGM 状態 ----
+var _current_bgm_stream: AudioStream = null
+var _bgm_tween: Tween = null
+
 ## Masterバスのミュート状態(true=ミュート)
 var is_master_bus_mute: bool = false
 ## Masterの線形音量(1.0 = 100%の音量)
@@ -18,6 +29,8 @@ var se_volume_linear: float = 1.0
 func _ready() -> void:
 	## 保存済みAudio設定値を読込して反映する
 	_sync_from_repository()
+	## SE プールを生成する
+	_create_se_pool()
 
 ## 保存済みAudio設定値を読み込み、実行中のAudioServerへ反映するメソッド
 func _sync_from_repository() -> void:
@@ -107,3 +120,57 @@ func _normalize_volume_to_linear(linear_or_db: float) -> float:
 	if linear_or_db >= 0.0 and linear_or_db <= 1.0:
 		return linear_or_db
 	return clampf(db_to_linear(linear_or_db), 0.0, 1.0)
+
+
+# ========== SE プール ==========
+
+## SE 用 AudioStreamPlayer を動的生成してプールに追加する
+func _create_se_pool() -> void:
+	for i: int in _SE_POOL_SIZE:
+		var player := AudioStreamPlayer.new()
+		player.bus = SE_BUS_NAME
+		add_child(player)
+		_se_pool.append(player)
+
+
+## SE を再生する（ラウンドロビンでプールから割り当て）
+func play_se(stream: AudioStream) -> void:
+	if stream == null:
+		return
+	var player: AudioStreamPlayer = _se_pool[_se_pool_index]
+	_se_pool_index = (_se_pool_index + 1) % _SE_POOL_SIZE
+	player.stream = stream
+	player.play()
+
+
+# ========== BGM 再生 ==========
+
+## BGM をフェード付きで切り替える（同じ BGM の場合はスキップ）
+func play_bgm(stream: AudioStream, fade_sec: float = 0.5) -> void:
+	if stream == _current_bgm_stream and bgm_player.playing:
+		return
+	if _bgm_tween and _bgm_tween.is_valid():
+		_bgm_tween.kill()
+	_current_bgm_stream = stream
+	if bgm_player.playing:
+		_bgm_tween = create_tween()
+		_bgm_tween.tween_property(bgm_player, "volume_db", -40.0, fade_sec)
+		await _bgm_tween.finished
+	bgm_player.stream = stream
+	bgm_player.volume_db = -40.0
+	bgm_player.play()
+	_bgm_tween = create_tween()
+	_bgm_tween.tween_property(bgm_player, "volume_db", 0.0, fade_sec)
+
+
+## BGM をフェードアウトして停止する
+func stop_bgm(fade_sec: float = 0.5) -> void:
+	if not bgm_player.playing:
+		return
+	if _bgm_tween and _bgm_tween.is_valid():
+		_bgm_tween.kill()
+	_bgm_tween = create_tween()
+	_bgm_tween.tween_property(bgm_player, "volume_db", -40.0, fade_sec)
+	await _bgm_tween.finished
+	bgm_player.stop()
+	_current_bgm_stream = null
