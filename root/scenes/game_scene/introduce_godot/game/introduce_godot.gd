@@ -8,7 +8,7 @@ extends Control
 
 func _ready() -> void:
 	Log.info("_ready introduce_godot")
-	
+
 	# 説明用の画像を非表示に設定
 	_explanation_panel_container.visible = false
 	_explanation_panel_container_2.visible = false
