@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=2 format=3 uid="uid://cxwv30242bmpd"]
 
-[ext_resource type="Script" path="res://root/scenes/game_scene/achievement_master/ui/toast/toast_manager.gd" id="toast_manager_script"]
+[ext_resource type="Script" uid="uid://b60ucwbmug7y8" path="res://root/scenes/game_scene/achievement_master/ui/toast/toast_manager.gd" id="toast_manager_script"]
 
 [node name="ToastManager" type="VBoxContainer"]
 anchors_preset = 7

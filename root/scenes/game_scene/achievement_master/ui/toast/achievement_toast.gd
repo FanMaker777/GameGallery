@@ -8,7 +8,7 @@ signal toast_finished
 
 # ---- 定数 ----
 ## トースト表示時間（秒）
-const DISPLAY_DURATION: float = 2.0
+const DISPLAY_DURATION: float = 5.0
 ## スライドアニメーション時間（秒）
 const SLIDE_DURATION: float = 0.3
 ## スライド移動距離（ピクセル）
