@@ -32,6 +32,8 @@ var _drop_resource_type: ResourceDefinitions.ResourceType = ResourceDefinitions.
 var _drop_amount: int = 5
 ## 死亡演出中フラグ（true の間はダメージ・AI・移動を停止する）
 var _is_dying: bool = false
+## ヒットフラッシュ用 Tween（連続ヒット時に前回分を停止するため保持する）
+var _hit_flash_tween: Tween
 
 @onready var _blackboard: Blackboard = %Blackboard
 @onready var _animated_sprite: AnimatedSprite2D = %AnimatedSprite
@@ -147,6 +149,18 @@ func take_damage(amount: int) -> void:
 	Log.info("Enemy: ダメージ %d を受けた (残HP: %d)" % [amount, hp])
 	if hp <= 0:
 		_die()
+	else:
+		_play_hit_flash()
+
+
+## 被ダメージ時の白フラッシュ演出（modulate を一瞬白くして戻す）
+func _play_hit_flash() -> void:
+	# 前回のフラッシュが残っていれば停止してから新たに開始する
+	if _hit_flash_tween and _hit_flash_tween.is_valid():
+		_hit_flash_tween.kill()
+	_animated_sprite.modulate = Color(3.0, 3.0, 3.0, 1.0)
+	_hit_flash_tween = create_tween()
+	_hit_flash_tween.tween_property(_animated_sprite, "modulate", Color.WHITE, 0.15)
 
 
 ## 死亡処理 — 演出・ドロップ生成後に queue_free で削除する
