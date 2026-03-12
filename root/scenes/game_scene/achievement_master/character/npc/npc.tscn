@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://kabmdp7ej4et"]
+[gd_scene load_steps=6 format=3 uid="uid://kabmdp7ej4et"]
 
 [ext_resource type="SpriteFrames" uid="uid://sgugg58ilg07" path="res://root/scenes/game_scene/achievement_master/character/npc/animation_resource/lancer_animation.tres" id="2_5arcm"]
 [ext_resource type="Script" uid="uid://do2gea6mbqv2o" path="res://root/scenes/game_scene/achievement_master/character/npc/npc.gd" id="npc_script"]
@@ -6,6 +6,33 @@
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_npc"]
 radius = 33.0
 height = 82.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dialogue"]
+bg_color = Color(0.08, 0.06, 0.12, 0.85)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.9, 0.85, 0.6, 0.4)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+content_margin_left = 10.0
+content_margin_top = 6.0
+content_margin_right = 10.0
+content_margin_bottom = 6.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_name"]
+bg_color = Color(0.08, 0.06, 0.12, 0.7)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+content_margin_left = 8.0
+content_margin_top = 2.0
+content_margin_right = 8.0
+content_margin_bottom = 2.0
 
 [node name="Npc" type="CharacterBody2D"]
 collision_layer = 8
@@ -23,32 +50,48 @@ autoplay = "Idle"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_npc")
 
-[node name="DialogueLabel" type="Label" parent="."]
+[node name="DialogueBubble" type="PanelContainer" parent="."]
+visible = false
+offset_left = -120.0
+offset_top = -95.0
+offset_right = 120.0
+offset_bottom = -45.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_dialogue")
+
+[node name="DialogueLabel" type="Label" parent="DialogueBubble"]
 unique_name_in_owner = true
-offset_left = -100.0
-offset_top = -74.0
-offset_right = 100.0
-offset_bottom = -49.0
-theme_override_font_sizes/font_size = 14
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.5)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 16
+theme_override_constants/outline_size = 3
 horizontal_alignment = 1
+autowrap_mode = 2
 
 [node name="AlertLabel" type="Label" parent="."]
 unique_name_in_owner = true
 visible = false
 offset_left = -10.0
-offset_top = -87.0
+offset_top = -105.0
 offset_right = 10.0
-offset_bottom = -29.0
+offset_bottom = -55.0
 theme_override_colors/font_color = Color(1, 0.9, 0, 1)
 theme_override_font_sizes/font_size = 36
 text = "!"
 horizontal_alignment = 1
 
-[node name="NameLabel" type="Label" parent="."]
-unique_name_in_owner = true
+[node name="NameBubble" type="PanelContainer" parent="."]
 offset_left = -50.0
-offset_top = 45.0
+offset_top = 43.0
 offset_right = 50.0
-offset_bottom = 65.0
-theme_override_font_sizes/font_size = 12
+offset_bottom = 63.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_name")
+
+[node name="NameLabel" type="Label" parent="NameBubble"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.97, 0.9, 1)
+theme_override_font_sizes/font_size = 13
+theme_override_constants/outline_size = 2
 horizontal_alignment = 1
