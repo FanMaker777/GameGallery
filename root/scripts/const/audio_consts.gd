@@ -10,6 +10,8 @@ const BGM_VILLAGE: AudioStream = preload("uid://dkyd0dsyhc553")
 const BGM_GRASSLAND: AudioStream = preload("uid://ch4gtaubeprin")
 ## Lucy Adventure — ステージBGM
 const BGM_LUCY: AudioStream = preload("uid://dms6uninj35h2")
+##  Introduce Godot - BGM
+const BGM_INTRODUCE_GODOT: AudioStream = preload("uid://jbypqnvtwqjm")
 
 # ---- SE（共通） ----
 ## UIクリック音

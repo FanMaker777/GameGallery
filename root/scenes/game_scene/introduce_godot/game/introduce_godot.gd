@@ -16,6 +16,8 @@ func _ready() -> void:
 	Dialogic.signal_event.connect(_on_dialogic_signal)
 	# アドオン「Dialogic」のタイムラインを開始
 	Dialogic.start("introduce_godot")
+	# BGMを再生
+	AudioManager.play_bgm(AudioConsts.BGM_INTRODUCE_GODOT)
 
 ## アドオン「Dialogic」からのシグナル受信時メソッド
 ## argument:String=Dialogicでシグナル発信時に設定した引数
