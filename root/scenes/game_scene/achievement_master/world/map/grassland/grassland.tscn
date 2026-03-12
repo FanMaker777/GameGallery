@@ -17,10 +17,8 @@
 script = ExtResource("grassland_script")
 
 [node name="AchievementHud" parent="." instance=ExtResource("achievement_hud_scene")]
-visible = false
 
 [node name="AmPauseMenu" parent="." instance=ExtResource("am_pause_menu_scene")]
-visible = false
 
 [node name="Tilemaplayers" type="Node2D" parent="."]
 
