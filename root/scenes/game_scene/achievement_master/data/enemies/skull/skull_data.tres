@@ -8,4 +8,6 @@
 script = ExtResource("1_script")
 display_name = "Skull"
 drop_item_scene = ExtResource("3_drop")
+drop_resource_type = 0
+drop_amount = 3
 sprite_frames = ExtResource("2_sprite")

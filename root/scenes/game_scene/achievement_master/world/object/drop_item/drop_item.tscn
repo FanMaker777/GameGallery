@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=4 format=3 uid="uid://dawfrdk80i0gf"]
 
 [ext_resource type="Script" uid="uid://bt4g28lkq26xc" path="res://root/scenes/game_scene/achievement_master/world/object/drop_item/drop_item.gd" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://dlygjfvss5gc3" path="res://root/scenes/game_scene/achievement_master/world/assets/Terrain/Resources/Gold/Gold Resource/Gold_Resource.png" id="2_texture"]
@@ -15,7 +15,6 @@ texture = ExtResource("2_texture")
 
 [node name="PickupArea" type="Area2D" parent="."]
 collision_layer = 0
-collision_mask = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PickupArea"]
 shape = SubResource("CircleShape2D_pickup")

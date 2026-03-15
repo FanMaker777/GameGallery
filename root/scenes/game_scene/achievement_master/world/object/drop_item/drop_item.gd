@@ -6,13 +6,15 @@ class_name DropItem extends Node2D
 ## ドロップするリソースの種別（Inspector で設定）
 @export var resource_type: ResourceDefinitions.ResourceType
 ## ドロップ量（Inspector で設定）
-@export var amount: int = 5
+@export var amount: int = 3
 
 # ---- リソース種別ごとのテクスチャパス ----
 const _TEXTURE_MAP: Dictionary = {
 	ResourceDefinitions.ResourceType.GOLD: preload("uid://dlygjfvss5gc3"),
 	ResourceDefinitions.ResourceType.MEAT: preload("uid://dwc066hs0fgkm"),
 	ResourceDefinitions.ResourceType.WOOD: preload("uid://dr717u7jdal33"),
+	ResourceDefinitions.ResourceType.BERRY: preload("uid://c57wfafub25lk"),
+	ResourceDefinitions.ResourceType.HERB: preload("uid://cfm7m8vt6x60b"),
 }
 
 # ---- 内部状態 ----
