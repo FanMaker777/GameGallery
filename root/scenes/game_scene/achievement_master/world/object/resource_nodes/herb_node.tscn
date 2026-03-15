@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://db1je8gc3csyc"]
+
+[ext_resource type="SpriteFrames" uid="uid://dy2j4rei6pf88" path="res://root/scenes/game_scene/achievement_master/world/assets/Terrain/Resources/Herb/herb_animation.tres" id="1_anim"]
+[ext_resource type="Script" uid="uid://cpwn0kit83cvr" path="res://root/scenes/game_scene/achievement_master/world/object/resource_nodes/herb_node.gd" id="2_script"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_herb"]
+radius = 15.231546
+
+[node name="HerbNode" type="StaticBody2D"]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("2_script")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("1_anim")
+animation = &"Alive"
+autoplay = "Alive"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, 24)
+shape = SubResource("CircleShape2D_herb")

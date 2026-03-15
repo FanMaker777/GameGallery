@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://bfuh54umv0e6b"]
+
+[ext_resource type="SpriteFrames" uid="uid://dlpd6qpi746t2" path="res://root/scenes/game_scene/achievement_master/world/assets/Terrain/Resources/Berry/berry_bush_animation.tres" id="1_anim"]
+[ext_resource type="Script" uid="uid://du2a0yww6xcaw" path="res://root/scenes/game_scene/achievement_master/world/object/resource_nodes/berry_bush_node.gd" id="2_script"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_berry"]
+size = Vector2(24, 24)
+
+[node name="BerryBushNode" type="StaticBody2D"]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("2_script")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("1_anim")
+animation = &"Alive"
+autoplay = "Alive"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, 31)
+shape = SubResource("RectangleShape2D_berry")
