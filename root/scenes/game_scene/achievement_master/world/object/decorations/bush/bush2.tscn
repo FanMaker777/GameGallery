@@ -1,0 +1,72 @@
+[gd_scene load_steps=11 format=3 uid="uid://dgo7j0fgnv3xl"]
+
+[ext_resource type="Texture2D" uid="uid://dmxiedsyph08t" path="res://root/scenes/game_scene/achievement_master/world/assets/Decorations/Bushes/Bushe2.png" id="1_oewuu"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_giiu2"]
+atlas = ExtResource("1_oewuu")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mivw2"]
+atlas = ExtResource("1_oewuu")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6ejt4"]
+atlas = ExtResource("1_oewuu")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uo6ks"]
+atlas = ExtResource("1_oewuu")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8fs2j"]
+atlas = ExtResource("1_oewuu")
+region = Rect2(512, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ahqo3"]
+atlas = ExtResource("1_oewuu")
+region = Rect2(640, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ruu4n"]
+atlas = ExtResource("1_oewuu")
+region = Rect2(768, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_opt67"]
+atlas = ExtResource("1_oewuu")
+region = Rect2(896, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_y5w00"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_giiu2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mivw2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6ejt4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uo6ks")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8fs2j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ahqo3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ruu4n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_opt67")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[node name="Bush" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_y5w00")
+autoplay = "default"
+frame_progress = 0.26171306

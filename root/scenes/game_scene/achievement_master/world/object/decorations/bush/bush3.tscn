@@ -1,0 +1,72 @@
+[gd_scene load_steps=11 format=3 uid="uid://lr42plmu3ple"]
+
+[ext_resource type="Texture2D" uid="uid://feavof1url1g" path="res://root/scenes/game_scene/achievement_master/world/assets/Decorations/Bushes/Bushe3.png" id="1_rlyos"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dspcc"]
+atlas = ExtResource("1_rlyos")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wtrgh"]
+atlas = ExtResource("1_rlyos")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_spmu3"]
+atlas = ExtResource("1_rlyos")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v3raw"]
+atlas = ExtResource("1_rlyos")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i2vyu"]
+atlas = ExtResource("1_rlyos")
+region = Rect2(512, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ldc6e"]
+atlas = ExtResource("1_rlyos")
+region = Rect2(640, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x02n5"]
+atlas = ExtResource("1_rlyos")
+region = Rect2(768, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l664o"]
+atlas = ExtResource("1_rlyos")
+region = Rect2(896, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_y5w00"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dspcc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wtrgh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_spmu3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v3raw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i2vyu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ldc6e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x02n5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l664o")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[node name="Bush" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_y5w00")
+autoplay = "default"
+frame_progress = 0.091421895
