@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=4 format=3]
+
+[ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/world/object/drop_item/drop_item.tscn" id="1_drop"]
+[ext_resource type="Script" uid="uid://bjmkmmdaxug1q" path="res://root/scenes/game_scene/achievement_master/data/enemies/enemy_data.gd" id="2_script"]
+[ext_resource type="SpriteFrames" uid="uid://cwdgfkyymtgml" path="res://root/scenes/game_scene/achievement_master/data/enemies/minotaur/minotaur_sprite_frames.tres" id="3_sprite"]
+
+[resource]
+script = ExtResource("2_script")
+display_name = "Minotaur"
+max_hp = 80
+attack_damage = 25
+drop_item_scene = ExtResource("1_drop")
+drop_resource_type = 2
+drop_amount = 3
+sprite_frames = ExtResource("3_sprite")
+attack_hit_frame = 5
+chase_speed = 100.0
+patrol_speed = 40.0
+attack_range = 90.0
+attack_cooldown = 2.5
+detection_radius = 180.0
