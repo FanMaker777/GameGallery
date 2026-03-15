@@ -205,3 +205,4 @@ dash={
 2d_physics/layer_3="ResourceNode"
 2d_physics/layer_4="NPC"
 2d_physics/layer_9="Ground"
+2d_physics/layer_10="Building"
