@@ -117,6 +117,7 @@ func _ready() -> void:
 	AchievementManager.register_player(self)
 	# InventoryManager の消耗品使用シグナルを接続する
 	InventoryManager.item_used.connect(_on_item_used)
+	InventoryManager.equipment_changed.connect(_on_equipment_changed)
 	Log.info("Player: 初期化完了 (HP=%d/%d)" % [hp, hp])
 
 
@@ -363,6 +364,21 @@ func _on_item_used(_id: StringName, def: ItemDefinition) -> void:
 			Log.info("Player: スタミナ回復 +%.0f (現在=%.0f/%.0f)" % [
 				definition.effect_value, stamina, max_stam
 			])
+
+
+## 装備変更時にHP・スタミナの最大値を再計算し、HUDに通知する
+func _on_equipment_changed(_slot: int) -> void:
+	var new_max_hp: int = AmPlayerStatCalculator.get_effective_max_hp(
+		_get_equip_cache(), _get_effect_cache(),
+	)
+	hp = mini(hp, new_max_hp)
+	health_changed.emit(hp, new_max_hp)
+
+	var new_max_stamina: float = AmPlayerStatCalculator.get_effective_max_stamina(
+		_get_equip_cache(), _get_effect_cache(),
+	)
+	stamina = minf(stamina, new_max_stamina)
+	stamina_changed.emit(stamina, new_max_stamina)
 
 
 ## ドロップアイテムを回収して InventoryManager に追加する（DropItem から呼ばれる）
