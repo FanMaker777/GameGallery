@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://bisw7wo3jumyx"]
+
+[ext_resource type="Texture2D" uid="uid://cufjmds17blpk" path="res://root/scenes/game_scene/achievement_master/world/assets/Buildings/Blue Buildings/Castle.png" id="1_efhjl"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_klt5i"]
+size = Vector2(246, 145)
+
+[node name="Castle" type="StaticBody2D"]
+collision_layer = 512
+collision_mask = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_efhjl")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 20.5)
+shape = SubResource("RectangleShape2D_klt5i")

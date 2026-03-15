@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://d4dne7joo54hw"]
+
+[ext_resource type="Texture2D" uid="uid://cd06vn5sld8ll" path="res://root/scenes/game_scene/achievement_master/world/assets/Buildings/Blue Buildings/Barracks.png" id="1_bu4am"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_klt5i"]
+size = Vector2(148, 167.5)
+
+[node name="Barracks" type="StaticBody2D"]
+collision_layer = 512
+collision_mask = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_bu4am")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, 19.75)
+shape = SubResource("RectangleShape2D_klt5i")

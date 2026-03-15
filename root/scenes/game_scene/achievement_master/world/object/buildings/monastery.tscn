@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://b7vas2lvpq6jj"]
+
+[ext_resource type="Texture2D" uid="uid://bmqh7f2kbeqms" path="res://root/scenes/game_scene/achievement_master/world/assets/Buildings/Blue Buildings/Monastery.png" id="1_nxvnr"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_klt5i"]
+size = Vector2(114, 149)
+
+[node name="Monastery" type="StaticBody2D"]
+collision_layer = 512
+collision_mask = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_nxvnr")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, 64.5)
+shape = SubResource("RectangleShape2D_klt5i")

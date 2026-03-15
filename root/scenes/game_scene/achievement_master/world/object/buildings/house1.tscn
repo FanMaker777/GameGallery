@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://1841efq6i7y7"]
+
+[ext_resource type="Texture2D" uid="uid://bmq0dbh4wl1r1" path="res://root/scenes/game_scene/achievement_master/world/assets/Buildings/Blue Buildings/House1.png" id="1_is4sv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kskon"]
+size = Vector2(73, 111)
+
+[node name="House" type="StaticBody2D"]
+collision_layer = 512
+collision_mask = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_is4sv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.5, 10.5)
+shape = SubResource("RectangleShape2D_kskon")
