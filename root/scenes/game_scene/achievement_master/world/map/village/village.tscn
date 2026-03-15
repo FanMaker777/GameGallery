@@ -13,13 +13,13 @@
 [ext_resource type="PackedScene" uid="uid://1841efq6i7y7" path="res://root/scenes/game_scene/achievement_master/world/object/buildings/house1.tscn" id="13_6ptls"]
 [ext_resource type="PackedScene" uid="uid://b7vas2lvpq6jj" path="res://root/scenes/game_scene/achievement_master/world/object/buildings/monastery.tscn" id="13_vk1bg"]
 [ext_resource type="PackedScene" uid="uid://d4dne7joo54hw" path="res://root/scenes/game_scene/achievement_master/world/object/buildings/barracks.tscn" id="14_nya4r"]
-[ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/world/object/resource_nodes/berry_bush_node.tscn" id="18_ig6sm"]
+[ext_resource type="PackedScene" uid="uid://bfuh54umv0e6b" path="res://root/scenes/game_scene/achievement_master/world/object/resource_nodes/berry_bush_node.tscn" id="18_ig6sm"]
 [ext_resource type="PackedScene" uid="uid://dyuh3q34olard" path="res://root/scenes/game_scene/achievement_master/world/object/decorations/rubber_duck.tscn" id="19_60ceg"]
 [ext_resource type="PackedScene" uid="uid://ct6kxpetpw1kh" path="res://root/scenes/game_scene/achievement_master/world/object/resource_nodes/mushroom_node.tscn" id="19_v7vkk"]
 [ext_resource type="SpriteFrames" uid="uid://rj788u4sp86i" path="res://root/scenes/game_scene/achievement_master/character/npc/animation_resource/warrior_animation.tres" id="22_nya4r"]
 [ext_resource type="PackedScene" uid="uid://cl2ogx0l8sjib" path="res://root/scenes/game_scene/achievement_master/ui/achievement_hud.tscn" id="achievement_hud_scene"]
 [ext_resource type="PackedScene" uid="uid://bcs6yx15qgf2b" path="res://root/scenes/game_scene/achievement_master/ui/menu/am_pause_menu.tscn" id="am_pause_menu_scene"]
-[ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/world/map/gate/map_gate.tscn" id="gate_scene"]
+[ext_resource type="PackedScene" uid="uid://b0od5pciok2i2" path="res://root/scenes/game_scene/achievement_master/world/map/gate/map_gate.tscn" id="gate_scene"]
 [ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/world/spawner/generic_spawner.tscn" id="generic_spawner_scene"]
 [ext_resource type="PackedScene" uid="uid://kabmdp7ej4et" path="res://root/scenes/game_scene/achievement_master/character/npc/npc.tscn" id="npc_scene"]
 [ext_resource type="PackedScene" uid="uid://clf2l483adbii" path="res://root/scenes/game_scene/achievement_master/character/Player/player.tscn" id="pawn_scene"]
@@ -118,7 +118,7 @@ gate_label = "→ 草原"
 position = Vector2(-202, 257)
 
 [node name="House" parent="Object" instance=ExtResource("13_6ptls")]
-position = Vector2(599, -147)
+position = Vector2(603, -312)
 
 [node name="Monastery" parent="Object" instance=ExtResource("13_vk1bg")]
 position = Vector2(-101, -290)
@@ -189,9 +189,9 @@ sprite_frames = ExtResource("12_23nuo")
 position = Vector2(603, -79)
 npc_id = &"npc_lancer"
 npc_name = "槍兵"
-dialogues = Array[String](["草原の魔物は手強いぞ。油断するなよ。", "槍は間合いが命だ。近すぎても遠すぎてもダメだ。", "村を守るのが俺の仕事だ。お前は外の脅威を頼む。"])
+dialogues = Array[String](["装備は、メニューのインベントリタブから装備するんだぞ。", "草原の魔物には気を付けるんだ。", "村を守るのが俺の仕事だ。お前は外の脅威を頼む。"])
 gift_items = Array[StringName]([&"iron_sword", &"leather_armor", &"swift_ring"])
-gift_dialogue = "これを使え。鉄の剣、革の鎧、疾風の指輪だ。メニューのインベントリタブから装備するんだぞ。"
+gift_dialogue = "これをあげよう。鉄の剣、革の鎧、疾風の指輪だ。"
 
 [node name="NpcQuester" parent="NPC" instance=ExtResource("npc_scene")]
 position = Vector2(263, -137)
