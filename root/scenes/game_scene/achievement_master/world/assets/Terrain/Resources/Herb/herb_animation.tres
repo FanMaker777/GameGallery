@@ -1,0 +1,23 @@
+[gd_resource type="SpriteFrames" load_steps=3 format=3 uid="uid://dy2j4rei6pf88"]
+
+[ext_resource type="Texture2D" uid="uid://uu6bpios7w7a" path="res://root/scenes/game_scene/achievement_master/world/assets/Terrain/Resources/Herb/Crop_Pineapple_Fruitless_48x48.png" id="1_tdk0e"]
+[ext_resource type="Texture2D" uid="uid://dmuve1q7dkwhc" path="res://root/scenes/game_scene/achievement_master/world/assets/Terrain/Resources/Herb/Crop_Pineapple_Sprout_48x48.png" id="2_mcqoi"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_tdk0e")
+}],
+"loop": true,
+"name": &"Alive",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_mcqoi")
+}],
+"loop": true,
+"name": &"Depleted",
+"speed": 10.0
+}]

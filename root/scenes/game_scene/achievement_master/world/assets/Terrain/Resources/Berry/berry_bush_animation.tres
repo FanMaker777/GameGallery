@@ -1,0 +1,23 @@
+[gd_resource type="SpriteFrames" load_steps=3 format=3 uid="uid://dlpd6qpi746t2"]
+
+[ext_resource type="Texture2D" uid="uid://dou05su2sj77u" path="res://root/scenes/game_scene/achievement_master/world/assets/Terrain/Resources/Berry/Crop_Berry_Ripe_48x48.png" id="1_en82t"]
+[ext_resource type="Texture2D" uid="uid://b4kecg6db718b" path="res://root/scenes/game_scene/achievement_master/world/assets/Terrain/Resources/Berry/Crop_Berry_Fruitless_48x48.png" id="2_d2ygv"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_en82t")
+}],
+"loop": true,
+"name": &"Alive",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_d2ygv")
+}],
+"loop": true,
+"name": &"Depleted",
+"speed": 10.0
+}]

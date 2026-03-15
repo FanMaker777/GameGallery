@@ -7,6 +7,9 @@ enum ResourceType {
 	WOOD,
 	GOLD,
 	MEAT,
+	BERRY,
+	HERB,
+	MUSHROOM,
 }
 
 
@@ -34,6 +37,27 @@ const NODE_DATA: Dictionary = {
 		"gather_time": 3.0,
 		"respawn_time": 20.0,
 	},
+	"berry_bush": {
+		"resource_type": ResourceType.BERRY,
+		"yield_amount": 2,
+		"gather_animation": "HarvestTree",
+		"gather_time": 4.0,
+		"respawn_time": 25.0,
+	},
+	"herb": {
+		"resource_type": ResourceType.HERB,
+		"yield_amount": 1,
+		"gather_animation": "HarvestSheep",
+		"gather_time": 2.0,
+		"respawn_time": 35.0,
+	},
+	"mushroom": {
+		"resource_type": ResourceType.MUSHROOM,
+		"yield_amount": 2,
+		"gather_animation": "HarvestSheep",
+		"gather_time": 1.5,
+		"respawn_time": 40.0,
+	},
 }
 
 
@@ -46,6 +70,12 @@ static func get_type_name(type: ResourceType) -> String:
 			return "Gold"
 		ResourceType.MEAT:
 			return "Meat"
+		ResourceType.BERRY:
+			return "Berry"
+		ResourceType.HERB:
+			return "Herb"
+		ResourceType.MUSHROOM:
+			return "Mushroom"
 		_:
 			return "Unknown"
 
@@ -59,5 +89,11 @@ static func to_item_id(type: ResourceType) -> StringName:
 			return &"gold"
 		ResourceType.MEAT:
 			return &"meat"
+		ResourceType.BERRY:
+			return &"berry"
+		ResourceType.HERB:
+			return &"herb"
+		ResourceType.MUSHROOM:
+			return &"mushroom"
 		_:
 			return &""

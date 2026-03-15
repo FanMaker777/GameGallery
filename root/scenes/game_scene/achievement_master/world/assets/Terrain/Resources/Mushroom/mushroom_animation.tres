@@ -1,0 +1,48 @@
+[gd_resource type="SpriteFrames" load_steps=7 format=3 uid="uid://d02ckigafn01l"]
+
+[ext_resource type="Texture2D" uid="uid://d1nbtjswfye5p" path="res://root/scenes/game_scene/achievement_master/world/assets/Terrain/Resources/Mushroom/spr_deco_mushroom_red_01_strip4.png" id="1_ofc3o"]
+[ext_resource type="Texture2D" uid="uid://d1yaon6c0mwqp" path="res://root/scenes/game_scene/achievement_master/world/assets/Terrain/Resources/Mushroom/mushroom_depleted.png" id="2_depleted"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8e7ce"]
+atlas = ExtResource("1_ofc3o")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1ucjx"]
+atlas = ExtResource("1_ofc3o")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o2own"]
+atlas = ExtResource("1_ofc3o")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d4c0x"]
+atlas = ExtResource("1_ofc3o")
+region = Rect2(48, 0, 16, 16)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8e7ce")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1ucjx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o2own")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d4c0x")
+}],
+"loop": true,
+"name": &"Alive",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_depleted")
+}],
+"loop": true,
+"name": &"Depleted",
+"speed": 10.0
+}]
