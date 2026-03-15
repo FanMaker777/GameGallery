@@ -1,9 +1,6 @@
 ## レコードタブ — プレイ記録の統計データを表示する
 class_name RecordTab extends MarginContainer
 
-## 距離変換定数（ピクセル → メートル）
-const PIXELS_PER_METER: float = 100.0
-
 ## インデント付きサブ項目の左マージン
 const SUB_ITEM_MARGIN: int = 24
 
@@ -48,9 +45,8 @@ func _refresh() -> void:
 	var minutes: int = (int(total_seconds) % 3600) / 60
 	_play_time_value.text = "%d時間%d分" % [hours, minutes]
 	# 総移動距離
-	var distance_px: int = AchievementManager.tracker.get_stat(&"distance_walked")
-	var distance_m: float = float(distance_px) / PIXELS_PER_METER
-	_distance_value.text = "%dm" % int(distance_m)
+	var distance_m: int = AchievementManager.tracker.get_stat(&"distance_walked")
+	_distance_value.text = "%dm" % distance_m
 	# 総討伐数
 	_total_kills_value.text = str(AchievementManager.tracker.get_stat(&"enemy_killed"))
 	# 敵種別ごとの討伐数
