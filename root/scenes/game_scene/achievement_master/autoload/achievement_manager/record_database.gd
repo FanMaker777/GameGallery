@@ -142,6 +142,14 @@ func get_unique_count(action: StringName) -> int:
 	return arr.size()
 
 
+## 指定インスタンスが記録済みか判定する
+func has_instance(action: StringName, instance_id: String) -> bool:
+	if not _UNIQUE_PROPS.has(action):
+		return false
+	var arr: Array = get(_UNIQUE_PROPS[action])
+	return instance_id in arr
+
+
 # ========== ストリーク API ==========
 
 ## ストリークを加算する

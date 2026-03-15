@@ -19,3 +19,4 @@ enum Type { ONE_SHOT, COUNTER, CHALLENGE }
 @export var target_count: int = 1
 @export var reset_on: StringName = &""       # challenge のみ
 @export var unique_instances: bool = false    # true → 同一 instance_id は重複カウントしない
+@export var required_instance_id: StringName = &""  # 特定インスタンスのみ進捗対象

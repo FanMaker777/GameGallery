@@ -420,12 +420,12 @@ target_count = 30
 script = ExtResource("2")
 id = &"meet_all_npc"
 name_ja = "村の顔役"
-description_ja = "全NPCに話しかける（3人）"
+description_ja = "全NPCに話しかける（4人）"
 category = 3
 ap = 2
 type = 1
 trigger_action = &"npc_talked"
-target_count = 3
+target_count = 4
 unique_instances = true
 
 [sub_resource type="Resource" id="social_05"]
@@ -435,6 +435,7 @@ name_ja = "弓使いとの出会い"
 description_ja = "弓使いに話しかける"
 category = 3
 trigger_action = &"npc_talked"
+required_instance_id = &"npc_archer"
 
 [sub_resource type="Resource" id="social_06"]
 script = ExtResource("2")
@@ -443,6 +444,7 @@ name_ja = "修道士との出会い"
 description_ja = "修道士に話しかける"
 category = 3
 trigger_action = &"npc_talked"
+required_instance_id = &"npc_monk"
 
 [sub_resource type="Resource" id="social_07"]
 script = ExtResource("2")
@@ -451,6 +453,7 @@ name_ja = "槍兵との出会い"
 description_ja = "槍兵に話しかける"
 category = 3
 trigger_action = &"npc_talked"
+required_instance_id = &"npc_lancer"
 
 [sub_resource type="Resource" id="social_08"]
 script = ExtResource("2")

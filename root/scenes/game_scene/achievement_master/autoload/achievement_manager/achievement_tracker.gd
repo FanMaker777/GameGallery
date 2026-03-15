@@ -207,6 +207,8 @@ func _derive_progress(def: AchievementDefinition) -> int:
 			# ONE_SHOT / COUNTER
 			if def.unique_instances:
 				return _record_db.get_unique_count(def.trigger_action)
+			elif not def.required_instance_id.is_empty():
+				return 1 if _record_db.has_instance(def.trigger_action, def.required_instance_id) else 0
 			else:
 				return _record_db.get_count(def.trigger_action)
 
