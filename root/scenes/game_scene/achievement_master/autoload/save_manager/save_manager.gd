@@ -25,6 +25,8 @@ var _auto_save_accumulator: float = 0.0
 var _is_loading: bool = false
 ## 登録済み Saveable ノードの配列
 var _saveables: Array[Node] = []
+## ニューゲーム直後フラグ（セーブ対象外のランタイム変数）
+var is_new_game: bool = false
 
 
 # ========== ライフサイクル ==========
@@ -143,6 +145,7 @@ func is_slot_used(slot: int) -> bool:
 func reset_all_managers() -> void:
 	for saveable: Node in _saveables:
 		saveable.reset_save_state()
+	is_new_game = true
 	Log.info("SaveManager: 全マネージャーをリセット")
 
 

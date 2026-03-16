@@ -7,11 +7,17 @@ class_name OverlayController extends Node2D
 
 ## Achievement Master 専用メニューへの参照（シーンローカルノードが登録する）
 var _am_pause_menu: AmPauseMenu = null
+## チュートリアル表示中フラグ（Tab/ESC 入力をブロックする）
+var _is_tutorial_active: bool = false
 
 ## AmPauseMenu を OverlayController に登録するメソッド
 func register_am_pause_menu(menu: AmPauseMenu) -> void:
 	_am_pause_menu = menu
 	Log.debug("OverlayController: AmPauseMenu 登録")
+
+## チュートリアル表示状態を設定するメソッド
+func set_tutorial_active(active: bool) -> void:
+	_is_tutorial_active = active
 
 ## AmPauseMenu の登録を解除するメソッド
 func unregister_am_pause_menu() -> void:
@@ -39,6 +45,9 @@ func toggle_pause_screen() -> void:
 func handle_input_esc(event: InputEvent) -> void:
 	if not event.is_action_pressed("ESC"):
 		return
+	# チュートリアル表示中は ESC を無視する
+	if _is_tutorial_active:
+		return
 
 	# オプションメニューの表示が有効な場合
 	if _options_menu.visible:
@@ -57,6 +66,9 @@ func handle_input_esc(event: InputEvent) -> void:
 ## open_menu 入力イベントを処理するメソッド（Tab キー）
 func handle_input_open_menu(event: InputEvent) -> void:
 	if not event.is_action_pressed("open_menu"):
+		return
+	# チュートリアル表示中は Tab を無視する
+	if _is_tutorial_active:
 		return
 	# オプションメニュー表示中は Tab を無視する
 	if _options_menu.visible:
