@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://t813n4qc8q4u"]
+
+[ext_resource type="Texture2D" uid="uid://68lpn6mxhdqh" path="res://root/scenes/game_scene/achievement_master/world/assets/Terrain/Resources/Iron/Iron Stones/Iron Stone 1.png" id="1_tex"]
+[ext_resource type="Script" uid="uid://dscrkvus8dd4f" path="res://root/scenes/game_scene/achievement_master/world/object/resource_nodes/iron_stone_node.gd" id="2_script"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_iron"]
+radius = 26.076809
+
+[node name="IronStoneNode" type="StaticBody2D"]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("2_script")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(2, 2)
+texture = ExtResource("1_tex")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 10)
+shape = SubResource("CircleShape2D_iron")

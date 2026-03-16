@@ -18,6 +18,7 @@ class_name RecordDatabase extends Resource
 @export var resource_harvested_berry: int = 0        ## ベリーの採取数
 @export var resource_harvested_herb: int = 0         ## 薬草の採取数
 @export var resource_harvested_mushroom: int = 0     ## キノコの採取数
+@export var resource_harvested_iron: int = 0         ## 鉄鉱石の採取数
 
 ## ---- 探索 ----
 @export var map_entered: int = 0                     ## マップ遷移回数
@@ -47,6 +48,7 @@ const _KNOWN_ACTIONS: Array[StringName] = [
 	&"enemy_killed", &"npc_talked", &"resource_harvested",
 	&"resource_harvested_wood", &"resource_harvested_gold", &"resource_harvested_meat",
 	&"resource_harvested_berry", &"resource_harvested_herb", &"resource_harvested_mushroom",
+	&"resource_harvested_iron",
 	&"map_entered", &"attack_landed", &"attack_started",
 	&"player_damaged", &"player_died", &"distance_walked",
 	&"achievement_unlocked", &"ap_earned",
@@ -204,6 +206,7 @@ func reset_all() -> void:
 	resource_harvested_berry = 0
 	resource_harvested_herb = 0
 	resource_harvested_mushroom = 0
+	resource_harvested_iron = 0
 	# 探索
 	map_entered = 0
 	unique_maps_entered = []
@@ -242,6 +245,7 @@ func get_save_data() -> Dictionary:
 		"resource_harvested_berry": resource_harvested_berry,
 		"resource_harvested_herb": resource_harvested_herb,
 		"resource_harvested_mushroom": resource_harvested_mushroom,
+		"resource_harvested_iron": resource_harvested_iron,
 		"map_entered": map_entered,
 		"unique_maps_entered": unique_maps_entered.duplicate(),
 		"distance_walked": distance_walked,
@@ -273,6 +277,7 @@ func load_save_data(data: Dictionary) -> void:
 	resource_harvested_berry = int(data.get("resource_harvested_berry", 0))
 	resource_harvested_herb = int(data.get("resource_harvested_herb", 0))
 	resource_harvested_mushroom = int(data.get("resource_harvested_mushroom", 0))
+	resource_harvested_iron = int(data.get("resource_harvested_iron", 0))
 	map_entered = int(data.get("map_entered", 0))
 	unique_maps_entered = Array(data.get("unique_maps_entered", []))
 	distance_walked = int(data.get("distance_walked", 0))

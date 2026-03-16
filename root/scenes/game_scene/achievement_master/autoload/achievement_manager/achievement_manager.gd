@@ -115,6 +115,8 @@ func _on_resource_harvested(resource_type: int, node_key: String) -> void:
 			tracker.record_action(&"resource_harvested_herb")
 		ResourceDefinitions.ResourceType.MUSHROOM:
 			tracker.record_action(&"resource_harvested_mushroom")
+		ResourceDefinitions.ResourceType.IRON:
+			tracker.record_action(&"resource_harvested_iron")
 
 
 ## マップ遷移したとき

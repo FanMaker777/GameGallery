@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="ItemDatabase" load_steps=26 format=3 uid="uid://c3i1wuf5scymt"]
+[gd_resource type="Resource" script_class="ItemDatabase" load_steps=28 format=3 uid="uid://c3i1wuf5scymt"]
 
 [ext_resource type="Script" uid="uid://cx85nsulyxg6g" path="res://root/scenes/game_scene/achievement_master/data/item/item_database.gd" id="1_db"]
 [ext_resource type="Script" uid="uid://6iwkck5m0gtw" path="res://root/scenes/game_scene/achievement_master/data/item/item_definition.gd" id="1_xas0v"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://iaonwcpenrti" path="res://root/scenes/game_scene/achievement_master/ui/assets/icon/ten_k_games_icons (204)/food_berries.png" id="icon_berry"]
 [ext_resource type="Texture2D" uid="uid://c05aoptmnav7c" path="res://root/scenes/game_scene/achievement_master/ui/assets/icon/ten_k_games_icons (204)/ore_gold.png" id="icon_gold"]
 [ext_resource type="Texture2D" uid="uid://dakog25doxasa" path="res://root/scenes/game_scene/achievement_master/ui/assets/icon/ten_k_games_icons (204)/element_plant.png" id="icon_herb"]
+[ext_resource type="Texture2D" uid="uid://ds2ipnh0e5krx" path="res://root/scenes/game_scene/achievement_master/ui/assets/icon/ten_k_games_icons (204)/ore_iron.png" id="icon_iron"]
 [ext_resource type="Texture2D" uid="uid://betiokp3ga40s" path="res://root/scenes/game_scene/achievement_master/ui/assets/icon/material/meat.png" id="icon_meat"]
 [ext_resource type="Texture2D" uid="uid://dsbejq8kpxuhq" path="res://root/scenes/game_scene/achievement_master/ui/assets/icon/ten_k_games_icons (204)/food_mushroom_brown.png" id="icon_mushroom"]
 [ext_resource type="Texture2D" uid="uid://drgde13bp13tv" path="res://root/scenes/game_scene/achievement_master/ui/assets/icon/ten_k_games_icons (204)/potion_bottle_red.png" id="icon_potion"]
@@ -119,6 +120,16 @@ icon = ExtResource("icon_mushroom")
 sell_price = 3
 max_stack = 999
 
+[sub_resource type="Resource" id="material_07"]
+script = ExtResource("4_material")
+resource_type = 6
+id = &"iron"
+name_ja = "鉄鉱石"
+description_ja = "鉄を含む硬い鉱石。加工に使える。"
+icon = ExtResource("icon_iron")
+sell_price = 4
+max_stack = 999
+
 [resource]
 script = ExtResource("1_db")
-items = Array[ExtResource("1_xas0v")]([SubResource("equip_01"), SubResource("equip_02"), SubResource("equip_03"), SubResource("consume_01"), SubResource("material_01"), SubResource("material_02"), SubResource("material_03"), SubResource("material_04"), SubResource("material_05"), SubResource("material_06")])
+items = Array[ExtResource("1_xas0v")]([SubResource("equip_01"), SubResource("equip_02"), SubResource("equip_03"), SubResource("consume_01"), SubResource("material_01"), SubResource("material_02"), SubResource("material_03"), SubResource("material_04"), SubResource("material_05"), SubResource("material_06"), SubResource("material_07")])

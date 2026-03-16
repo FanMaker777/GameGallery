@@ -15,6 +15,7 @@ const _TEXTURE_MAP: Dictionary = {
 	ResourceDefinitions.ResourceType.WOOD: preload("uid://dr717u7jdal33"),
 	ResourceDefinitions.ResourceType.BERRY: preload("uid://c57wfafub25lk"),
 	ResourceDefinitions.ResourceType.HERB: preload("uid://cfm7m8vt6x60b"),
+	ResourceDefinitions.ResourceType.IRON: preload("uid://bok2u5gpep7yq"),
 }
 
 # ---- 内部状態 ----
