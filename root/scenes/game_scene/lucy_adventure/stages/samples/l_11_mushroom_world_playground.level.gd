@@ -10,6 +10,9 @@ extends Node2D
 
 ## 初期化処理（ゴールフラグにクリア画面表示のシグナルを接続する）
 func _ready() -> void:
+	# BGMをスタート
+	AudioManager.play_bgm(AudioConsts.BGM_LUCY)
+	
 	# プレイヤーがゴールフラグに到達したら、2秒後にクリア画面を表示する
 	_end_flag.body_entered.connect(func (body: Node2D) -> void:
 		await get_tree().create_timer(2.0).timeout

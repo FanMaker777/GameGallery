@@ -66,7 +66,7 @@ void fragment() {
 }
 "
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_mal5c"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0owh5"]
 resource_local_to_scene = true
 shader = SubResource("Shader_imenv")
 shader_parameter/edge_color = Color(1, 1, 1, 1)
@@ -141,7 +141,7 @@ tile_map_data = PackedByteArray("AAAHAAMAAwAEAAAAAAAIAAMAAwAFAAAAAAAIAAQAAwAFAAE
 tile_set = ExtResource("2_omv1b")
 
 [node name="Water2" type="ColorRect" parent="TileMap"]
-material = SubResource("ShaderMaterial_mal5c")
+material = SubResource("ShaderMaterial_0owh5")
 offset_left = -96.0
 offset_top = 80.0
 offset_right = 1248.0
