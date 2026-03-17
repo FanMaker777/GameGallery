@@ -111,6 +111,10 @@ folder_colors={
 "res://root/scripts/": "green"
 }
 
+[gui]
+
+theme/custom_font="uid://d0semibfurjjb"
+
 [input]
 
 ESC={
