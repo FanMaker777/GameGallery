@@ -45,6 +45,10 @@ func _ready() -> void:
 	# エディター上の場合
 	if Engine.is_editor_hint():
 		return
+	
+	# web実行時、終了ボタンを非表示に変更
+	if  OS.has_feature("web"):
+		_quit_button.visible = false
 		
 	# ポーズメニューを非表示に設定
 	menu_opened_amount = 0.0
