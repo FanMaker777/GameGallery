@@ -53,8 +53,6 @@ var _is_talking: bool = false
 @onready var _name_label: Label = %NameLabel
 ## ギフト未受取を示す強調ラベル（頭上に「!」を表示、%AlertLabel ユニーク名で参照）
 @onready var _alert_label: Label = %AlertLabel
-## セリフ表示用の背景パネル（visible 制御の対象）
-@onready var _dialogue_bubble: PanelContainer = $DialogueBubble
 
 # ========== ライフサイクル ==========
 
@@ -75,7 +73,7 @@ func _ready() -> void:
 	if sprite_frames != null:
 		_animated_sprite.play("Idle")
 	# セリフラベルは初期非表示（interact 時に表示する）
-	_dialogue_bubble.visible = false
+	_dialogue_label.visible = false
 	# ギフト未受取なら頭上の「!」を表示する
 	_update_alert_visibility()
 	Log.info("Npc: %s 初期化完了" % npc_name)
@@ -135,7 +133,7 @@ func interact() -> void:
 ## 指定テキストをセリフラベルに表示し、一定時間後に自動で非表示にする
 func _show_dialogue_text(text: String) -> void:
 	_dialogue_label.text = text
-	_dialogue_bubble.visible = true
+	_dialogue_label.visible = true
 	var timer: SceneTreeTimer = get_tree().create_timer(display_duration)
 	timer.timeout.connect(_hide_dialogue)
 
@@ -145,9 +143,8 @@ func _hide_dialogue() -> void:
 	# エディタ内では実行しない（ランタイム専用メソッド）
 	if Engine.is_editor_hint():
 		return
-	_dialogue_bubble.visible = false
+	_dialogue_label.visible = false
 	_is_talking = false
-
 
 # ========== ギフト処理 ==========
 
