@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="ItemDatabase" load_steps=28 format=3 uid="uid://c3i1wuf5scymt"]
+[gd_resource type="Resource" script_class="ItemDatabase" load_steps=35 format=3 uid="uid://c3i1wuf5scymt"]
 
 [ext_resource type="Script" uid="uid://cx85nsulyxg6g" path="res://root/scenes/game_scene/achievement_master/data/item/item_database.gd" id="1_db"]
 [ext_resource type="Script" uid="uid://6iwkck5m0gtw" path="res://root/scenes/game_scene/achievement_master/data/item/item_definition.gd" id="1_xas0v"]
@@ -12,8 +12,11 @@
 [ext_resource type="Texture2D" uid="uid://betiokp3ga40s" path="res://root/scenes/game_scene/achievement_master/ui/assets/icon/material/meat.png" id="icon_meat"]
 [ext_resource type="Texture2D" uid="uid://dsbejq8kpxuhq" path="res://root/scenes/game_scene/achievement_master/ui/assets/icon/ten_k_games_icons (204)/food_mushroom_brown.png" id="icon_mushroom"]
 [ext_resource type="Texture2D" uid="uid://drgde13bp13tv" path="res://root/scenes/game_scene/achievement_master/ui/assets/icon/ten_k_games_icons (204)/potion_bottle_red.png" id="icon_potion"]
+[ext_resource type="Texture2D" uid="uid://3kqn8hkinylx" path="res://root/scenes/game_scene/achievement_master/ui/assets/icon/ten_k_games_icons (204)/orb_red.png" id="icon_power_ring"]
 [ext_resource type="Texture2D" uid="uid://drhlrdsu1etfr" path="res://root/scenes/game_scene/achievement_master/ui/assets/icon/ten_k_games_icons (204)/orb_aqua.png" id="icon_ring"]
 [ext_resource type="Texture2D" uid="uid://eqwjj8djlvvo" path="res://root/scenes/game_scene/achievement_master/ui/assets/icon/equipment/shiled.png" id="icon_shield"]
+[ext_resource type="Texture2D" uid="uid://di0d0w1otd0tu" path="res://root/scenes/game_scene/achievement_master/ui/assets/icon/ten_k_games_icons (204)/potion_bottle_blue.png" id="icon_stamina_potion"]
+[ext_resource type="Texture2D" uid="uid://clmqq2m04cshh" path="res://root/scenes/game_scene/achievement_master/ui/assets/icon/ten_k_games_icons (204)/weapon_sword_iron.png" id="icon_steel_sword"]
 [ext_resource type="Texture2D" uid="uid://b453h5xts5qu6" path="res://root/scenes/game_scene/achievement_master/ui/assets/icon/equipment/sword.png" id="icon_sword"]
 [ext_resource type="Texture2D" uid="uid://ceoa2vmqoi6x8" path="res://root/scenes/game_scene/achievement_master/ui/assets/icon/material/wood.png" id="icon_wood"]
 
@@ -32,8 +35,8 @@ script = ExtResource("2_equip")
 equip_slot = 1
 hp_flat = 20
 id = &"leather_armor"
-name_ja = "革の鎧"
-description_ja = "軽くて丈夫な革製の鎧。最大HPが上がる。"
+name_ja = "革の盾"
+description_ja = "軽くて丈夫な革製の盾。最大HPが上がる。"
 icon = ExtResource("icon_shield")
 buy_price = 80
 sell_price = 40
@@ -77,7 +80,7 @@ id = &"gold"
 name_ja = "金鉱石"
 description_ja = "金色に輝く鉱石。高く売れる。"
 icon = ExtResource("icon_gold")
-sell_price = 5
+sell_price = 20
 max_stack = 999
 
 [sub_resource type="Resource" id="material_03"]
@@ -107,7 +110,7 @@ id = &"herb"
 name_ja = "薬草"
 description_ja = "薬効のある植物。高く売れる。"
 icon = ExtResource("icon_herb")
-sell_price = 4
+sell_price = 5
 max_stack = 999
 
 [sub_resource type="Resource" id="material_06"]
@@ -130,6 +133,52 @@ icon = ExtResource("icon_iron")
 sell_price = 4
 max_stack = 999
 
+[sub_resource type="Resource" id="equip_04"]
+script = ExtResource("2_equip")
+attack_flat = 12
+id = &"steel_sword"
+name_ja = "鋼の剣"
+description_ja = "鋼で鍛えられた頑丈な剣。鉄の剣より攻撃力が高い。"
+icon = ExtResource("icon_steel_sword")
+buy_price = 150
+sell_price = 75
+
+[sub_resource type="Resource" id="equip_05"]
+script = ExtResource("2_equip")
+equip_slot = 1
+hp_flat = 40
+stamina_flat = 20.0
+id = &"chain_mail"
+name_ja = "鋼の盾"
+description_ja = "丈夫な鋼の盾。HPとスタミナが大幅に上がる。"
+icon = ExtResource("icon_shield")
+buy_price = 200
+sell_price = 100
+
+[sub_resource type="Resource" id="equip_06"]
+script = ExtResource("2_equip")
+equip_slot = 2
+hp_flat = 10
+attack_flat = 8
+id = &"power_ring"
+name_ja = "力の指輪"
+description_ja = "力の宿る赤い指輪。攻撃力とHPが上がる。"
+icon = ExtResource("icon_power_ring")
+buy_price = 180
+sell_price = 90
+
+[sub_resource type="Resource" id="consume_02"]
+script = ExtResource("3_consume")
+effect_type = 1
+effect_value = 50.0
+id = &"stamina_potion"
+name_ja = "スタミナポーション"
+description_ja = "飲むとスタミナが50回復する。"
+icon = ExtResource("icon_stamina_potion")
+buy_price = 25
+sell_price = 12
+max_stack = 10
+
 [resource]
 script = ExtResource("1_db")
-items = Array[ExtResource("1_xas0v")]([SubResource("equip_01"), SubResource("equip_02"), SubResource("equip_03"), SubResource("consume_01"), SubResource("material_01"), SubResource("material_02"), SubResource("material_03"), SubResource("material_04"), SubResource("material_05"), SubResource("material_06"), SubResource("material_07")])
+items = Array[ExtResource("1_xas0v")]([SubResource("equip_01"), SubResource("equip_02"), SubResource("equip_03"), SubResource("consume_01"), SubResource("material_01"), SubResource("material_02"), SubResource("material_03"), SubResource("material_04"), SubResource("material_05"), SubResource("material_06"), SubResource("material_07"), SubResource("equip_04"), SubResource("equip_05"), SubResource("equip_06"), SubResource("consume_02")])
