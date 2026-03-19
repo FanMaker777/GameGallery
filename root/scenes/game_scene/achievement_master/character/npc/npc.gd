@@ -28,6 +28,8 @@ signal npc_interacted(npc_id: String)
 
 ## 初回会話時にプレイヤーに渡すアイテム ID の配列（空なら渡さない）
 @export var gift_items: Array[StringName] = []
+## 初回会話時にプレイヤーに渡すゴールド量（0なら渡さない）
+@export var gift_gold: int = 0
 ## ギフト付与時に表示するセリフ
 @export var gift_dialogue: String = ""
 
@@ -150,21 +152,25 @@ func _hide_dialogue() -> void:
 
 ## ギフトが未受取かどうかを返す
 func _has_unclaimed_gift() -> bool:
-	return not gift_items.is_empty() and not NpcManager.is_gift_claimed(npc_id)
+	var has_gift: bool = not gift_items.is_empty() or gift_gold > 0
+	return has_gift and not NpcManager.is_gift_claimed(npc_id)
 
 
-## ギフトアイテムをプレイヤーに付与し、受取済みフラグを立てる
+## ギフトアイテム・ゴールドをプレイヤーに付与し、受取済みフラグを立てる
 func _give_gift() -> void:
 	# 各アイテムをバッグに追加する
 	for item_id: StringName in gift_items:
 		InventoryManager.add_item(item_id)
+	# ゴールドを付与する
+	if gift_gold > 0:
+		InventoryManager.add_gold(gift_gold)
 	# 受取済みフラグを永続化する
 	NpcManager.mark_gift_claimed(npc_id)
 	# 頭上の「!」を非表示にする
 	_update_alert_visibility()
 	# ギフト用セリフを表示する（_hide_dialogue のタイマーで _is_talking が解除される）
 	_show_dialogue_text(gift_dialogue)
-	Log.info("Npc: %s がギフトを付与 (%s)" % [npc_name, str(gift_items)])
+	Log.info("Npc: %s がギフトを付与 (items=%s, gold=%d)" % [npc_name, str(gift_items), gift_gold])
 
 
 ## ギフト未受取なら「!」を表示、受取済みなら非表示にする
