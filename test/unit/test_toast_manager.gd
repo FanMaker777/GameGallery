@@ -66,45 +66,6 @@ func test_gold_added_to_front_of_queue() -> void:
 	assert_eq(_manager._queue[0].id, &"g1", "Gold はキューの先頭に追加される")
 
 
-# ---- テスト: 戦闘中の遅延 ----
-
-func test_bronze_delayed_during_combat() -> void:
-	# 戦闘状態にする
-	_manager._on_combat_state_changed(true)
-
-	var def := _make_def(AchievementDefinition.Rank.BRONZE)
-	_manager._on_achievement_unlocked(&"test", def)
-
-	assert_eq(_manager._combat_queue.size(), 1, "戦闘中の Bronze は combat_queue に溜まる")
-	assert_eq(_manager._queue.size(), 0, "通常キューには追加されない")
-
-
-func test_combat_queue_flushed_on_combat_end() -> void:
-	# 戦闘状態にして Bronze を溜める
-	_manager._on_combat_state_changed(true)
-	_manager._on_achievement_unlocked(&"b1", _make_def(AchievementDefinition.Rank.BRONZE, &"b1"))
-	_manager._on_achievement_unlocked(&"b2", _make_def(AchievementDefinition.Rank.BRONZE, &"b2"))
-	assert_eq(_manager._combat_queue.size(), 2, "戦闘中に2件溜まる")
-
-	# 戦闘終了
-	_manager._on_combat_state_changed(false)
-
-	assert_eq(_manager._combat_queue.size(), 0, "combat_queue はクリアされる")
-	# 1件は即表示されるので _is_showing == true、残り1件がキューに残る
-	assert_true(_manager._is_showing, "戦闘終了後に表示が開始される")
-
-
-func test_silver_not_delayed_during_combat() -> void:
-	# 戦闘状態にする
-	_manager._on_combat_state_changed(true)
-
-	var def := _make_def(AchievementDefinition.Rank.SILVER, &"s1")
-	_manager._on_achievement_unlocked(&"s1", def)
-
-	assert_eq(_manager._combat_queue.size(), 0, "Silver は combat_queue には入らない")
-	assert_true(_manager._is_showing, "Silver は戦闘中でも即表示される")
-
-
 # ---- テスト: 表示制限 ----
 
 func test_show_next_skipped_when_already_showing() -> void:

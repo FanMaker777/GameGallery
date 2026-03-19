@@ -1,5 +1,5 @@
 ## トースト通知のキュー管理マネージャー
-## 実績解除時のトースト表示順序・戦闘中の遅延表示・アイテム入手通知を制御する
+## 実績解除時のトースト表示順序・アイテム入手通知を制御する
 class_name ToastManager extends VBoxContainer
 
 # ---- 定数 ----
@@ -13,21 +13,15 @@ const ITEM_TOAST_SCENE: PackedScene = preload(
 # ---- 状態 ----
 ## 実績キュー（Bronze の通知を格納）
 var _queue: Array[AchievementDefinition] = []
-## 戦闘中に溜まった Bronze 通知キュー
-var _combat_queue: Array[AchievementDefinition] = []
 ## アイテム入手キュー
 var _item_queue: Array[Dictionary] = []
 ## 現在トーストを表示中かどうか
 var _is_showing: bool = false
-## 現在戦闘中かどうか
-var _is_in_combat: bool = false
-## プレイヤーへの参照キャッシュ
-var _player: Node = null
 ## 前回のアイテム所持数キャッシュ（差分検出用）
 var _prev_counts: Dictionary = {}
 
 
-## 初期化 — AchievementManager のシグナルを購読し、Player への接続を遅延実行する
+## 初期化 — AchievementManager のシグナルを購読する
 func _ready() -> void:
 	# AchievementManager の実績解除シグナルを購読する
 	AchievementManager.achievement_unlocked.connect(_on_achievement_unlocked)
@@ -35,20 +29,7 @@ func _ready() -> void:
 	InventoryManager.bag_changed.connect(_on_bag_changed)
 	# 初期所持数をキャッシュする
 	_sync_prev_counts()
-	# Player への接続を遅延実行する（Player が先に _ready される保証がないため）
-	_connect_to_player.call_deferred()
 	Log.info("ToastManager: 初期化完了")
-
-
-## Player の戦闘状態シグナルを購読する
-func _connect_to_player() -> void:
-	_player = get_tree().get_first_node_in_group("player")
-	if _player == null:
-		return
-	# 戦闘状態変化シグナルを接続する
-	if _player.has_signal("combat_state_changed"):
-		_player.combat_state_changed.connect(_on_combat_state_changed)
-		Log.debug("ToastManager: Player の combat_state_changed に接続完了")
 
 
 ## 実績解除時のコールバック — ランクに応じてキューに振り分ける
@@ -56,27 +37,9 @@ func _on_achievement_unlocked(_id: StringName, definition: AchievementDefinition
 	# Silver/Gold は優先キューの先頭に入れて即時表示する
 	if definition.rank != AchievementDefinition.Rank.BRONZE:
 		_queue.push_front(definition)
-		_try_show_next()
-		return
-	# Bronze は戦闘中なら戦闘キューに溜める
-	if _is_in_combat:
-		_combat_queue.append(definition)
-		Log.debug("ToastManager: 戦闘中のため Bronze を遅延キューに追加 [%s]" % definition.id)
-		return
-	# 戦闘中でなければ通常キューに追加する
-	_queue.append(definition)
+	else:
+		_queue.append(definition)
 	_try_show_next()
-
-
-## 戦闘状態変化時のコールバック
-func _on_combat_state_changed(is_in_combat: bool) -> void:
-	_is_in_combat = is_in_combat
-	# 戦闘終了時に溜まった Bronze 通知をまとめて流す
-	if not is_in_combat and not _combat_queue.is_empty():
-		Log.debug("ToastManager: 戦闘終了 — 遅延キュー %d 件を流す" % _combat_queue.size())
-		_queue.append_array(_combat_queue)
-		_combat_queue.clear()
-		_try_show_next()
 
 
 ## バッグ内容変化時にアイテム入手を検出してキューに追加する

@@ -69,8 +69,6 @@ signal health_changed(current_hp: int, max_hp: int)
 signal died
 ## 攻撃を開始したときに発火する（AchievementManager 連携用）
 signal attack_started
-## 戦闘状態が変化したときに発火する（ToastManager 連携用）
-signal combat_state_changed(is_in_combat: bool)
 ## スタミナが変化したときに発火する（HUD連携用）
 signal stamina_changed(current_stamina: float, max_stamina: float)
 
@@ -419,19 +417,17 @@ func _process_stamina(delta: float) -> void:
 
 # ========== 戦闘状態管理 ==========
 
-## 戦闘状態に入る — クールダウンをリセットし、未戦闘時はシグナルを発火する
+## 戦闘状態に入る — クールダウンをリセットする
 func _enter_combat() -> void:
 	_combat_cooldown = COMBAT_COOLDOWN
 	if not _is_in_combat:
 		_is_in_combat = true
-		combat_state_changed.emit(true)
 		Log.debug("Player: 戦闘状態に入った")
 
 
-## 戦闘状態から出る — シグナルを発火する
+## 戦闘状態から出る
 func _exit_combat() -> void:
 	_is_in_combat = false
-	combat_state_changed.emit(false)
 	Log.debug("Player: 戦闘状態から出た")
 
 
