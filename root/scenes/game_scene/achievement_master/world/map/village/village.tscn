@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=4 uid="uid://ce3q56t7icpyb"]
+[gd_scene load_steps=30 format=4 uid="uid://ce3q56t7icpyb"]
 
 [ext_resource type="TileSet" uid="uid://1lnru68nr2ak" path="res://root/scenes/game_scene/achievement_master/world/map/tiny_swords.tres" id="1_qtgsi"]
 [ext_resource type="PackedScene" uid="uid://dlxjrgals3rg2" path="res://root/scenes/game_scene/achievement_master/world/map/invisible_wall/invisible_walls.tscn" id="4_3aaxj"]
@@ -25,8 +25,9 @@
 [ext_resource type="PackedScene" uid="uid://kabmdp7ej4et" path="res://root/scenes/game_scene/achievement_master/character/npc/npc.tscn" id="npc_scene"]
 [ext_resource type="PackedScene" uid="uid://clf2l483adbii" path="res://root/scenes/game_scene/achievement_master/character/Player/player.tscn" id="pawn_scene"]
 [ext_resource type="PackedScene" uid="uid://4rnts66f2wbv" path="res://root/scenes/game_scene/achievement_master/world/object/resource_nodes/sheep_node.tscn" id="sheep_node_scene"]
+[ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/ui/shop/shop_ui.tscn" id="shop_ui_scene"]
 [ext_resource type="PackedScene" uid="uid://cagovhn7pyb3o" path="res://root/scenes/game_scene/achievement_master/world/object/resource_nodes/tree_node.tscn" id="tree_scene"]
-[ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/ui/tutorial/tutorial_overlay.tscn" id="tutorial_overlay_scene"]
+[ext_resource type="PackedScene" uid="uid://bvsbj31ppgvk0" path="res://root/scenes/game_scene/achievement_master/ui/tutorial/tutorial_overlay.tscn" id="tutorial_overlay_scene"]
 [ext_resource type="Script" uid="uid://by1j73ltn8vds" path="res://root/scenes/game_scene/achievement_master/world/map/village/village.gd" id="village_script"]
 
 [node name="Village" type="Node2D"]
@@ -201,15 +202,17 @@ position = Vector2(603, -79)
 npc_id = &"npc_lancer"
 npc_name = "槍兵"
 dialogues = Array[String](["装備は、メニューのインベントリタブから装備するんだぞ。", "草原の魔物には気を付けるんだ。", "村を守るのが俺の仕事だ。お前は外の脅威を頼む。"])
-gift_items = Array[StringName]([&"iron_sword", &"leather_armor", &"swift_ring"])
-gift_dialogue = "これをあげよう。鉄の剣、革の鎧、疾風の指輪だ。"
+gift_gold = 200
+gift_dialogue = "ほら、200ゴールドだ。ショップで装備を買いそろえるといい。"
 
-[node name="NpcQuester" parent="NPC" instance=ExtResource("npc_scene")]
+[node name="NpcShoper" parent="NPC" instance=ExtResource("npc_scene")]
 position = Vector2(263, -137)
-npc_id = &"npc_quester"
-npc_name = "クエスト受付"
-dialogues = Array[String](["クエストを受けるのか？"])
+npc_id = &"npc_shoper"
+npc_name = "ショップ店員"
+dialogues = Array[String](["何か買うか？"])
 sprite_frames = ExtResource("22_nya4r")
+
+[node name="ShopUI" parent="." instance=ExtResource("shop_ui_scene")]
 
 [node name="TutorialOverlay" parent="." instance=ExtResource("tutorial_overlay_scene")]
 

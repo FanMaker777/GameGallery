@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="ShopInventory" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://root/scenes/game_scene/achievement_master/data/item/shop_inventory.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+item_ids = Array[StringName]([&"iron_sword", &"leather_armor", &"swift_ring", &"health_potion", &"steel_sword", &"chain_mail", &"power_ring", &"stamina_potion"])

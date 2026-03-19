@@ -9,6 +9,8 @@ class_name OverlayController extends Node2D
 var _am_pause_menu: AmPauseMenu = null
 ## チュートリアル表示中フラグ（Tab/ESC 入力をブロックする）
 var _is_tutorial_active: bool = false
+## ショップ表示中フラグ（Tab/ESC 入力をブロックする）
+var _is_shop_open: bool = false
 
 ## AmPauseMenu を OverlayController に登録するメソッド
 func register_am_pause_menu(menu: AmPauseMenu) -> void:
@@ -18,6 +20,10 @@ func register_am_pause_menu(menu: AmPauseMenu) -> void:
 ## チュートリアル表示状態を設定するメソッド
 func set_tutorial_active(active: bool) -> void:
 	_is_tutorial_active = active
+
+## ショップ表示状態を設定するメソッド
+func set_shop_open(open: bool) -> void:
+	_is_shop_open = open
 
 ## AmPauseMenu の登録を解除するメソッド
 func unregister_am_pause_menu() -> void:
@@ -48,6 +54,9 @@ func handle_input_esc(event: InputEvent) -> void:
 	# チュートリアル表示中は ESC を無視する
 	if _is_tutorial_active:
 		return
+	# ショップ表示中は ESC を無視する（ShopUI 側で処理する）
+	if _is_shop_open:
+		return
 
 	# オプションメニューの表示が有効な場合
 	if _options_menu.visible:
@@ -69,6 +78,9 @@ func handle_input_open_menu(event: InputEvent) -> void:
 		return
 	# チュートリアル表示中は Tab を無視する
 	if _is_tutorial_active:
+		return
+	# ショップ表示中は Tab を無視する
+	if _is_shop_open:
 		return
 	# オプションメニュー表示中は Tab を無視する
 	if _options_menu.visible:
