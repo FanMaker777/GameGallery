@@ -1,9 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://cl2ogx0l8sjib"]
+[gd_scene load_steps=12 format=3 uid="uid://cl2ogx0l8sjib"]
 
 [ext_resource type="Script" uid="uid://b3ky34d6kb7s7" path="res://root/scenes/game_scene/achievement_master/ui/achievement_hud.gd" id="achievement_hud_script"]
+[ext_resource type="Texture2D" uid="uid://tpp0rk417gm2" path="res://root/scenes/game_scene/achievement_master/ui/assets/icon/ten_k_games_icons (204)/coin_gold.png" id="gold_coin_icon"]
 [ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/ui/pinned/pinned_achievement_panel.tscn" id="pinned_panel_scene"]
-[ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/ui/toast/toast_manager.tscn" id="toast_manager_scene"]
-[ext_resource type="Texture2D" path="res://root/scenes/game_scene/achievement_master/ui/assets/icon/ten_k_games_icons (204)/coin_gold.png" id="gold_coin_icon"]
+[ext_resource type="Texture2D" uid="uid://di0d0w1otd0tu" path="res://root/scenes/game_scene/achievement_master/ui/assets/icon/ten_k_games_icons (204)/potion_bottle_blue.png" id="potion_blue_icon"]
+[ext_resource type="Texture2D" uid="uid://drgde13bp13tv" path="res://root/scenes/game_scene/achievement_master/ui/assets/icon/ten_k_games_icons (204)/potion_bottle_red.png" id="potion_red_icon"]
+[ext_resource type="PackedScene" uid="uid://cxwv30242bmpd" path="res://root/scenes/game_scene/achievement_master/ui/toast/toast_manager.tscn" id="toast_manager_scene"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel_bg"]
 content_margin_left = 10.0
@@ -26,6 +28,22 @@ bg_color = Color(0.32280397, 0.6882976, 0.45200253, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_stamina_fill"]
 bg_color = Color(0.2, 0.5, 0.85, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_quickslot"]
+content_margin_left = 6.0
+content_margin_top = 4.0
+content_margin_right = 6.0
+content_margin_bottom = 4.0
+bg_color = Color(0.1, 0.08, 0.12, 0.75)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 0.15)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gold_panel"]
 content_margin_left = 8.0
@@ -121,8 +139,82 @@ theme_override_colors/font_color = Color(0.95, 0.93, 0.9, 1)
 theme_override_font_sizes/font_size = 12
 text = "100/100"
 
+[node name="QuickSlotPanel" type="HBoxContainer" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -100.0
+offset_top = -100.0
+offset_right = 100.0
+offset_bottom = -82.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="Slot1" type="PanelContainer" parent="QuickSlotPanel"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_quickslot")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="QuickSlotPanel/Slot1"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 2
+
+[node name="Slot1Icon" type="TextureRect" parent="QuickSlotPanel/Slot1/HBoxContainer"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = ExtResource("potion_red_icon")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Slot1Count" type="Label" parent="QuickSlotPanel/Slot1/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.93, 0.9, 1)
+theme_override_font_sizes/font_size = 12
+text = "x0"
+
+[node name="Slot1Key" type="Label" parent="QuickSlotPanel/Slot1/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 0.6)
+theme_override_font_sizes/font_size = 10
+text = "[1]"
+
+[node name="Slot2" type="PanelContainer" parent="QuickSlotPanel"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_quickslot")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="QuickSlotPanel/Slot2"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 2
+
+[node name="Slot2Icon" type="TextureRect" parent="QuickSlotPanel/Slot2/HBoxContainer"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = ExtResource("potion_blue_icon")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Slot2Count" type="Label" parent="QuickSlotPanel/Slot2/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.93, 0.9, 1)
+theme_override_font_sizes/font_size = 12
+text = "x0"
+
+[node name="Slot2Key" type="Label" parent="QuickSlotPanel/Slot2/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 0.6)
+theme_override_font_sizes/font_size = 10
+text = "[2]"
+
 [node name="GoldPanel" type="PanelContainer" parent="."]
-anchors_preset = 0
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 120.0
@@ -136,8 +228,8 @@ mouse_filter = 2
 theme_override_constants/separation = 4
 
 [node name="GoldIcon" type="TextureRect" parent="GoldPanel/HBoxContainer"]
-layout_mode = 2
 custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
 texture = ExtResource("gold_coin_icon")
 expand_mode = 1
 stretch_mode = 5
@@ -159,5 +251,5 @@ offset_top = 8.0
 offset_right = -16.0
 
 [node name="ToastManager" parent="." instance=ExtResource("toast_manager_scene")]
-offset_top = -161.0
-offset_bottom = -21.0
+offset_top = -180.0
+offset_bottom = -40.0

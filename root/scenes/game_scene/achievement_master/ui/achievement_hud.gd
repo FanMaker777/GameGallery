@@ -12,6 +12,9 @@ class_name AchievementHud extends CanvasLayer
 @onready var _stamina_value_label: Label = %StaminaValueLabel
 # ---- ゴールド表示 ----
 @onready var _gold_value_label: Label = %GoldValueLabel
+# ---- クイックスロット ----
+@onready var _slot1_count: Label = %Slot1Count
+@onready var _slot2_count: Label = %Slot2Count
 # ---- 状態 ----
 ## Player への参照キャッシュ（毎回検索しない）
 var _player: Node = null
@@ -24,6 +27,9 @@ func _ready() -> void:
 	# ゴールド表示を初期化する
 	InventoryManager.gold_changed.connect(_on_gold_changed)
 	_gold_value_label.text = "%d" % InventoryManager.get_gold()
+	# クイックスロット表示を初期化する
+	InventoryManager.bag_changed.connect(_on_bag_changed_for_quickslot)
+	_refresh_quickslots()
 
 
 ## Player のシグナルを購読し、参照をキャッシュする
@@ -79,3 +85,17 @@ func _refresh_all() -> void:
 	_stamina_bar.max_value = max_st
 	_stamina_bar.value = _player.stamina
 	_stamina_value_label.text = "%d/%d" % [int(_player.stamina), int(max_st)]
+
+
+## バッグ変化時にクイックスロット表示を更新する
+func _on_bag_changed_for_quickslot(id: StringName, new_count: int) -> void:
+	if id == &"health_potion":
+		_slot1_count.text = "x%d" % new_count
+	elif id == &"stamina_potion":
+		_slot2_count.text = "x%d" % new_count
+
+
+## クイックスロットのポーション数表示を最新化する
+func _refresh_quickslots() -> void:
+	_slot1_count.text = "x%d" % InventoryManager.get_item_count(&"health_potion")
+	_slot2_count.text = "x%d" % InventoryManager.get_item_count(&"stamina_potion")

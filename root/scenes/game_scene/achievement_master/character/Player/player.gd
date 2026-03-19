@@ -127,6 +127,9 @@ func _physics_process(delta: float) -> void:
 	_process_invincibility(delta)
 	# 戦闘状態クールダウンを処理する
 	_process_combat_cooldown(delta)
+	# クイックスロット入力を処理する（死亡中は無視）
+	if _state != State.DEAD:
+		_process_quickslot_input()
 
 	match _state:
 		State.IDLE, State.MOVE:
@@ -342,6 +345,14 @@ func _start_talk(npc: Node2D) -> void:
 
 # ========== インベントリ ==========
 
+## クイックスロット入力を処理する — キー1/2でポーションを使用する
+func _process_quickslot_input() -> void:
+	if Input.is_action_just_pressed("quickslot_1"):
+		InventoryManager.use_item(&"health_potion")
+	elif Input.is_action_just_pressed("quickslot_2"):
+		InventoryManager.use_item(&"stamina_potion")
+
+
 ## 消耗品が使用されたときの処理 — 効果種別に応じてHP/スタミナを回復する
 func _on_item_used(_id: StringName, def: ItemDefinition) -> void:
 	var definition: ConsumableDefinition = def as ConsumableDefinition
@@ -364,6 +375,8 @@ func _on_item_used(_id: StringName, def: ItemDefinition) -> void:
 			Log.info("Player: スタミナ回復 +%.0f (現在=%.0f/%.0f)" % [
 				definition.effect_value, stamina, max_stam
 			])
+	# 使用SEを再生する
+	AudioManager.play_se(AudioConsts.SE_USE_POTION)
 
 
 ## 装備変更時にHP・スタミナの最大値を再計算し、HUDに通知する
