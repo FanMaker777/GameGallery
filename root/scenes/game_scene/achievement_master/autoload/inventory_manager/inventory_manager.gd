@@ -8,6 +8,8 @@ signal bag_changed(id: StringName, new_count: int)
 signal equipment_changed(slot: int)
 ## 消耗品が使用されたときに発火する（効果適用は Player 側で行う）
 signal item_used(id: StringName, definition: ItemDefinition)
+## ゴールドの所持量が変化したときに発火する
+signal gold_changed(new_amount: int)
 
 # ---- アイテムデータベース ----
 ## preload したアイテム定義リソース
@@ -26,6 +28,8 @@ var _equipment: Dictionary = {
 }
 ## 装備ステータスキャッシュ（装備変更時に更新、Player が参照する）
 var _equip_cache: EquipmentStatCache = EquipmentStatCache.new()
+## 所持ゴールド
+var _gold: int = 0
 
 
 # ========== ライフサイクル ==========
@@ -40,6 +44,31 @@ func _ready() -> void:
 	])
 	# Saveable として登録する
 	SaveManager.register_saveable(self)
+
+
+# ========== ゴールド API ==========
+
+## ゴールドを追加する
+func add_gold(amount: int) -> void:
+	_gold += amount
+	gold_changed.emit(_gold)
+	Log.debug("InventoryManager: ゴールド追加 +%d (所持=%d)" % [amount, _gold])
+
+
+## ゴールドを消費する（不足時は false を返す）
+func remove_gold(amount: int) -> bool:
+	if _gold < amount:
+		Log.debug("InventoryManager: ゴールド不足 (所持=%d, 要求=%d)" % [_gold, amount])
+		return false
+	_gold -= amount
+	gold_changed.emit(_gold)
+	Log.debug("InventoryManager: ゴールド消費 -%d (残=%d)" % [amount, _gold])
+	return true
+
+
+## 現在の所持ゴールドを返す
+func get_gold() -> int:
+	return _gold
 
 
 # ========== バッグ操作 API ==========
@@ -214,6 +243,8 @@ func reset_inventory() -> void:
 		EquipmentDefinition.EquipSlot.ACCESSORY: &"",
 	}
 	_equip_cache.reset()
+	_gold = 0
+	gold_changed.emit(0)
 	Log.info("InventoryManager: 全インベントリをリセットしました")
 
 
@@ -268,6 +299,7 @@ func get_save_data() -> Dictionary:
 	return {
 		"bag": bag_data,
 		"equipment": equip_data,
+		"gold": _gold,
 	}
 
 
@@ -292,9 +324,12 @@ func load_save_data(data: Dictionary) -> void:
 		var id: StringName = StringName(equip_data[slot_str])
 		if id != &"" and _def_map.has(id):
 			_equipment[slot_int] = id
+	# ゴールドの復元
+	_gold = int(data.get("gold", 0))
 	# 装備キャッシュを再構築する
 	_rebuild_equip_cache()
 	# UI 更新用シグナルを発火する
+	gold_changed.emit(_gold)
 	bag_changed.emit(&"", 0)
 	for slot: EquipmentDefinition.EquipSlot in _equipment:
 		equipment_changed.emit(slot)

@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://cl2ogx0l8sjib"]
+[gd_scene load_steps=9 format=3 uid="uid://cl2ogx0l8sjib"]
 
 [ext_resource type="Script" uid="uid://b3ky34d6kb7s7" path="res://root/scenes/game_scene/achievement_master/ui/achievement_hud.gd" id="achievement_hud_script"]
 [ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/ui/pinned/pinned_achievement_panel.tscn" id="pinned_panel_scene"]
 [ext_resource type="PackedScene" path="res://root/scenes/game_scene/achievement_master/ui/toast/toast_manager.tscn" id="toast_manager_scene"]
+[ext_resource type="Texture2D" path="res://root/scenes/game_scene/achievement_master/ui/assets/icon/ten_k_games_icons (204)/coin_gold.png" id="gold_coin_icon"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel_bg"]
 content_margin_left = 10.0
@@ -25,6 +26,22 @@ bg_color = Color(0.32280397, 0.6882976, 0.45200253, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_stamina_fill"]
 bg_color = Color(0.2, 0.5, 0.85, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gold_panel"]
+content_margin_left = 8.0
+content_margin_top = 4.0
+content_margin_right = 8.0
+content_margin_bottom = 4.0
+bg_color = Color(0.1, 0.08, 0.12, 0.75)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.85, 0.2, 0.3)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
 [node name="AchievementHud" type="CanvasLayer"]
 layer = 10
@@ -103,6 +120,34 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.95, 0.93, 0.9, 1)
 theme_override_font_sizes/font_size = 12
 text = "100/100"
+
+[node name="GoldPanel" type="PanelContainer" parent="."]
+anchors_preset = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 120.0
+offset_bottom = 36.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_gold_panel")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="GoldPanel"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="GoldIcon" type="TextureRect" parent="GoldPanel/HBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(16, 16)
+texture = ExtResource("gold_coin_icon")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="GoldValueLabel" type="Label" parent="GoldPanel/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.2, 1)
+theme_override_font_sizes/font_size = 14
+text = "0"
 
 [node name="PinnedAchievementPanel" parent="." instance=ExtResource("pinned_panel_scene")]
 unique_name_in_owner = true

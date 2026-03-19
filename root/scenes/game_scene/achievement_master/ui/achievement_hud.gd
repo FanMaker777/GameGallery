@@ -10,6 +10,8 @@ class_name AchievementHud extends CanvasLayer
 @onready var _hp_value_label: Label = %HpValueLabel
 ## スタミナ実数値ラベル
 @onready var _stamina_value_label: Label = %StaminaValueLabel
+# ---- ゴールド表示 ----
+@onready var _gold_value_label: Label = %GoldValueLabel
 # ---- 状態 ----
 ## Player への参照キャッシュ（毎回検索しない）
 var _player: Node = null
@@ -19,6 +21,9 @@ var _player: Node = null
 func _ready() -> void:
 	# Player が先に _ready される保証がないため遅延接続する
 	_connect_to_player.call_deferred()
+	# ゴールド表示を初期化する
+	InventoryManager.gold_changed.connect(_on_gold_changed)
+	_gold_value_label.text = "%d" % InventoryManager.get_gold()
 
 
 ## Player のシグナルを購読し、参照をキャッシュする
@@ -43,6 +48,11 @@ func _on_health_changed(current_hp: int, max_hp: int) -> void:
 	_hp_bar.max_value = max_hp
 	_hp_bar.value = current_hp
 	_hp_value_label.text = "%d/%d" % [current_hp, max_hp]
+
+
+## ゴールド変化時にラベルを更新する
+func _on_gold_changed(new_amount: int) -> void:
+	_gold_value_label.text = "%d" % new_amount
 
 
 ## スタミナ変化時にスタミナバーと実数値ラベルを更新する
