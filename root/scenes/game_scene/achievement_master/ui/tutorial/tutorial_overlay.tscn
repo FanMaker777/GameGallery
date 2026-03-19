@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=2 format=3 uid="uid://bvsbj31ppgvk0"]
 
-[ext_resource type="Script" path="res://root/scenes/game_scene/achievement_master/ui/tutorial/tutorial_overlay.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://b4gmksee5d0an" path="res://root/scenes/game_scene/achievement_master/ui/tutorial/tutorial_overlay.gd" id="1_script"]
 
 [node name="TutorialOverlay" type="CanvasLayer"]
 process_mode = 3
@@ -9,7 +9,6 @@ script = ExtResource("1_script")
 
 [node name="OverlayContent" type="Control" parent="."]
 unique_name_in_owner = true
-visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -24,7 +23,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 0.7)
+color = Color(0, 0, 0, 0.84313726)
 
 [node name="PanelContainer" type="PanelContainer" parent="OverlayContent"]
 layout_mode = 1
