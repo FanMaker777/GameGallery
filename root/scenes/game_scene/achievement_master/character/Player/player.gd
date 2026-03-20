@@ -136,7 +136,7 @@ func _physics_process(delta: float) -> void:
 			_process_stamina(delta)
 			# 最寄りのインタラクト対象に応じてプロンプト表示を切り替え
 			var nearest: Node2D = _get_nearest_interactable()
-			if nearest != null:
+			if nearest != null and not (nearest is Npc and nearest.is_talking()):
 				_interact_label.visible = true
 				_interact_label.text = "E 話す" if nearest.is_in_group("npc") else "E 採取"
 			else:

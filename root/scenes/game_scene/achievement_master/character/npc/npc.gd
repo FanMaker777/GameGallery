@@ -140,6 +140,11 @@ func _show_dialogue_text(text: String) -> void:
 	timer.timeout.connect(_hide_dialogue)
 
 
+## 会話中かどうかを返す
+func is_talking() -> bool:
+	return _is_talking
+
+
 ## セリフラベルを非表示にして会話中フラグを解除する
 func _hide_dialogue() -> void:
 	# エディタ内では実行しない（ランタイム専用メソッド）
