@@ -52,6 +52,7 @@ func _ready() -> void:
 func add_gold(amount: int) -> void:
 	_gold += amount
 	gold_changed.emit(_gold)
+	AudioManager.play_se(AudioConsts.SE_GOLD)
 	Log.debug("InventoryManager: ゴールド追加 +%d (所持=%d)" % [amount, _gold])
 
 
@@ -62,6 +63,7 @@ func remove_gold(amount: int) -> bool:
 		return false
 	_gold -= amount
 	gold_changed.emit(_gold)
+	AudioManager.play_se(AudioConsts.SE_GOLD)
 	Log.debug("InventoryManager: ゴールド消費 -%d (残=%d)" % [amount, _gold])
 	return true
 

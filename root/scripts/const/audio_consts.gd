@@ -32,8 +32,10 @@ const SE_ENEMY_DEFEAT: AudioStream = preload("uid://cye2vhc3kovke")
 const SE_ACHIEVEMENT_UNLOCK: AudioStream = preload("uid://catpl55vobkuo")
 ## アイテム拾得SE
 const SE_ITEM_PICKUP: AudioStream = preload("uid://cacik02pt0t0f")
-## ポーション使用SE（専用音源ができるまで SE_ITEM_PICKUP を流用）
-const SE_USE_POTION: AudioStream = SE_ITEM_PICKUP
+## ポーション使用SE
+const SE_USE_POTION: AudioStream = preload("uid://ci7hueh23g8si")
+## ゴールド増減SE
+const SE_GOLD: AudioStream = preload("uid://dm05hykv03mcb")
 ## 装備変更SE
 const SE_EQUIP_EQUIPMENT: AudioStream = preload("uid://d0irc7luhwpb4")
 ## スキル取得SE

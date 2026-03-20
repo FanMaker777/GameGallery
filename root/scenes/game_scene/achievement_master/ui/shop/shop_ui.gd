@@ -171,7 +171,6 @@ func _on_buy_pressed() -> void:
 		InventoryManager.add_gold(price)
 		Log.info("ShopUI: スタック上限のため購入キャンセル — %s" % _buy_selected_def.id)
 		return
-	AudioManager.play_se(AudioConsts.SE_ITEM_PICKUP)
 	Log.info("ShopUI: 購入 %s (-%dG)" % [_buy_selected_def.id, price])
 	# 詳細パネルを更新する（ゴールド残高によるボタン状態更新）
 	_show_buy_detail(_buy_selected_def)
@@ -260,7 +259,6 @@ func _on_sell_pressed() -> void:
 	if not InventoryManager.remove_item(_sell_selected_def.id):
 		return
 	InventoryManager.add_gold(_sell_selected_def.sell_price)
-	AudioManager.play_se(AudioConsts.SE_ITEM_PICKUP)
 	Log.info("ShopUI: 売却 %s (+%dG)" % [_sell_selected_def.id, _sell_selected_def.sell_price])
 	# 売却後にリストを更新する
 	_rebuild_sell_list()
